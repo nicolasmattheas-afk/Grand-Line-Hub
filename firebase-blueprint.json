@@ -1,0 +1,84 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with game stats, pirate bounty and history",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "description": "Login email" },
+        "username": { "type": "string", "description": "Pirate name/nickname" },
+        "avatar": { "type": "string", "description": "Custom chosen avatar image URL" },
+        "bounty": { "type": "number", "description": "Total pirate bounty" },
+        "gridWins": { "type": "number", "description": "Grid wins count" },
+        "gridLosses": { "type": "number", "description": "Grid losses count" },
+        "trackerWins": { "type": "number", "description": "Tracker game wins count" },
+        "trackerPlays": { "type": "number", "description": "Tracker game total attempts count" },
+        "duelHigh": { "type": "number", "description": "Max streak on Bounty Duel" },
+        "logs": { "type": "array", "description": "Recent game history logs" },
+        "friends": { "type": "array", "description": "List of friend email addresses" },
+        "crewId": { "type": "string", "description": "Associated Crew ID" },
+        "crewName": { "type": "string", "description": "Associated Crew Name" },
+        "createdAt": { "type": "object", "description": "Creation timestamp" },
+        "updatedAt": { "type": "object", "description": "Update timestamp" }
+      },
+      "required": ["email", "username", "bounty"]
+    },
+    "Crew": {
+      "title": "Crew",
+      "description": "A pirate crew (clan/guild) with up to 20 members",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique crew ID" },
+        "name": { "type": "string", "description": "Unique crew name" },
+        "description": { "type": "string", "description": "Crew description/motto" },
+        "creatorEmail": { "type": "string", "description": "Captain email address" },
+        "emblem": { "type": "string", "description": "Crew flag emoji emblem" },
+        "accessType": { "type": "string", "description": "open or invite" },
+        "minBounty": { "type": "number", "description": "Min bounty required to join" },
+        "members": { "type": "array", "description": "List of member info objects" },
+        "totalBounty": { "type": "number", "description": "Cached sum of members bounties" },
+        "applications": { "type": "array", "description": "Join applications for invite-only crews" },
+        "createdAt": { "type": "object", "description": "Timestamp of creation" },
+        "updatedAt": { "type": "object", "description": "Timestamp of last modification" }
+      },
+      "required": ["id", "name", "creatorEmail", "members", "totalBounty"]
+    },
+    "GridGame": {
+      "title": "GridGame",
+      "description": "A real-time Grand Line Grid multiplayer game session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique session ID" },
+        "player1": { "type": "object", "description": "Information about Player 1" },
+        "player2": { "type": "object", "description": "Information about Player 2 or null" },
+        "columns": { "type": "array", "description": "Column category IDs" },
+        "rows": { "type": "array", "description": "Row category IDs" },
+        "board": { "type": "array", "description": "The 3x3 game board" },
+        "usedCharacterIds": { "type": "array", "description": "IDs of characters played" },
+        "currentPlayer": { "type": "number", "description": "1 or 2 as active turn identifier" },
+        "turnEmail": { "type": "string", "description": "Email identifier of player whose turn is next" },
+        "status": { "type": "string", "description": "waiting, playing, ended, declined" },
+        "type": { "type": "string", "description": "matchmaking, private" },
+        "invitedEmail": { "type": "string", "description": "Invited friend's email address if private" },
+        "roomCode": { "type": "string", "description": "5-letter code for direct entry" },
+        "winner": { "type": "string", "description": "Email of the victor, tie, or null" },
+        "createdAt": { "type": "object", "description": "Creation timestamp" },
+        "updatedAt": { "type": "object", "description": "Update timestamp" }
+      }
+    }
+  },
+  "firestore": {
+    "users/{email}": {
+      "schema": "User",
+      "description": "Users collection indexed by their unique email address"
+    },
+    "gridGames/{gameId}": {
+      "schema": "GridGame",
+      "description": "Grand Line Grid multiplayer rooms"
+    },
+    "crews/{crewId}": {
+      "schema": "Crew",
+      "description": "Pirate crew (clan/guild) collection indexed by crew id"
+    }
+  }
+}

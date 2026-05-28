@@ -1,0 +1,6 @@
+{
+  "name": "Grand Line Hub",
+  "description": "Plateforme interactive de jeux sur l'univers d'One Piece : Bounty Duel, Log Pose Tracker, et le combat stratégique Grand Line Grid.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

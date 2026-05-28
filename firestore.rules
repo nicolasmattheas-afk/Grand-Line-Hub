@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    match /users/{email} {
+      // Un utilisateur peut lire n'importe quel profil pour voir le classement, trouver des amis ou charger son compte.
+      allow get: if true;
+      allow list: if true;
+      
+      // Validation lors de la création d'un compte
+      allow create: if isValidId(email) 
+        && incoming().email == email
+        && incoming().keys().hasAll(['email', 'username', 'bounty', 'gridWins', 'gridLosses', 'trackerWins', 'trackerPlays', 'duelHigh', 'logs', 'createdAt', 'updatedAt'])
+        && (incoming().keys().size() >= 11 && incoming().keys().size() <= 16)
+        && isValidUser(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      // Validation lors de la mise à jour des statistiques, ami et de la prime
+      allow update: if isValidId(email)
+        && incoming().email == existing().email
+        && incoming().createdAt == existing().createdAt
+        && (incoming().updatedAt == request.time || incoming().updatedAt == existing().updatedAt)
+        && isValidUser(incoming())
+        && incoming().diff(existing()).affectedKeys().hasAny(['username', 'avatar', 'bounty', 'gridWins', 'gridLosses', 'trackerWins', 'trackerPlays', 'duelHigh', 'logs', 'friends', 'crewId', 'crewName', 'password', 'updatedAt']);
+    }
+
+    match /gridGames/{gameId} {
+      allow get, list: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+
+    match /crews/{crewId} {
+      allow read, get, list: if true;
+      allow create, update, delete: if true;
+
+      match /{document=**} {
+        allow read, write: if true;
+      }
+    }
+  }
+
+  function isValidId(id) { 
+    return id is string && id.size() <= 128; 
+  }
+
+  function incoming() { 
+    return request.resource.data; 
+  }
+
+  function existing() { 
+    return resource.data; 
+  }
+
+  function isValidUser(data) {
+    return data.email is string && data.email.size() > 3 && data.email.size() <= 128
+      && data.username is string && data.username.size() >= 2 && data.username.size() <= 32
+      && (!('avatar' in data) || (data.avatar is string && data.avatar.size() <= 1024))
+      && (!('friends' in data) || (data.friends is list && data.friends.size() <= 100))
+      && (!('crewId' in data) || (data.crewId is string || data.crewId == null))
+      && (!('crewName' in data) || (data.crewName is string || data.crewName == null))
+      && data.bounty is number && data.bounty >= 0
+      && data.gridWins is number && data.gridWins >= 0
+      && data.gridLosses is number && data.gridLosses >= 0
+      && data.trackerWins is number && data.trackerWins >= 0
+      && data.trackerPlays is number && data.trackerPlays >= 0
+      && data.duelHigh is number && data.duelHigh >= 0
+      && data.logs is list && data.logs.size() <= 20;
+  }
+}
