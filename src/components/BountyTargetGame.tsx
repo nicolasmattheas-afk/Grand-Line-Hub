@@ -28,8 +28,8 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
   const [hasChecked, setHasChecked] = useState<boolean>(false);
   
   // Local notification state
-  const [localToast, setLocalToast] = useState<{ message: string; type: "error" | "success" | "info" } | null>(null);
-  const showLocalToast = (message: string, type: "error" | "success" | "info" = "info") => {
+  const [localToast, setLocalToast] = useState<{ message: string; type: "error" | "success" | "info" | "warning" } | null>(null);
+  const showLocalToast = (message: string, type: "error" | "success" | "info" | "warning" = "info") => {
     setLocalToast({ message, type });
     setTimeout(() => {
       setLocalToast(prev => prev && prev.message === message ? null : prev);

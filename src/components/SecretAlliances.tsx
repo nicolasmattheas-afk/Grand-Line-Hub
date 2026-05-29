@@ -944,7 +944,7 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
                     Victoire Absolue !
                   </span>
                   <span className="text-emerald-500 font-black font-mono text-[13px] uppercase tracking-wider block pt-1 animate-pulse">
-                    +100 000 000 ฿ Prime augmentée !
+                    +10 000 ฿ Prime augmentée !
                   </span>
                 </>
               ) : (

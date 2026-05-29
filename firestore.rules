@@ -43,6 +43,18 @@ service cloud.firestore {
         allow read, write: if true;
       }
     }
+
+    match /wejArticles/{articleId} {
+      allow read, get, list: if true;
+      allow create, update: if request.resource.data.secretPasskey == "wej-blog-backend-secret-authorized-2026";
+      allow delete: if resource.data.secretPasskey == "wej-blog-backend-secret-authorized-2026";
+    }
+
+    match /blogPosts/{postId} {
+      allow read, get, list: if true;
+      allow create, update: if request.resource.data.secretPasskey == "wej-blog-backend-secret-authorized-2026";
+      allow delete: if resource.data.secretPasskey == "wej-blog-backend-secret-authorized-2026";
+    }
   }
 
   function isValidId(id) { 

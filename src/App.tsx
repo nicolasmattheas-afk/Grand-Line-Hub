@@ -14,11 +14,13 @@ import SecretAlliances from "./components/SecretAlliances";
 import LogicPuzzle from "./components/LogicPuzzle";
 import SocialAndCrew from "./components/SocialAndCrew";
 import BountyLeaderboard, { LeaderboardEntry } from "./components/BountyLeaderboard";
-import { collection, getDocs } from "firebase/firestore";
+import WEJSection from "./components/WEJSection";
+import BlogSection from "./components/BlogSection";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { 
   Trophy, Award, Compass, Swords, ArrowRightLeft, BookOpen, 
-  Sparkles, History, User, Heart, Settings, LayoutDashboard, Coins, Clock, Users, Brain, Crown
+  Sparkles, History, User, Heart, Settings, LayoutDashboard, Coins, Clock, Users, Brain, Crown, Newspaper, MessageSquare
 } from "lucide-react";
 
 function getArcFromChapter(chapterStr: string): string {
@@ -236,7 +238,7 @@ export default function App() {
   }, []);
   
   // Onglets : "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "statsBattle" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "logicPuzzle" | "leaderboard"
-  const [activeTab, setActiveTab] = useState<"grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "statsBattle" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "logicPuzzle" | "leaderboard">("grid");
+  const [activeTab, setActiveTab] = useState<"grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "statsBattle" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "logicPuzzle" | "leaderboard" | "wej" | "blog">("grid");
 
   // Charge et persiste la prime du joueur (Bounty) et ses statistiques
   const [playerBounty, setPlayerBounty] = useState<number>(() => {
@@ -788,6 +790,30 @@ export default function App() {
               </button>
 
               <button
+                onClick={() => setActiveTab("wej")}
+                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
+                  activeTab === "wej" 
+                    ? "bg-violet-900 text-[#F8FAFC] border border-violet-500" 
+                    : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
+                }`}
+              >
+                <Newspaper className="w-3.5 h-3.5 shrink-0 text-rose-500" />
+                <span>JOURNAL WEJ</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab("blog")}
+                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
+                  activeTab === "blog" 
+                    ? "bg-violet-900 text-[#F8FAFC] border border-violet-500" 
+                    : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
+                }`}
+              >
+                <MessageSquare className="w-3.5 h-3.5 shrink-0 text-amber-500" />
+                <span>BLOG & BUGS</span>
+              </button>
+
+              <button
                 onClick={() => setActiveTab("dashboard")}
                 className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
                   activeTab === "dashboard" 
@@ -922,6 +948,20 @@ export default function App() {
                 playerUsername={playerUsername}
                 playerAvatar={playerAvatar}
                 playerBounty={playerBounty}
+              />
+            )}
+
+            {activeTab === "wej" && (
+              <WEJSection 
+                playerEmail={localStorage.getItem("firebaseUserEmail")}
+              />
+            )}
+
+            {activeTab === "blog" && (
+              <BlogSection 
+                playerEmail={localStorage.getItem("firebaseUserEmail")}
+                playerUsername={playerUsername}
+                playerAvatar={playerAvatar}
               />
             )}
           </>
