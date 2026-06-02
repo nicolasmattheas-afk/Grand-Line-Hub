@@ -485,7 +485,7 @@ export default function BountyLeaderboard({
             </div>
             <div className="relative my-2">
               <img 
-                src={topThree[1].avatar} 
+                src={topThree[1].avatar || `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(topThree[1].username)}`} 
                 alt={topThree[1].username}
                 className="w-16 h-16 rounded-2xl border-2 border-slate-400 object-cover bg-slate-900"
               />
@@ -516,7 +516,7 @@ export default function BountyLeaderboard({
             </div>
             <div className="relative my-3">
               <img 
-                src={topThree[0].avatar} 
+                src={topThree[0].avatar || `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(topThree[0].username)}`} 
                 alt={topThree[0].username}
                 className="w-20 h-20 rounded-2xl border-2 border-amber-400 object-cover bg-slate-950 shadow-[0_0_15px_rgba(245,158,11,0.3)]"
               />
@@ -547,7 +547,7 @@ export default function BountyLeaderboard({
             </div>
             <div className="relative my-2">
               <img 
-                src={topThree[2].avatar} 
+                src={topThree[2].avatar || `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(topThree[2].username)}`} 
                 alt={topThree[2].username}
                 className="w-16 h-16 rounded-2xl border-2 border-amber-800 object-cover bg-slate-900"
               />
@@ -673,12 +673,6 @@ export default function BountyLeaderboard({
                             </span>
                           )}
                         </div>
-                        {/* Optionnel: afficher l'adresse mail tronquée si joueur réel hors nous */}
-                        {player.email && !isCurrentUser && (
-                          <span className="text-[9px] text-slate-500 font-mono truncate">
-                            {player.email.split("@")[0]}@***
-                          </span>
-                        )}
                       </div>
                     </div>
 

@@ -814,9 +814,13 @@ const startServer = async () => {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`[FULL-STACK] Serveur en cours d'exécution sur le port ${PORT}`);
-  });
+  if (!process.env.VERCEL) {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`[FULL-STACK] Serveur en cours d'exécution sur le port ${PORT}`);
+    });
+  }
 };
 
 startServer();
+
+export default app;

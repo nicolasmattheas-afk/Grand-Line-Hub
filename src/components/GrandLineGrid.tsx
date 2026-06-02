@@ -246,7 +246,15 @@ export default function GrandLineGrid({
   const [friendSearchSuccess, setFriendSearchSuccess] = useState<string | null>(null);
   const [roomCodeInput, setRoomCodeInput] = useState("");
   const [privateRoomCode, setPrivateRoomCode] = useState<string | null>(null);
+  const [isPrivateSearching, setIsPrivateSearching] = useState(false);
   const [joinLoading, setJoinLoading] = useState(false);
+
+  // Réinitialiser la recherche privée quand on quitte l'état searching
+  useEffect(() => {
+    if (gameState !== "searching") {
+      setIsPrivateSearching(false);
+    }
+  }, [gameState]);
   const [errorMsgAmis, setErrorMsgAmis] = useState<string | null>(null);
 
   // Système de notifications / toasts (remplace les alert(...) bloquants du navigateur)
@@ -474,7 +482,7 @@ export default function GrandLineGrid({
   // Timer de recherche d'adversaire en matchmaking public sans Bot
   useEffect(() => {
     let interval: any;
-    if (gameState === "searching" && gameMode === "online") {
+    if (gameState === "searching" && gameMode === "online" && !isPrivateSearching) {
       setSearchTimer(3);
       // Nous allons réaliser un matchmaking Firestore
       const doMatchmaking = async () => {
@@ -568,7 +576,7 @@ export default function GrandLineGrid({
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [gameState, gameMode]);
+  }, [gameState, gameMode, isPrivateSearching]);
 
   // --- BOT ONLINE MATCHMAKING INTEGRATION ---
   // Liste de pseudos réalistes One Piece + prénoms avec nombres
@@ -660,13 +668,13 @@ export default function GrandLineGrid({
     }
   };
 
-  // Déclencher le bot si personne n'est trouvé après 3 secondes (uniquement en matchmaking public sans code)
+  // Déclencher le bot si personne n'est trouvé après 15 secondes (uniquement en matchmaking public sans code)
   useEffect(() => {
     let botTimeout: any;
     if (gameState === "searching" && gameMode === "online" && myRole === 1 && activeOnlineGameId && privateRoomCode === null) {
       botTimeout = setTimeout(() => {
         spawnOnlineMatchmakingBot();
-      }, 3000);
+      }, 15000);
     }
     return () => {
       if (botTimeout) clearTimeout(botTimeout);
@@ -1019,6 +1027,7 @@ export default function GrandLineGrid({
   // Défier directement un ami
   const handleChallengeFriend = async (friend: any) => {
     if (!myEmail) return;
+    setIsPrivateSearching(true);
     setGameState("searching");
     setGameMode("online");
     setSearchTextAmis(`Lancement du duel contre ${friend.username}...`);
@@ -1069,6 +1078,7 @@ export default function GrandLineGrid({
   // Création d'un salon par code
   const handleCreateRoomWithCode = async () => {
     if (!myEmail) return;
+    setIsPrivateSearching(true);
     setGameState("searching");
     setGameMode("online");
     setSearchTextAmis("Création d'un navire amical...");
