@@ -25,54 +25,7 @@ import dotenv from "dotenv";
 // Charge les variables d'environnement
 dotenv.config();
 
-// Lecture de la configuration de Firebase de manière hautement compatible (AI Studio + Vercel + Local + ESBuild)
-let firebaseConfig: any = null;
-
-try {
-  // Option A : Résolution par rapport à l'emplacement du fichier en cours (Vercel Node File Trace trace automatiquement ceci)
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-  const resolvedPath = path.join(__dirname, "firebase-applet-config.json");
-  if (fs.existsSync(resolvedPath)) {
-    firebaseConfig = JSON.parse(fs.readFileSync(resolvedPath, "utf-8"));
-  }
-} catch (e) {
-  // Ignoré
-}
-
-if (!firebaseConfig) {
-  try {
-    // Option B : Résolution classique du dossier parent si s'exécute dans /api sur Vercel
-    const resolvedPath = path.join(process.cwd(), "firebase-applet-config.json");
-    if (fs.existsSync(resolvedPath)) {
-      firebaseConfig = JSON.parse(fs.readFileSync(resolvedPath, "utf-8"));
-    }
-  } catch (e) {
-    // Ignoré
-  }
-}
-
-if (!firebaseConfig) {
-  try {
-    // Option C : Résolution par rapport au dossier racine si l'emplacement courant est imbriqué
-    const resolvedPath = path.resolve(process.cwd(), "api", "../firebase-applet-config.json");
-    if (fs.existsSync(resolvedPath)) {
-      firebaseConfig = JSON.parse(fs.readFileSync(resolvedPath, "utf-8"));
-    }
-  } catch (e) {
-    // Ignoré
-  }
-}
-
-if (!firebaseConfig) {
-  try {
-    // Option D : Repli ultime
-    const fallbackPath = path.join(process.cwd(), "firebase-applet-config.json");
-    firebaseConfig = JSON.parse(fs.readFileSync(fallbackPath, "utf-8"));
-  } catch (e: any) {
-    throw new Error("Configuration Firebase introuvable : " + e.message);
-  }
-}
+import firebaseConfig from "./firebase-applet-config.json";
 
 // Initialisation de Firebase
 const firebaseApp = initializeApp(firebaseConfig);
