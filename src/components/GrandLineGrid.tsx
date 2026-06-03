@@ -2184,7 +2184,11 @@ export default function GrandLineGrid({
                     <p className="font-heading font-black text-sm text-gray-900 truncate uppercase">
                       {activeOnlineGameId ? (myRole === 1 ? playerUsername : onlineOpponent?.name) : `${playerUsername} (Bleu)`}
                     </p>
-                    <p className="font-mono text-[9px] text-gray-400 font-semibold">฿ {globalBounty.toLocaleString()}</p>
+                    <p className="font-mono text-[9px] text-gray-400 font-semibold">
+                      ฿ {activeOnlineGameId 
+                        ? (myRole === 1 ? globalBounty : (onlineOpponent?.bounty ?? 0)).toLocaleString() 
+                        : globalBounty.toLocaleString()}
+                    </p>
                   </div>
                   {((!activeOnlineGameId && currentPlayer === 1) || (activeOnlineGameId && currentPlayer === 1)) && !winner && (
                     <span className="text-[10px] bg-[#2563eb] text-white px-2 py-0.5 rounded-sm font-heading font-bold">
@@ -2210,7 +2214,7 @@ export default function GrandLineGrid({
                     </p>
                     <p className="font-mono text-[9px] text-gray-400 font-semibold">
                       ฿ {activeOnlineGameId 
-                        ? (onlineOpponent?.bounty || 200000000).toLocaleString() 
+                        ? (myRole === 2 ? globalBounty : (onlineOpponent?.bounty ?? 0)).toLocaleString() 
                         : (botOpponent ? botOpponent.bounty : 0).toLocaleString()}
                     </p>
                   </div>
