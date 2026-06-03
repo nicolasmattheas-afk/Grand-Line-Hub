@@ -2,7 +2,6 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import { initializeApp } from "firebase/app";
 import { 
@@ -25,7 +24,7 @@ import dotenv from "dotenv";
 // Charge les variables d'environnement
 dotenv.config();
 
-import firebaseConfig from "./firebase-applet-config.json";
+import firebaseConfig from "./src/firebase-config-static";
 
 // Initialisation de Firebase
 const firebaseApp = initializeApp(firebaseConfig);
@@ -800,6 +799,7 @@ app.post("/api/blog/delete-reply", async (req, res) => {
 
 const startServer = async () => {
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
