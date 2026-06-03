@@ -1,0 +1,12 @@
+# ==========================================================================
+# FICHIER ADS.TXT VALIDÉ POUR GRANDLINEHUB.FR
+# ==========================================================================
+# Google AdSense exige que ce fichier soit accessible à la racine de votre site :
+# https://grandlinehub.fr/ads.txt
+#
+# INSTRUCTION : Remplacez "pub-XXXXXXXXXXXXXXXX" ci-dessous par votre identifiant
+# réel d'éditeur Google AdSense (ex: pub-1234567890123456).
+# Vous trouverez cet identifiant dans votre tableau de bord Google AdSense.
+# ==========================================================================
+
+google.com, pub-2543561141625687, DIRECT, f08c47fec0942fa0
