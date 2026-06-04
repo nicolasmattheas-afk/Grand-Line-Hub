@@ -1243,11 +1243,11 @@ export default function App() {
                           <div className="flex gap-4 justify-center items-center mt-2.5">
                             <button
                               onClick={() => setIsEditingName(true)}
-                              className="text-[10px] text-gray-450 font-mono uppercase tracking-widest font-extrabold hover:text-black cursor-pointer underline-offset-4 underline"
+                              className="text-[10px] text-[#1A1A1A] font-mono uppercase tracking-widest font-extrabold hover:text-[#8b5cf6] cursor-pointer underline-offset-4 underline"
                             >
                               Nom Pirate
                             </button>
-                            <span className="text-gray-350 select-none">|</span>
+                            <span className="text-gray-300 select-none">|</span>
                             <button
                               onClick={() => setIsSelectingAvatar(true)}
                               className="text-[10px] text-[#4b5563] font-mono uppercase tracking-widest font-extrabold hover:text-[#8b5cf6] cursor-pointer underline-offset-4 underline"
@@ -1258,7 +1258,7 @@ export default function App() {
                         </div>
                       )}
 
-                      <p className="text-[10px] text-gray-405 font-mono uppercase tracking-widest font-black mt-6">
+                      <p className="text-[10px] text-gray-400 font-mono uppercase tracking-widest font-black mt-6">
                         DEAD OR ALIVE
                       </p>
 
