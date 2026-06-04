@@ -191,9 +191,9 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
             <span className="text-xs font-mono font-black text-[#1A1A1A] uppercase tracking-widest mb-2 flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-indigo-505 bg-indigo-500" /> VOTRE PIRATE
             </span>
-            <div className="bg-white border-4 border-[#1A1A1A] rounded-3xl p-5 shadow-lg w-full max-w-sm transition-transform hover:scale-[1.01] flex flex-col items-stretch relative min-h-[540px]">
+            <div className="bg-white border-4 border-[#1A1A1A] rounded-3xl p-4 md:p-5 shadow-lg w-full max-w-sm transition-transform hover:scale-[1.01] flex flex-col items-stretch relative min-h-[420px] md:min-h-[540px]">
               
-              <div className="flex justify-between items-center mb-3">
+              <div className="flex justify-between items-center mb-2 md:mb-3">
                 <span className="text-[10px] uppercase font-mono text-gray-450 tracking-wider font-extrabold truncate max-w-[65%]">
                   {playerCard.crew === "Inconnu" ? "Sans équipage" : playerCard.crew}
                 </span>
@@ -203,7 +203,7 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
               </div>
 
               {/* Portrait */}
-              <div className="h-64 rounded-xl overflow-hidden bg-slate-100 border-2 border-black mb-4 relative">
+              <div className="h-44 min-[400px]:h-52 sm:h-60 md:h-64 rounded-xl overflow-hidden bg-slate-100 border-2 border-black mb-3 md:mb-4 relative">
                 <img
                   src={playerCard.image}
                   alt={playerCard.name}
@@ -221,7 +221,7 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
               </h3>
 
               {/* Stats cliquables */}
-              <div className="mt-5 space-y-2.5 flex-1">
+              <div className="mt-3 md:mt-5 space-y-2 md:space-y-2.5 flex-1">
                 {[
                   { key: "bounty", label: "Prime (Bounty)", icon: "฿", display: formatBounty(playerCard.bounty) },
                   { key: "age", label: "Âge", icon: "🕒", display: `${playerCard.age} ans` },
@@ -234,7 +234,7 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
                       key={stat.key}
                       disabled={!isSelectable}
                       onClick={() => handleSelectStat(stat.key as any)}
-                      className={`w-full flex items-center justify-between p-3 rounded-2xl border text-left transition-all ${
+                      className={`w-full flex items-center justify-between p-2 md:p-3 rounded-xl md:rounded-2xl border text-left transition-all ${
                         isThisChosen
                           ? "bg-indigo-600 text-white border-indigo-700 font-extrabold shadow-md scale-102"
                           : isSelectable
@@ -315,7 +315,7 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
             </span>
 
             {/* Carte Face Cachée ou Révélée */}
-            <div className={`bg-white border-4 rounded-3xl p-5 shadow-lg w-full max-w-sm transition-all duration-300 min-h-[540px] flex flex-col relative overflow-hidden ${
+            <div className={`bg-white border-4 rounded-3xl p-4 md:p-5 shadow-lg w-full max-w-sm transition-all duration-300 min-h-[420px] md:min-h-[540px] flex flex-col relative overflow-hidden ${
               reveal 
                 ? "border-[#1A1A1A] scale-100" 
                 : "border-gray-200 bg-slate-50 scale-98"
@@ -330,7 +330,7 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
                   userSelect: reveal ? "none" : "auto"
                 }}
               >
-                <div className="flex justify-between items-center mb-3">
+                <div className="flex justify-between items-center mb-2 md:mb-3">
                   <span className="text-[10px] uppercase font-mono text-gray-450 tracking-wider font-extrabold truncate max-w-[65%]">
                     {opponentCard.crew === "Inconnu" ? "Sans équipage" : opponentCard.crew}
                   </span>
@@ -340,7 +340,7 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
                 </div>
 
                 {/* Portrait */}
-                <div className="h-64 rounded-xl overflow-hidden bg-slate-100 border-2 border-black mb-4">
+                <div className="h-44 min-[400px]:h-52 sm:h-60 md:h-64 rounded-xl overflow-hidden bg-slate-100 border-2 border-black mb-3 md:mb-4">
                   <img
                     src={opponentCard.image}
                     alt={opponentCard.name}
@@ -358,7 +358,7 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
                 </h3>
 
                 {/* Stats de l'adversaire (Statique pour comparaison) */}
-                <div className="mt-5 space-y-2.5 flex-1">
+                <div className="mt-3 md:mt-5 space-y-2 md:space-y-2.5 flex-1 font-sans">
                   {[
                     { key: "bounty", label: "Prime (Bounty)", icon: "฿", display: formatBounty(opponentCard.bounty) },
                     { key: "age", label: "Âge", icon: "🕒", display: `${opponentCard.age} ans` },
@@ -368,7 +368,7 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
                     return (
                       <div
                         key={stat.key}
-                        className={`flex items-center justify-between p-3 rounded-2xl border text-left transition-all ${
+                        className={`flex items-center justify-between p-2 md:p-3 rounded-xl md:rounded-2xl border text-left transition-all ${
                           isThisChosen
                             ? "bg-amber-600 text-white border-amber-700 font-extrabold shadow-sm"
                             : "bg-slate-50 border-slate-100 text-gray-500"

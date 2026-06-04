@@ -20,6 +20,7 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
   const [hasWon, setHasWon] = useState(false);
   const [showCheatHint, setShowCheatHint] = useState(false);
   const [showClue, setShowClue] = useState(false);
+  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
   
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -461,13 +462,20 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
         </div>
 
         {/* Clue and Help cards */}
-        <div className="flex items-center justify-center gap-4 mt-5">
+        <div className="flex flex-wrap items-center justify-center gap-3 mt-5">
           <button
             onClick={() => setShowClue(!showClue)}
             className="flex items-center gap-2 text-xs font-heading font-black bg-[#1A1A1A] hover:bg-[#8b5cf6] hover:border-[#8b5cf6] border-2 border-transparent text-white uppercase tracking-widest rounded-xl px-4 py-2 hover:scale-95 transition-all cursor-pointer"
           >
             <Compass className="w-4 h-4" />
             {showClue ? "CACHER INDICES" : "OBTENIR INDICES LOG POSE"}
+          </button>
+
+          <button
+            onClick={() => setViewMode(viewMode === "table" ? "cards" : "table")}
+            className="flex items-center gap-2 text-xs font-heading font-black bg-indigo-600 hover:bg-indigo-700 border-2 border-transparent text-white uppercase tracking-widest rounded-xl px-4 py-2 hover:scale-95 transition-all cursor-pointer"
+          >
+            <span>{viewMode === "table" ? "📱 VUE FICHES (MOBILE)" : "📊 VUE TABLEAU (LARGE)"}</span>
           </button>
           
           <button
@@ -642,193 +650,322 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
         </div>
       )}
 
-      {/* Tableau des Attributs Comparés */}
-      <div className="w-full overflow-x-auto rounded-3xl border-2 border-black bg-white shadow-xs">
-        <table className="w-full min-w-[1300px] border-collapse table-auto text-center">
-          <thead>
-            <tr className="bg-[#1A1A1A] text-white">
-              <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-56 text-left">PROPOSITION</th>
-              <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-16">SEXE</th>
-              <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-48">ÉQUIPAGE</th>
-              <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-48">FRUIT DU DÉMON</th>
-              <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-44">HAKIS</th>
-              <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-40">AFFILIATION</th>
-              <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-44">APPARITION</th>
-              <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-40">PRIME</th>
-              <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-28">ÂGE</th>
-              <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-28">TAILLE</th>
-              <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-28">STATUT</th>
-            </tr>
-          </thead>
-          <tbody>
-            <AnimatePresence>
-              {guesses.map((char, index) => {
-                const genderCheck = checkAttribute("gender", char.gender);
-                const crewCheck = checkAttribute("crew", char.crew);
-                const fruitCheck = checkAttribute("devilFruit", char.devilFruit);
-                const hakiCheck = checkAttribute("haki", char.haki);
-                const affiliateCheck = checkAttribute("affiliation", char.affiliation);
-                const originArcCheck = checkAttribute("originArc", char.originArc);
-                const bountyCheck = checkAttribute("bounty", char.bounty);
-                const ageCheck = checkAttribute("age", char.age);
-                const heightCheck = checkAttribute("height", char.height);
-                const statusCheck = checkAttribute("status", char.status);
+      {/* Tableau ou Fiches des Attributs Comparés */}
+      {viewMode === "cards" ? (
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+            {guesses.map((char, index) => {
+              const genderCheck = checkAttribute("gender", char.gender);
+              const crewCheck = checkAttribute("crew", char.crew);
+              const fruitCheck = checkAttribute("devilFruit", char.devilFruit);
+              const hakiCheck = checkAttribute("haki", char.haki);
+              const affiliateCheck = checkAttribute("affiliation", char.affiliation);
+              const originArcCheck = checkAttribute("originArc", char.originArc);
+              const bountyCheck = checkAttribute("bounty", char.bounty);
+              const ageCheck = checkAttribute("age", char.age);
+              const heightCheck = checkAttribute("height", char.height);
+              const statusCheck = checkAttribute("status", char.status);
 
-                return (
-                  <motion.tr
-                    key={char.id}
-                    initial={{ opacity: 0, y: -20, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.05 }}
-                    className="border-b border-gray-50 bg-white hover:bg-slate-50/60"
-                  >
-                    {/* Colonne NOM */}
-                    <td className="p-3 flex items-center gap-3 text-left w-56">
-                      <img 
+              return (
+                <motion.div
+                  key={char.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-white border-2 border-black rounded-3xl p-4 shadow-sm flex flex-col gap-3 relative overflow-hidden"
+                >
+                  {/* Header character portrait and name */}
+                  <div className="flex items-center gap-3 border-b pb-2.5">
+                    <span className="w-5 h-5 rounded-full bg-slate-900 text-[10px] text-white font-mono font-black flex items-center justify-center shrink-0">
+                      #{guesses.length - index}
+                    </span>
+                    <img 
                       src={char.image} 
                       alt={char.name} 
-                      className="w-9 h-9 rounded-full object-cover shrink-0 border"
+                      className="w-10 h-10 rounded-full object-cover shrink-0 border border-slate-350"
                       referrerPolicy="no-referrer"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = "https://placehold.co/200x300/1a1a1a/ffffff?text=?";
+                        (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(char.name)}`;
                       }}
-                      />
-                      <div className="truncate">
-                        <span className="font-heading font-black text-gray-900 block truncate text-sm">{char.name}</span>
-                        <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">{char.originArc}</span>
-                      </div>
-                    </td>
+                    />
+                    <div className="truncate flex-1 text-left">
+                      <span className="font-heading font-black text-gray-900 block text-sm truncate leading-tight uppercase">{char.name}</span>
+                      <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider">{char.originArc}</span>
+                    </div>
+                  </div>
 
-                    {/* SEXE (M ou F) */}
-                    <td className="p-2 w-16">
-                      <div className={`p-2.5 rounded-xl border text-xs font-heading font-black h-12 flex items-center justify-center text-center ${attributeStyle(genderCheck.status)}`}>
-                        {genderCheck.text}
-                      </div>
-                    </td>
+                  {/* Quick attribute tags grid */}
+                  <div className="grid grid-cols-2 min-[420px]:grid-cols-3 gap-2 text-[11px] font-sans">
+                    <div className={`p-1.5 rounded-xl border text-center font-bold flex flex-col justify-center items-center ${attributeStyle(genderCheck.status)}`}>
+                      <span className="text-[9px] font-mono opacity-65 uppercase block">Sexe</span>
+                      <span className="truncate block leading-tight">{genderCheck.text}</span>
+                    </div>
 
-                    {/* ÉQUIPAGE */}
-                    <td className="p-2 w-48">
-                      <div className={`p-2.5 rounded-xl border text-xs font-heading font-bold h-12 flex items-center justify-center text-center ${attributeStyle(crewCheck.status)}`}>
-                        {crewCheck.text}
-                      </div>
-                    </td>
+                    <div className={`p-1.5 rounded-xl border text-center font-bold flex flex-col justify-center items-center ${attributeStyle(crewCheck.status)}`}>
+                      <span className="text-[9px] font-mono opacity-65 uppercase block">Équipage</span>
+                      <span className="truncate block leading-tight w-full text-center">{crewCheck.text}</span>
+                    </div>
 
-                    {/* FRUIT DU DÉMON */}
-                    <td className="p-2 w-48">
-                      <div className={`p-2.5 rounded-xl border text-xs font-heading font-bold h-12 flex items-center justify-center text-center whitespace-pre-line leading-tight ${attributeStyle(fruitCheck.status)}`}>
-                        {fruitCheck.text}
-                      </div>
-                    </td>
+                    <div className={`p-1.5 rounded-xl border text-center font-bold flex flex-col justify-center items-center ${attributeStyle(fruitCheck.status)}`}>
+                      <span className="text-[9px] font-mono opacity-65 uppercase block">Fruit</span>
+                      <span className="truncate block leading-tight w-full text-center">{fruitCheck.text}</span>
+                    </div>
 
-                    {/* HAKIS */}
-                    <td className="p-2 w-44">
-                      <div className={`p-2.5 rounded-xl border text-xs font-heading font-bold h-12 flex items-center justify-center text-center ${attributeStyle(hakiCheck.status)}`}>
-                        {hakiCheck.text}
-                      </div>
-                    </td>
+                    <div className={`p-1.5 rounded-xl border text-center font-bold flex flex-col justify-center items-center ${attributeStyle(hakiCheck.status)}`}>
+                      <span className="text-[9px] font-mono opacity-65 uppercase block">Hakis</span>
+                      <span className="truncate block leading-tight w-full text-center">{hakiCheck.text}</span>
+                    </div>
 
-                    {/* AFFILIATION */}
-                    <td className="p-2 w-40">
-                      <div className={`p-2.5 rounded-xl border text-xs font-heading font-bold h-12 flex items-center justify-center text-center ${attributeStyle(affiliateCheck.status)}`}>
-                        {affiliateCheck.text}
-                      </div>
-                    </td>
+                    <div className={`p-1.5 rounded-xl border text-center font-bold flex flex-col justify-center items-center ${attributeStyle(affiliateCheck.status)}`}>
+                      <span className="text-[9px] font-mono opacity-65 uppercase block">Affiliation</span>
+                      <span className="truncate block leading-tight w-full text-center">{affiliateCheck.text}</span>
+                    </div>
 
-                    {/* APPARITION (ARC) */}
-                    <td className="p-2 w-44">
-                      <div className={`p-1 px-1.5 rounded-xl border text-xs font-heading font-bold h-12 flex flex-col items-center justify-center text-center ${attributeStyle(originArcCheck.status)}`}>
-                        <span className="leading-tight">{originArcCheck.text}</span>
-                        {originArcCheck.direction && (
-                          <span className={`text-[9px] px-1 py-0.5 mt-0.5 rounded font-sans font-black flex items-center gap-0.5 leading-none shrink-0 ${
-                            originArcCheck.status === "yellow"
-                              ? "bg-amber-700/40 text-amber-50"
-                              : originArcCheck.direction === "up"
-                                ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
-                                : "bg-red-50 text-red-800 border border-red-200"
-                          }`}>
-                            {originArcCheck.direction === "up" ? "▲ APRÈS" : "▼ AVANT"}
-                          </span>
-                        )}
-                      </div>
-                    </td>
+                    <div className={`p-1.5 rounded-xl border text-center font-bold flex flex-col justify-center items-center ${attributeStyle(originArcCheck.status)}`}>
+                      <span className="text-[9px] font-mono opacity-65 uppercase block">Apparition</span>
+                      <span className="truncate block leading-none w-full text-center">{originArcCheck.text}</span>
+                      {originArcCheck.direction && (
+                        <span className="text-[8px] font-black px-1 rounded bg-black/10 mt-0.5 leading-none shrink-0">
+                          {originArcCheck.direction === "up" ? "▲ APRÈS" : "▼ AVANT"}
+                        </span>
+                      )}
+                    </div>
 
-                    {/* PRIME (BOUNTY) */}
-                    <td className="p-2">
-                      <div className={`p-1 px-1.5 rounded-xl border text-xs font-mono font-bold h-12 flex flex-col items-center justify-center text-center ${attributeStyle(bountyCheck.status)}`}>
-                        <span className="leading-tight">{bountyCheck.text}</span>
-                        {bountyCheck.direction && (
-                          <span className={`text-[9px] px-1 py-0.5 mt-0.5 rounded font-sans font-black flex items-center gap-0.5 leading-none shrink-0 ${
-                            bountyCheck.status === "yellow"
-                              ? "bg-amber-700/40 text-amber-50"
-                              : bountyCheck.direction === "up"
-                                ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
-                                : "bg-red-50 text-red-800 border border-red-200"
-                          }`}>
-                            {bountyCheck.direction === "up" ? "▲ PLUS" : "▼ MOINS"}
-                          </span>
-                        )}
-                      </div>
-                    </td>
+                    <div className={`p-1.5 rounded-xl border text-center font-bold flex flex-col justify-center items-center ${attributeStyle(bountyCheck.status)}`}>
+                      <span className="text-[9px] font-mono opacity-65 uppercase block">Prime</span>
+                      <span className="font-mono truncate block leading-none w-full text-center">{bountyCheck.text}</span>
+                      {bountyCheck.direction && (
+                        <span className="text-[8px] font-black px-1 rounded bg-black/10 mt-0.5 leading-none shrink-0">
+                          {bountyCheck.direction === "up" ? "▲ PLUS" : "▼ MOINS"}
+                        </span>
+                      )}
+                    </div>
 
-                    {/* ÂGE */}
-                    <td className="p-2 w-28">
-                      <div className={`p-1 px-1.5 rounded-xl border text-xs font-mono font-bold h-12 flex flex-col items-center justify-center text-center ${attributeStyle(ageCheck.status)}`}>
-                        <span className="leading-tight">{ageCheck.text}</span>
-                        {ageCheck.direction && (
-                          <span className={`text-[9px] px-1 py-0.5 mt-0.5 rounded font-sans font-black flex items-center gap-0.5 leading-none shrink-0 ${
-                            ageCheck.status === "yellow"
-                              ? "bg-amber-700/40 text-amber-50"
-                              : ageCheck.direction === "up"
-                                ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
-                                : "bg-red-50 text-red-800 border border-red-200"
-                          }`}>
-                            {ageCheck.direction === "up" ? "▲ PLUS" : "▼ MOINS"}
-                          </span>
-                        )}
-                      </div>
-                    </td>
+                    <div className={`p-1.5 rounded-xl border text-center font-bold flex flex-col justify-center items-center ${attributeStyle(ageCheck.status)}`}>
+                      <span className="text-[9px] font-mono opacity-65 uppercase block">Âge</span>
+                      <span className="font-mono truncate block leading-none w-full text-center">{ageCheck.text}</span>
+                      {ageCheck.direction && (
+                        <span className="text-[8px] font-black px-1 rounded bg-black/10 mt-0.5 leading-none shrink-0">
+                          {ageCheck.direction === "up" ? "▲ PLUS" : "▼ MOINS"}
+                        </span>
+                      )}
+                    </div>
 
-                    {/* TAILLE */}
-                    <td className="p-2 w-28">
-                      <div className={`p-1 px-1.5 rounded-xl border text-xs font-mono font-bold h-12 flex flex-col items-center justify-center text-center ${attributeStyle(heightCheck.status)}`}>
-                        <span className="leading-tight">{heightCheck.text}</span>
-                        {heightCheck.direction && (
-                          <span className={`text-[9px] px-1 py-0.5 mt-0.5 rounded font-sans font-black flex items-center gap-0.5 leading-none shrink-0 ${
-                            heightCheck.status === "yellow"
-                              ? "bg-amber-700/40 text-amber-50"
-                              : heightCheck.direction === "up"
-                                ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
-                                : "bg-red-50 text-red-800 border border-red-200"
-                          }`}>
-                            {heightCheck.direction === "up" ? "▲ PLUS" : "▼ MOINS"}
-                          </span>
-                        )}
-                      </div>
-                    </td>
+                    <div className={`p-1.5 rounded-xl border text-center font-bold flex flex-col justify-center items-center ${attributeStyle(heightCheck.status)}`}>
+                      <span className="text-[9px] font-mono opacity-65 uppercase block">Taille</span>
+                      <span className="font-mono truncate block leading-none w-full text-center">{heightCheck.text}</span>
+                      {heightCheck.direction && (
+                        <span className="text-[8px] font-black px-1 rounded bg-black/10 mt-0.5 leading-none shrink-0">
+                          {heightCheck.direction === "up" ? "▲ PLUS" : "▼ MOINS"}
+                        </span>
+                      )}
+                    </div>
 
-                    {/* STATUT */}
-                    <td className="p-2 w-24">
-                      <div className={`p-2.5 rounded-xl border text-xs font-heading font-bold h-12 flex items-center justify-center text-center ${attributeStyle(statusCheck.status)}`}>
-                        {statusCheck.text}
-                      </div>
-                    </td>
-                  </motion.tr>
-                );
-              })}
-            </AnimatePresence>
+                    <div className={`p-1.5 rounded-xl border text-center font-bold flex flex-col justify-center items-center ${attributeStyle(statusCheck.status)}`}>
+                      <span className="text-[9px] font-mono opacity-65 uppercase block">Statut</span>
+                      <span className="truncate block leading-tight w-full text-center">{statusCheck.text}</span>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
 
-            {guesses.length === 0 && (
-              <tr>
-                <td colSpan={11} className="p-12 text-center text-gray-400 font-sans">
-                  <Compass className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                  Préparez votre Log Pose ! Proposez un pirate dans la barre ci-dessus pour lancer la recherche.
-                </td>
+          {guesses.length === 0 && (
+            <div className="p-12 text-center text-gray-400 font-sans bg-white border-2 border-black rounded-3xl">
+              <Compass className="w-10 h-10 text-gray-300 mx-auto mb-3" />
+              Préparez votre Log Pose ! Proposez un pirate dans la barre ci-dessus pour lancer la recherche.
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="w-full overflow-x-auto rounded-3xl border-2 border-black bg-white shadow-xs">
+          <table className="w-full min-w-[1300px] border-collapse table-auto text-center">
+            <thead>
+              <tr className="bg-[#1A1A1A] text-white">
+                <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-56 text-left">PROPOSITION</th>
+                <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-16">SEXE</th>
+                <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-48">ÉQUIPAGE</th>
+                <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-48">FRUIT DU DÉMON</th>
+                <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-44">HAKIS</th>
+                <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-40">AFFILIATION</th>
+                <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-44">APPARITION</th>
+                <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-40">PRIME</th>
+                <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-28">ÂGE</th>
+                <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-28">TAILLE</th>
+                <th className="p-4 font-heading text-[10px] font-black tracking-widest uppercase w-28">STATUT</th>
               </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              <AnimatePresence>
+                {guesses.map((char, index) => {
+                  const genderCheck = checkAttribute("gender", char.gender);
+                  const crewCheck = checkAttribute("crew", char.crew);
+                  const fruitCheck = checkAttribute("devilFruit", char.devilFruit);
+                  const hakiCheck = checkAttribute("haki", char.haki);
+                  const affiliateCheck = checkAttribute("affiliation", char.affiliation);
+                  const originArcCheck = checkAttribute("originArc", char.originArc);
+                  const bountyCheck = checkAttribute("bounty", char.bounty);
+                  const ageCheck = checkAttribute("age", char.age);
+                  const heightCheck = checkAttribute("height", char.height);
+                  const statusCheck = checkAttribute("status", char.status);
+
+                  return (
+                    <motion.tr
+                      key={char.id}
+                      initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4, delay: index * 0.05 }}
+                      className="border-b border-gray-50 bg-white hover:bg-slate-50/60"
+                    >
+                      {/* Colonne NOM */}
+                      <td className="p-3 flex items-center gap-3 text-left w-56">
+                        <img 
+                        src={char.image} 
+                        alt={char.name} 
+                        className="w-9 h-9 rounded-full object-cover shrink-0 border"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "https://placehold.co/200x300/1a1a1a/ffffff?text=?";
+                        }}
+                        />
+                        <div className="truncate text-left">
+                          <span className="font-heading font-black text-gray-900 block truncate text-sm">{char.name}</span>
+                          <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">{char.originArc}</span>
+                        </div>
+                      </td>
+
+                      {/* SEXE (M ou F) */}
+                      <td className="p-2 w-16">
+                        <div className={`p-2.5 rounded-xl border text-xs font-heading font-black h-12 flex items-center justify-center text-center ${attributeStyle(genderCheck.status)}`}>
+                          {genderCheck.text}
+                        </div>
+                      </td>
+
+                      {/* ÉQUIPAGE */}
+                      <td className="p-2 w-48">
+                        <div className={`p-2.5 rounded-xl border text-xs font-heading font-bold h-12 flex items-center justify-center text-center ${attributeStyle(crewCheck.status)}`}>
+                          {crewCheck.text}
+                        </div>
+                      </td>
+
+                      {/* FRUIT DU DÉMON */}
+                      <td className="p-2 w-48">
+                        <div className={`p-2.5 rounded-xl border text-xs font-heading font-bold h-12 flex items-center justify-center text-center whitespace-pre-line leading-tight ${attributeStyle(fruitCheck.status)}`}>
+                          {fruitCheck.text}
+                        </div>
+                      </td>
+
+                      {/* HAKIS */}
+                      <td className="p-2 w-44">
+                        <div className={`p-2.5 rounded-xl border text-xs font-heading font-bold h-12 flex items-center justify-center text-center ${attributeStyle(hakiCheck.status)}`}>
+                          {hakiCheck.text}
+                        </div>
+                      </td>
+
+                      {/* AFFILIATION */}
+                      <td className="p-2 w-40">
+                        <div className={`p-2.5 rounded-xl border text-xs font-heading font-bold h-12 flex items-center justify-center text-center ${attributeStyle(affiliateCheck.status)}`}>
+                          {affiliateCheck.text}
+                        </div>
+                      </td>
+
+                      {/* APPARITION (ARC) */}
+                      <td className="p-2 w-44">
+                        <div className={`p-1 px-1.5 rounded-xl border text-xs font-heading font-bold h-12 flex flex-col items-center justify-center text-center ${attributeStyle(originArcCheck.status)}`}>
+                          <span className="leading-tight">{originArcCheck.text}</span>
+                          {originArcCheck.direction && (
+                            <span className={`text-[9px] px-1 py-0.5 mt-0.5 rounded font-sans font-black flex items-center gap-0.5 leading-none shrink-0 ${
+                              originArcCheck.status === "yellow"
+                                ? "bg-amber-700/40 text-amber-50"
+                                : originArcCheck.direction === "up"
+                                  ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                                  : "bg-red-50 text-red-800 border border-red-200"
+                            }`}>
+                              {originArcCheck.direction === "up" ? "▲ APRÈS" : "▼ AVANT"}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* PRIME (BOUNTY) */}
+                      <td className="p-2">
+                        <div className={`p-1 px-1.5 rounded-xl border text-xs font-mono font-bold h-12 flex flex-col items-center justify-center text-center ${attributeStyle(bountyCheck.status)}`}>
+                          <span className="leading-tight">{bountyCheck.text}</span>
+                          {bountyCheck.direction && (
+                            <span className={`text-[9px] px-1 py-0.5 mt-0.5 rounded font-sans font-black flex items-center gap-0.5 leading-none shrink-0 ${
+                              bountyCheck.status === "yellow"
+                                ? "bg-amber-700/40 text-amber-50"
+                                : bountyCheck.direction === "up"
+                                  ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                                  : "bg-red-50 text-red-800 border border-red-200"
+                            }`}>
+                              {bountyCheck.direction === "up" ? "▲ PLUS" : "▼ MOINS"}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* ÂGE */}
+                      <td className="p-2 w-28">
+                        <div className={`p-1 px-1.5 rounded-xl border text-xs font-mono font-bold h-12 flex flex-col items-center justify-center text-center ${attributeStyle(ageCheck.status)}`}>
+                          <span className="leading-tight">{ageCheck.text}</span>
+                          {ageCheck.direction && (
+                            <span className={`text-[9px] px-1 py-0.5 mt-0.5 rounded font-sans font-black flex items-center gap-0.5 leading-none shrink-0 ${
+                              ageCheck.status === "yellow"
+                                ? "bg-amber-700/40 text-amber-50"
+                                : ageCheck.direction === "up"
+                                  ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                                  : "bg-red-50 text-red-800 border border-red-200"
+                            }`}>
+                              {ageCheck.direction === "up" ? "▲ PLUS" : "▼ MOINS"}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* TAILLE */}
+                      <td className="p-2 w-28">
+                        <div className={`p-1 px-1.5 rounded-xl border text-xs font-mono font-bold h-12 flex flex-col items-center justify-center text-center ${attributeStyle(heightCheck.status)}`}>
+                          <span className="leading-tight">{heightCheck.text}</span>
+                          {heightCheck.direction && (
+                            <span className={`text-[9px] px-1 py-0.5 mt-0.5 rounded font-sans font-black flex items-center gap-0.5 leading-none shrink-0 ${
+                              heightCheck.status === "yellow"
+                                ? "bg-amber-700/40 text-amber-50"
+                                : heightCheck.direction === "up"
+                                  ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                                  : "bg-red-50 text-red-800 border border-red-200"
+                            }`}>
+                              {heightCheck.direction === "up" ? "▲ PLUS" : "▼ MOINS"}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* STATUT */}
+                      <td className="p-2 w-24">
+                        <div className={`p-2.5 rounded-xl border text-xs font-heading font-bold h-12 flex items-center justify-center text-center ${attributeStyle(statusCheck.status)}`}>
+                          {statusCheck.text}
+                        </div>
+                      </td>
+                    </motion.tr>
+                  );
+                })}
+              </AnimatePresence>
+
+              {guesses.length === 0 && (
+                <tr>
+                  <td colSpan={11} className="p-12 text-center text-gray-400 font-sans">
+                    <Compass className="w-10 h-10 text-gray-300 mx-auto mb-3" />
+                    Préparez votre Log Pose ! Proposez un pirate dans la barre ci-dessus pour lancer la recherche.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

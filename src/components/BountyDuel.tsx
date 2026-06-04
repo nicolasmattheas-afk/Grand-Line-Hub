@@ -184,17 +184,17 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
               : { opacity: 1, x: 0, scale: 1, borderColor: "#1A1A1A" }
           }
           transition={{ duration: feedback?.isCorrect ? 0.6 : 0.4 }}
-          className={`bg-white border-4 rounded-3xl p-5 shadow-xs max-w-sm mx-auto w-full relative ${
+          className={`bg-white border-4 rounded-3xl p-3.5 sm:p-5 shadow-xs max-w-sm mx-auto w-full relative ${
             !revealed ? "cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-300" : ""
           }`}
         >
           {/* Style Antique Wanted Poster */}
-          <div className="border border-[#dfcfbd] p-4 rounded-2xl flex flex-col h-full bg-[#FAFAFA]">
-            <div className="text-center font-heading text-[#1A1A1A] tracking-tighter font-black text-3xl uppercase mb-3">
+          <div className="border border-[#dfcfbd] p-3 sm:p-4 rounded-2xl flex flex-col h-full bg-[#FAFAFA]">
+            <div className="text-center font-heading text-[#1A1A1A] tracking-tighter font-black text-xl min-[380px]:text-2xl sm:text-3xl uppercase mb-2 sm:mb-3">
               WANTED
             </div>
             
-            <div className="h-64 rounded-xl overflow-hidden border-2 border-black bg-slate-100 mb-4 relative group">
+            <div className="h-40 min-[380px]:h-48 sm:h-56 md:h-64 rounded-xl overflow-hidden border-2 border-black bg-slate-100 mb-3 sm:mb-4 relative group">
               <img 
                 src={leftChar.image} 
                 alt={leftChar.name} 
@@ -204,28 +204,28 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
                   (e.target as HTMLImageElement).src = "https://placehold.co/200x300/1a1a1a/ffffff?text=?";
                 }}
               />
-              <div className="absolute top-2 right-2 px-2.5 py-1 bg-[#1A1A1A] text-[9px] text-white rounded font-mono uppercase font-bold tracking-wider">
+              <div className="absolute top-2 right-2 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-[#1A1A1A] text-[8px] sm:text-[9px] text-white rounded font-mono uppercase font-bold tracking-wider max-w-[120px] truncate">
                 {leftChar.crew}
               </div>
             </div>
 
             <div className="text-center">
-              <h3 className="font-heading text-2xl font-black text-[#1A1A1A] uppercase tracking-tighter">
+              <h3 className="font-heading text-lg min-[380px]:text-xl sm:text-2xl font-black text-[#1A1A1A] uppercase tracking-tighter truncate">
                 {leftChar.name}
               </h3>
-              <p className="text-xs text-gray-500 italic line-clamp-2 mt-2 h-8 px-2 font-medium">
+              <p className="text-[10px] sm:text-xs text-gray-500 italic line-clamp-2 mt-1 sm:mt-2 h-7 sm:h-8 px-1 sm:px-2 font-medium">
                 "{leftChar.description}"
               </p>
 
-              <div className={`mt-4 pt-4 border-t border-[#dfcfbd] text-center rounded-2xl transition-all duration-300 ${
+              <div className={`mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-[#dfcfbd] text-center rounded-2xl transition-all duration-300 ${
                 revealed && selectedSide === "left"
                   ? feedback?.isCorrect
-                    ? "bg-violet-50 ring-4 ring-violet-500 font-bold p-2 scale-102"
-                    : "bg-red-50 ring-4 ring-red-500 font-bold p-2 scale-102"
+                    ? "bg-violet-50 ring-4 ring-violet-500 font-bold p-1 sm:p-2 scale-102"
+                    : "bg-red-50 ring-4 ring-red-500 font-bold p-1 sm:p-2 scale-102"
                   : ""
               }`}>
-                <span className="text-[10px] uppercase font-mono tracking-widest font-black text-gray-400 block mb-1">PRIME DU PIRATE</span>
-                <span className="font-mono text-2xl font-black text-emerald-600">
+                <span className="text-[9px] sm:text-[10px] uppercase font-mono tracking-widest font-black text-gray-400 block mb-0.5 sm:mb-1">PRIME DU PIRATE</span>
+                <span className="font-mono text-xl sm:text-2xl font-black text-emerald-600">
                   ฿ {leftChar.bounty.toLocaleString("fr-FR").replace(/\u202f/g, " ")}
                 </span>
               </div>
@@ -245,16 +245,16 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
               : { opacity: 1, x: 0, scale: 1, borderColor: "#1A1A1A" }
           }
           transition={{ duration: feedback?.isCorrect ? 0.6 : 0.4 }}
-          className={`bg-white border-4 rounded-3xl p-5 shadow-xs max-w-sm mx-auto w-full relative ${
+          className={`bg-white border-4 rounded-3xl p-3.5 sm:p-5 shadow-xs max-w-sm mx-auto w-full relative ${
             !revealed ? "cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-300" : ""
           }`}
         >
-          <div className="border border-[#dfcfbd] p-4 rounded-2xl flex flex-col h-full bg-[#FAFAFA]">
-            <div className="text-center font-heading text-[#1A1A1A] tracking-tighter font-black text-3xl uppercase mb-3">
+          <div className="border border-[#dfcfbd] p-3 sm:p-4 rounded-2xl flex flex-col h-full bg-[#FAFAFA]">
+            <div className="text-center font-heading text-[#1A1A1A] tracking-tighter font-black text-xl min-[380px]:text-2xl sm:text-3xl uppercase mb-2 sm:mb-3">
               WANTED
             </div>
             
-            <div className="h-64 rounded-xl overflow-hidden border-2 border-black bg-slate-100 mb-4 relative">
+            <div className="h-40 min-[380px]:h-48 sm:h-56 md:h-64 rounded-xl overflow-hidden border-2 border-black bg-slate-100 mb-3 sm:mb-4 relative">
               <img 
                 src={rightChar.image} 
                 alt={rightChar.name} 
@@ -264,27 +264,27 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
                   (e.target as HTMLImageElement).src = "https://placehold.co/200x300/1a1a1a/ffffff?text=?";
                 }}
               />
-              <div className="absolute top-2 right-2 px-2.5 py-1 bg-[#1A1A1A] text-[9px] text-white rounded font-mono uppercase font-bold tracking-wider">
+              <div className="absolute top-2 right-2 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-[#1A1A1A] text-[8px] sm:text-[9px] text-white rounded font-mono uppercase font-bold tracking-wider max-w-[120px] truncate">
                 {rightChar.crew}
               </div>
             </div>
 
             <div className="text-center">
-              <h3 className="font-heading text-2xl font-black text-[#1A1A1A] uppercase tracking-tighter">
+              <h3 className="font-heading text-lg min-[380px]:text-xl sm:text-2xl font-black text-[#1A1A1A] uppercase tracking-tighter truncate">
                 {rightChar.name}
               </h3>
-              <p className="text-xs text-gray-500 italic line-clamp-2 mt-2 h-8 px-2 font-medium">
+              <p className="text-[10px] sm:text-xs text-gray-500 italic line-clamp-2 mt-1 sm:mt-2 h-7 sm:h-8 px-1 sm:px-2 font-medium">
                 "{rightChar.description}"
               </p>
 
-              <div className={`mt-4 pt-4 border-t border-[#dfcfbd] text-center rounded-2xl transition-all duration-300 ${
+              <div className={`mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-[#dfcfbd] text-center rounded-2xl transition-all duration-300 ${
                 revealed && selectedSide === "right"
                   ? feedback?.isCorrect
-                    ? "bg-violet-50 ring-4 ring-violet-500 font-bold p-2 scale-102"
-                    : "bg-red-50 ring-4 ring-red-500 font-bold p-2 scale-102"
+                    ? "bg-violet-50 ring-4 ring-violet-500 font-bold p-1 sm:p-2 scale-102"
+                    : "bg-red-50 ring-4 ring-red-500 font-bold p-1 sm:p-2 scale-102"
                   : ""
               }`}>
-                <span className="text-[10px] uppercase font-mono tracking-widest font-black text-gray-400 block mb-1">PRIME DU PIRATE</span>
+                <span className="text-[9px] sm:text-[10px] uppercase font-mono tracking-widest font-black text-gray-400 block mb-0.5 sm:mb-1">PRIME DU PIRATE</span>
                 
                 <AnimatePresence mode="wait">
                   {!revealed ? (
@@ -293,7 +293,7 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
                       initial={{ scale: 0.9 }}
                       animate={{ scale: 1 }}
                       exit={{ scale: 0.9, opacity: 0 }}
-                      className="font-heading text-2xl font-black text-violet-500 py-1 tracking-widest"
+                      className="font-heading text-xl sm:text-2xl font-black text-violet-500 py-0.5 sm:py-1 tracking-widest"
                     >
                       ฿ ??? ??? ???
                     </motion.div>

@@ -2131,20 +2131,20 @@ export default function GrandLineGrid({
               </div>
 
               {/* 1. MATCHMAKING GLOBAL RAPIDE */}
-              <div className="bg-white/95 backdrop-blur-md rounded-3xl border-2 border-violet-100/60 p-6 shadow-sm relative overflow-hidden">
+              <div className="bg-white/95 backdrop-blur-md rounded-3xl border-2 border-violet-100/60 p-6 shadow-sm relative overflow-hidden max-w-xl mx-auto w-full">
                 {/* Visual float clouds */}
                 <span className="absolute -right-6 top-2 text-7xl opacity-[0.07] select-none pointer-events-none rotate-45">☁️</span>
                 <span className="absolute left-[-20px] bottom-[-10px] text-8xl opacity-[0.06] select-none pointer-events-none -rotate-12">☁️</span>
                 
-                <div className="flex items-start gap-4 justify-between leading-tight mb-4 relative z-10">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-3 justify-between leading-tight mb-4 relative z-10">
                   <div>
-                    <h4 className="font-heading font-black text-[#1A1A1A] text-lg uppercase tracking-wide flex items-center gap-2">
+                    <h4 className="font-heading font-black text-[#1A1A1A] text-base sm:text-lg uppercase tracking-wide flex flex-wrap items-center gap-2">
                       Commencez le combat
-                      <span className="inline-block text-xs bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded-full font-bold">LIVE</span>
+                      <span className="inline-block text-[10px] sm:text-xs bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded-full font-bold">LIVE</span>
                     </h4>
-                    <p className="text-gray-400 text-xs mt-0.5 font-medium">Rechercher instantanément un rival réel connecté sur la New Line.</p>
+                    <p className="text-gray-400 text-xs mt-1 sm:mt-0.5 font-medium">Rechercher instantanément un rival réel connecté sur la New Line.</p>
                   </div>
-                  <span className="text-[10px] bg-violet-100 text-violet-800 font-bold px-2 py-1 rounded-md uppercase shrink-0">
+                  <span className="text-[9px] sm:text-[10px] bg-violet-100 text-violet-800 font-bold px-2 py-1 rounded-md uppercase shrink-0 self-start sm:self-auto">
                     VRAIS JOUEURS UNIQUEMENT
                   </span>
                 </div>
@@ -2524,11 +2524,11 @@ export default function GrandLineGrid({
 
             {/* La Grille de Tic-Tac-Toe */}
             {columnKeys.length > 0 && rowKeys.length > 0 && (
-              <div className="w-full max-w-[780px] bg-slate-50 p-6 md:p-8 rounded-3xl border-2 border-slate-900">
+              <div className="w-full max-w-[780px] bg-slate-50 p-2 sm:p-4 md:p-8 rounded-2xl md:rounded-3xl border-2 border-slate-900">
                 
                 {/* Ligne d'entête (Colonnes à croiser) */}
-                <div className="grid grid-cols-4 gap-4 mb-4 text-center items-center">
-                  <div className="font-heading font-black text-slate-400 text-[10px] md:text-2xs uppercase tracking-widest flex items-center justify-center p-2">
+                <div className="grid grid-cols-4 gap-1.5 sm:gap-4 mb-2.5 sm:mb-4 text-center items-center">
+                  <div className="font-heading font-black text-slate-400 text-[8px] sm:text-[10px] uppercase tracking-widest flex items-center justify-center p-1">
                     RECOUPEMENT
                   </div>
                   
@@ -2537,7 +2537,7 @@ export default function GrandLineGrid({
                     return (
                       <div 
                         key={key} 
-                        className="bg-white py-2 px-1.5 rounded-xl text-[10px] md:text-xs font-heading font-black uppercase text-[#1A1A1A] border border-[#E5E7EB] flex items-center justify-center h-20 md:h-28 shadow-3xs"
+                        className="bg-white py-1.5 px-1 rounded-xl text-[8px] sm:text-[10px] md:text-xs font-heading font-black uppercase text-[#1A1A1A] border border-[#E5E7EB] flex items-center justify-center h-16 sm:h-24 md:h-28 shadow-3xs"
                       >
                         {cat.label}
                       </div>
@@ -2549,9 +2549,9 @@ export default function GrandLineGrid({
                 {rowKeys.map((rowKey, rowIndex) => {
                   const catRow = CATEGORIES[rowKey];
                   return (
-                    <div key={rowKey} className="grid grid-cols-4 gap-4 mb-4 items-center">
+                    <div key={rowKey} className="grid grid-cols-4 gap-1.5 sm:gap-4 mb-1.5 sm:mb-4 items-center">
                       {/* Entête de ligne */}
-                      <div className="bg-white py-2 px-1.5 rounded-xl text-[10px] md:text-xs font-heading font-black uppercase text-[#1A1A1A] border border-[#E5E7EB] flex items-center justify-center h-24 md:h-34 shadow-3xs text-center">
+                      <div className="bg-white py-1.5 px-1 rounded-xl text-[8px] sm:text-[10px] md:text-xs font-heading font-black uppercase text-[#1A1A1A] border border-[#E5E7EB] flex items-center justify-center h-20 sm:h-28 md:h-34 shadow-3xs text-center">
                         {catRow.label}
                       </div>
 
@@ -2573,7 +2573,7 @@ export default function GrandLineGrid({
                             key={colIndex}
                             disabled={isCellDisabled}
                             onClick={() => handleCellClick(cellIndex)}
-                            className={`h-24 md:h-34 rounded-2xl border-2 transition-all flex flex-col items-center justify-center p-2 focus:scale-95 cursor-pointer relative group overflow-hidden ${
+                            className={`h-20 sm:h-28 md:h-34 rounded-xl md:rounded-2xl border-2 transition-all flex flex-col items-center justify-center p-1 sm:p-2 focus:scale-95 cursor-pointer relative group overflow-hidden ${
                               cell.owner === 1
                                 ? "bg-[#2563eb] border-[#2563eb] text-white font-black hover:opacity-90"
                                 : cell.owner === 2

@@ -594,9 +594,9 @@ export default function BountyLeaderboard({
       {/* LEADERBOARD LIST CONTAINER */}
       <div className="bg-[#121124] rounded-3xl border border-slate-800 overflow-hidden shadow-xl">
         <div className="p-4 bg-slate-900/50 border-b border-slate-800 grid grid-cols-12 gap-2 text-[10px] font-bold tracking-widest text-slate-400 uppercase font-heading">
-          <span className="col-span-1 text-center">Rang</span>
-          <span className="col-span-5 md:col-span-6 pl-2">Nom de Pirate</span>
-          <span className="col-span-3 text-center">Titre de prime</span>
+          <span className="col-span-2 sm:col-span-1 text-center">Rang</span>
+          <span className="col-span-7 sm:col-span-5 md:col-span-6 pl-2">Nom de Pirate</span>
+          <span className="col-span-3 text-center hidden sm:block">Titre de prime</span>
           <span className="col-span-3 text-right">Prime (Berries)</span>
         </div>
 
@@ -626,7 +626,7 @@ export default function BountyLeaderboard({
                     }`}
                   >
                     {/* Position */}
-                    <div className="col-span-1 flex justify-center items-center">
+                    <div className="col-span-2 sm:col-span-1 flex justify-center items-center">
                       {rankNum === 1 ? (
                         <span className="w-6 h-6 rounded-full bg-amber-400 text-slate-950 text-xs font-black flex items-center justify-center shadow shadow-amber-900/30">
                           1
@@ -647,7 +647,7 @@ export default function BountyLeaderboard({
                     </div>
 
                     {/* Name & Avatar */}
-                    <div className="col-span-5 md:col-span-6 flex items-center gap-3 pl-2 truncate">
+                    <div className="col-span-7 sm:col-span-5 md:col-span-6 flex items-center gap-3 pl-2 truncate font-heading">
                       <img
                         src={player.avatar || `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(player.username)}`}
                         alt={player.username}
@@ -659,16 +659,16 @@ export default function BountyLeaderboard({
                       />
                       <div className="truncate flex flex-col min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <span className={`text-xs font-bold leading-tight truncate ${isCurrentUser ? "text-violet-200" : "text-slate-100"}`}>
+                          <span className={`text-xs font-black leading-tight truncate uppercase ${isCurrentUser ? "text-violet-200" : "text-slate-100"}`}>
                             {player.username}
                           </span>
                           {isCurrentUser && (
-                            <span className="px-1.5 py-0.5 text-[8px] font-black tracking-wider uppercase text-slate-950 bg-violet-400 rounded">
+                            <span className="px-1.5 py-0.5 text-[7px] font-black tracking-wider uppercase text-slate-950 bg-violet-400 rounded">
                               VOUS
                             </span>
                           )}
                           {player.isRival && (
-                            <span className="px-1 text-[8px] font-bold text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded">
+                            <span className="px-1 text-[7px] font-bold text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded">
                               IA
                             </span>
                           )}
@@ -677,15 +677,15 @@ export default function BountyLeaderboard({
                     </div>
 
                     {/* Title */}
-                    <div className="col-span-3 flex justify-center">
+                    <div className="col-span-3 justify-center hidden sm:flex">
                       <span className={`text-[9px] tracking-wide uppercase px-2 py-0.5 rounded-md border leading-none font-extrabold shadow-sm ${getBadgeColor(player.assignedRankTitle as BountyRank)}`}>
                         {player.assignedRankTitle}
                       </span>
                     </div>
 
                     {/* Bounty */}
-                    <div className="col-span-3 text-right font-mono font-black text-xs text-amber-400 flex items-center justify-end gap-1.5">
-                      <Coins className="w-3 w-3 text-amber-400 opacity-70 shrink-0" />
+                    <div className="col-span-3 text-right font-mono font-black text-[10px] sm:text-xs text-amber-400 flex items-center justify-end gap-1.5">
+                      <Coins className="w-3 h-3 text-amber-400 opacity-70 shrink-0" />
                       <span>{formatBounty(player.bounty)}</span>
                     </div>
 

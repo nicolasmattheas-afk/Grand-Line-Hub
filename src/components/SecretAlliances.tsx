@@ -857,8 +857,8 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
                     />
 
                     {/* Shading overlay */}
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-2 pt-6 pb-2 text-center flex flex-col justify-end">
-                      <span className="text-white font-heading font-black text-xs md:text-sm uppercase tracking-wide leading-tight drop-shadow-md select-none">
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-1.5 pt-5 pb-1.5 text-center flex flex-col justify-end">
+                      <span className="text-white font-heading font-black text-[9px] min-[380px]:text-[10px] sm:text-xs md:text-sm uppercase tracking-wide leading-tight drop-shadow-md select-none break-words text-wrap line-clamp-2">
                         {char.name}
                       </span>
                     </div>

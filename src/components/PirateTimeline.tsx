@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Character } from "../types";
-import { Clock, RotateCcw, ArrowRight, CheckCircle2, AlertTriangle, Play, MoveLeft, MoveRight } from "lucide-react";
+import { Clock, RotateCcw, ArrowRight, ArrowDown, CheckCircle2, AlertTriangle, Play, MoveLeft, MoveRight } from "lucide-react";
 
 interface PirateTimelineProps {
   characters: Character[];
@@ -54,9 +54,28 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
   const [correctOrder, setCorrectOrder] = useState<Character[]>([]);
   const [draggedIdx, setDraggedIdx] = useState<number | null>(null);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [selectedTapIdx, setSelectedTapIdx] = useState<number | null>(null);
   const [checked, setChecked] = useState<boolean>(false);
   const [scoreMessage, setScoreMessage] = useState<string>("");
   const [scores, setScores] = useState({ plays: 0, perfectWins: 0 });
+
+  const handleCardTap = (index: number) => {
+    if (checked) return;
+    if (selectedTapIdx === null) {
+      setSelectedTapIdx(index);
+    } else {
+      if (selectedTapIdx === index) {
+        setSelectedTapIdx(null);
+      } else {
+        const newList = [...timelineList];
+        const temp = newList[selectedTapIdx];
+        newList[selectedTapIdx] = newList[index];
+        newList[index] = temp;
+        setTimelineList(newList);
+        setSelectedTapIdx(null);
+      }
+    }
+  };
 
   // Mouse event handlers for smooth drag-and-swap with mouse button held
   const handleMouseDown = (e: React.MouseEvent, index: number) => {
@@ -159,6 +178,7 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
     setCorrectOrder(sorted);
     setDraggedIdx(null);
     setHoveredIdx(null);
+    setSelectedTapIdx(null);
     setChecked(false);
     setScoreMessage("");
   };
@@ -220,7 +240,7 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
           Chronologie de l'Aventure
         </h2>
         <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base font-medium">
-          Ordonnez chronologiquement les pirates de gauche à droite selon leur arc de première apparition. <span className="font-bold text-violet-400">Maintenez le CLIC DROIT</span> sur un personnage, déplacez votre souris sur un autre, puis relâchez pour échanger leurs positions !
+          Ordonnez chronologiquement les pirates de gauche à droite selon leur arc de première apparition. <span className="font-bold text-violet-400">Cliquez/Touchez deux personnages</span> pour échanger leurs places, ou <span className="font-bold text-violet-400">maintenez le clic droit</span> pour les faire glisser !
         </p>
 
         {/* Global summary stats */}
@@ -249,15 +269,16 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
           </span>
         </div>
 
-        {/* Horizontal scroll cards */}
-        <div className="flex flex-col md:flex-row items-stretch justify-center gap-4 py-2 overflow-x-auto no-scrollbar">
+         {/* Horizontal scroll cards */}
+        <div className="flex flex-row items-stretch justify-start md:justify-center gap-3 sm:gap-4 py-2 overflow-x-auto no-scrollbar pb-4 w-full">
           {timelineList.map((char, index) => {
             const isDraggedObj = draggedIdx === index;
             const isHoveredTarget = hoveredIdx === index && draggedIdx !== index;
+            const isTapped = selectedTapIdx === index;
             const correctState = isCardCorrect(index);
 
             return (
-              <div key={char.id} className="flex items-center gap-2 shrink-0 md:flex-1 max-w-[170px]">
+              <div key={char.id} className="flex items-center gap-2 sm:gap-3 shrink-0 w-[140px] sm:w-[170px] md:flex-1 md:max-w-[170px]">
                 
                 {/* Single card frame */}
                 <div
@@ -266,22 +287,25 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={handleMouseLeave}
                   onMouseUp={(e) => handleMouseUpCard(e, index)}
+                  onClick={() => handleCardTap(index)}
                   onContextMenu={(e) => e.preventDefault()}
                   draggable="false"
                   onDragStart={(e) => e.preventDefault()}
                   style={{
-                    cursor: checked ? "default" : isDraggedObj ? "grabbing" : "grab"
+                    cursor: checked ? "default" : isDraggedObj ? "grabbing" : "pointer"
                   }}
-                  className={`w-full bg-white border-3 rounded-2xl p-3 flex flex-col items-center transition-all select-none min-h-[250px] relative ${
-                    isDraggedObj 
-                      ? "border-violet-500 bg-violet-50/10 ring-4 ring-violet-200 -translate-y-2 opacity-55 scale-95 border-dashed"
-                      : isHoveredTarget
-                        ? "border-violet-500 bg-violet-500/10 scale-102 ring-4 ring-violet-200"
-                        : correctState === true
-                          ? "border-emerald-500 bg-emerald-500/5 ring-4 ring-emerald-200/40"
-                          : correctState === false
-                            ? "border-red-500 bg-red-500/5 ring-4 ring-red-200/40"
-                            : "border-[#1A1A1A] hover:border-violet-500 hover:shadow-md"
+                  className={`w-full bg-white border-3 rounded-2xl p-2.5 sm:p-3 flex flex-col items-center transition-all select-none min-h-[230px] sm:min-h-[250px] relative cursor-pointer active:scale-98 ${
+                    isTapped
+                      ? "border-amber-500 bg-amber-50/20 ring-4 ring-amber-300 scale-102 animate-pulse"
+                      : isDraggedObj 
+                        ? "border-violet-500 bg-violet-50/10 ring-4 ring-violet-200 -translate-y-2 opacity-55 scale-95 border-dashed"
+                        : isHoveredTarget
+                          ? "border-violet-500 bg-violet-500/10 scale-102 ring-4 ring-violet-200"
+                          : correctState === true
+                            ? "border-emerald-500 bg-emerald-500/5 ring-4 ring-emerald-200/40"
+                            : correctState === false
+                              ? "border-red-500 bg-red-500/5 ring-4 ring-red-200/40"
+                              : "border-[#1A1A1A] hover:border-violet-500 hover:shadow-md"
                   }`}
                 >
                   {/* Card Index */}
@@ -290,7 +314,7 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                   </span>
 
                   {/* Character image */}
-                  <div className="w-24 h-24 rounded-full overflow-hidden bg-slate-50 border border-slate-150 mb-3 mt-4 shrink-0 pointer-events-none">
+                  <div className="w-16 h-16 sm:w-20 md:w-24 sm:h-20 md:h-24 rounded-full overflow-hidden bg-slate-50 border border-slate-150 mb-2 sm:mb-3 mt-4 shrink-0 pointer-events-none">
                     <img
                       src={char.image}
                       alt={char.name}
@@ -304,31 +328,31 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                   </div>
 
                   {/* Character info text */}
-                  <div className="text-center flex-1 flex flex-col justify-between pointer-events-none">
+                  <div className="text-center flex-1 flex flex-col justify-between pointer-events-none w-full">
                     <div>
-                      <span className="font-heading font-black text-gray-900 text-xs block truncate leading-tight uppercase">
+                      <span className="font-heading font-black text-gray-900 text-[10px] sm:text-xs block truncate leading-tight uppercase">
                         {char.name}
                       </span>
-                      <span className="text-[8px] font-mono text-gray-400 block truncate mt-0.5 uppercase tracking-widest max-w-[120px]">
+                      <span className="text-[7.5px] sm:text-[8px] font-mono text-gray-400 block truncate mt-0.5 uppercase tracking-widest max-w-full">
                         {char.crew === "Inconnu" ? "Équipage Libre" : char.crew}
                       </span>
                     </div>
 
                     {/* Reveal results or question block */}
-                    <div className="mt-3 text-center">
+                    <div className="mt-2.5 sm:mt-3 text-center w-full">
                       {checked ? (
                         <div className="space-y-1">
-                          <span className="px-1.5 py-0.5 bg-slate-100 rounded text-[9px] font-mono text-gray-600 block truncate max-w-[120px]">
+                          <span className="px-1.5 py-0.5 bg-slate-100 rounded text-[8px] sm:text-[9px] font-mono text-gray-600 block truncate max-w-full">
                             {char.originArc}
                           </span>
-                          <span className={`text-[8.5px] font-bold block uppercase tracking-wider ${
+                          <span className={`text-[8px] sm:text-[8.5px] font-bold block uppercase tracking-wider ${
                             correctState ? "text-emerald-600" : "text-red-500"
                           }`}>
                             {correctState ? "✅ Correct" : "❌ Mal placé"}
                           </span>
                         </div>
                       ) : (
-                        <span className="text-[9px] px-2 py-0.5 bg-violet-50 text-[#8b5cf6] border border-violet-100 rounded font-mono uppercase tracking-wider block">
+                        <span className="text-[8px] sm:text-[9px] px-1.5 py-0.5 bg-violet-50 text-[#8b5cf6] border border-violet-100 rounded font-mono uppercase tracking-wider block">
                           Apparition ?
                         </span>
                       )}
@@ -336,10 +360,10 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                   </div>
                 </div>
 
-                {/* Arrow indicator between elements (on desktop only) */}
+                {/* Arrow indicator between elements (horizontal for both) */}
                 {index < 4 && (
-                  <div className="hidden md:flex items-center justify-center shrink-0 text-gray-200 pointer-events-none">
-                    <ArrowRight className="w-4 h-4" />
+                  <div className="flex items-center justify-center shrink-0 text-slate-300 pointer-events-none">
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                   </div>
                 )}
               </div>

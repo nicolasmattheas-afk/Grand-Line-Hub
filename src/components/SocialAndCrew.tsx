@@ -841,18 +841,18 @@ export default function SocialAndCrew({
               <p className="text-xs text-gray-500 mt-1">Saisissez l'e-mail de votre compagnon pour l'ajouter à vos alliés de combat.</p>
             </div>
             
-            <form onSubmit={handleAddFriend} className="flex gap-2 w-full md:w-auto shrink-0 max-w-sm">
+            <form onSubmit={handleAddFriend} className="flex flex-col sm:flex-row gap-2 w-full md:w-auto shrink-0 max-w-sm">
               <input
                 type="email"
                 placeholder="Ex : compagnon@onepiece.com"
                 value={friendEmailInput}
                 onChange={(e) => setFriendEmailInput(e.target.value)}
-                className="flex-1 bg-white p-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-800 placeholder-gray-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
+                className="flex-1 bg-white p-3 rounded-xl border border-gray-200 text-xs font-bold text-gray-800 placeholder-gray-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 w-full"
               />
               <button
                 type="submit"
                 disabled={friendLoading}
-                className="px-4 py-3 bg-violet-600 text-white font-heading font-black text-xs uppercase rounded-xl hover:bg-violet-700 transition-colors disabled:opacity-50 cursor-pointer flex items-center gap-1.5 shrink-0"
+                className="px-4 py-3 bg-violet-600 text-white font-heading font-black text-xs uppercase rounded-xl hover:bg-violet-700 transition-colors disabled:opacity-50 cursor-pointer flex items-center justify-center gap-1.5 shrink-0 w-full sm:w-auto"
               >
                 {friendLoading ? "..." : <UserPlus className="w-4 h-4" />}
                 RECRUTER

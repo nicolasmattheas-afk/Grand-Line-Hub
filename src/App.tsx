@@ -19,7 +19,7 @@ import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { 
   Trophy, Award, Compass, Swords, ArrowRightLeft, BookOpen, 
-  Sparkles, History, User, Heart, Settings, LayoutDashboard, Coins, Clock, Users, Brain, Crown, Newspaper, MessageSquare
+  Sparkles, History, User, Heart, Settings, LayoutDashboard, Coins, Clock, Users, Brain, Crown, Newspaper, MessageSquare, Menu, X
 } from "lucide-react";
 
 function getArcFromChapter(chapterStr: string): string {
@@ -238,6 +238,7 @@ export default function App() {
   
   // Onglets : "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "statsBattle" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard"
   const [activeTab, setActiveTab] = useState<"grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "statsBattle" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog">("grid");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Charge et persiste la prime du joueur (Bounty) et ses statistiques
   const [playerBounty, setPlayerBounty] = useState<number>(() => {
@@ -588,14 +589,14 @@ export default function App() {
       
       {/* 1. TOP NAV / BARRE DE STATUT SUPREME */}
       <header className="bg-slate-950/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-40 shadow-2xl">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-3 md:px-8 py-2 md:py-4 flex flex-row items-center justify-between gap-2 md:gap-4">
           
           {/* Logo & Titre */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 md:gap-3">
             <img 
               src="/logo.svg" 
               alt="Grand Line Logo" 
-              className="w-10 h-10 object-contain shrink-0 filter drop-shadow-[0_0_6px_rgba(239,68,68,0.35)] hover:scale-110 active:rotate-12 transition-all cursor-pointer select-none"
+              className="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0 filter drop-shadow-[0_0_6px_rgba(239,68,68,0.35)] hover:scale-110 active:rotate-12 transition-all cursor-pointer select-none"
               referrerPolicy="no-referrer"
               onClick={() => {
                 // Secret easter egg: play a sound or trigger visual response if desired, or go back to main tab
@@ -603,10 +604,10 @@ export default function App() {
               }}
             />
             <div>
-              <h1 className="text-2xl font-black font-heading tracking-tighter uppercase leading-none text-white flex items-center gap-1.5">
+              <h1 className="text-xs sm:text-lg md:text-2xl font-black font-heading tracking-tighter uppercase leading-none text-white flex items-center gap-1.5">
                 GRAND LINE <span className="text-violet-400">HUB</span>
               </h1>
-              <p className="text-[10px] text-violet-400 font-mono tracking-widest uppercase font-extrabold mt-1">
+              <p className="text-[8px] md:text-[10px] text-violet-400 font-mono tracking-widest uppercase font-extrabold mt-0.5 md:mt-1 hidden sm:block">
                 L'AVENTURE COMMENCE ICI
               </p>
             </div>
@@ -615,30 +616,30 @@ export default function App() {
           {/* Profil d'Équipage Réel & Prime (Bounty) */}
           <div 
             onClick={() => setActiveTab("dashboard")}
-            className="flex items-center gap-4 bg-[#11142A]/85 hover:bg-[#1C2042]/85 border border-white/10 hover:border-violet-500/40 rounded-2xl px-5 py-2.5 w-full sm:w-auto justify-between sm:justify-start cursor-pointer transition-all active:scale-[0.98] group shadow-lg"
+            className="flex items-center gap-2 md:gap-4 bg-[#11142A]/85 hover:bg-[#1C2042]/85 border border-white/10 hover:border-violet-500/40 rounded-xl md:rounded-2xl px-2.5 py-1.5 md:px-5 md:py-2.5 justify-between cursor-pointer transition-all active:scale-[0.98] group shadow-lg"
             title="Accéder au Tableau de bord"
           >
             <img 
               src={playerAvatar || `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(playerUsername)}`}
               alt={playerUsername}
-              className="w-10 h-10 rounded-full object-cover shrink-0 border border-white/10 bg-[#070914] group-hover:scale-105 transition-transform"
+              className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover shrink-0 border border-white/10 bg-[#070914] group-hover:scale-105 transition-transform"
               referrerPolicy="no-referrer"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(playerUsername)}`;
               }}
             />
             <div className="text-left font-sans flex-1">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-heading font-black text-white group-hover:text-violet-400 uppercase tracking-tight leading-none transition-colors">
+              <div className="flex items-center gap-1 sm:gap-2">
+                <span className="text-[10px] sm:text-xs md:text-sm font-heading font-black text-white group-hover:text-violet-400 uppercase tracking-tight leading-none transition-colors max-w-[80px] sm:max-w-none truncate block">
                   {playerUsername}
                 </span>
-                <span className={`text-[9px] uppercase font-mono tracking-wider font-extrabold px-2 py-0.5 rounded border leading-none shrink-0 ${rankColorClass(playerRank)}`}>
+                <span className={`text-[7px] sm:text-[9px] uppercase font-mono tracking-wider font-extrabold px-1 sm:px-2 py-0.5 rounded border leading-none shrink-0 ${rankColorClass(playerRank)}`}>
                   {playerRank}
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 mt-1.55">
-                <Coins className="w-4 h-4 text-violet-400" />
-                <span className="font-mono text-base font-black tracking-tight text-violet-400">
+              <div className="flex items-center gap-1 mt-0.5 md:mt-1">
+                <Coins className="w-3 h-3 md:w-4 md:h-4 text-violet-400" />
+                <span className="font-mono text-xs sm:text-sm md:text-base font-black tracking-tight text-violet-400">
                   ฿ {playerBounty.toLocaleString()}
                 </span>
               </div>
@@ -649,10 +650,224 @@ export default function App() {
       </header>
 
       {/* 2. BODY LAYOUT CONSTRAINED WITH SIDEBAR ON THE LEFT */}
+      {/* MOBILE MINI-HEADER / SELECTION DE MODE */}
+      <div className="block md:hidden bg-[#0a0c1a]/95 backdrop-blur-lg border-b border-white/10 px-4 py-3 sticky top-[48px] sm:top-[64px] z-30 shadow-lg">
+        <div className="flex items-center justify-between">
+          <div className="text-left">
+            <span className="text-[9px] font-mono uppercase tracking-widest text-[#a78bfa] leading-none mb-1 block">Mode actuel</span>
+            <span className="text-xs font-black uppercase text-white font-heading tracking-wide flex items-center gap-1.5 leading-none">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              {activeTabName(activeTab)}
+            </span>
+          </div>
+          <button 
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="bg-violet-600 hover:bg-violet-700 active:scale-95 border border-violet-500/30 text-[10px] text-white font-black uppercase px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all shadow-xs shrink-0"
+          >
+            <Menu className="w-3.5 h-3.5" />
+            <span>Tous les modes</span>
+          </button>
+        </div>
+      </div>
+
+      {/* MOBILE FULL-SCREEN SLIDE-IN DRAWER */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 bg-[#05070f]/95 backdrop-blur-xl flex flex-col p-5 overflow-y-auto md:hidden">
+          <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-5">
+            <div className="flex items-center gap-2">
+              <img src="/logo.svg" alt="Logo" className="w-8 h-8 object-contain" referrerPolicy="no-referrer" />
+              <span className="font-heading font-black text-xs uppercase text-white tracking-widest">MENU DES MODES</span>
+            </div>
+            <button 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => { setActiveTab("grid"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "grid" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Swords className="w-5 h-5 text-violet-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Grand Line Grid</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("tracker"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "tracker" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Compass className="w-5 h-5 text-emerald-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Log Pose Tracker</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("duel"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "duel" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <ArrowRightLeft className="w-5 h-5 text-violet-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Bounty Duel</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("statsBattle"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "statsBattle" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Swords className="w-5 h-5 text-violet-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Bataille 2D</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("pirateShadow"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "pirateShadow" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Sparkles className="w-5 h-5 text-violet-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">L'Ombre</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("timeline"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "timeline" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Clock className="w-5 h-5 text-pink-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Chronologie</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("bountyTarget"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "bountyTarget" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Trophy className="w-5 h-5 text-violet-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Le Compte Bon</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("alliances"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "alliances" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Users className="w-5 h-5 text-violet-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Alliances</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("leaderboard"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "leaderboard" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Crown className="w-5 h-5 text-amber-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Classement</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("crew"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "crew" 
+                  ? "bg-violet-900 border-violet-555 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Users className="w-5 h-5 text-violet-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Équipage</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("wej"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "wej" 
+                  ? "bg-violet-900 border-violet-555 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Newspaper className="w-5 h-5 text-rose-500" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Journal WEJ</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("blog"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "blog" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <MessageSquare className="w-5 h-5 text-amber-500" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Blog & Bugs</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("dashboard"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 col-span-2 rounded-xl border flex items-center justify-center gap-3 transition-all ${
+                activeTab === "dashboard" 
+                  ? "bg-violet-600 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <LayoutDashboard className="w-5 h-5 text-violet-300" />
+              <span className="text-xs font-heading font-extrabold tracking-wider uppercase">Tableau de Bord</span>
+            </button>
+          </div>
+
+          <div className="mt-8 pt-5 border-t border-white/5 text-center">
+            <span className="text-[10px] uppercase font-mono tracking-widest text-[#a78bfa] font-extrabold mb-2 block">
+              Progression
+            </span>
+            <div className="max-w-[180px] mx-auto space-y-2">
+              <div className="w-full bg-[#1A1C3C]/80 rounded-full h-2 overflow-hidden border border-white/5">
+                <div 
+                  className="bg-gradient-to-r from-rose-600 to-amber-500 h-full transition-all duration-500 shadow-[0_0_8px_#E11D48]"
+                  style={{ width: `${nextRankProgress}%` }}
+                />
+              </div>
+              <div className="flex justify-between text-[8px] font-mono text-slate-400">
+                <span>{Math.floor(nextRankProgress)}% ACCOMPLI</span>
+                <span className="font-bold text-[#f59e0b]">{playerRank}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row items-stretch">
         
         {/* SIDE NAV / BARRE DE JEUX À GAUCHE */}
-        <aside className="w-full md:w-64 border-b md:border-b-0 md:border-r border-white/10 bg-[#0B0D1E]/90 backdrop-blur-md shrink-0 md:sticky md:top-20 md:h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar p-4 md:py-8 flex flex-col justify-between">
+        <aside className="hidden md:flex w-full md:w-64 border-b md:border-b-0 md:border-r border-white/10 bg-[#0B0D1E]/90 backdrop-blur-md shrink-0 md:sticky md:top-20 md:h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar p-4 md:py-8 flex-col justify-between">
           <div className="space-y-6">
             <div className="hidden md:block">
               <span className="text-[10px] uppercase font-mono tracking-widest text-rose-500 font-black px-3 block">
