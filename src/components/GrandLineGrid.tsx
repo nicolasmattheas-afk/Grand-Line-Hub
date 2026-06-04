@@ -28,7 +28,7 @@ interface Category {
 
 // Catégories de validation de la grille
 const CATEGORIES: { [key: string]: Category } = {
-  pirate: { id: "pirate", label: "Pirate Affiliation", check: (c) => c.affiliation === "Pirate" },
+  pirate: { id: "pirate", label: "Pirate", check: (c) => c.affiliation === "Pirate" },
   marine: { id: "marine", label: "Officier Marine", check: (c) => c.affiliation === "Marine" },
   revolutionary: { id: "revolutionary", label: "Révolutionnaire", check: (c) => c.affiliation === "Révolutionnaire" || c.crew.toLowerCase().includes("revolutionary") },
   government: { id: "government", label: "Gouv. Mondial / CP", check: (c) => c.affiliation === "Gouvernement" || c.crew.toLowerCase().includes("cp0") || c.crew.toLowerCase().includes("cp9") || c.crew.toLowerCase().includes("five elders") || c.crew.toLowerCase().includes("knights of god") },
@@ -80,9 +80,9 @@ const CATEGORIES: { [key: string]: Category } = {
     const cl = c.crew.toLowerCase();
     return cl.includes("cross guild") || (c.description && c.description.toLowerCase().includes("cross guild"));
   }},
-  crew_heart_kid: { id: "crew_heart_kid", label: "Équip. de Kid ou Law", check: (c) => {
+  crew_heart_kid: { id: "crew_heart_kid", label: "Équip. Supernovas (Hors Mugi/BN)", check: (c) => {
     const cl = c.crew.toLowerCase();
-    return cl.includes("heart") || cl.includes("kid pirates") || cl.includes("on air") || cl.includes("bonney") || cl.includes("fire tank");
+    return cl.includes("heart") || cl.includes("kid pirates") || cl.includes("on air") || cl.includes("bonney") || cl.includes("fire tank") || cl.includes("hawkins") || cl.includes("drake") || cl.includes("fallen monk");
   }},
 
   race_mink: { id: "race_mink", label: "Tribu Mink (Zou)", check: (c) => c.race === "Mink" || (c.race && c.race.toLowerCase().includes("mink")) || false },
@@ -90,25 +90,25 @@ const CATEGORIES: { [key: string]: Category } = {
   race_giant: { id: "race_giant", label: "Guerrier Géant", check: (c) => c.race === "Giant" || (c.race && c.race.toLowerCase().includes("giant")) || false },
   race_cyborg: { id: "race_cyborg", label: "Cyborg ou Humain Modifié", check: (c) => c.race === "Robot" || (c.description && c.description.toLowerCase().includes("cyborg")) || (c.name && c.name.toLowerCase().includes("cyborg")) || (c.race && c.race.toLowerCase().includes("cyborg")) || false },
 
-  bounty_1b: { id: "bounty_1b", label: "Prime > 1 Milliard ฿", check: (c) => c.bounty > 1000000000 },
+  bounty_1b: { id: "bounty_1b", label: "Prime + 1 Milliard ฿", check: (c) => c.bounty > 1000000000 },
   bounty_100m: { id: "bounty_100m", label: "Prime 100M - 1B ฿", check: (c) => c.bounty >= 100000000 && c.bounty <= 1000000000 },
-  bounty_under_100m: { id: "bounty_under_100m", label: "Prime < 100M ฿ (Bounty > 0)", check: (c) => c.bounty > 0 && c.bounty < 100000000 },
+  bounty_under_100m: { id: "bounty_under_100m", label: "Prime - 100M ฿ (Prime + 0 ฿)", check: (c) => c.bounty > 0 && c.bounty < 100000000 },
   bounty_zero: { id: "bounty_zero", label: "Pas de prime (0 ฿)", check: (c) => c.bounty === 0 },
 
-  tall: { id: "tall", label: "Taille > 220 cm", check: (c) => {
+  tall: { id: "tall", label: "Taille + 220 cm", check: (c) => {
     const h = typeof c.height === "number" ? c.height : parseInt(String(c.height || ""), 10);
     return !isNaN(h) && h > 220;
   } },
-  short: { id: "short", label: "Taille ≤ 180 cm", check: (c) => {
+  short: { id: "short", label: "Taille - 180 cm", check: (c) => {
     const h = typeof c.height === "number" ? c.height : parseInt(String(c.height || ""), 10);
     return !isNaN(h) && h <= 180;
   } },
 
-  young: { id: "young", label: "Âge ≤ 25 ans", check: (c) => {
+  young: { id: "young", label: "Âge - 25 ans", check: (c) => {
     const a = typeof c.age === "number" ? c.age : parseInt(String(c.age || ""), 10);
     return !isNaN(a) && a <= 25;
   } },
-  old: { id: "old", label: "Âge ≥ 40 ans", check: (c) => {
+  old: { id: "old", label: "Âge + 40 ans", check: (c) => {
     const a = typeof c.age === "number" ? c.age : parseInt(String(c.age || ""), 10);
     return !isNaN(a) && a >= 40;
   } },
@@ -124,7 +124,7 @@ const GRID_PRESETS = [
   { rows: ["pirate", "marine", "fruit"], columns: ["kenbunshoku", "zoan", "tall"] },
   { rows: ["strawhat", "pirate", "vivant"], columns: ["haoshoku", "paramecia", "short"] },
   { rows: ["whitebeard", "bigmom", "donquixote"], columns: ["haoshoku", "fruit", "vivant"] },
-  { rows: ["pirate", "marine", "revolutionary"], columns: ["bounty_1b", "no_fruit", "old"] },
+  { rows: ["pirate", "marine", "revolutionary"], columns: ["fruit", "no_fruit", "old"] },
   { rows: ["strawhat", "red_hair", "whitebeard"], columns: ["haoshoku", "busoshoku", "homme"] },
   { rows: ["pirate", "government", "marine"], columns: ["arc_east_blue", "no_fruit", "vivant"] },
   { rows: ["strawhat", "pirate", "decede"], columns: ["arc_marineford", "fruit", "homme"] },
@@ -668,13 +668,13 @@ export default function GrandLineGrid({
     }
   };
 
-  // Déclencher le bot si personne n'est trouvé après 15 secondes (uniquement en matchmaking public sans code)
+  // Déclencher le bot si personne n'est trouvé après 10 secondes (uniquement en matchmaking public sans code)
   useEffect(() => {
     let botTimeout: any;
     if (gameState === "searching" && gameMode === "online" && myRole === 1 && activeOnlineGameId && privateRoomCode === null) {
       botTimeout = setTimeout(() => {
         spawnOnlineMatchmakingBot();
-      }, 15000);
+      }, 10000);
     }
     return () => {
       if (botTimeout) clearTimeout(botTimeout);
@@ -689,12 +689,28 @@ export default function GrandLineGrid({
     const isHard = botStrategy === "hard-blocking" || botStrategy === "medium-blocking";
     const successRate = botStrategy === "medium-blocking" ? 0.90 : 1.0;
     
-    const emptyIndices: number[] = [];
+    let p2Steals = 2; // Par défaut
+    try {
+      const gameRef = doc(db, "gridGames", activeOnlineGameId);
+      const snap = await getDoc(gameRef);
+      if (snap.exists()) {
+        const data = snap.data();
+        p2Steals = data.player2Steals ?? 2;
+      }
+    } catch (e) {
+      console.error("Erreur de lecture des vols du bot en ligne:", e);
+    }
+
+    const candidates: { idx: number; isSteal: boolean }[] = [];
     board.forEach((cell, idx) => {
-      if (cell.owner === null) emptyIndices.push(idx);
+      if (cell.owner === null) {
+        candidates.push({ idx, isSteal: false });
+      } else if (cell.owner === 1 && p2Steals > 0) {
+        candidates.push({ idx, isSteal: true });
+      }
     });
 
-    if (emptyIndices.length === 0) {
+    if (candidates.length === 0) {
       setIsBotThinking(false);
       return;
     }
@@ -709,7 +725,7 @@ export default function GrandLineGrid({
         [0, 4, 8], [2, 4, 6]             
       ];
 
-      const getCellScore = (idx: number) => {
+      const getCellScore = (idx: number, isSteal: boolean) => {
         let score = 0;
         winLines.forEach(line => {
           if (line.includes(idx)) {
@@ -721,45 +737,79 @@ export default function GrandLineGrid({
             });
 
             if (isHard) {
-              if (countBot === 2 && countUser === 0) {
-                score += 10000;
-              } else if (countUser === 2 && countBot === 0) {
-                score += 5000;
-              } else if (countBot === 1 && countUser === 0) {
-                score += 100;
-              } else if (countUser === 1 && countBot === 0) {
-                score += 40;
+              if (isSteal) {
+                if (countUser === 2 && countBot === 0) {
+                  score += 8000; // Intercepter un bingo adverse imminent
+                } else if (countBot === 2 && countUser === 1) {
+                  score += 12000; // Prendre par vol pour gagner !
+                } else if (countBot === 1 && countUser === 1) {
+                  score += 200;
+                } else {
+                  score += 30;
+                }
               } else {
-                score += 5;
+                if (countBot === 2 && countUser === 0) {
+                  score += 10000; // Coup gagnant vide
+                } else if (countUser === 2 && countBot === 0) {
+                  score += 5000;  // Bloquer vide
+                } else if (countBot === 1 && countUser === 0) {
+                  score += 100;
+                } else if (countUser === 1 && countBot === 0) {
+                  score += 40;
+                } else {
+                  score += 5;
+                }
               }
             } else {
-              if (countBot === 2 && countUser === 0) {
-                score += 1000;
-              } else if (countBot === 1 && countUser === 0) {
-                score += 100;
-              } else if (countBot === 0 && countUser === 0) {
-                score += 10;
+              // Niveau moyen/normal
+              if (isSteal) {
+                if (countBot === 2 && countUser === 1) {
+                  score += 2000; // Vol gagnant
+                } else if (countUser === 2 && countBot === 0) {
+                  score += 800;  // Petit blocage vol
+                } else {
+                  score += 10;
+                }
               } else {
-                score += 2;
+                if (countBot === 2 && countUser === 0) {
+                  score += 1000;
+                } else if (countBot === 1 && countUser === 0) {
+                  score += 100;
+                } else if (countBot === 0 && countUser === 0) {
+                  score += 10;
+                } else {
+                  score += 2;
+                }
               }
             }
           }
         });
+
+        // Appliquer un poids d'utilisation des vols proportionnel au niveau
+        if (isSteal) {
+          if (isHard) {
+            score = score * 1.3;
+          } else {
+            score = score * 0.4;
+          }
+        }
         return score;
       };
 
-      const scoredIndices = emptyIndices.map(idx => ({
-        idx,
-        score: getCellScore(idx) + Math.random() * 2
+      const scoredCandidates = candidates.map(c => ({
+        idx: c.idx,
+        isSteal: c.isSteal,
+        score: getCellScore(c.idx, c.isSteal) + Math.random() * 2
       })).sort((a, b) => b.score - a.score);
 
-      const targetIndices = scoredIndices.map(item => item.idx);
+      const targetIndices = scoredCandidates.map(item => item.idx);
       
       let chosenIndex = -1;
       let matchingChar: Character | null = null;
+      let usedSteal = false;
 
-      for (const idx of targetIndices) {
-        const { colIndex, rowIndex } = getCellCoords(idx);
+      for (const item of scoredCandidates) {
+        const { colIndex, rowIndex } = getCellCoords(item.idx);
         const colCategory = CATEGORIES[columnKeys[colIndex]];
         const rowCategory = CATEGORIES[rowKeys[rowIndex]];
 
@@ -770,8 +820,9 @@ export default function GrandLineGrid({
         );
 
         if (possibleChar) {
-          chosenIndex = idx;
+          chosenIndex = item.idx;
           matchingChar = possibleChar;
+          usedSteal = item.isSteal;
           break;
         }
       }
@@ -786,9 +837,10 @@ export default function GrandLineGrid({
         const updatedUsedList = Array.from(usedCharacterIds);
         updatedUsedList.push(matchingChar.id);
 
+        const stealText = usedSteal ? "💥 COMBAT TRIPLÉ (VOL) : " : "";
         setFeedback({
           isError: false,
-          message: `🤖 ${onlineOpponent.name} a joué ${matchingChar.name} sur [${CATEGORIES[columnKeys[getCellCoords(chosenIndex).colIndex]].label} & ${CATEGORIES[rowKeys[getCellCoords(chosenIndex).rowIndex]].label}] !`
+          message: `🤖 ${onlineOpponent.name} a joué ${stealText}${matchingChar.name} sur [${CATEGORIES[columnKeys[getCellCoords(chosenIndex).colIndex]].label} & ${CATEGORIES[rowKeys[getCellCoords(chosenIndex).rowIndex]].label}] !`
         });
 
         try {
@@ -798,7 +850,10 @@ export default function GrandLineGrid({
             const data = snap.data();
             
             let p1Steals = data.player1Steals ?? 2;
-            let p2Steals = data.player2Steals ?? 2;
+            let currentP2Steals = data.player2Steals ?? 2;
+            if (usedSteal) {
+              currentP2Steals = Math.max(0, currentP2Steals - 1);
+            }
 
             const isRoundWinner = checkWinCondition(updatedBoard, 2);
             const isFull = isBoardFull(updatedBoard);
@@ -829,7 +884,7 @@ export default function GrandLineGrid({
                 nextBoard = Array(9).fill(null).map(() => ({ owner: null, character: null }));
                 nextUsedCharacters = [];
                 p1Steals = 2;
-                p2Steals = 2;
+                currentP2Steals = 2; // Redonner 2 vols pour la nouvelle manche
                 
                 // Sélectionner une nouvelle grille pour la manche suivante
                 const nextPreset = GRID_PRESETS[Math.floor(Math.random() * GRID_PRESETS.length)];
@@ -846,7 +901,7 @@ export default function GrandLineGrid({
               player1Wins: p1Wins,
               player2Wins: p2Wins,
               player1Steals: p1Steals,
-              player2Steals: p2Steals,
+              player2Steals: currentP2Steals,
               roundCount: nextRoundCount,
               status: nextStatus,
               winner: finalWinner,
@@ -865,10 +920,10 @@ export default function GrandLineGrid({
           console.error("Erreur de transmission du coup de l'IA:", e);
         }
       } else {
-        await simulateOnlineBotFailure(emptyIndices);
+        await simulateOnlineBotFailure(candidates.map(c => c.idx));
       }
     } else {
-      await simulateOnlineBotFailure(emptyIndices);
+      await simulateOnlineBotFailure(candidates.map(c => c.idx));
     }
   };
 
@@ -1493,6 +1548,14 @@ export default function GrandLineGrid({
         message: `ÉCHEC ! ${selectedChar.name} ${explanation} Votre tour passe !`
       });
 
+      // Fermer immédiatement la fenêtre pour choisir les personnages
+      setSelectedCellIndex(null);
+
+      // On efface la notification d'erreur après 3,5 secondes
+      setTimeout(() => {
+        setFeedback(null);
+      }, 3500);
+
       if (activeOnlineGameId) {
         // Permettre un tour instantané pour l'adversaire SANS consommer de vol
         const oppEmail = onlineOpponent?.email || "";
@@ -1510,15 +1573,8 @@ export default function GrandLineGrid({
         // Mode local
         if (botOpponent) {
           setTimeout(() => {
-            setSelectedCellIndex(null);
-            setFeedback(null);
             setCurrentPlayer(2); // Passe au bot
-          }, 2500);
-        } else {
-          setTimeout(() => {
-            setSelectedCellIndex(null);
-            setFeedback(null);
-          }, 2500);
+          }, 1500);
         }
       }
     }
@@ -1526,12 +1582,18 @@ export default function GrandLineGrid({
 
   // Bot Turn offline
   const handleBotTurnOffline = () => {
-    const emptyIndices: number[] = [];
+    // Calculer les candidats éligibles (vides, ou appartenant au joueur 1 si le bot a des vols restants)
+    const hasStealsLeft = botStealsLeft > 0;
+    const candidates: { idx: number; isSteal: boolean }[] = [];
     board.forEach((cell, idx) => {
-      if (cell.owner === null) emptyIndices.push(idx);
+      if (cell.owner === null) {
+        candidates.push({ idx, isSteal: false });
+      } else if (cell.owner === 1 && hasStealsLeft) {
+        candidates.push({ idx, isSteal: true });
+      }
     });
 
-    if (emptyIndices.length === 0) return;
+    if (candidates.length === 0) return;
 
     // un bot niveau normal qui aura 75% de bonnes réponses et qui essaiera d'avoir un bingo
     // et un bot niveau hard qui aura 100% de bonnes réponse et qui essaiera d'avoir un bingo tout en bloquant l'adversaire
@@ -1546,8 +1608,8 @@ export default function GrandLineGrid({
         [0, 4, 8], [2, 4, 6]             
       ];
 
-      // Heureuse heuristique de score par cellule
-      const getCellScore = (idx: number) => {
+      // Heureuse heuristique de score par cellule, prenant en compte le vol
+      const getCellScore = (idx: number, isSteal: boolean) => {
         let score = 0;
         winLines.forEach(line => {
           if (line.includes(idx)) {
@@ -1559,48 +1621,78 @@ export default function GrandLineGrid({
             });
 
             if (isHard) {
-              // Stratégie mode Hard : Gagner immédiatement > Bloquer l'adversaire > Construire une attaque > Gêner
-              if (countBot === 2 && countUser === 0) {
-                score += 10000; // Coup gagnant pour le bot !
-              } else if (countUser === 2 && countBot === 0) {
-                score += 5000;  // Bloquer absolument le coup gagnant de l'adversaire !
-              } else if (countBot === 1 && countUser === 0) {
-                score += 100;   // Construire son propre bingo
-              } else if (countUser === 1 && countBot === 0) {
-                score += 40;    // Gêner l'avancée de l'adversaire
+              if (isSteal) {
+                if (countUser === 2 && countBot === 0) {
+                  score += 8000; // Voler pour intercepter un BINGO imminent de l'adversaire
+                } else if (countBot === 2 && countUser === 1) {
+                  score += 12000; // Voler pour faire le BINGO gagnant !
+                } else if (countBot === 1 && countUser === 1) {
+                  score += 200;
+                } else {
+                  score += 30;
+                }
               } else {
-                score += 5;
+                if (countBot === 2 && countUser === 0) {
+                  score += 10000; // Coup gagnant vide
+                } else if (countUser === 2 && countBot === 0) {
+                  score += 5000;  // Bloquer vide
+                } else if (countBot === 1 && countUser === 0) {
+                  score += 100;
+                } else if (countUser === 1 && countBot === 0) {
+                  score += 40;
+                } else {
+                  score += 5;
+                }
               }
             } else {
-              // Stratégie mode Normal : Chercher uniquement son propre bingo, sans bloquer l'adversaire
-              if (countBot === 2 && countUser === 0) {
-                score += 1000;  // Coup gagnant pour le bot
-              } else if (countBot === 1 && countUser === 0) {
-                score += 100;   // Développer le bingo
-              } else if (countBot === 0 && countUser === 0) {
-                score += 10;    // Ligne libre
+              // Niveau moyen/normal
+              if (isSteal) {
+                if (countBot === 2 && countUser === 1) {
+                  score += 2000; // Vol gagnant
+                } else if (countUser === 2 && countBot === 0) {
+                  score += 800;  // Petit blocage par vol
+                } else {
+                  score += 10;
+                }
               } else {
-                score += 2;
+                if (countBot === 2 && countUser === 0) {
+                  score += 1000;
+                } else if (countBot === 1 && countUser === 0) {
+                  score += 100;
+                } else if (countBot === 0 && countUser === 0) {
+                  score += 10;
+                } else {
+                  score += 2;
+                }
               }
             }
           }
         });
+
+        // Appliquer un poids d'utilisation des vols proportionnel au niveau
+        if (isSteal) {
+          if (isHard) {
+            score = score * 1.3; // Les bots forts profitent à fond des vols bien placés
+          } else {
+            score = score * 0.4; // Les bots normaux gaspillent moins et tentent rarement des vols
+          }
+        }
         return score;
       };
 
-      // Trier les index vides par score + un petit soupçon d'aléatoire pour plus de naturel
-      const scoredIndices = emptyIndices.map(idx => ({
-        idx,
-        score: getCellScore(idx) + Math.random() * 2
+      // Trier par score + un petit soupçon d'aléatoire
+      const scoredCandidates = candidates.map(c => ({
+        idx: c.idx,
+        isSteal: c.isSteal,
+        score: getCellScore(c.idx, c.isSteal) + Math.random() * 2
       })).sort((a, b) => b.score - a.score);
 
-      const targetIndices = scoredIndices.map(item => item.idx);
-      
       let chosenIndex = -1;
       let matchingChar: Character | null = null;
+      let usedSteal = false;
 
-      for (const idx of targetIndices) {
-        const { colIndex, rowIndex } = getCellCoords(idx);
+      for (const item of scoredCandidates) {
+        const { colIndex, rowIndex } = getCellCoords(item.idx);
         const colCategory = CATEGORIES[columnKeys[colIndex]];
         const rowCategory = CATEGORIES[rowKeys[rowIndex]];
 
@@ -1611,8 +1703,9 @@ export default function GrandLineGrid({
         );
 
         if (possibleChar) {
-          chosenIndex = idx;
+          chosenIndex = item.idx;
           matchingChar = possibleChar;
+          usedSteal = item.isSteal;
           break;
         }
       }
@@ -1629,9 +1722,14 @@ export default function GrandLineGrid({
         updatedUsed.add(matchingChar.id);
         setUsedCharacterIds(updatedUsed);
 
+        if (usedSteal) {
+          setBotStealsLeft(prev => Math.max(0, prev - 1));
+        }
+
+        const stealText = usedSteal ? "💥 COMBAT TRIPLÉ (VOL) : " : "";
         setFeedback({
           isError: false,
-          message: `🤖 Bot ${botOpponent?.name} (${isHard ? "Difficile" : "Normal"}) a joué ${matchingChar.name} sur [${CATEGORIES[columnKeys[getCellCoords(chosenIndex).colIndex]].label} & ${CATEGORIES[rowKeys[getCellCoords(chosenIndex).rowIndex]].label}] !`
+          message: `🤖 Bot ${botOpponent?.name} (${isHard ? "Difficile" : "Normal"}) a joué ${stealText}${matchingChar.name} sur [${CATEGORIES[columnKeys[getCellCoords(chosenIndex).colIndex]].label} & ${CATEGORIES[rowKeys[getCellCoords(chosenIndex).rowIndex]].label}] !`
         });
 
         if (checkWinCondition(updatedBoard, 2)) {
@@ -1642,15 +1740,16 @@ export default function GrandLineGrid({
           setCurrentPlayer(1);
         }
       } else {
-        simulateBotFailureOffline(emptyIndices);
+        simulateBotFailureOffline(candidates.map(c => c.idx));
       }
     } else {
-      simulateBotFailureOffline(emptyIndices);
+      simulateBotFailureOffline(candidates.map(c => c.idx));
     }
   };
 
-  const simulateBotFailureOffline = (emptyIndices: number[]) => {
-    const randomCell = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+  const simulateBotFailureOffline = (indices: number[]) => {
+    const emptyOnly = board.map((cell, idx) => cell.owner === null ? idx : -1).filter(idx => idx !== -1);
+    const targetCellIdx = emptyOnly.length > 0 ? emptyOnly[Math.floor(Math.random() * emptyOnly.length)] : indices[0];
     const wrongChar = characters[Math.floor(Math.random() * 25)]; // Un personnage pris au hasard
     
     setFeedback({

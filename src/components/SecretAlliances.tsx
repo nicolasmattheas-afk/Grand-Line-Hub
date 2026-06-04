@@ -203,11 +203,11 @@ const GROUP_TEMPLATES: GroupTemplate[] = [
   },
   {
     id: "crew_heart_kid",
-    label: "Équipages de la Pire Génération",
-    description: "Guerriers des équipages de Trafalgar Law ou Eustass Kid.",
+    label: "Équipages des Supernovas (Hors Mugi/BN)",
+    description: "Membres d'équipages de Supernovas, à l'exclusion des Chapeaux de Paille et de l'équipage de Barbe Noire.",
     check: (c) => {
       const cl = c.crew.toLowerCase();
-      return cl.includes("heart") || cl.includes("kid pirates") || cl.includes("on Air") || cl.includes("bonney") || cl.includes("fire tank");
+      return cl.includes("heart") || cl.includes("kid pirates") || cl.includes("on air") || cl.includes("bonney") || cl.includes("fire tank") || cl.includes("hawkins") || cl.includes("drake") || cl.includes("fallen monk");
     }
   },
   {
@@ -254,7 +254,7 @@ const GROUP_TEMPLATES: GroupTemplate[] = [
   },
   {
     id: "bounty_giga",
-    label: "Primes ≥ 1 Milliard de Berrys",
+    label: "Primes + 1 Milliard de Berrys",
     description: "Criminels d'élite dont la tête vaut une fortune colossale.",
     check: (c) => c.bounty >= 1000000000
   },

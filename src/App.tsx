@@ -598,6 +598,16 @@ export default function App() {
           
           {/* Logo & Titre */}
           <div className="flex items-center gap-3">
+            <img 
+              src="/logo.svg" 
+              alt="Grand Line Logo" 
+              className="w-10 h-10 object-contain shrink-0 filter drop-shadow-[0_0_6px_rgba(239,68,68,0.35)] hover:scale-110 active:rotate-12 transition-all cursor-pointer select-none"
+              referrerPolicy="no-referrer"
+              onClick={() => {
+                // Secret easter egg: play a sound or trigger visual response if desired, or go back to main tab
+                window.dispatchEvent(new CustomEvent("click-logo"));
+              }}
+            />
             <div>
               <h1 className="text-2xl font-black font-heading tracking-tighter uppercase leading-none text-white flex items-center gap-1.5">
                 GRAND LINE <span className="text-violet-400">HUB</span>
