@@ -137,9 +137,19 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
       const arc = c.originArc || "";
       const hasRealPhoto = c.image && 
                            c.image.trim() !== "" && 
-                           !c.image.includes("placehold.co") && 
-                           !c.image.includes("dicebear") && 
-                           !c.image.includes("pixel-art") && 
+                           !c.image.toLowerCase().includes("placehold.co") && 
+                           !c.image.toLowerCase().includes("dicebear") && 
+                           !c.image.toLowerCase().includes("pixel-art") && 
+                           !c.image.toLowerCase().includes("no_picture") && 
+                           !c.image.toLowerCase().includes("no-picture") && 
+                           !c.image.toLowerCase().includes("no picture") && 
+                           !c.image.toLowerCase().includes("nopicture") && 
+                           !c.image.toLowerCase().includes("no_image") && 
+                           !c.image.toLowerCase().includes("no-image") && 
+                           !c.image.toLowerCase().includes("noimage") && 
+                           !c.image.toLowerCase().includes("nopic") && 
+                           !c.image.toLowerCase().includes("placeholder") && 
+                           !c.image.toLowerCase().includes("none") && 
                            !c.image.includes("?");
       return arc !== "Grand Line" && arc !== "Inconnu" && hasRealPhoto;
     });

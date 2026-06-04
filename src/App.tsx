@@ -712,6 +712,18 @@ export default function App() {
             </button>
 
             <button
+              onClick={() => { setActiveTab("alliances"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "alliances" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Users className="w-5 h-5 text-violet-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Alliances</span>
+            </button>
+
+            <button
               onClick={() => { setActiveTab("duel"); setIsMobileMenuOpen(false); }}
               className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
                 activeTab === "duel" 
@@ -769,18 +781,6 @@ export default function App() {
             >
               <Trophy className="w-5 h-5 text-violet-400" />
               <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Le Compte Bon</span>
-            </button>
-
-            <button
-              onClick={() => { setActiveTab("alliances"); setIsMobileMenuOpen(false); }}
-              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
-                activeTab === "alliances" 
-                  ? "bg-violet-900 border-violet-500 text-white" 
-                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
-              }`}
-            >
-              <Users className="w-5 h-5 text-violet-400" />
-              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Alliances</span>
             </button>
 
             <button
@@ -899,7 +899,19 @@ export default function App() {
                 <Compass className="w-3.5 h-3.5 shrink-0 text-emerald-500" />
                 <span>LOG POSE TRACKER</span>
               </button>
-              
+
+              <button
+                onClick={() => setActiveTab("alliances")}
+                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
+                  activeTab === "alliances" 
+                    ? "bg-violet-900 text-[#F8FAFC] border border-violet-500" 
+                    : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
+                }`}
+              >
+                <Users className="w-3.5 h-3.5 shrink-0 text-violet-400" />
+                <span>ALLIANCES SECRÈTES</span>
+              </button>
+
               <button
                 onClick={() => setActiveTab("duel")}
                 className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
@@ -958,18 +970,6 @@ export default function App() {
               >
                 <Trophy className="w-3.5 h-3.5 shrink-0 text-violet-400" />
                 <span>LE COMPTE EST BON</span>
-              </button>
- 
-              <button
-                onClick={() => setActiveTab("alliances")}
-                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
-                  activeTab === "alliances" 
-                    ? "bg-violet-900 text-[#F8FAFC] border border-violet-500" 
-                    : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
-                }`}
-              >
-                <Users className="w-3.5 h-3.5 shrink-0 text-violet-400" />
-                <span>ALLIANCES SECRÈTES</span>
               </button>
  
               <button

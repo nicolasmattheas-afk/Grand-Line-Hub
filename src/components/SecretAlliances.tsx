@@ -36,6 +36,38 @@ interface GroupTemplate {
 // Full array of One Piece connections
 const GROUP_TEMPLATES: GroupTemplate[] = [
   {
+    id: "swordsmen",
+    label: "Épéistes & Sabreurs",
+    description: "Fins bretteurs et maîtres du sabre de Grand Line.",
+    check: (c) => {
+      const descLower = (c.description || "").toLowerCase();
+      const nameLower = (c.name || "").toLowerCase();
+      const famousSwordsmen = [
+        "zoro", "mihawk", "shanks", "rayleigh", "roger", "oden", "ryuma", "vista", 
+        "fujitora", "issho", "shiryu", "cavendish", "kin'emon", "denjiro", "ashura", 
+        "kawamatsu", "kiku", "izo", "okiku", "kurozumi kanjuro", "brook", "hatchan", 
+        "hyozo", "ohm", "t-bone", "cabaji", "kaku", "tashigi", "hina", "bastille", 
+        "maynard", "momonga", "onigumo", "dobon", "law", "trafalgar", "killer", 
+        "pedro", "shishilian", "inuarashi", "nekomamushi", "smoothie", "cracker", 
+        "amande", "bobbin", "perospero", "gol d. roger", "silvers rayleigh", 
+        "kozuki oden", "shimotsuki", "kuina", "koushirou"
+      ];
+      const isFamous = famousSwordsmen.some(f => nameLower.includes(f));
+      const hasKeyword = descLower.includes("swordsman") || 
+                         descLower.includes("épéiste") || 
+                         descLower.includes("sabreur") || 
+                         descLower.includes("sword master") || 
+                         descLower.includes("master swordsman") ||
+                         descLower.includes("sword-wielding") ||
+                         descLower.includes("uses a sword") ||
+                         descLower.includes("uses a katana") ||
+                         descLower.includes("uses a sabre") ||
+                         descLower.includes("uses a saber") ||
+                         descLower.includes("fencer");
+      return isFamous || hasKeyword;
+    }
+  },
+  {
     id: "haki_kings",
     label: "Haki des rois",
     description: "Combattants d'exception éveillés au fluide suprême des rois.",
@@ -467,9 +499,19 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
     const allCandidates = characters.filter((c) => {
       const hasRealPhoto = c.image && 
                            c.image.trim() !== "" && 
-                           !c.image.includes("placehold.co") && 
-                           !c.image.includes("dicebear") && 
-                           !c.image.includes("pixel-art") && 
+                           !c.image.toLowerCase().includes("placehold.co") && 
+                           !c.image.toLowerCase().includes("dicebear") && 
+                           !c.image.toLowerCase().includes("pixel-art") && 
+                           !c.image.toLowerCase().includes("no_picture") && 
+                           !c.image.toLowerCase().includes("no-picture") && 
+                           !c.image.toLowerCase().includes("no picture") && 
+                           !c.image.toLowerCase().includes("nopicture") && 
+                           !c.image.toLowerCase().includes("no_image") && 
+                           !c.image.toLowerCase().includes("no-image") && 
+                           !c.image.toLowerCase().includes("noimage") && 
+                           !c.image.toLowerCase().includes("nopic") && 
+                           !c.image.toLowerCase().includes("placeholder") && 
+                           !c.image.toLowerCase().includes("none") && 
                            !c.image.includes("?");
       return hasRealPhoto && c.name && c.name !== "Inconnu";
     });

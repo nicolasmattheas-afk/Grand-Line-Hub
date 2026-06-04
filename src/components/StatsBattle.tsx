@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { Character } from "../types";
-import { Swords, RotateCcw, HelpCircle, Trophy, User, ArrowLeftRight } from "lucide-react";
+import { Swords, RotateCcw, HelpCircle, Trophy, User, ArrowLeftRight, Flame, AlertCircle, ShieldCheck } from "lucide-react";
 
 interface StatsBattleProps {
   characters: Character[];
-  onUpdateBounty?: (amount: number) => void;
-}
-
-interface BattleScores {
-  wins: number;
-  losses: number;
-  draws: number;
+  onUpdateBounty?: (amount: number, gameName?: string, resultString?: string) => void;
 }
 
 export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleProps) {
@@ -21,19 +16,12 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
   const [reveal, setReveal] = useState<boolean>(false);
   const [result, setResult] = useState<"win" | "loss" | "draw" | null>(null);
   
-  // Save scores in local usage
-  const [scores, setScores] = useState<BattleScores>(() => {
-    try {
-      const saved = localStorage.getItem("statsBattleScores");
-      return saved ? JSON.parse(saved) : { wins: 0, losses: 0, draws: 0 };
-    } catch {
-      return { wins: 0, losses: 0, draws: 0 };
-    }
+  // Stats Battle Streak and Record
+  const [streak, setStreak] = useState<number>(0);
+  const [bestStreak, setBestStreak] = useState<number>(() => {
+    return Number(localStorage.getItem("bestStatsBattleStreak") || "0");
   });
-
-  useEffect(() => {
-    localStorage.setItem("statsBattleScores", JSON.stringify(scores));
-  }, [scores]);
+  const [showLossModal, setShowLossModal] = useState<boolean>(false);
 
   // Filter candidates once characters are loaded
   useEffect(() => {
@@ -42,7 +30,23 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
         const hasAge = c.age !== null && c.age !== undefined && c.age !== "Inconnu" && !isNaN(Number(c.age)) && Number(c.age) > 0;
         const hasHeight = c.height !== null && c.height !== undefined && c.height !== "Inconnu" && !isNaN(Number(c.height)) && Number(c.height) > 0;
         const hasBounty = c.bounty !== null && c.bounty !== undefined && typeof c.bounty === "number" && c.bounty > 0;
-        return hasAge && hasHeight && hasBounty;
+        const hasRealPhoto = c.image && 
+                             c.image.trim() !== "" && 
+                             !c.image.toLowerCase().includes("placehold.co") && 
+                             !c.image.toLowerCase().includes("dicebear") && 
+                             !c.image.toLowerCase().includes("pixel-art") && 
+                             !c.image.toLowerCase().includes("no_picture") && 
+                             !c.image.toLowerCase().includes("no-picture") && 
+                             !c.image.toLowerCase().includes("no picture") && 
+                             !c.image.toLowerCase().includes("nopicture") && 
+                             !c.image.toLowerCase().includes("no_image") && 
+                             !c.image.toLowerCase().includes("no-image") && 
+                             !c.image.toLowerCase().includes("noimage") && 
+                             !c.image.toLowerCase().includes("nopic") && 
+                             !c.image.toLowerCase().includes("placeholder") && 
+                             !c.image.toLowerCase().includes("none") && 
+                             !c.image.includes("?");
+        return hasAge && hasHeight && hasBounty && hasRealPhoto;
       });
       setCandidates(filtered);
     }
@@ -106,21 +110,30 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
 
     if (valA > valB) {
       setResult("win");
-      setScores((s) => ({ ...s, wins: s.wins + 1 }));
-      if (onUpdateBounty) onUpdateBounty(10000);
+      const newStreak = streak + 1;
+      setStreak(newStreak);
+      if (newStreak > bestStreak) {
+        setBestStreak(newStreak);
+        localStorage.setItem("bestStatsBattleStreak", String(newStreak));
+      }
     } else if (valA < valB) {
       setResult("loss");
-      setScores((s) => ({ ...s, losses: s.losses + 1 }));
-      if (onUpdateBounty) onUpdateBounty(-3000);
+      const totalGains = streak * 500;
+      if (onUpdateBounty && totalGains > 0) {
+        onUpdateBounty(totalGains, "Bataille de stats", "Défaite");
+      }
+      setTimeout(() => {
+        setShowLossModal(true);
+      }, 1500);
     } else {
       setResult("draw");
-      setScores((s) => ({ ...s, draws: s.draws + 1 }));
     }
   };
 
   const handleResetScores = () => {
-    if (confirm("Voulez-vous réinitialiser vos scores de combat ?")) {
-      setScores({ wins: 0, losses: 0, draws: 0 });
+    if (confirm("Voulez-vous réinitialiser votre record de combat ?")) {
+      setBestStreak(0);
+      localStorage.setItem("bestStatsBattleStreak", "0");
     }
   };
 
@@ -155,29 +168,29 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
         </p>
 
         {/* Tableau des Scores */}
-        <div className="flex items-center justify-center gap-3 mt-4">
-          <div className="bg-[#11142A]/85 backdrop-blur-md border border-white/10 rounded-2xl p-2 px-4 flex items-center gap-4 text-white">
-            <div className="text-center">
-              <span className="text-[9px] uppercase font-mono text-slate-400 font-bold block">Victoires</span>
-              <span className="text-sm font-black text-emerald-400 leading-none">{scores.wins}</span>
-            </div>
-            <div className="w-px h-5 bg-white/10" />
-            <div className="text-center">
-              <span className="text-[9px] uppercase font-mono text-slate-400 font-bold block">Défaites</span>
-              <span className="text-sm font-black text-rose-455 leading-none text-rose-400">{scores.losses}</span>
-            </div>
-            <div className="w-px h-5 bg-white/10" />
-            <div className="text-center">
-              <span className="text-[9px] uppercase font-mono text-slate-400 font-bold block">Nuls</span>
-              <span className="text-sm font-black text-slate-300 leading-none">{scores.draws}</span>
+        <div className="flex items-center justify-center gap-3 mt-4 text-white">
+          <div className="bg-[#11142A]/85 border border-white/10 px-5 py-3 rounded-2xl flex items-center gap-3.5 shadow-lg">
+            <Flame className="w-5 h-5 text-orange-500 animate-pulse" />
+            <div className="text-left">
+              <span className="text-[9px] text-slate-400 block font-heading font-extrabold uppercase tracking-widest leading-none">Série Actuelle</span>
+              <span className="font-mono text-xl font-black text-white mt-1 block leading-none">{streak}</span>
             </div>
           </div>
+          
+          <div className="bg-[#11142A]/85 border border-white/10 px-5 py-3 rounded-2xl flex items-center gap-3.5 shadow-lg">
+            <Trophy className="w-5 h-5 text-amber-500" />
+            <div className="text-left">
+              <span className="text-[9px] text-slate-400 block font-heading font-extrabold uppercase tracking-widest leading-none">Record</span>
+              <span className="font-mono text-xl font-black text-amber-400 mt-1 block leading-none">{bestStreak}</span>
+            </div>
+          </div>
+
           <button
             onClick={handleResetScores}
-            className="p-2.5 bg-white/10 text-slate-300 hover:text-rose-400 hover:bg-white/20 rounded-xl transition-all cursor-pointer border border-white/10 text-xs inline-flex items-center gap-2"
-            title="Reset Scores"
+            className="p-3 bg-white/10 text-slate-300 hover:text-rose-400 hover:bg-white/20 rounded-xl transition-all cursor-pointer border border-white/10 text-xs inline-flex items-center gap-2"
+            title="Reset Record"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <RotateCcw className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -295,12 +308,12 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
 
               {result === "win" && (
                 <p className="text-emerald-500 font-black font-mono text-[10px] uppercase tracking-wider animate-pulse pt-1">
-                  +10 000 ฿ 
+                  +1 SÉRIE ! 🔥
                 </p>
               )}
               {result === "loss" && (
                 <p className="text-rose-500 font-black font-mono text-[10px] uppercase tracking-wider pt-1 animate-pulse">
-                  -3 000 ฿
+                  SÉRIE BRISÉE ! 💀
                 </p>
               )}
             </div>
@@ -412,6 +425,83 @@ export default function StatsBattle({ characters, onUpdateBounty }: StatsBattleP
           Match Suivant ⚓
         </button>
       </div>
+
+      {/* Loss Modal / Fenêtre de Défaite */}
+      <AnimatePresence>
+        {showLossModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white border-4 border-black rounded-3xl max-w-sm w-full p-6 shadow-2xl relative overflow-hidden text-gray-900"
+            >
+              <div className="absolute top-0 left-0 right-0 h-2 bg-red-500" />
+              
+              <div className="text-center mt-2">
+                <span className="inline-block p-4 bg-red-50 rounded-full text-red-500 mb-4">
+                  <AlertCircle className="w-10 h-10" />
+                </span>
+                
+                <h3 className="font-heading text-2xl font-black text-[#1A1A1A] uppercase tracking-tighter mb-2">
+                  BATAILLE FINIE !
+                </h3>
+                
+                <p className="text-gray-500 text-xs mb-6 font-medium">
+                  Votre série de victoires s'est arrêtée face aux statistiques de votre adversaire !
+                </p>
+                
+                {/* Score display */}
+                <div className="bg-[#FAFAFA] border-2 border-[#E5E7EB] rounded-2xl py-3 px-4 mb-4 flex justify-around items-center">
+                  <div className="text-center">
+                    <span className="text-[9px] uppercase font-mono tracking-widest text-gray-400 font-extrabold block">SÉRIE FINALE</span>
+                    <span className="text-3xl font-mono font-black text-red-500">{streak}</span>
+                  </div>
+                  <div className="h-8 w-px bg-gray-200" />
+                  <div className="text-center">
+                    <span className="text-[9px] uppercase font-mono tracking-widest text-gray-400 font-extrabold block">RECORD</span>
+                    <span className="text-3xl font-mono font-black text-amber-500">{bestStreak}</span>
+                  </div>
+                </div>
+
+                <div className="mb-6 p-3 bg-emerald-50 rounded-xl border border-emerald-100 text-center">
+                  <span className="text-[9px] text-emerald-800 font-heading font-black uppercase block tracking-wider">Primes Gagnées (500 ฿ / série)</span>
+                  <span className="text-base font-mono font-bold text-emerald-600">
+                    + ฿ {(streak * 500).toLocaleString("fr-FR").replace(/\u202f/g, " ")}
+                  </span>
+                </div>
+
+                <p className="text-[10px] text-gray-400 mb-6 font-mono uppercase tracking-wider block">
+                  Voulez-vous rejouer ?
+                </p>
+
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => {
+                      setStreak(0);
+                      setShowLossModal(false);
+                      drawNewMatch();
+                    }}
+                    className="flex-1 py-3 px-4 bg-[#8b5cf6] hover:bg-[#7c3aed] text-white font-heading font-black tracking-widest text-[10px] uppercase rounded-xl active:scale-95 transition-all text-center cursor-pointer shadow-sm border-2 border-transparent"
+                  >
+                    REJOUER
+                  </button>
+                  
+                  <button
+                    onClick={() => {
+                      setStreak(0);
+                      setShowLossModal(false);
+                    }}
+                    className="flex-1 py-3 px-4 bg-white border-2 border-black text-[#1A1A1A] hover:bg-gray-50 font-heading font-black tracking-widest text-[10px] uppercase rounded-xl active:scale-95 transition-all text-center cursor-pointer"
+                  >
+                    FERMER
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

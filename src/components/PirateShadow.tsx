@@ -36,9 +36,25 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
 
   // Select candidates that are real, recognizable, and limited to the top 550 most famous characters
   const cleanCandidates = React.useMemo(() => {
-    const clean = characters.filter(
-      (c) => c.image && !c.image.includes("placehold.co") && !c.image.includes("Inconnu")
-    );
+    const clean = characters.filter((c) => {
+      const hasRealPhoto = c.image && 
+                           c.image.trim() !== "" && 
+                           !c.image.toLowerCase().includes("placehold.co") && 
+                           !c.image.toLowerCase().includes("dicebear") && 
+                           !c.image.toLowerCase().includes("pixel-art") && 
+                           !c.image.toLowerCase().includes("no_picture") && 
+                           !c.image.toLowerCase().includes("no-picture") && 
+                           !c.image.toLowerCase().includes("no picture") && 
+                           !c.image.toLowerCase().includes("nopicture") && 
+                           !c.image.toLowerCase().includes("no_image") && 
+                           !c.image.toLowerCase().includes("no-image") && 
+                           !c.image.toLowerCase().includes("noimage") && 
+                           !c.image.toLowerCase().includes("nopic") && 
+                           !c.image.toLowerCase().includes("placeholder") && 
+                           !c.image.toLowerCase().includes("none") && 
+                           !c.image.includes("?");
+      return hasRealPhoto && !c.name.toLowerCase().includes("inconnu");
+    });
     
     // Scoring function to evaluate the relative knowledge of a character in the One Piece universe
     const getPopularityScore = (c: Character) => {
