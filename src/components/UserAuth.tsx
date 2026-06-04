@@ -398,7 +398,7 @@ export default function UserAuth({
 
               <div className="space-y-3">
                 <div>
-                  <label className="text-[10px] font-mono font-bold text-gray-400 uppercase tracking-wider block mb-1">
+                  <label className="text-[10px] font-mono font-black text-[#1A1A1A] uppercase tracking-wider block mb-1">
                     Nom de Capitaine / Équipage
                   </label>
                   <input
@@ -413,7 +413,7 @@ export default function UserAuth({
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-mono font-bold text-gray-400 uppercase tracking-wider block mb-1">
+                  <label className="text-[10px] font-mono font-black text-[#1A1A1A] uppercase tracking-wider block mb-1">
                     Adresse E-mail
                   </label>
                   <div className="relative">
@@ -433,7 +433,7 @@ export default function UserAuth({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="text-[10px] font-mono font-bold text-gray-400 uppercase tracking-wider block mb-1">
+                    <label className="text-[10px] font-mono font-black text-[#1A1A1A] uppercase tracking-wider block mb-1">
                       Mot de passe (min 6 car.)
                     </label>
                     <input
@@ -448,7 +448,7 @@ export default function UserAuth({
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-mono font-bold text-gray-400 uppercase tracking-wider block mb-1">
+                    <label className="text-[10px] font-mono font-black text-[#1A1A1A] uppercase tracking-wider block mb-1">
                       Confirmer le mot de passe
                     </label>
                     <input

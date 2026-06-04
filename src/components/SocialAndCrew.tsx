@@ -1257,7 +1257,7 @@ export default function SocialAndCrew({
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-[10px] uppercase font-mono font-extrabold text-gray-400 block">Nom unique de l'Équipage</label>
+                      <label className="text-[10px] uppercase font-mono font-extrabold text-[#1A1A1A] block">Nom unique de l'Équipage</label>
                       <input
                         type="text"
                         placeholder="Ex : Équipage du Chapeau de paille"
@@ -1270,7 +1270,7 @@ export default function SocialAndCrew({
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] uppercase font-mono font-extrabold text-gray-400 block">Drapeau d'Équipage (Emblème)</label>
+                      <label className="text-[10px] uppercase font-mono font-extrabold text-[#1A1A1A] block">Drapeau d'Équipage (Emblème)</label>
                       <div className="flex gap-3 items-center">
                         <button
                           type="button"
@@ -1296,14 +1296,14 @@ export default function SocialAndCrew({
                           >
                             <Flag className="w-3.5 h-3.5" /> Choisir le drapeau
                           </button>
-                          <span className="text-[9px] uppercase font-mono text-gray-400 block mt-1">Jolly Rogers originaux d'One Piece</span>
+                          <span className="text-[9px] uppercase font-mono text-slate-500 block mt-1">Jolly Rogers originaux d'One Piece</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase font-mono font-extrabold text-gray-400 block">Devise / Description</label>
+                    <label className="text-[10px] uppercase font-mono font-extrabold text-[#1A1A1A] block">Devise / Description</label>
                     <textarea
                       placeholder="Indiquez vos objectifs ou vos règles..."
                       value={crewDescInput}
@@ -1316,7 +1316,7 @@ export default function SocialAndCrew({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-[10px] uppercase font-mono font-extrabold text-gray-400 block">Mode de Recrutement</label>
+                      <label className="text-[10px] uppercase font-mono font-extrabold text-[#1A1A1A] block">Mode de Recrutement</label>
                       <div className="flex gap-2">
                         <button
                           type="button"
@@ -1341,7 +1341,7 @@ export default function SocialAndCrew({
 
                     {crewAccessType === "open" && (
                       <div className="space-y-1">
-                        <label className="text-[10px] uppercase font-mono font-extrabold text-gray-400 block">Prime minimum requise</label>
+                        <label className="text-[10px] uppercase font-mono font-extrabold text-[#1A1A1A] block">Prime minimum requise</label>
                         <input
                           type="number"
                           placeholder="Ex: 50000000"
