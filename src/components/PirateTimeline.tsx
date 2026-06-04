@@ -294,7 +294,7 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                   style={{
                     cursor: checked ? "default" : isDraggedObj ? "grabbing" : "pointer"
                   }}
-                  className={`w-full bg-white border-3 rounded-2xl p-2.5 sm:p-3 flex flex-col items-center transition-all select-none min-h-[230px] sm:min-h-[250px] relative cursor-pointer active:scale-98 ${
+                  className={`w-full bg-white border-3 rounded-2xl p-2.5 sm:p-3 md:p-4 flex flex-col items-center transition-all select-none min-h-[230px] sm:min-h-[250px] md:min-h-[270px] relative cursor-pointer active:scale-98 ${
                     isTapped
                       ? "border-amber-500 bg-amber-50/20 ring-4 ring-amber-300 scale-102 animate-pulse"
                       : isDraggedObj 
@@ -314,7 +314,7 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                   </span>
 
                   {/* Character image */}
-                  <div className="w-16 h-16 sm:w-20 md:w-24 sm:h-20 md:h-24 rounded-full overflow-hidden bg-slate-50 border border-slate-150 mb-2 sm:mb-3 mt-4 shrink-0 pointer-events-none">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden bg-slate-50 border border-slate-150 mb-2 sm:mb-3 mt-4 shrink-0 pointer-events-none">
                     <img
                       src={char.image}
                       alt={char.name}
@@ -330,10 +330,10 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                   {/* Character info text */}
                   <div className="text-center flex-1 flex flex-col justify-between pointer-events-none w-full">
                     <div>
-                      <span className="font-heading font-black text-gray-900 text-[10px] sm:text-xs block truncate leading-tight uppercase">
+                      <span className="font-heading font-black text-gray-900 text-[10px] sm:text-xs md:text-sm block truncate leading-tight uppercase">
                         {char.name}
                       </span>
-                      <span className="text-[7.5px] sm:text-[8px] font-mono text-gray-400 block truncate mt-0.5 uppercase tracking-widest max-w-full">
+                      <span className="text-[7.5px] sm:text-[8px] md:text-[9px] font-mono text-gray-400 block truncate mt-0.5 uppercase tracking-widest max-w-full">
                         {char.crew === "Inconnu" ? "Équipage Libre" : char.crew}
                       </span>
                     </div>
@@ -342,17 +342,17 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                     <div className="mt-2.5 sm:mt-3 text-center w-full">
                       {checked ? (
                         <div className="space-y-1">
-                          <span className="px-1.5 py-0.5 bg-slate-100 rounded text-[8px] sm:text-[9px] font-mono text-gray-600 block truncate max-w-full">
+                          <span className="px-1.5 py-0.5 bg-slate-100 rounded text-[8px] sm:text-[9px] md:text-[10px] font-mono text-gray-600 block truncate max-w-full">
                             {char.originArc}
                           </span>
-                          <span className={`text-[8px] sm:text-[8.5px] font-bold block uppercase tracking-wider ${
+                          <span className={`text-[8px] sm:text-[8.5px] md:text-xs font-bold block uppercase tracking-wider ${
                             correctState ? "text-emerald-600" : "text-red-500"
                           }`}>
                             {correctState ? "✅ Correct" : "❌ Mal placé"}
                           </span>
                         </div>
                       ) : (
-                        <span className="text-[8px] sm:text-[9px] px-1.5 py-0.5 bg-violet-50 text-[#8b5cf6] border border-violet-100 rounded font-mono uppercase tracking-wider block">
+                        <span className="text-[8px] sm:text-[9px] md:text-[10px] px-1.5 py-0.5 sm:px-2 bg-violet-50 text-[#8b5cf6] border border-violet-100 rounded font-mono uppercase tracking-wider block">
                           Apparition ?
                         </span>
                       )}
