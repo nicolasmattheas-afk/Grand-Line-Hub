@@ -58,6 +58,14 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
   const [checked, setChecked] = useState<boolean>(false);
   const [scoreMessage, setScoreMessage] = useState<string>("");
   const [scores, setScores] = useState({ plays: 0, perfectWins: 0 });
+  const [gameSize, setGameSize] = useState<5 | 10 | 15>(5);
+
+  const changeSize = (newSize: 5 | 10 | 15) => {
+    setGameSize(newSize);
+    if (characters && characters.length >= newSize) {
+      drawNewTimeline(newSize);
+    }
+  };
 
   const handleCardTap = (index: number) => {
     if (checked) return;
@@ -125,16 +133,15 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
     };
   }, []);
 
-  const drawNewTimeline = () => {
-    if (characters.length < 5) return;
+  const drawNewTimeline = (size: 5 | 10 | 15 = gameSize) => {
+    if (characters.length < size) return;
 
-    // Filter characters among the 500 most famous ones (sorted by bounty descending)
-    const sortedFamous = [...characters].sort((a, b) => (b.bounty || 0) - (a.bounty || 0)).slice(0, 500);
+    // Filter characters among the 700 most famous ones to have a wide pool of candidates
+    const sortedFamous = [...characters].sort((a, b) => (b.bounty || 0) - (a.bounty || 0)).slice(0, 700);
 
-    // Filter characters with recognized arcs to make it super coherent
-    // and ONLY include characters who have a real, valid photo
-    const candidates = sortedFamous.filter((c) => {
-      const arc = c.originArc || "";
+    // Characters with a valid first_appearance_arc chapter number and a valid photo
+    let candidates = sortedFamous.filter((c) => {
+      const hasChapter = c.apparitionChapter !== null && c.apparitionChapter !== undefined;
       const hasRealPhoto = c.image && 
                            c.image.trim() !== "" && 
                            !c.image.toLowerCase().includes("placehold.co") && 
@@ -151,35 +158,53 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                            !c.image.toLowerCase().includes("placeholder") && 
                            !c.image.toLowerCase().includes("none") && 
                            !c.image.includes("?");
-      return arc !== "Grand Line" && arc !== "Inconnu" && hasRealPhoto;
+      return hasChapter && hasRealPhoto;
     });
 
-    if (candidates.length < 5) return;
+    if (candidates.length < size) {
+      candidates = sortedFamous.filter((c) => c.apparitionChapter !== null && c.apparitionChapter !== undefined);
+    }
 
-    // Draw 5 random distinct characters
+    if (candidates.length < size) return;
+
+    // Draw random characters, ensuring we NEVER have two characters with the same appearance chapter inside the game
     const selected: Character[] = [];
-    const usedIndices = new Set<number>();
     
-    while (selected.length < 5) {
-      const randIdx = Math.floor(Math.random() * candidates.length);
-      if (!usedIndices.has(randIdx)) {
-        usedIndices.add(randIdx);
-        // Ensure no duplicated names
-        if (!selected.some(c => c.name === candidates[randIdx].name)) {
-          selected.push(candidates[randIdx]);
-        }
+    // Shuffle candidates first for fair randomness
+    const shuffledCandidates = [...candidates].sort(() => Math.random() - 0.5);
+
+    for (const cand of shuffledCandidates) {
+      if (selected.length >= size) break;
+      
+      const nameExists = selected.some(c => c.name === cand.name);
+      const chapterExists = selected.some(c => c.apparitionChapter === cand.apparitionChapter);
+      
+      if (!nameExists && !chapterExists) {
+        selected.push(cand);
       }
     }
 
-    // Reference order
+    // Secondary fallback in case unique chapter constraint returned fewer than required count
+    if (selected.length < size) {
+      const remaining = shuffledCandidates.filter(cand => !selected.some(c => c.name === cand.name));
+      for (const cand of remaining) {
+        if (selected.length >= size) break;
+        selected.push(cand);
+      }
+    }
+
+    // Sort by Chapter number for the reference order
     const sorted = [...selected].sort((a, b) => {
-      return getArcIndex(a.originArc) - getArcIndex(b.originArc);
+      const chA = a.apparitionChapter || 0;
+      const chB = b.apparitionChapter || 0;
+      return chA - chB;
     });
 
     // Shuffle the timeline list to guarantee a puzzle (keep shuffling if it accidentally generates sorted)
     let shuffled = [...selected].sort(() => Math.random() - 0.5);
     while (
-      shuffled.map((c) => c.id).join(",") === sorted.map((c) => c.id).join(",")
+      shuffled.map((c) => c.id).join(",") === sorted.map((c) => c.id).join(",") &&
+      selected.length > 1
     ) {
       shuffled = [...selected].sort(() => Math.random() - 0.5);
     }
@@ -194,22 +219,20 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
   };
 
   useEffect(() => {
-    if (characters && characters.length >= 5 && timelineList.length === 0) {
-      drawNewTimeline();
+    if (characters && characters.length >= gameSize && timelineList.length === 0) {
+      drawNewTimeline(gameSize);
     }
-  }, [characters]);
+  }, [characters, gameSize]);
 
 
 
   const handleVerify = () => {
-    if (checked || timelineList.length < 5) return;
+    if (checked || timelineList.length < gameSize) return;
 
-    // Check if correct
+    // Check if correct (by comparing IDs as they form a strict, unique order by chapter)
     let correctCount = 0;
-    for (let i = 0; i < 5; i++) {
-      const characterArcIndex = getArcIndex(timelineList[i].originArc);
-      const referenceArcIndex = getArcIndex(correctOrder[i].originArc);
-      if (characterArcIndex === referenceArcIndex) {
+    for (let i = 0; i < gameSize; i++) {
+      if (timelineList[i].id === correctOrder[i].id) {
         correctCount += 1;
       }
     }
@@ -217,20 +240,30 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
     setChecked(true);
     setScores((s) => ({
       plays: s.plays + 1,
-      perfectWins: s.perfectWins + (correctCount === 5 ? 1 : 0)
+      perfectWins: s.perfectWins + (correctCount === gameSize ? 1 : 0)
     }));
 
-    const reward = correctCount === 5 ? 10000 : correctCount * 1500;
+    let perfectReward = 10000;
+    let partialRate = 1500;
+    if (gameSize === 10) {
+      perfectReward = 15000;
+      partialRate = 1000;
+    } else if (gameSize === 15) {
+      perfectReward = 20000;
+      partialRate = 800;
+    }
+
+    const reward = correctCount === gameSize ? perfectReward : correctCount * partialRate;
     if (reward > 0 && onUpdateBounty) {
       onUpdateBounty(reward);
     }
 
-    if (correctCount === 5) {
-      setScoreMessage(`Parfait ! Tout l'équipage est ordonné de manière historique ! 🏴‍☠️✨ (+10 000 ฿ !)`);
-    } else if (correctCount >= 3) {
-      setScoreMessage(`Pas mal ! ${correctCount} sur 5 sont bien positionnés. (+${reward.toLocaleString("fr-FR").replace(/\u202f/g, " ")} ฿ !)`);
+    if (correctCount === gameSize) {
+      setScoreMessage(`Parfait ! Tout l'équipage est ordonné de manière historique ! 🏴‍☠️✨ (+${perfectReward.toLocaleString("fr-FR").replace(/\u202f/g, " ")} ฿ !)`);
+    } else if (correctCount >= Math.ceil(gameSize * 0.6)) {
+      setScoreMessage(`Pas mal ! ${correctCount} sur ${gameSize} sont bien positionnés. (+${reward.toLocaleString("fr-FR").replace(/\u202f/g, " ")} ฿ !)`);
     } else if (correctCount > 0) {
-      setScoreMessage(`Seulement ${correctCount} bien positionné(s). (+${reward.toLocaleString("fr-FR").replace(/\u202f/g, " ")} ฿) Échangez encore !`);
+      setScoreMessage(`Seulement ${correctCount} bien positionné(s) sur ${gameSize}. (+${reward.toLocaleString("fr-FR").replace(/\u202f/g, " ")} ฿) Échangez encore !`);
     } else {
       setScoreMessage("Dommage, aucun personnage n'est bien positionné. Entraînez-vous ! (0 ฿)");
     }
@@ -238,19 +271,19 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
 
   const isCardCorrect = (idx: number) => {
     if (!checked) return null;
-    return getArcIndex(timelineList[idx].originArc) === getArcIndex(correctOrder[idx].originArc);
+    return timelineList[idx].id === correctOrder[idx].id;
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 font-sans" onContextMenu={(e) => e.preventDefault()}>
+    <div className="max-w-7xl mx-auto space-y-8 font-sans" onContextMenu={(e) => e.preventDefault()}>
       
       {/* Page Title & Description */}
-      <div className="text-center mb-10 relative">
+      <div className="text-center mb-6 relative">
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white font-heading mb-2 uppercase">
           Chronologie de l'Aventure
         </h2>
         <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base font-medium">
-          Ordonnez chronologiquement les pirates de gauche à droite selon leur arc de première apparition. <span className="font-bold text-violet-400">Cliquez/Touchez deux personnages</span> pour échanger leurs places, ou <span className="font-bold text-violet-400">maintenez le clic droit</span> pour les faire glisser !
+          Ordonnez chronologiquement les pirates de gauche à droite selon leur chapitre de première apparition. <span className="font-bold text-violet-400">Cliquez/Touchez deux personnages</span> pour échanger leurs places, ou <span className="font-bold text-violet-400">maintenez le clic droit</span> pour les faire glisser !
         </p>
 
         {/* Global summary stats */}
@@ -269,6 +302,43 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
         </div>
       </div>
 
+      {/* Format Switcher */}
+      <div className="flex flex-col items-center justify-center gap-3 bg-[#11142A]/85 border border-white/10 p-4 rounded-3xl max-w-xl mx-auto text-white">
+        <span className="text-xs font-mono font-black uppercase text-slate-300 tracking-wider">
+          Format de la Chronologie :
+        </span>
+        <div className="grid grid-cols-3 gap-2 w-full">
+          {[5, 10, 15].map((size) => {
+            const isActive = gameSize === size;
+            const bAmount = size === 5 ? "10 000" : size === 10 ? "15 000" : "20 000";
+            return (
+              <button
+                key={size}
+                onClick={() => !checked && changeSize(size as 5 | 10 | 15)}
+                disabled={checked}
+                className={`py-2.5 px-3 rounded-xl border transition-all ${
+                  isActive
+                    ? "bg-amber-500 border-amber-500 text-slate-950 font-black shadow-sm"
+                    : checked
+                      ? "opacity-50 cursor-not-allowed bg-slate-800/50 border-slate-700 text-slate-500 font-bold"
+                      : "bg-white/5 border-white/10 hover:border-white/30 text-white font-bold hover:bg-white/15 cursor-pointer"
+                } text-xs uppercase flex flex-col items-center gap-1`}
+              >
+                <span>{size} Personnages</span>
+                <span className={`text-[9px] font-mono ${isActive ? "text-slate-950 block" : "text-amber-400 block"}`}>
+                  ★ {bAmount} ฿
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        {checked && (
+          <p className="text-[10px] text-amber-500 font-medium text-center">
+            ⚠️ Mélangez ou lancez un nouveau défi pour changer de format !
+          </p>
+        )}
+      </div>
+
       {/* Timeline Board wrapper */}
       <div className="bg-white border-2 border-[#1A1A1A] rounded-3xl p-6 md:p-8 shadow-xl space-y-8">
         
@@ -279,8 +349,14 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
           </span>
         </div>
 
-         {/* Horizontal scroll cards */}
-        <div className="flex flex-row items-stretch justify-start md:justify-center gap-3 sm:gap-4 py-2 overflow-x-auto no-scrollbar pb-4 w-full">
+         {/* Symmetrical Grid layout for chronological cards */}
+        <div className={`grid gap-4 py-2 w-full ${
+          gameSize === 5 
+            ? "grid-cols-2 md:grid-cols-5" 
+            : gameSize === 10
+              ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-5"
+              : "grid-cols-2 sm:grid-cols-3 md:grid-cols-5"
+        }`}>
           {timelineList.map((char, index) => {
             const isDraggedObj = draggedIdx === index;
             const isHoveredTarget = hoveredIdx === index && draggedIdx !== index;
@@ -288,9 +364,8 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
             const correctState = isCardCorrect(index);
 
             return (
-              <div key={char.id} className="flex items-center gap-2 sm:gap-3 shrink-0 w-[140px] sm:w-[170px] md:flex-1 md:max-w-[170px]">
-                
-                {/* Single card frame */}
+              <div key={char.id} className="relative w-full">
+                {/* Single card frame representing a case/slot */}
                 <div
                   data-timeline-idx={index}
                   onMouseDown={(e) => handleMouseDown(e, index)}
@@ -304,7 +379,7 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                   style={{
                     cursor: checked ? "default" : isDraggedObj ? "grabbing" : "pointer"
                   }}
-                  className={`w-full bg-white border-3 rounded-2xl p-2.5 sm:p-3 md:p-4 flex flex-col items-center transition-all select-none min-h-[230px] sm:min-h-[250px] md:min-h-[270px] relative cursor-pointer active:scale-98 ${
+                  className={`w-full bg-white border-3 rounded-2xl p-3 flex flex-col items-center transition-all select-none min-h-[220px] sm:min-h-[240px] relative cursor-pointer active:scale-98 ${
                     isTapped
                       ? "border-amber-500 bg-amber-50/20 ring-4 ring-amber-300 scale-102 animate-pulse"
                       : isDraggedObj 
@@ -318,13 +393,13 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                               : "border-[#1A1A1A] hover:border-violet-500 hover:shadow-md"
                   }`}
                 >
-                  {/* Card Index */}
-                  <span className="absolute top-2 left-2 w-5 h-5 rounded-full bg-slate-900 text-[10px] text-white font-mono font-black flex items-center justify-center">
+                  {/* Card Index Slot Stamp */}
+                  <span className="absolute top-2.5 left-2.5 w-6 h-6 rounded-full bg-slate-900 text-[11px] text-white font-mono font-black flex items-center justify-center border border-white/20 shadow-sm z-10">
                     {index + 1}
                   </span>
 
                   {/* Character image */}
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden bg-slate-50 border border-slate-150 mb-2 sm:mb-3 mt-4 shrink-0 pointer-events-none">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden bg-slate-50 border border-slate-150 mb-2 sm:mb-3 mt-4 shrink-0 pointer-events-none shadow-xs">
                     <img
                       src={char.image}
                       alt={char.name}
@@ -340,42 +415,40 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                   {/* Character info text */}
                   <div className="text-center flex-1 flex flex-col justify-between pointer-events-none w-full">
                     <div>
-                      <span className="font-heading font-black text-gray-900 text-[10px] sm:text-xs md:text-sm block truncate leading-tight uppercase">
+                      <span className="font-heading font-black text-gray-900 text-[11px] sm:text-xs md:text-sm block truncate leading-tight uppercase">
                         {char.name}
                       </span>
-                      <span className="text-[7.5px] sm:text-[8px] md:text-[9px] font-mono text-gray-400 block truncate mt-0.5 uppercase tracking-widest max-w-full">
+                      <span className="text-[7.5px] sm:text-[8px] md:text-[9.5px] font-mono text-gray-400 block truncate mt-0.5 uppercase tracking-widest max-w-full">
                         {char.crew === "Inconnu" ? "Équipage Libre" : char.crew}
                       </span>
                     </div>
 
                     {/* Reveal results or question block */}
-                    <div className="mt-2.5 sm:mt-3 text-center w-full">
+                    <div className="mt-2 text-center w-full">
                       {checked ? (
-                        <div className="space-y-1">
-                          <span className="px-1.5 py-0.5 bg-slate-100 rounded text-[8px] sm:text-[9px] md:text-[10px] font-mono text-gray-600 block truncate max-w-full">
+                        <div className="space-y-0.5">
+                          <span className="px-1.5 py-0.5 bg-slate-100 rounded text-[9px] sm:text-[10px] font-mono text-gray-700 block truncate max-w-full font-black">
+                            {String(char.apparitionChapterRaw || "Inconnu")
+                              .replace(/Chapter/i, "Chapitre")
+                              .replace(/chapitre/i, "Chapitre")}
+                          </span>
+                          <span className="text-[7.5px] sm:text-[8px] text-gray-400 block truncate font-mono uppercase tracking-tight max-w-full">
                             {char.originArc}
                           </span>
-                          <span className={`text-[8px] sm:text-[8.5px] md:text-xs font-bold block uppercase tracking-wider ${
+                          <span className={`text-[8px] sm:text-[9px] font-bold block uppercase tracking-wider pt-0.5 ${
                             correctState ? "text-emerald-600" : "text-red-500"
                           }`}>
                             {correctState ? "✅ Correct" : "❌ Mal placé"}
                           </span>
                         </div>
                       ) : (
-                        <span className="text-[8px] sm:text-[9px] md:text-[10px] px-1.5 py-0.5 sm:px-2 bg-violet-50 text-[#8b5cf6] border border-violet-100 rounded font-mono uppercase tracking-wider block">
-                          Apparition ?
+                        <span className="text-[8.5px] sm:text-[9.5px] px-1.5 py-0.5 bg-violet-50 text-[#8b5cf6] border border-violet-100 rounded font-mono uppercase tracking-wider block font-black">
+                          Chapitre ?
                         </span>
                       )}
                     </div>
                   </div>
                 </div>
-
-                {/* Arrow indicator between elements (horizontal for both) */}
-                {index < 4 && (
-                  <div className="flex items-center justify-center shrink-0 text-slate-300 pointer-events-none">
-                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
-                  </div>
-                )}
               </div>
             );
           })}
@@ -387,14 +460,19 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
             <h4 className="font-heading font-black text-sm uppercase text-gray-800">
               {scoreMessage}
             </h4>
-            <p className="text-[10px] text-gray-400 font-mono uppercase">
-              Le bon ordre est : {correctOrder.map(c => `"${c.name}" (Arc ${c.originArc})`).join(" ➔ ")}
+            <p className="text-[10px] text-gray-500 font-mono uppercase mt-1">
+              Le bon ordre est : {correctOrder.map(c => {
+                const formattedCh = String(c.apparitionChapterRaw || "Inconnu")
+                  .replace(/Chapter/i, "Chapitre")
+                  .replace(/chapitre/i, "Chapitre");
+                return `"${c.name}" (${formattedCh})`;
+              }).join(" ➔ ")}
             </p>
           </div>
         )}
 
         {/* Action button bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 border-t border-gray-100">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 border-t border-gray-100 font-bold">
           {!checked ? (
             <button
               onClick={handleVerify}
@@ -404,7 +482,7 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
             </button>
           ) : (
             <button
-              onClick={drawNewTimeline}
+              onClick={() => drawNewTimeline(gameSize)}
               className="px-8 py-3.5 bg-amber-500 hover:bg-slate-900 hover:text-white text-black font-sans font-black text-xs rounded-2xl cursor-pointer transition-colors shadow-md uppercase tracking-wider border border-black"
             >
               Nouveau Défi Chrono ⚓

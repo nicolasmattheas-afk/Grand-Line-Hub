@@ -21,6 +21,7 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
   const [showCheatHint, setShowCheatHint] = useState(false);
   const [showClue, setShowClue] = useState(false);
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
+  const [cluePaid, setCluePaid] = useState(false);
   
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -69,6 +70,7 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
     setSuggestions([]);
     setActiveSuggestionIndex(0);
     setShowClue(false);
+    setCluePaid(false);
   };
 
   useEffect(() => {
@@ -464,11 +466,21 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
         {/* Clue and Help cards */}
         <div className="flex flex-wrap items-center justify-center gap-3 mt-5">
           <button
-            onClick={() => setShowClue(!showClue)}
+            onClick={() => {
+              if (!showClue) {
+                if (!cluePaid) {
+                  onUpdateBounty(-1000);
+                  setCluePaid(true);
+                }
+                setShowClue(true);
+              } else {
+                setShowClue(false);
+              }
+            }}
             className="flex items-center gap-2 text-xs font-heading font-black bg-[#1A1A1A] hover:bg-[#8b5cf6] hover:border-[#8b5cf6] border-2 border-transparent text-white uppercase tracking-widest rounded-xl px-4 py-2 hover:scale-95 transition-all cursor-pointer"
           >
             <Compass className="w-4 h-4" />
-            {showClue ? "CACHER INDICES" : "OBTENIR INDICES LOG POSE"}
+            {showClue ? "CACHER INDICES" : cluePaid ? "VOIR INDICES LOG POSE" : "OBTENIR INDICES LOG POSE (-1 000 ฿)"}
           </button>
 
           <button

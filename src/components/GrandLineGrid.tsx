@@ -29,7 +29,7 @@ interface Category {
 // Catégories de validation de la grille
 const CATEGORIES: { [key: string]: Category } = {
   pirate: { id: "pirate", label: "Pirate", check: (c) => c.affiliation === "Pirate" },
-  marine: { id: "marine", label: "Officier Marine", check: (c) => c.affiliation === "Marine" },
+  marine: { id: "marine", label: "Marine", check: (c) => c.affiliation === "Marine" },
   revolutionary: { id: "revolutionary", label: "Révolutionnaire", check: (c) => c.affiliation === "Révolutionnaire" || c.crew.toLowerCase().includes("revolutionary") },
   government: { id: "government", label: "Gouv. Mondial / CP", check: (c) => c.affiliation === "Gouvernement" || c.crew.toLowerCase().includes("cp0") || c.crew.toLowerCase().includes("cp9") || c.crew.toLowerCase().includes("five elders") || c.crew.toLowerCase().includes("knights of god") },
 
@@ -88,7 +88,59 @@ const CATEGORIES: { [key: string]: Category } = {
   race_mink: { id: "race_mink", label: "Tribu Mink (Zou)", check: (c) => c.race === "Mink" || (c.race && c.race.toLowerCase().includes("mink")) || false },
   race_fishman: { id: "race_fishman", label: "Homme-Poisson / Sirène", check: (c) => c.race === "Fish-man" || c.race === "Merfolk" || (c.race && (c.race.toLowerCase().includes("fish-man") || c.race.toLowerCase().includes("merfolk"))) || false },
   race_giant: { id: "race_giant", label: "Guerrier Géant", check: (c) => c.race === "Giant" || (c.race && c.race.toLowerCase().includes("giant")) || false },
-  race_cyborg: { id: "race_cyborg", label: "Cyborg ou Humain Modifié", check: (c) => c.race === "Robot" || (c.description && c.description.toLowerCase().includes("cyborg")) || (c.name && c.name.toLowerCase().includes("cyborg")) || (c.race && c.race.toLowerCase().includes("cyborg")) || false },
+  race_cyborg: { id: "race_cyborg", label: "Cyborg ou Humain Modifié", check: (c: any) => {
+    if (!c) return false;
+    const name = (c.name || "").toLowerCase();
+    const epithet = (c.epithet || "").toLowerCase();
+    const desc = (c.description || "").toLowerCase();
+    const affiliation = (c.affiliation || "").toLowerCase();
+    const race = (c.race || "").toLowerCase();
+
+    // Exclude human host of clone
+    if (name.includes("buckingham")) return false;
+
+    // Explicit race checks
+    if (race === "robot" || race === "cyborg" || race.includes("cyborg") || race === "clone") return true;
+
+    // Attribute key word checks
+    if (epithet.includes("cyborg") || name.includes("cyborg") || name.includes("pacifista") || name.includes("seraphim")) return true;
+
+    // Description text checks
+    if (desc.includes("cyborg") || desc.includes("robot") || desc.includes("pacifista") || desc.includes("clon") || desc.includes("modifié")) {
+      if (name === "kitton") return false; // Kitton is only human friend of Taroimo
+      return true;
+    }
+
+    // Germa 66 siblings (Sanji, Ichiji, Niji, Reiju, Yonji)
+    if (name.includes("vinsmoke")) {
+      if (name.includes("sora") || name.includes("judge")) return false; // Sora & Judge are normal humans
+      return true;
+    }
+    if (name === "sanji" || name.includes("vinsmoke sanji")) return true;
+
+    // Bartholomew Kuma
+    if (name.includes("bartholomew kuma") || name === "kuma") return true;
+
+    // Franky / Cutty Flam
+    if (name.includes("franky") || name.includes("cutty flam")) return true;
+
+    // Seraphim models
+    if (name.startsWith("s-bear") || name.startsWith("s-hawk") || name.startsWith("s-snake") || name.startsWith("s-shark")) return true;
+
+    // Scien [Queen]
+    if (name.includes("queen") && (affiliation.includes("beasts") || desc.includes("all-star") || desc.includes("plague"))) return true;
+
+    // Vegapunk & satellites
+    if (name === "vegapunk" || name.includes("dr. vegapunk") || name === "shaka" || name === "lilith" || name === "edison" || name === "pythagoras" || name === "atlas" || name === "york" || name.includes("vegaforce")) return true;
+
+    // Karakuri island and Egghead bots
+    if (name === "taroimo" || name.includes("mecha-shark") || name.includes("recycle-wan") || name === "emet") return true;
+
+    // Captain John Zombie
+    if (name === "john" && desc.includes("modified into")) return true;
+
+    return false;
+  } },
 
   bounty_1b: { id: "bounty_1b", label: "Prime + 1 Milliard ฿", check: (c) => c.bounty > 1000000000 },
   bounty_100m: { id: "bounty_100m", label: "Prime 100M - 1B ฿", check: (c) => c.bounty >= 100000000 && c.bounty <= 1000000000 },
@@ -128,16 +180,92 @@ const GRID_PRESETS = [
   { rows: ["strawhat", "red_hair", "whitebeard"], columns: ["haoshoku", "busoshoku", "homme"] },
   { rows: ["pirate", "government", "marine"], columns: ["arc_east_blue", "no_fruit", "vivant"] },
   { rows: ["strawhat", "pirate", "decede"], columns: ["arc_marineford", "fruit", "homme"] },
-  
-  // Nouveaux presets riches et possibles
   { rows: ["race_fishman", "pirate", "fruit"], columns: ["busoshoku", "vivant", "homme"] },
   { rows: ["strawhat", "red_hair", "roger"], columns: ["haoshoku", "busoshoku", "homme"] },
   { rows: ["crew_baroque", "donquixote", "government"], columns: ["fruit", "vivant", "homme"] },
   { rows: ["race_cyborg", "race_giant", "pirate"], columns: ["tall", "no_fruit", "busoshoku"] },
   { rows: ["crew_cross_guild", "crew_heart_kid", "pirate"], columns: ["bounty_1b", "fruit", "homme"] },
   { rows: ["race_mink", "pirate", "femme"], columns: ["arc_new_world", "no_fruit", "vivant"] },
-  { rows: ["blackbeard", "government", "marine"], columns: ["fruit", "old", "homme"] }
+  { rows: ["blackbeard", "government", "marine"], columns: ["fruit", "old", "homme"] },
+
+  // Epic new presets
+  { rows: ["strawhat", "revolutionary", "government"], columns: ["vivant", "no_fruit", "homme"] },
+  { rows: ["pirate", "marine", "race_cyborg"], columns: ["arc_new_world", "fruit", "tall"] },
+  { rows: ["whitebeard", "blackbeard", "strawhat"], columns: ["haoshoku", "fruit", "vivant"] },
+  { rows: ["donquixote", "bigmom", "beasts"], columns: ["paramecia", "homme", "old"] },
+  { rows: ["pirate", "government", "race_fishman"], columns: ["busoshoku", "no_fruit", "vivant"] },
+  { rows: ["strawhat", "crew_heart_kid", "crew_cross_guild"], columns: ["kenbunshoku", "fruit", "homme"] },
+  { rows: ["revolutionary", "marine", "pirate"], columns: ["arc_marineford", "no_fruit", "old"] },
+  { rows: ["race_mink", "race_fishman", "strawhat"], columns: ["tall", "vivant", "homme"] },
+  { rows: ["bigmom", "beasts", "whitebeard"], columns: ["haoshoku", "fruit", "old"] },
+  { rows: ["roger", "red_hair", "strawhat"], columns: ["haoshoku", "no_fruit", "homme"] },
+  { rows: ["pirate", "race_cyborg", "government"], columns: ["arc_new_world", "fruit", "vivant"] },
+  { rows: ["crew_baroque", "crew_heart_kid", "pirate"], columns: ["bounty_100m", "fruit", "homme"] },
+  { rows: ["marine", "government", "revolutionary"], columns: ["kenbunshoku", "vivant", "old"] },
+  { rows: ["race_giant", "whitebeard", "pirate"], columns: ["tall", "no_fruit", "vivant"] },
+  { rows: ["strawhat", "bigmom", "pirate"], columns: ["femme", "fruit", "vivant"] }
 ];
+
+// Generates an incredibly dynamic and 100% valid grid with at least 2 character answers per cell
+function generateValidGrid(characters: Character[]): { rows: string[]; columns: string[] } {
+  if (!characters || characters.length === 0) {
+    return GRID_PRESETS[Math.floor(Math.random() * GRID_PRESETS.length)];
+  }
+
+  const rowPool = [
+    "pirate", "marine", "revolutionary", "government", 
+    "strawhat", "whitebeard", "beasts", "bigmom", "red_hair", "blackbeard", "roger", "donquixote",
+    "crew_baroque", "crew_cross_guild", "crew_heart_kid", "race_mink", "race_fishman", "race_giant", "race_cyborg"
+  ];
+
+  const colPool = [
+    "fruit", "no_fruit", "paramecia", "logia", "zoan", 
+    "busoshoku", "kenbunshoku", "haoshoku", 
+    "femme", "homme", "vivant", "decede", 
+    "bounty_1b", "bounty_100m", "bounty_under_100m", "bounty_zero", 
+    "tall", "short", "young", "old", 
+    "arc_east_blue", "arc_alabasta", "arc_marineford", "arc_new_world"
+  ];
+
+  for (let attempt = 0; attempt < 80; attempt++) {
+    // Pick 3 random, unique row-keys
+    const shuffledRows = [...rowPool].sort(() => 0.5 - Math.random());
+    const selectedRows = shuffledRows.slice(0, 3);
+
+    // Pick 3 random, unique col-keys
+    const shuffledCols = [...colPool].sort(() => 0.5 - Math.random());
+    const selectedCols = shuffledCols.slice(0, 3);
+
+    let isValid = true;
+    for (const r of selectedRows) {
+      for (const c of selectedCols) {
+        const checkRowFunc = CATEGORIES[r].check;
+        const checkColFunc = CATEGORIES[c].check;
+
+        let matchCount = 0;
+        for (const char of characters) {
+          if (checkRowFunc(char) && checkColFunc(char)) {
+            matchCount++;
+            if (matchCount >= 2) break; // Needs at least 2 potential matches for rich options!
+          }
+        }
+
+        if (matchCount < 2) {
+          isValid = false;
+          break;
+        }
+      }
+      if (!isValid) break;
+    }
+
+    if (isValid) {
+      return { rows: selectedRows, columns: selectedCols };
+    }
+  }
+
+  // Fallback to presets
+  return GRID_PRESETS[Math.floor(Math.random() * GRID_PRESETS.length)];
+}
 
 interface BotProfile {
   name: string;
@@ -196,6 +324,7 @@ export default function GrandLineGrid({
 
   // Matchmaking / Rounds States
   const [targetWinsSelection, setTargetWinsSelection] = useState<3 | 5>(3);
+  const [selectedStake, setSelectedStake] = useState<number>(10000);
   const [targetWins, setTargetWins] = useState<number>(3);
   const [player1Wins, setPlayer1Wins] = useState<number>(0);
   const [player2Wins, setPlayer2Wins] = useState<number>(0);
@@ -464,9 +593,9 @@ export default function GrandLineGrid({
               bountyUpdated.current = true;
               const isWinner = data.winner === myEmail;
               if (isWinner) {
-                onUpdateBounty(10000); // +10k pour la victoire
+                onUpdateBounty(data.stake || 10000); // +stake pour la victoire
               } else {
-                onUpdateBounty(-5000); // -5k pour la défaite
+                onUpdateBounty(-Math.floor((data.stake || 10000) / 2)); // -stake/2 pour la défaite
               }
             }
           }
@@ -492,6 +621,7 @@ export default function GrandLineGrid({
             collection(db, "gridGames"),
             where("status", "==", "waiting"),
             where("type", "==", "matchmaking"),
+            where("stake", "==", selectedStake),
             limit(1)
           );
           const qs = await getDocs(q);
@@ -503,7 +633,7 @@ export default function GrandLineGrid({
 
             if (hostData.player1.email === myEmail) {
               // Éviter de s'affronter soi-même en rechargeant
-              return;
+               return;
             }
 
             await updateDoc(doc(db, "gridGames", hostDoc.id), {
@@ -527,7 +657,7 @@ export default function GrandLineGrid({
             setGameState("playing");
           } else {
             // Aucun salon : Créer un salon d'attente
-            const preset = GRID_PRESETS[Math.floor(Math.random() * GRID_PRESETS.length)];
+            const preset = generateValidGrid(characters);
             const newGameRef = doc(collection(db, "gridGames"));
             
             await setDoc(newGameRef, {
@@ -547,6 +677,7 @@ export default function GrandLineGrid({
               turnEmail: myEmail,
               status: "waiting",
               type: "matchmaking",
+              stake: selectedStake,
               targetWins: targetWinsSelection,
               player1Wins: 0,
               player2Wins: 0,
@@ -887,7 +1018,7 @@ export default function GrandLineGrid({
                 currentP2Steals = 2; // Redonner 2 vols pour la nouvelle manche
                 
                 // Sélectionner une nouvelle grille pour la manche suivante
-                const nextPreset = GRID_PRESETS[Math.floor(Math.random() * GRID_PRESETS.length)];
+                const nextPreset = generateValidGrid(characters);
                 nextColumns = nextPreset.columns;
                 nextRows = nextPreset.rows;
               }
@@ -1088,7 +1219,7 @@ export default function GrandLineGrid({
     setSearchTextAmis(`Lancement du duel contre ${friend.username}...`);
     bountyUpdated.current = false;
 
-    const preset = GRID_PRESETS[Math.floor(Math.random() * GRID_PRESETS.length)];
+    const preset = generateValidGrid(characters);
     const newRoomRef = doc(collection(db, "gridGames"));
     
     try {
@@ -1110,6 +1241,7 @@ export default function GrandLineGrid({
         status: "waiting",
         type: "private",
         invitedEmail: friend.email,
+        stake: selectedStake,
         targetWins: targetWinsSelection,
         player1Wins: 0,
         player2Wins: 0,
@@ -1146,7 +1278,7 @@ export default function GrandLineGrid({
       code += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
     }
 
-    const preset = GRID_PRESETS[Math.floor(Math.random() * GRID_PRESETS.length)];
+    const preset = generateValidGrid(characters);
     const newRoomRef = doc(collection(db, "gridGames"));
 
     try {
@@ -1168,6 +1300,7 @@ export default function GrandLineGrid({
         status: "waiting",
         type: "private",
         roomCode: code,
+        stake: selectedStake,
         targetWins: targetWinsSelection,
         player1Wins: 0,
         player2Wins: 0,
@@ -1265,7 +1398,7 @@ export default function GrandLineGrid({
   // Démarrer l'entraînement solo
   const handleStartPracticeGame = () => {
     setGameMode("local");
-    const preset = GRID_PRESETS[Math.floor(Math.random() * GRID_PRESETS.length)];
+    const preset = generateValidGrid(characters);
     setColumnKeys(preset.columns);
     setRowKeys(preset.rows);
     setBoard(Array(9).fill(null).map(() => ({ owner: null, character: null })));
@@ -1284,7 +1417,7 @@ export default function GrandLineGrid({
   const handleStartBotPracticeGame = (difficulty: "normal" | "hard" = "normal") => {
     setGameMode("local");
     setBotDifficulty(difficulty);
-    const preset = GRID_PRESETS[Math.floor(Math.random() * GRID_PRESETS.length)];
+    const preset = generateValidGrid(characters);
     setColumnKeys(preset.columns);
     setRowKeys(preset.rows);
     setBoard(Array(9).fill(null).map(() => ({ owner: null, character: null })));
@@ -1469,7 +1602,7 @@ export default function GrandLineGrid({
                 p2Steals = 2;
                 
                 // Sélectionner une nouvelle grille pour la manche suivante
-                const nextPreset = GRID_PRESETS[Math.floor(Math.random() * GRID_PRESETS.length)];
+                const nextPreset = generateValidGrid(characters);
                 nextColumns = nextPreset.columns;
                 nextRows = nextPreset.rows;
               }
@@ -2130,6 +2263,32 @@ export default function GrandLineGrid({
                 </p>
               </div>
 
+              {/* SÉLECTEUR DE MISE DU COMBAT */}
+              <div className="bg-white/95 backdrop-blur-md rounded-3xl border-2 border-dashed border-amber-200 p-6 shadow-sm max-w-xl mx-auto w-full">
+                <h4 className="font-heading font-black text-slate-800 text-xs uppercase tracking-widest mb-3 text-center">
+                  Mise de la bataille en ligne
+                </h4>
+                <div className="flex gap-4">
+                  {[10000, 30000, 50000].map((stakeValue) => (
+                    <button
+                      key={stakeValue}
+                      onClick={() => setSelectedStake(stakeValue)}
+                      type="button"
+                      className={`flex-1 py-3 rounded-xl font-heading text-xs font-black uppercase border-2 transition-all cursor-pointer ${
+                        selectedStake === stakeValue
+                          ? "bg-amber-500 border-amber-500 text-white shadow-md shadow-amber-200"
+                          : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+                      }`}
+                    >
+                      {stakeValue.toLocaleString()} ฿
+                    </button>
+                  ))}
+                </div>
+                <p className="text-center text-slate-400 text-[10px] font-semibold mt-3">
+                  *Le gagnant remporte {selectedStake.toLocaleString()} ฿, le perdant concède {Math.floor(selectedStake / 2).toLocaleString()} ฿ (la moitié).
+                </p>
+              </div>
+
               {/* 1. MATCHMAKING GLOBAL RAPIDE */}
               <div className="bg-white/95 backdrop-blur-md rounded-3xl border-2 border-violet-100/60 p-6 shadow-sm relative overflow-hidden max-w-xl mx-auto w-full">
                 {/* Visual float clouds */}
@@ -2142,7 +2301,7 @@ export default function GrandLineGrid({
                       Commencez le combat
                       <span className="inline-block text-[10px] sm:text-xs bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded-full font-bold">LIVE</span>
                     </h4>
-                    <p className="text-gray-400 text-xs mt-1 sm:mt-0.5 font-medium">Rechercher instantanément un rival réel connecté sur la New Line.</p>
+                    <p className="text-gray-400 text-xs mt-1 sm:mt-0.5 font-medium">Rechercher instantanément un rival connecté sur la New Line.</p>
                   </div>
                   <span className="text-[9px] sm:text-[10px] bg-violet-100 text-violet-800 font-bold px-2 py-1 rounded-md uppercase shrink-0 self-start sm:self-auto">
                     VRAIS JOUEURS UNIQUEMENT
@@ -2150,7 +2309,7 @@ export default function GrandLineGrid({
                 </div>
 
                 <p className="text-gray-500 text-xs leading-relaxed font-medium mb-6 relative z-10">
-                  Batifolage banni : ce mode recherche un autre pirate qui vient de lancer une recherche de combat en même temps que vous. Le gagnant s'accapare un butin de **10 000 ฿ Berrys**, le perdant concède **5 000 ฿**.
+                  Batifolage banni : ce mode recherche un autre pirate qui vient de lancer une recherche de combat en même temps que vous. Le gagnant s'accapare un butin de {selectedStake.toLocaleString()} ฿ Berrys, le perdant concède {Math.floor(selectedStake / 2).toLocaleString()} ฿.
                 </p>
 
                 <button

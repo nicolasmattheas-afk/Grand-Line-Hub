@@ -9,13 +9,15 @@ interface BountyTargetGameProps {
 
 export default function BountyTargetGame({ characters, onUpdateBounty }: BountyTargetGameProps) {
   const [bountyPool, setBountyPool] = useState<Character[]>([]);
-  
+  const [gameSize, setGameSize] = useState<5 | 10 | 15>(5);
+  const [earnedBounty, setEarnedBounty] = useState<number>(0);
+
   // Secret characters and final target
   const [secretChars, setSecretChars] = useState<Character[]>([]);
   const [targetBounty, setTargetBounty] = useState<number>(0);
   
-  // Player selection (at most 3)
-  const [selectedChars, setSelectedChars] = useState<(Character | null)[]>([null, null, null]);
+  // Player selection (at most gameSize)
+  const [selectedChars, setSelectedChars] = useState<(Character | null)[]>(Array(5).fill(null));
   
   // Search component state
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -37,6 +39,13 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
   };
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  const changeSize = (newSize: 5 | 10 | 15) => {
+    setGameSize(newSize);
+    if (bountyPool.length >= newSize) {
+      generateNewContract(newSize);
+    }
+  };
 
   // Filter pool to characters with a strictly positive bounty
   useEffect(() => {
@@ -67,38 +76,61 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
   }, []);
 
   // Generate target
-  const generateNewContract = () => {
-    if (bountyPool.length < 3) return;
+  const generateNewContract = (size: 5 | 10 | 15 = gameSize) => {
+    if (bountyPool.length < size) return;
 
-    // Secretly pick 3 distinct random characters
+    // Adjust target bounty contract sizes so they are appropriately high and challenging
+    // 15 characters should be up to 45 billion. 10 characters should be high too.
+    let minBounty = 0;
+    if (size === 5) {
+      // 5 characters with high bounties, e.g. at least 150M each, averaging around 1.5B each (total ~5B-10B)
+      minBounty = 150000000;
+    } else if (size === 10) {
+      // 10 characters with high bounties, e.g. at least 300M each, averaging around 1.8B each (total ~15B-25B)
+      minBounty = 300000000;
+    } else if (size === 15) {
+      // 15 characters with very high bounties, e.g. at least 800M each, averaging around 2.5B each (total ~35B-45B)
+      minBounty = 800000000;
+    }
+
+    let targetPool = bountyPool.filter(c => c.bounty >= minBounty);
+    if (targetPool.length < size) {
+      targetPool = bountyPool.filter(c => c.bounty >= 50000000); // fallback to 50M
+    }
+    if (targetPool.length < size) {
+      targetPool = [...bountyPool];
+    }
+
+    // Secretly pick `size` distinct random characters
     const selected: Character[] = [];
-    const poolCopy = [...bountyPool];
+    const tmpPool = [...targetPool];
     
-    for (let i = 0; i < 3; i++) {
-      const randIdx = Math.floor(Math.random() * poolCopy.length);
-      selected.push(poolCopy[randIdx]);
-      poolCopy.splice(randIdx, 1);
+    for (let i = 0; i < size; i++) {
+      const randIdx = Math.floor(Math.random() * tmpPool.length);
+      selected.push(tmpPool[randIdx]);
+      tmpPool.splice(randIdx, 1);
     }
 
     const sum = selected.reduce((acc, c) => acc + c.bounty, 0);
     
     setSecretChars(selected);
     setTargetBounty(sum);
-    setSelectedChars([null, null, null]);
+    setSelectedChars(Array(size).fill(null));
     setSearchQuery("");
     setShowSuggestions(false);
     setVerificationResult(null);
     setHasChecked(false);
     setContractScore(null);
+    setEarnedBounty(0);
     setActiveSuggestionIndex(-1);
   };
 
   // Generate initial target when pool is parsed
   useEffect(() => {
-    if (bountyPool.length >= 3 && targetBounty === 0) {
-      generateNewContract();
+    if (bountyPool.length >= gameSize && targetBounty === 0) {
+      generateNewContract(gameSize);
     }
-  }, [bountyPool]);
+  }, [bountyPool, gameSize]);
 
   // Handle selection of a character
   const handleSelectCharacter = (char: Character) => {
@@ -111,7 +143,7 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
     // Find the first empty slot
     const firstEmptyIndex = selectedChars.indexOf(null);
     if (firstEmptyIndex === -1) {
-      showLocalToast("Vous avez déjà sélectionné 3 suspects ! Veuillez valider votre contrat.", "info");
+      showLocalToast(`Vous avez déjà sélectionné ${gameSize} suspects ! Veuillez valider votre contrat.`, "info");
       return;
     }
 
@@ -121,13 +153,14 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
     setSearchQuery("");
     setShowSuggestions(false);
     
-    // Auto-verify if 3 characters selected
-    if (newSelected.filter(Boolean).length === 3) {
+    // Auto-verify if all characters selected
+    if (newSelected.filter(Boolean).length === gameSize) {
       handleVerify(newSelected);
     } else {
       setHasChecked(false);
       setVerificationResult(null);
       setContractScore(null);
+      setEarnedBounty(0);
     }
   };
 
@@ -141,7 +174,7 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
   const handleVerify = (customSelected?: (Character | null)[]) => {
     const listToCheck = customSelected || selectedChars;
     const activeCount = listToCheck.filter(Boolean).length;
-    if (activeCount < 3) return;
+    if (activeCount < gameSize) return;
 
     const playerSum = listToCheck.reduce((acc, c) => acc + (c ? c.bounty : 0), 0);
 
@@ -160,8 +193,18 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
     }
     setContractScore(finalScore);
 
-    if (onUpdateBounty && finalScore > 0) {
-      onUpdateBounty(finalScore * 100);
+    let perfectReward = 10000;
+    if (gameSize === 10) {
+      perfectReward = 15000;
+    } else if (gameSize === 15) {
+      perfectReward = 20000;
+    }
+
+    const reward = finalScore === 100 ? perfectReward : finalScore >= 80 ? Math.floor((finalScore / 100) * perfectReward) : 0;
+    setEarnedBounty(reward);
+
+    if (onUpdateBounty && reward > 0) {
+      onUpdateBounty(reward);
     }
   };
 
@@ -214,7 +257,7 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
     return val.toLocaleString("en-US").replace(/,/g, " ");
   };
 
-  if (bountyPool.length < 3) {
+  if (bountyPool.length < gameSize) {
     return (
       <div className="bg-white border border-gray-150 rounded-3xl p-8 text-center max-w-xl mx-auto shadow-xs">
         <Coins className="w-12 h-12 text-violet-500 mx-auto mb-4" />
@@ -227,7 +270,7 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 font-sans relative">
+    <div className="max-w-7xl mx-auto space-y-8 font-sans relative">
       
       {/* Toast de notification flottant */}
       {localToast && (
@@ -251,21 +294,59 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
       )}
       
       {/* Page Title & Description */}
-      <div className="text-center mb-10 relative">
+      <div className="text-center mb-6 relative">
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white font-heading mb-2 uppercase">
           Le Compte est Bon !
         </h2>
         <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base font-medium">
-          Retrouvez exactement le montant total de la prime cible de la Marine en associant judicieusement les têtes de 3 pirates !
+          Retrouvez exactement le montant total de la prime cible de la Marine en associant judicieusement les têtes de <span className="text-amber-400 font-bold">{gameSize}</span> pirates !
         </p>
 
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={generateNewContract}
-            className="px-4 py-2 bg-white/10 hover:bg-amber-450 hover:bg-amber-400 hover:text-slate-950 text-white rounded-xl transition-all cursor-pointer border border-white/10 inline-flex items-center gap-2 text-xs font-heading font-black"
-          >
-            <RotateCcw className="w-3.5 h-3.5" /> NOUVEAU CONTRAT
-          </button>
+        {/* Format Selection & New Contract triggers */}
+        <div className="flex flex-col items-center justify-center gap-3 bg-[#11142A]/85 p-4 rounded-3xl max-w-xl mx-auto border border-white/10 mt-4 text-white">
+          <span className="text-xs font-mono font-black uppercase text-slate-300 tracking-wider">
+            Format de la Chasse :
+          </span>
+          <div className="grid grid-cols-3 gap-2 w-full">
+            {[5, 10, 15].map((size) => {
+              const isActive = gameSize === size;
+              const bAmount = size === 5 ? "10 000" : size === 10 ? "15 000" : "20 000";
+              const isLocked = selectedChars.filter(Boolean).length > 0 && !hasChecked;
+              return (
+                <button
+                  key={size}
+                  onClick={() => !isLocked && changeSize(size as 5 | 10 | 15)}
+                  disabled={isLocked}
+                  className={`py-2.5 px-3 rounded-xl border transition-all ${
+                    isActive
+                      ? "bg-amber-400 border-amber-400 text-slate-950 font-black shadow-sm"
+                      : isLocked
+                        ? "opacity-50 cursor-not-allowed bg-slate-800/50 border-slate-700 text-slate-500 font-bold"
+                        : "bg-white/5 border-white/10 hover:border-white/30 text-white font-bold hover:bg-white/15 cursor-pointer"
+                  } text-xs uppercase flex flex-col items-center gap-1`}
+                >
+                  <span>{size} Pirates</span>
+                  <span className={`text-[9px] font-mono ${isActive ? "text-slate-950 block" : "text-amber-400 block"}`}>
+                    ★ {bAmount} ฿
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          {selectedChars.filter(Boolean).length > 0 && !hasChecked && (
+            <p className="text-[10px] text-amber-500 font-medium text-center">
+              ⚠️ Finissez le contrat en cours ou réinitialisez-le pour changer de format !
+            </p>
+          )}
+
+          <div className="flex justify-center mt-1">
+            <button
+              onClick={() => generateNewContract(gameSize)}
+              className="px-4 py-2 bg-white/10 hover:bg-amber-400 hover:text-slate-950 text-white rounded-xl transition-all cursor-pointer border border-white/10 inline-flex items-center gap-2 text-xs font-heading font-black"
+            >
+              <RotateCcw className="w-3.5 h-3.5" /> NOUVEAU CONTRAT
+            </button>
+          </div>
         </div>
       </div>
 
@@ -284,7 +365,7 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
             {formatBounty(targetBounty)} ฿
           </h1>
           <p className="text-xs text-gray-400 max-w-md mx-auto leading-relaxed">
-            Ce montant est l'addition exacte de la prime de 3 suspects mystères. Retrouvez-les parmi la base de données de la Marine !
+            Ce montant est l'addition exacte de la prime de {gameSize} suspects mystères. Retrouvez-les parmi la base de données de la Marine !
           </p>
         </div>
       </div>
@@ -292,25 +373,25 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
       {/* Card Slots block - Player's active selections */}
       <div className="space-y-4">
         <h3 className="font-heading font-black text-sm text-[#1A1A1A] uppercase tracking-wider text-center flex items-center justify-center gap-2">
-          🎯 VOS 3 SUSPECTS RECRUTÉS
+          🎯 VOS {gameSize} SUSPECTS RECRUTÉS
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
           {selectedChars.map((char, index) => {
             if (!char) {
               return (
                 <div
                   key={index}
-                  className="bg-[#FAFAFA] border-2 border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center text-center min-h-[300px] transition-all hover:bg-slate-50/50"
+                  className="bg-[#FAFAFA] border-2 border-dashed border-gray-300 rounded-2xl p-4 flex flex-col items-center justify-center text-center min-h-[220px] transition-all hover:bg-slate-50/50"
                 >
-                  <div className="w-12 h-12 bg-white rounded-full border border-gray-200/60 shadow-xs flex items-center justify-center text-gray-300 mb-3 font-heading font-black text-sm">
+                  <div className="w-10 h-10 bg-white rounded-full border border-gray-200/60 shadow-xs flex items-center justify-center text-gray-300 mb-2 font-heading font-black text-sm">
                     {index + 1}
                   </div>
-                  <span className="text-xs font-heading font-black text-gray-400 uppercase tracking-widest block">
+                  <span className="text-[10px] sm:text-xs font-heading font-black text-gray-400 uppercase tracking-widest block">
                     Emplacement Libre
                   </span>
-                  <p className="text-[10px] text-gray-400 font-mono mt-1 max-w-[170px] mx-auto leading-normal">
-                    Recherchez un pirate ci-dessous pour le placer ici.
+                  <p className="text-[9px] text-gray-400 font-mono mt-1 max-w-[135px] mx-auto leading-normal">
+                    Recherchez un suspect.
                   </p>
                 </div>
               );
@@ -319,25 +400,25 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
             return (
               <div
                 key={char.id}
-                className="bg-white border-3 border-[#1A1A1A] rounded-2xl p-4 shadow-md flex flex-col justify-between items-stretch min-h-[300px] relative transition-transform hover:-translate-y-1 animate-in zoom-in-95 duration-200"
+                className="bg-white border-2 border-[#1A1A1A] rounded-2xl p-3 shadow-md flex flex-col justify-between items-stretch min-h-[220px] relative transition-transform hover:-translate-y-1 animate-in zoom-in-95 duration-200"
               >
                 {/* Locked suspect banner */}
-                <div className="absolute top-2.5 right-2.5 px-2 py-0.5 bg-slate-900 text-white font-mono text-[8.5px] rounded uppercase font-black flex items-center gap-1 shadow-xs border border-black">
-                  🔒 Confirmé
+                <div className="absolute top-2 right-2 px-1.5 py-0.5 bg-slate-900 text-white font-mono text-[7px] sm:text-[8px] rounded uppercase font-black flex items-center gap-0.5 shadow-xs border border-black">
+                  🔒 Suspect {index + 1}
                 </div>
 
                 <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-[10px] font-mono text-gray-400 font-bold block truncate max-w-[55%]">
+                  <div className="flex justify-between items-center mb-1.5 mt-3">
+                    <span className="text-[8px] font-mono text-gray-400 font-bold block truncate max-w-[55%]">
                       {char.crew === "Inconnu" ? "Sans équipage" : char.crew}
                     </span>
-                    <span className="px-1.5 py-0.5 bg-yellow-50 text-yellow-750 border border-yellow-100 rounded text-[8.5px] font-mono font-black uppercase">
+                    <span className="px-1 py-0.5 bg-yellow-50 text-yellow-750 border border-yellow-100 rounded text-[7px] font-mono font-black uppercase">
                       {char.affiliation}
                     </span>
                   </div>
 
                   {/* Character image frame */}
-                  <div className="h-40 rounded-xl overflow-hidden bg-slate-100 mb-3 border border-gray-200">
+                  <div className="h-24 sm:h-28 rounded-lg overflow-hidden bg-slate-100 mb-2 border border-gray-200">
                     <img
                       src={getCharImage(char)}
                       alt={char.name}
@@ -349,16 +430,16 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
                     />
                   </div>
 
-                  <h4 className="font-heading font-black text-gray-900 text-sm leading-tight text-center uppercase truncate">
+                  <h4 className="font-heading font-black text-gray-950 text-xs leading-tight text-center uppercase truncate">
                     {char.name}
                   </h4>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-100 text-center bg-slate-50 rounded-xl p-2.5">
-                  <span className="text-[9px] font-mono uppercase text-gray-400 font-black block leading-none">
+                <div className="mt-2 pt-2 border-t border-slate-100 text-center bg-slate-50 rounded-lg p-1.5">
+                  <span className="text-[8px] font-mono uppercase text-gray-400 font-black block leading-none">
                     PRIME CONFIRMÉE
                   </span>
-                  <span className="text-sm font-heading font-black text-amber-600 block mt-1 tracking-tight">
+                  <span className="text-xs sm:text-sm font-heading font-black text-amber-600 block mt-0.5 tracking-tight">
                     {formatBounty(char.bounty)} ฿
                   </span>
                 </div>
@@ -456,8 +537,8 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
 
         {/* Calculated comparison counter */}
         <div className="md:col-span-4 bg-slate-50 border border-slate-150 rounded-2xl p-4 text-center space-y-1 self-stretch flex flex-col justify-center">
-          <span className="text-[9.5px] uppercase font-mono text-gray-450 font-black block">
-            SOMME DE VOS CHOIX ({selectedChars.filter(Boolean).length}/3)
+          <span className="text-[9.5px] uppercase font-mono text-gray-450 font-black block font-bold">
+            SOMME DE VOS CHOIX ({selectedChars.filter(Boolean).length}/{gameSize})
           </span>
           <span className="text-xl font-heading font-black text-gray-900 block tracking-tight">
             {formatBounty(currentPlayerSum)} ฿
@@ -523,9 +604,13 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
                 <span className="text-4xl font-heading font-black text-[#1A1A1A] block">
                   {contractScore} <span className="text-lg text-gray-500">/ 100 PTS</span>
                 </span>
-                {contractScore > 0 && (
-                  <span className="text-emerald-500 font-black font-mono text-[11px] uppercase tracking-wider block pt-1 animate-pulse">
-                    +{(contractScore * 100).toLocaleString()} ฿ Prime gagnée !
+                {earnedBounty > 0 ? (
+                  <span className="text-emerald-500 font-black font-mono text-[11px] uppercase tracking-wider block pt-1 animate-pulse" style={{ textShadow: "none" }}>
+                    +{earnedBounty.toLocaleString("fr-FR").replace(/\u202f/g, " ")} ฿ Prime gagnée !
+                  </span>
+                ) : (
+                  <span className="text-rose-500 font-zinc font-mono text-[11px] uppercase tracking-wider block pt-1">
+                    Précision insuffisante (&lt; 80%) pour remporter la prime.
                   </span>
                 )}
               </div>
@@ -559,7 +644,7 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
               {/* Play Again (Rejouer) Controls */}
               <div className="pt-2">
                 <button
-                  onClick={generateNewContract}
+                  onClick={() => generateNewContract(gameSize)}
                   className="w-full py-4 px-8 bg-[#1A1A1A] hover:bg-violet-600 text-white font-sans font-black text-sm rounded-2xl cursor-pointer transition-all uppercase tracking-wide shadow-md border border-black flex items-center justify-center gap-2"
                 >
                   <RotateCcw className="w-4.5 h-4.5" />
@@ -575,7 +660,7 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
         {!hasChecked && (
           <div className="text-center py-2 max-w-md pt-2">
             <span className="px-4 py-1.5 bg-slate-100 text-slate-500 border border-slate-200 rounded-full text-[10px] font-mono uppercase font-black tracking-wider block">
-              🔒 Remplissez les 3 emplacements de suspects pour finaliser le contrat
+              🔒 Remplissez les {gameSize} emplacements de suspects pour finaliser le contrat
             </span>
           </div>
         )}

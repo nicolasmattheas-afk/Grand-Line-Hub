@@ -113,7 +113,56 @@ const GROUP_TEMPLATES: GroupTemplate[] = [
     id: "race_cyborg",
     label: "Cyborgs & Modifiés du corps",
     description: "Personnages dotés d'améliorations cybernétiques ou de composants mécaniques.",
-    check: (c) => c.race === "Robot" || (c.description && c.description.toLowerCase().includes("cyborg")) || (c.name && c.name.toLowerCase().includes("cyborg")) || (c.race && c.race.toLowerCase().includes("cyborg"))
+    check: (c: any) => {
+      if (!c) return false;
+      const name = (c.name || "").toLowerCase();
+      const epithet = (c.epithet || "").toLowerCase();
+      const desc = (c.description || "").toLowerCase();
+      const affiliation = (c.affiliation || "").toLowerCase();
+      const race = (c.race || "").toLowerCase();
+
+      // Exclude human host of clone
+      if (name.includes("buckingham")) return false;
+
+      // Explicit race checks
+      if (race === "robot" || race === "cyborg" || race.includes("cyborg") || race === "clone") return true;
+
+      // Attribute key word checks
+      if (epithet.includes("cyborg") || name.includes("cyborg") || name.includes("pacifista") || name.includes("seraphim")) return true;
+
+      // Description text checks
+      if (desc.includes("cyborg") || desc.includes("robot") || desc.includes("pacifista") || desc.includes("clon") || desc.includes("modifié")) {
+        if (name === "kitton") return false; // Kitton is only human friend of Taroimo
+        return true;
+      }
+
+      // Germa 66 siblings (Sanji, Ichiji, Niji, Reiju, Yonji)
+      if (name.includes("vinsmoke")) {
+        if (name.includes("sora") || name.includes("judge")) return false; // Sora & Judge are normal humans
+        return true;
+      }
+      if (name === "sanji" || name.includes("vinsmoke sanji")) return true;
+
+      // Bartholomew Kuma
+      if (name.includes("bartholomew kuma") || name === "kuma") return true;
+
+      // Seraphim models
+      if (name.startsWith("s-bear") || name.startsWith("s-hawk") || name.startsWith("s-snake") || name.startsWith("s-shark")) return true;
+
+      // Scien [Queen]
+      if (name.includes("queen") && (affiliation.includes("beasts") || desc.includes("all-star") || desc.includes("plague"))) return true;
+
+      // Vegapunk & satellites
+      if (name === "vegapunk" || name.includes("dr. vegapunk") || name === "shaka" || name === "lilith" || name === "edison" || name === "pythagoras" || name === "atlas" || name === "york" || name.includes("vegaforce")) return true;
+
+      // Karakuri island and Egghead bots
+      if (name === "taroimo" || name.includes("mecha-shark") || name.includes("recycle-wan") || name === "emet") return true;
+
+      // Captain John Zombie
+      if (name === "john" && desc.includes("modified into")) return true;
+
+      return false;
+    }
   },
   {
     id: "marine_corps",
@@ -762,7 +811,7 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
           Les Alliances Secrètes
         </h2>
         <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base font-medium leading-relaxed">
-          Hautement inspiré de <strong className="font-extrabold text-white">Connections</strong>, ce jeu vous défie de classer 16 personnages d'One Piece en 4 groupes secrets de 4 personnages partageant une caractéristique commune !
+          Ce jeu vous défie de classer 16 personnages d'One Piece en 4 groupes secrets de 4 personnages partageant une caractéristique commune !
         </p>
 
         {/* Local Stat Box */}

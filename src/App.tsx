@@ -6,11 +6,11 @@ import LogPoseTracker from "./components/LogPoseTracker";
 import GrandLineGrid from "./components/GrandLineGrid";
 import Encyclopedie from "./components/Encyclopedie";
 import UserAuth from "./components/UserAuth";
-import StatsBattle from "./components/StatsBattle";
 import PirateShadow from "./components/PirateShadow";
 import PirateTimeline from "./components/PirateTimeline";
 import BountyTargetGame from "./components/BountyTargetGame";
 import SecretAlliances from "./components/SecretAlliances";
+import PiratePyramid from "./components/PiratePyramid";
 import SocialAndCrew from "./components/SocialAndCrew";
 import BountyLeaderboard, { LeaderboardEntry } from "./components/BountyLeaderboard";
 import WEJSection from "./components/WEJSection";
@@ -73,7 +73,8 @@ export default function App() {
         "Nami", "Nico Robin", "Boa Hancock", "Charlotte Linlin [Big Mom]", 
         "Jewelry Bonney", "Yamato", "Charlotte Pudding", "Viola", "Rebecca", 
         "Tashigi", "Hina", "Madame Shyarly", "Carrot", "Camie", "Nico Olvia", 
-        "Kikunojo", "Gerd", "Koala", "Kokoro", "Chimney", "Stussy", "Shakuyaku [Shakky]"
+        "Kikunojo", "Gerd", "Koala", "Kokoro", "Chimney", "Stussy", "Shakuyaku [Shakky]",
+        "Sadi"
       ]);
 
       const mapped: Character[] = rawData.map((item, index) => {
@@ -139,14 +140,64 @@ export default function App() {
         let mappedFruitType: Character["devilFruit"] = "Aucun";
         if (fruitName && fruitName !== "Aucun" && fruitName !== "Inconnu") {
           const lowerFruit = fruitName.toLowerCase();
-          if (lowerFruit.includes("nika") || lowerFruit.includes("seiryu") || lowerFruit.includes("mythic") || lowerFruit.includes("mythique") || lowerFruit.includes("kitsune") || lowerFruit.includes("phoenix") || lowerFruit.includes("daibutsu") || lowerFruit.includes("pegasus")) {
+          if (
+            lowerFruit.includes("nika") ||
+            lowerFruit.includes("seiryu") ||
+            lowerFruit.includes("mythic") ||
+            lowerFruit.includes("mythique") ||
+            lowerFruit.includes("kitsune") ||
+            lowerFruit.includes("phoenix") ||
+            lowerFruit.includes("daibutsu") ||
+            lowerFruit.includes("pegasus") ||
+            lowerFruit.includes("yamata") ||
+            lowerFruit.includes("vampire") ||
+            lowerFruit.includes("nue") ||
+            lowerFruit.includes("onyudo") ||
+            lowerFruit.includes("ratatoskr") ||
+            lowerFruit.includes("nidhogg") ||
+            lowerFruit.includes("qilin")
+          ) {
             mappedFruitType = "Zoan Mythique";
           } else if (
-            (lowerFruit.includes("zoan") || lowerFruit.includes("inu inu") || lowerFruit.includes("neko") || lowerFruit.includes("ushi") || lowerFruit.includes("hebi") || lowerFruit.includes("uo uo") || lowerFruit.includes("mushi") || lowerFruit.includes("zou") || lowerFruit.includes("tori") || lowerFruit.includes("hito") || lowerFruit.includes("sara")) &&
+            (
+              lowerFruit.includes("smile") ||
+              lowerFruit.includes("zoan") ||
+              lowerFruit.includes("inu inu") ||
+              lowerFruit.includes("neko") ||
+              lowerFruit.includes("ushi") ||
+              lowerFruit.includes("hebi") ||
+              lowerFruit.includes("uo uo") ||
+              lowerFruit.includes("mushi") ||
+              lowerFruit.includes("zou") ||
+              lowerFruit.includes("tori") ||
+              lowerFruit.includes("hito") ||
+              lowerFruit.includes("sara") ||
+              lowerFruit.includes("kame kame") ||
+              lowerFruit.includes("uma uma") ||
+              lowerFruit.includes("ryu ryu") ||
+              lowerFruit.includes("kumo kumo") ||
+              lowerFruit.includes("mogu mogu") ||
+              lowerFruit.includes("batto batto") ||
+              lowerFruit.includes("risu risu")
+            ) &&
             !lowerFruit.includes("zushi")
           ) {
             mappedFruitType = "Zoan";
-          } else if (lowerFruit.includes("suna suna") || lowerFruit.includes("moku moku") || lowerFruit.includes("goro goro") || lowerFruit.includes("hie hie") || lowerFruit.includes("pika pika") || lowerFruit.includes("mori mori") || lowerFruit.includes("magu magu") || lowerFruit.includes("yami yami") || lowerFruit.includes("gasu gasu")) {
+          } else if (
+            lowerFruit.includes("suna suna") ||
+            lowerFruit.includes("moku moku") ||
+            lowerFruit.includes("goro goro") ||
+            lowerFruit.includes("hie hie") ||
+            lowerFruit.includes("pika pika") ||
+            lowerFruit.includes("mori mori") ||
+            lowerFruit.includes("magu magu") ||
+            lowerFruit.includes("yami yami") ||
+            lowerFruit.includes("gasu gasu") ||
+            lowerFruit.includes("yuki yuki") ||
+            lowerFruit.includes("numa numa") ||
+            lowerFruit.includes("mera mera") ||
+            lowerFruit.includes("susu susu")
+          ) {
             mappedFruitType = "Logia";
           } else {
             mappedFruitType = "Paramecia";
@@ -209,6 +260,10 @@ export default function App() {
           finalRace = "Minks";
         }
 
+        const rawChapter = item.first_appearance_arc || "";
+        const numMatch = rawChapter.match(/\d+/);
+        const parsedChapter = numMatch ? parseInt(numMatch[0], 10) : null;
+
         return {
           id,
           name: item.name !== null && item.name !== undefined ? String(item.name) : "Inconnu",
@@ -221,11 +276,14 @@ export default function App() {
           affiliation: mappedAffiliation,
           gender: genderValue,
           status: mappedStatus,
-          originArc: getArcFromChapter(item.first_appearance_arc || "Grand Line").replace(/Mokomo Dukedom/ig, "Minks"),
+          originArc: getArcFromChapter(rawChapter || "Grand Line").replace(/Mokomo Dukedom/ig, "Minks"),
           image: imageUrl,
           age,
           height,
           race: finalRace,
+          epithet: item.epithet !== null && item.epithet !== undefined ? String(item.epithet) : "",
+          apparitionChapter: parsedChapter,
+          apparitionChapterRaw: rawChapter || "Inconnu",
         };
       });
       setCharactersDatabase(mapped);
@@ -236,8 +294,8 @@ export default function App() {
     }
   }, []);
   
-  // Onglets : "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "statsBattle" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard"
-  const [activeTab, setActiveTab] = useState<"grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "statsBattle" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog">("grid");
+  // Onglets : "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid"
+  const [activeTab, setActiveTab] = useState<"grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid">("grid");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Charge et persiste la prime du joueur (Bounty) et ses statistiques
@@ -521,7 +579,7 @@ export default function App() {
     if (tab === "grid") return "Grand Line Grid";
     if (tab === "tracker") return "Log Pose Tracker";
     if (tab === "duel") return "Bounty Duel";
-    if (tab === "statsBattle") return "Bataille de stats";
+    if (tab === "pyramid") return "Pyramide";
     if (tab === "pirateShadow") return "L'ombre du pirate";
     if (tab === "timeline") return "Chronologie Pirate";
     if (tab === "bountyTarget") return "Cible de Primes";
@@ -736,15 +794,15 @@ export default function App() {
             </button>
 
             <button
-              onClick={() => { setActiveTab("statsBattle"); setIsMobileMenuOpen(false); }}
+              onClick={() => { setActiveTab("pyramid"); setIsMobileMenuOpen(false); }}
               className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
-                activeTab === "statsBattle" 
+                activeTab === "pyramid" 
                   ? "bg-violet-900 border-violet-500 text-white" 
                   : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
               }`}
             >
-              <Swords className="w-5 h-5 text-violet-400" />
-              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Bataille 2D</span>
+              <Trophy className="w-5 h-5 text-amber-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Pyramide</span>
             </button>
 
             <button
@@ -923,17 +981,17 @@ export default function App() {
                 <ArrowRightLeft className="w-3.5 h-3.5 shrink-0 text-violet-400" />
                 <span>BOUNTY DUEL</span>
               </button>
- 
+
               <button
-                onClick={() => setActiveTab("statsBattle")}
+                onClick={() => setActiveTab("pyramid")}
                 className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
-                  activeTab === "statsBattle" 
+                  activeTab === "pyramid" 
                     ? "bg-violet-900 text-[#F8FAFC] border border-violet-500" 
                     : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
                 }`}
               >
-                <Swords className="w-3.5 h-3.5 shrink-0 text-violet-400" />
-                <span>BATAILLE 2D</span>
+                <Trophy className="w-3.5 h-3.5 shrink-0 text-amber-400 animate-pulse" />
+                <span>PYRAMIDE</span>
               </button>
  
               <button
@@ -1094,10 +1152,10 @@ export default function App() {
               <Encyclopedie characters={charactersDatabase} />
             )}
 
-            {activeTab === "statsBattle" && (
-              <StatsBattle 
+            {activeTab === "pyramid" && (
+              <PiratePyramid 
                 characters={charactersDatabase} 
-                onUpdateBounty={(amt) => handleUpdateBounty(amt, "Bataille de stats")}
+                onUpdateBounty={(amt) => handleUpdateBounty(amt, "Pyramide")}
               />
             )}
 

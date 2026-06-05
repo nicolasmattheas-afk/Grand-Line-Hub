@@ -19,6 +19,9 @@ export interface Character {
   age: number | string | null | undefined; // Âge actuel ou à la mort
   height: number | string | null | undefined; // Taille en cm
   race?: string; // Race du personnage
+  epithet?: string; // Surnom/Épithète du personnage
+  apparitionChapter?: number | null; // Chapitre d'apparition numérique
+  apparitionChapterRaw?: string; // Chapitre d'apparition brut (ex: "Chapter 551")
 }
 
 export type BountyRank = 

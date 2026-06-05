@@ -573,7 +573,7 @@ export default function BountyLeaderboard({
         <div className="flex items-center gap-2 px-1">
           <UserCheck className="w-4 h-4 text-violet-400" />
           <span className="text-xs font-bold tracking-wider text-slate-300 uppercase">
-            Joueurs Réels ({leaderboardList.length})
+            Joueurs ({leaderboardList.length})
           </span>
         </div>
 

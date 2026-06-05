@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Character } from "../types";
 import { Search, RotateCcw, HelpCircle, Sparkles, Smile, ShieldAlert } from "lucide-react";
+import { searchCharacters } from "../data/characters";
 
 interface PirateShadowProps {
   characters: Character[];
@@ -141,9 +142,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
   };
 
   const searchResults = guessInput.trim() !== ""
-    ? cleanCandidates.filter((c) =>
-        c.name.toLowerCase().includes(guessInput.toLowerCase())
-      ).slice(0, 10)
+    ? searchCharacters(guessInput, cleanCandidates)
     : [];
 
   useEffect(() => {
@@ -254,17 +253,17 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
   const getClueMessage = () => {
     if (!targetChar) return "";
     if (errors === 1) {
-      return `Indice 1 (Affiliation) : Ce pirate est affilié aux / à l'équipage : "${targetChar.crew || "Inconnu"}".`;
+      return `Ce personnage est affilié à/aux : "${targetChar.crew || "Inconnu"}".`;
     }
     if (errors === 2) {
       const fruitInfo = targetChar.devilFruitName && targetChar.devilFruitName !== "Inconnu" && targetChar.devilFruitName !== "Aucun"
-        ? `Fruit du Démon: ${targetChar.devilFruitName} (type: ${targetChar.devilFruit})`
-        : "Ne possède aucun Fruit du Démon connu";
+        ? targetChar.devilFruitName
+        : "Aucun";
       const hakiInfo = targetChar.haki && targetChar.haki.length > 0
-        ? `Maîtrise les hakis: ${targetChar.haki.join(", ")}`
-        : "Pas de Haki spécial mentionné";
+        ? targetChar.haki.join(", ")
+        : "Aucun";
 
-      return `Indice 2 (Compétence) : ${fruitInfo}. ${hakiInfo}.`;
+      return `Indice (Compétence) : Fruit du Démon: ${fruitInfo}. Maîtrise les hakis: ${hakiInfo}`;
     }
     return "";
   };
@@ -333,7 +332,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
                 alt="Silhouetted candidate"
                 style={{
                   filter: getBlurStyle(),
-                  transition: "filter 0.4s ease-out"
+                  transition: revealed ? "filter 0.4s ease-out" : "none"
                 }}
                 className="w-full h-full object-contain select-none pointer-events-none p-2 bg-slate-100"
                 referrerPolicy="no-referrer"
@@ -472,7 +471,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
           {errors > 0 && !revealed && (
             <div className="p-4 bg-violet-500/5 border border-violet-500/20 rounded-2xl text-xs text-violet-800 leading-relaxed font-sans animate-in slide-in-from-bottom-2">
               <span className="font-black text-[10px] tracking-wider uppercase block text-violet-600 mb-1">
-                ⚠️ Erreur commise ! Indice obtenu :
+                Indice obtenu :
               </span>
               {getClueMessage()}
             </div>
