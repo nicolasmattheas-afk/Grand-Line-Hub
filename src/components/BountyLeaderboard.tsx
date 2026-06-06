@@ -615,7 +615,7 @@ export default function BountyLeaderboard({
                 
                 return (
                   <motion.div
-                    key={`${player.username}-${player.bounty}-${player.isRival}`}
+                    key={player.email || `${player.username}-${player.globalIndex}`}
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}

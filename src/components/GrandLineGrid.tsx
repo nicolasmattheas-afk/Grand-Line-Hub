@@ -2734,9 +2734,9 @@ export default function GrandLineGrid({
                             onClick={() => handleCellClick(cellIndex)}
                             className={`h-20 sm:h-28 md:h-34 rounded-xl md:rounded-2xl border-2 transition-all flex flex-col items-center justify-center p-1 sm:p-2 focus:scale-95 cursor-pointer relative group overflow-hidden ${
                               cell.owner === 1
-                                ? "bg-[#2563eb] border-[#2563eb] text-white font-black hover:opacity-90"
+                                ? "bg-[#f0f4ff] border-[#2563eb] text-slate-900 font-black hover:bg-[#e0ebff]"
                                 : cell.owner === 2
-                                  ? "bg-[#dc2626] border-[#dc2626] text-white font-black hover:opacity-90"
+                                  ? "bg-[#fff1f2] border-[#dc2626] text-slate-900 font-black hover:bg-[#ffe4e6]"
                                   : isMyTurn 
                                     ? "bg-white border-dashed border-[#E5E7EB] hover:border-[#8b5cf6] hover:bg-violet-50/10 cursor-pointer"
                                     : "bg-gray-100 border-dashed border-gray-200 cursor-not-allowed opacity-60"
@@ -2747,19 +2747,36 @@ export default function GrandLineGrid({
                                 +
                               </span>
                             ) : (
-                              <div className="text-center w-full min-w-0 px-1">
-                                <span className="block font-heading font-black text-[10px] md:text-xs uppercase truncate">
-                                  {cell.character?.name}
-                                </span>
-                                <span className="block font-mono text-[8px] md:text-[10px] opacity-75 truncate">
-                                  {cell.character?.crew}
-                                </span>
+                              <div className="flex flex-col items-center justify-center w-full min-w-0 h-full p-0.5">
+                                <img 
+                                  src={cell.character?.image} 
+                                  alt={cell.character?.name} 
+                                  className={`w-7 h-7 sm:w-11 sm:h-11 md:w-14 md:h-14 rounded-full object-cover border-2 shadow-xs shrink-0 ${
+                                    cell.owner === 1 ? "border-blue-500" : "border-red-500"
+                                  }`}
+                                  referrerPolicy="no-referrer"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(cell.character?.name || "")}&backgroundColor=b59a7c`;
+                                  }}
+                                />
+                                <div className="text-center w-full min-w-0 mt-1">
+                                  <p className={`font-heading font-black text-[7px] sm:text-[9px] md:text-[11px] uppercase truncate leading-tight ${
+                                    cell.owner === 1 ? "text-blue-900" : "text-red-900"
+                                  }`}>
+                                    {cell.character?.name}
+                                  </p>
+                                  <p className={`font-mono text-[5px] sm:text-[7px] md:text-[8px] opacity-75 truncate leading-none mt-0.5 ${
+                                    cell.owner === 1 ? "text-blue-700/80" : "text-red-700/80"
+                                  }`}>
+                                    {cell.character?.crew}
+                                  </p>
+                                </div>
                               </div>
                             )}
 
                             {cell.owner !== null && (
-                              <div className={`absolute top-2 right-2 w-2.5 h-2.5 rounded-full ${
-                                cell.owner === 1 ? "bg-blue-300" : "bg-red-300"
+                              <div className={`absolute top-1 right-1 sm:top-1.5 sm:right-1.5 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${
+                                cell.owner === 1 ? "bg-blue-600 animate-pulse" : "bg-red-600 animate-pulse"
                               }`} />
                             )}
                           </button>

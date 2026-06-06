@@ -74,7 +74,7 @@ export default function App() {
         "Jewelry Bonney", "Yamato", "Charlotte Pudding", "Viola", "Rebecca", 
         "Tashigi", "Hina", "Madame Shyarly", "Carrot", "Camie", "Nico Olvia", 
         "Kikunojo", "Gerd", "Koala", "Kokoro", "Chimney", "Stussy", "Shakuyaku [Shakky]",
-        "Sadi"
+        "Sadi", "Charlotte Praline"
       ]);
 
       const mapped: Character[] = rawData.map((item, index) => {
@@ -1325,6 +1325,8 @@ export default function App() {
                           ฿ {playerBounty.toLocaleString()}
                         </span>
                       </div>
+
+
 
                       <div className="mt-3">
                         <span className="text-[9px] uppercase font-mono tracking-widest text-[#6b7280] block font-bold">Rang & Réputation</span>
