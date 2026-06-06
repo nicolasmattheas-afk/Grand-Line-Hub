@@ -528,9 +528,11 @@ export default function App() {
   useEffect(() => {
     const userEmail = localStorage.getItem("firebaseUserEmail");
     if (userEmail === "nicolasmattheas@gmail.com") {
-      if (playerBounty !== 50000000) {
+      const hasReset = localStorage.getItem("hasResetBountyTo50M_v2");
+      if (!hasReset) {
         setPlayerBounty(50000000);
         localStorage.setItem("playerBountyValue", "50000000");
+        localStorage.setItem("hasResetBountyTo50M_v2", "true");
 
         // Mettre à jour directement la base de données Firestore pour que ça se reflète partout et instantanément sur grandlinehub.fr
         const syncBountyToFirestore = async () => {
@@ -539,16 +541,16 @@ export default function App() {
             await updateDoc(userDocRef, {
               bounty: 50000000
             });
-            console.log("Synchronisation de la prime à 50 000 000 ฿ réussie !");
+            console.log("Synchronisation initiale de la prime à 50 000 000 ฿ réussie !");
             fetchOnlineUsers();
           } catch (e) {
-            console.error("Échec de la synchronisation de la prime vers Firestore :", e);
+            console.error("Échec de la synchronisation initiale de la prime vers Firestore :", e);
           }
         };
         syncBountyToFirestore();
       }
     }
-  }, [playerBounty, activeTab, onlineUsers]);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("playerPirateName", playerUsername);
