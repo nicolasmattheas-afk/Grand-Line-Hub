@@ -17,6 +17,7 @@ import WEJSection from "./components/WEJSection";
 import BlogSection from "./components/BlogSection";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "./lib/firebase";
+import { track } from "@vercel/analytics";
 import { 
   Trophy, Award, Compass, Swords, ArrowRightLeft, BookOpen, 
   Sparkles, History, User, Heart, Settings, LayoutDashboard, Coins, Clock, Users, Brain, Crown, Newspaper, MessageSquare, Menu, X
@@ -576,6 +577,27 @@ export default function App() {
 
   // Ajustement de la prime globale
   const handleUpdateBounty = (amount: number, gameName?: string, resultString?: string) => {
+    const gameTypeStr = gameName || activeTabName(activeTab);
+    const outcomeStr = resultString || (amount >= 0 ? "Victoire" : "Défaite");
+
+    // Envoi de l'événement de jeu vers Google Analytics et Vercel Analytics
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("event", "game_played", {
+        game_name: gameTypeStr,
+        result: outcomeStr,
+        bounty_change: amount
+      });
+    }
+    try {
+      track("game_played", {
+        game_name: gameTypeStr,
+        result: outcomeStr,
+        bounty_change: amount
+      });
+    } catch (err) {
+      console.warn("Échec du suivi analytique track:", err);
+    }
+
     setPlayerBounty((prev) => {
       const nextValue = Math.max(0, prev + amount); // Ne pas descendre sous 0
 
@@ -583,8 +605,8 @@ export default function App() {
       const formattedGain = amount >= 0 ? `+${amount.toLocaleString()} ฿` : `${amount.toLocaleString()} ฿`;
       const newLog: GameLog = {
         id: Math.random().toString(36).substring(2, 9),
-        gameType: (gameName || activeTabName(activeTab)) as any,
-        result: (resultString || (amount >= 0 ? "Victoire" : "Défaite")) as any,
+        gameType: gameTypeStr as any,
+        result: outcomeStr as any,
         detail: amount >= 0 ? "Excellente performance et maîtrise de lore !" : "Défaite ou erreur de calcul.",
         adjustment: formattedGain,
         timestamp: new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + " - " + new Date().toLocaleDateString("fr-FR")
@@ -622,6 +644,35 @@ export default function App() {
     if (tab === "crew") return "Équipage";
     return "Menu Principal";
   };
+
+  // Suivi de navigation entre les onglets et jeux (Google Analytics & Vercel Analytics)
+  useEffect(() => {
+    const tabName = activeTabName(activeTab);
+
+    // Envoi d'une vue d'écran virtuelle sur GA4 pour chaque onglet visité
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("config", "G-HXDVC9Z58T", {
+        page_path: `/tab/${activeTab}`,
+        page_title: tabName
+      });
+
+      // Envoi d'un événement d'interaction personnalisé pour savoir quel jeu est ouvert
+      (window as any).gtag("event", "view_game_tab", {
+        game_id: activeTab,
+        game_name: tabName
+      });
+    }
+
+    // Suivi d'événement sur Vercel Analytics
+    try {
+      track("view_game_tab", {
+        game_id: activeTab,
+        game_name: tabName
+      });
+    } catch (err) {
+      console.warn("Échec du suivi d'onglet sur Vercel Analytics:", err);
+    }
+  }, [activeTab]);
 
   // Titre du badge couleur
   const rankColorClass = (rank: BountyRank) => {
