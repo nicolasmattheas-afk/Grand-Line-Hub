@@ -59,7 +59,7 @@ export default function CrewChat({
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
       }, 100);
     }, (error) => {
-      console.error("Erreur de synchronisation du chat d'équipage:", error);
+      console.warn("[Firebase Quota] Erreur de synchronisation du chat d'équipage :", error.message || error);
     });
 
     return () => unsubscribe();

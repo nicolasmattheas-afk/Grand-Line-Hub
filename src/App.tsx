@@ -434,8 +434,15 @@ export default function App() {
         });
       });
       setOnlineUsers(usersList);
-    } catch (e) {
-      console.error("Erreur lors de la récupération des joueurs réels :", e);
+      localStorage.setItem("cached_online_users", JSON.stringify(usersList));
+    } catch (e: any) {
+      console.warn("[Firebase Quota] Erreur lors de la récupération des joueurs réels, bascule sur le cache local :", e?.message || e);
+      const cached = localStorage.getItem("cached_online_users");
+      if (cached) {
+        try {
+          setOnlineUsers(JSON.parse(cached));
+        } catch (_) {}
+      }
     } finally {
       setLoadingOnlineUsers(false);
     }

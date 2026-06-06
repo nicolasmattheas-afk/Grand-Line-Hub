@@ -145,8 +145,8 @@ export default function SocialAndCrew({
                    crewName: snapData.crewName || null
                 });
               }
-            } catch (err) {
-              console.error(err);
+            } catch (err: any) {
+              console.warn("[Firebase Quota] Erreur de lecture du profil de l'ami :", err?.message || err);
             }
           }
           setFriends(profiles);
@@ -157,6 +157,8 @@ export default function SocialAndCrew({
         setUserProfile(null);
         setFriends([]);
       }
+    }, (error) => {
+      console.warn("[Firebase Quota] Erreur du listener du profil utilisateur :", error.message || error);
     });
 
     return () => unsubscribe();
@@ -189,6 +191,8 @@ export default function SocialAndCrew({
       } else {
         setMyCrew(null);
       }
+    }, (error) => {
+      console.warn("[Firebase Quota] Erreur du listener d'équipage :", error.message || error);
     });
 
     return () => unsubscribeCrew();

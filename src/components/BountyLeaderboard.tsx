@@ -64,6 +64,8 @@ export default function BountyLeaderboard({
       } else {
         setUserProfile(null);
       }
+    }, (error) => {
+      console.warn("[Firebase Quota] Erreur du listener d'état de profil dans Leaderboard :", error.message || error);
     });
     return () => unsubscribe();
   }, [playerEmail]);
@@ -89,6 +91,8 @@ export default function BountyLeaderboard({
           applications: d.applications || []
         });
       }
+    }, (error) => {
+      console.warn("[Firebase Quota] Erreur du listener d'équipage sélectionné dans Leaderboard :", error.message || error);
     });
     return () => unsubscribe();
   }, [selectedCrew?.id]);

@@ -415,10 +415,22 @@ export default function GrandLineGrid({
         const uData = uDoc.data();
         const fList = uData.friends || [];
         setFriendsList(fList);
+        localStorage.setItem(`cached_friends_list_${myEmail}`, JSON.stringify(fList));
         fetchFriendDetails(fList);
       }
-    } catch (e) {
-      console.error("Erreur de chargement des amis:", e);
+    } catch (e: any) {
+      console.warn("[Firebase Quota] Erreur de chargement des amis, bascule sur le cache local :", e?.message || e);
+      const cached = localStorage.getItem(`cached_friends_list_${myEmail}`);
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          setFriendsList(parsed);
+          const cachedProfiles = localStorage.getItem(`cached_friend_profiles_${myEmail}`);
+          if (cachedProfiles) {
+            setFriendProfiles(JSON.parse(cachedProfiles));
+          }
+        } catch (_) {}
+      }
     }
   };
 
@@ -434,11 +446,14 @@ export default function GrandLineGrid({
         if (snap.exists()) {
           list.push(snap.data());
         }
-      } catch (err) {
-        console.error(err);
+      } catch (err: any) {
+        console.warn("[Firebase Quota] Échec de la récupération du profil d'un ami :", err?.message || err);
       }
     }
-    setFriendProfiles(list);
+    if (list.length > 0) {
+      setFriendProfiles(list);
+      localStorage.setItem(`cached_friend_profiles_${myEmail}`, JSON.stringify(list));
+    }
   };
 
   // Écouté des invitations reçues en temps réel
@@ -469,7 +484,7 @@ export default function GrandLineGrid({
         setIncomingChallenge(null);
       }
     }, (error) => {
-      console.error("Erreur du listener de duels reçus:", error);
+      console.warn("[Firebase Quota] Quota dépassé pour l'écouteur de duels reçus (mode dégradé sans récepteur de défi en temps réel) :", error.message || error);
     });
 
     return () => unsubscribe();
@@ -602,7 +617,7 @@ export default function GrandLineGrid({
         }
       }
     }, (error) => {
-      console.error("Erreur de synchronisation du combat en ligne:", error);
+      console.warn("[Firebase Quota] Erreur de synchronisation du combat en ligne (Quota dépassé) :", error.message || error);
     });
 
     return () => unsubscribe();
