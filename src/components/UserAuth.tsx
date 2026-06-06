@@ -93,6 +93,54 @@ export default function UserAuth({
             logs: cleanLogs,
             updatedAt: serverTimestamp(),
           });
+
+          // SYNCHRONISATION EN CASCADE : Mettre à jour les infos du joueur au sein de son équipage en tâche de fond (nom, avatar, prime)
+          try {
+            const userSnap = await getDoc(userDocRef);
+            if (userSnap.exists()) {
+              const userData = userSnap.data();
+              const crewId = userData.crewId;
+              if (crewId) {
+                const crewDocRef = doc(db, "crews", crewId);
+                const crewSnap = await getDoc(crewDocRef);
+                if (crewSnap.exists()) {
+                  const crewData = crewSnap.data();
+                  const members = crewData.members || [];
+                  let hasChanged = false;
+
+                  const updatedMembers = members.map((member: any) => {
+                    if (member.email === currentUserEmail) {
+                      if (
+                        member.name !== playerUsername ||
+                        member.avatar !== (playerAvatar || "") ||
+                        member.bounty !== Number(playerBounty || 0)
+                      ) {
+                        hasChanged = true;
+                        return {
+                          ...member,
+                          name: playerUsername,
+                          avatar: playerAvatar || "",
+                          bounty: Number(playerBounty || 0)
+                        };
+                      }
+                    }
+                    return member;
+                  });
+
+                  if (hasChanged) {
+                    const newTotalBounty = updatedMembers.reduce((sum: number, m: any) => sum + Number(m.bounty || 0), 0);
+                    await updateDoc(crewDocRef, {
+                      members: updatedMembers,
+                      totalBounty: newTotalBounty
+                    });
+                    console.log(`[Sync Crew] Infos synchronisées pour ${currentUserEmail} dans l'équipage ${crewId}. Nouvelle prime totale : ${newTotalBounty}`);
+                  }
+                }
+              }
+            }
+          } catch (syncErr) {
+            console.warn("Échec mineur de la synchronisation en cascade de l'équipage:", syncErr);
+          }
         } catch (error) {
           // Gérer gracieusement les erreurs selon les directives
           console.error("Échec de la synchronisation automatique en tâche de fond:", error);
