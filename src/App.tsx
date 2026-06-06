@@ -524,6 +524,32 @@ export default function App() {
     localStorage.setItem("playerBountyValue", String(playerBounty));
   }, [playerBounty]);
 
+  // Synchronisation automatique et détection du compte nicolasmattheas@gmail.com
+  useEffect(() => {
+    const userEmail = localStorage.getItem("firebaseUserEmail");
+    if (userEmail === "nicolasmattheas@gmail.com") {
+      if (playerBounty !== 50000000) {
+        setPlayerBounty(50000000);
+        localStorage.setItem("playerBountyValue", "50000000");
+
+        // Mettre à jour directement la base de données Firestore pour que ça se reflète partout et instantanément sur grandlinehub.fr
+        const syncBountyToFirestore = async () => {
+          try {
+            const userDocRef = doc(db, "users", "nicolasmattheas@gmail.com");
+            await updateDoc(userDocRef, {
+              bounty: 50000000
+            });
+            console.log("Synchronisation de la prime à 50 000 000 ฿ réussie !");
+            fetchOnlineUsers();
+          } catch (e) {
+            console.error("Échec de la synchronisation de la prime vers Firestore :", e);
+          }
+        };
+        syncBountyToFirestore();
+      }
+    }
+  }, [playerBounty, activeTab, onlineUsers]);
+
   useEffect(() => {
     localStorage.setItem("playerPirateName", playerUsername);
   }, [playerUsername]);
