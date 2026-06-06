@@ -114,6 +114,11 @@ export default function SocialAndCrew({
   const [editDescInput, setEditDescInput] = useState("");
   const [descSaving, setDescSaving] = useState(false);
 
+  // Édition du nom de l'équipage
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editNameInput, setEditNameInput] = useState("");
+  const [nameSaving, setNameSaving] = useState(false);
+
   // 1. Écouter le profil utilisateur Firestore de manière réactive
   useEffect(() => {
     if (!playerEmail) {
@@ -715,6 +720,10 @@ export default function SocialAndCrew({
   // 14. Modifier la description de l'équipage
   const handleSaveDescription = async () => {
     if (!myCrew || !playerEmail) return;
+    if (myCrew.creatorEmail !== playerEmail) {
+      alert("Seul le capitaine de l'équipage peut en modifier la devise.");
+      return;
+    }
     const descText = editDescInput.trim();
     if (descText.length < 3) {
       alert("La description est un peu courte ! Écrivez au moins 3 caractères.");
@@ -735,6 +744,67 @@ export default function SocialAndCrew({
       alert("Une erreur s'est produite lors de la mise à jour de la description.");
     } finally {
       setDescSaving(false);
+    }
+  };
+
+  // 14b. Modifier le nom de l'équipage
+  const handleSaveName = async () => {
+    if (!myCrew || !playerEmail) return;
+    if (myCrew.creatorEmail !== playerEmail) {
+      alert("Seul le capitaine de l'équipage peut en modifier le nom.");
+      return;
+    }
+    const nameText = editNameInput.trim();
+    if (nameText.length < 3 || nameText.length > 25) {
+      alert("Le nom de l'équipage doit être compris entre 3 et 25 caractères.");
+      return;
+    }
+
+    if (nameText === myCrew.name) {
+      setIsEditingName(false);
+      return;
+    }
+
+    setNameSaving(true);
+    try {
+      // Vérifier de manière basique l'unicité du nom en dehors de notre propre équipage
+      const qExist = query(collection(db, "crews"), where("name", "==", nameText));
+      const existSnap = await getDocs(qExist);
+      if (!existSnap.empty) {
+        alert("Ce nom d'équipage est déjà pris par un autre capitaine de Grand Line !");
+        setNameSaving(false);
+        return;
+      }
+
+      // 1. Mettre à jour l'équipage lui-même
+      await updateDoc(doc(db, "crews", myCrew.id), {
+        name: nameText
+      });
+
+      // 2. Mettre à jour tous les profils des membres dans la base de données Firestore
+      if (myCrew.members && myCrew.members.length > 0) {
+        const updatePromises = myCrew.members.map(async (member) => {
+          if (member.email) {
+            try {
+              await updateDoc(doc(db, "users", member.email), {
+                crewName: nameText
+              });
+            } catch (err) {
+              console.warn(`[Firebase Quota] Impossible de renommer l'équipage pour l'utilisateur ${member.email}:`, err);
+            }
+          }
+        });
+        await Promise.all(updatePromises);
+      }
+
+      setIsEditingName(false);
+      alert(`Le nom de l'équipage a bien été modifié en "${nameText}" !`);
+      loadAllCrews();
+    } catch (err: any) {
+      console.error(err);
+      alert("Une erreur s'est produite lors du changement de nom de l'équipage.");
+    } finally {
+      setNameSaving(false);
     }
   };
 
@@ -945,7 +1015,51 @@ export default function SocialAndCrew({
                       <span>{myCrew.emblem || "🏴‍☠️"}</span>
                     )}
                   </div>
-                  <h4 className="font-heading font-black text-xl text-gray-900 tracking-tight uppercase leading-none">{myCrew.name}</h4>
+                  {isEditingName ? (
+                    <div className="space-y-2 max-w-xs mx-auto">
+                      <input
+                        type="text"
+                        value={editNameInput}
+                        onChange={(e) => setEditNameInput(e.target.value)}
+                        disabled={nameSaving}
+                        maxLength={25}
+                        className="w-full text-center text-sm p-2 border border-violet-150 rounded-xl focus:ring-1 focus:ring-violet-500 bg-white font-heading font-black uppercase text-gray-950"
+                        placeholder="Nouveau nom..."
+                      />
+                      <div className="flex gap-2 justify-center">
+                        <button
+                          onClick={() => setIsEditingName(false)}
+                          disabled={nameSaving}
+                          className="px-2 py-1 text-[10px] bg-gray-100 hover:bg-gray-250 text-gray-600 font-bold rounded-lg uppercase cursor-pointer transition"
+                        >
+                          Annuler
+                        </button>
+                        <button
+                          onClick={handleSaveName}
+                          disabled={nameSaving}
+                          className="px-2 py-1 text-[10px] bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-lg uppercase cursor-pointer transition font-heading"
+                        >
+                          {nameSaving ? "..." : "Sauver 💾"}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center gap-2 flex-wrap">
+                      <h4 className="font-heading font-black text-xl text-gray-900 tracking-tight uppercase leading-none">{myCrew.name}</h4>
+                      {myCrew.creatorEmail === playerEmail && (
+                        <button
+                          onClick={() => {
+                            setEditNameInput(myCrew.name);
+                            setIsEditingName(true);
+                          }}
+                          className="text-[11px] text-violet-600 hover:text-violet-700 font-bold hover:underline cursor-pointer transition lowercase"
+                          title="Modifier le nom de l'équipage"
+                        >
+                          modifier
+                        </button>
+                      )}
+                    </div>
+                  )}
                   
                   {myCrew.creatorEmail === playerEmail ? (
                     <span className="inline-block text-[9px] font-mono bg-amber-500 text-black border border-amber-600 px-2 py-0.5 rounded-full font-black tracking-widest uppercase">
@@ -990,15 +1104,15 @@ export default function SocialAndCrew({
                   <div className="border-t border-[#F1F5F9] pt-4 space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] uppercase font-mono tracking-widest font-extrabold text-violet-600">Devise de l'Équipage</span>
-                      {isHabilitatedToEdit && (
+                      {myCrew.creatorEmail === playerEmail && (
                         <button
                           onClick={() => {
                             setEditDescInput(myCrew.description || "");
                             setIsEditingDesc(true);
                           }}
-                          className="text-[10px] text-violet-600 hover:text-violet-700 font-bold underline cursor-pointer transition flex items-center gap-0.5"
+                          className="text-[10px] text-violet-600 hover:text-violet-700 font-bold underline cursor-pointer transition flex items-center gap-0.5 lowercase"
                         >
-                          Modifier 📝
+                          modifier
                         </button>
                       )}
                     </div>
