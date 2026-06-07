@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { getCharactersDatabase } from "./data/characters";
+import { FEMALE_NAMES } from "./data/femaleNames";
 import { Character, BountyRank, GameLog } from "./types";
 import BountyDuel from "./components/BountyDuel";
 import LogPoseTracker from "./components/LogPoseTracker";
@@ -70,13 +71,7 @@ export default function App() {
   useEffect(() => {
     try {
       const rawData = getCharactersDatabase();
-      const femaleNames = new Set([
-        "Nami", "Nico Robin", "Boa Hancock", "Charlotte Linlin [Big Mom]", 
-        "Jewelry Bonney", "Yamato", "Charlotte Pudding", "Viola", "Rebecca", 
-        "Tashigi", "Hina", "Madame Shyarly", "Carrot", "Camie", "Nico Olvia", 
-        "Kikunojo", "Gerd", "Koala", "Kokoro", "Chimney", "Stussy", "Shakuyaku [Shakky]",
-        "Sadi", "Charlotte Praline"
-      ]);
+      const femaleNames = new Set(FEMALE_NAMES);
 
       const mapped: Character[] = rawData.map((item, index) => {
         // Identifiant unique
