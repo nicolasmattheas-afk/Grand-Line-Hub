@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { Character } from "../types";
-import { Search, Filter, ShieldCheck, HelpCircle, Compass, Anchor, User, Bookmark } from "lucide-react";
+import { Search, Filter, ShieldCheck, HelpCircle, Compass, Anchor, User, Bookmark, Swords, X, Trophy, Flame } from "lucide-react";
+import { LUFFY_BATTLES } from "../data/luffyBattles";
 
 interface EncyclopedieProps {
   characters: Character[];
@@ -11,9 +12,64 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
   const [selectedAffiliation, setSelectedAffiliation] = useState<string>("All");
   const [selectedFruit, setSelectedFruit] = useState<string>("All");
   const [selectedStatus, setSelectedStatus] = useState<string>("All");
+  const [selectedSwordsman, setSelectedSwordsman] = useState<string>("All");
+  const [selectedLuffyOpponent, setSelectedLuffyOpponent] = useState<string>("All");
   const [showTop150, setShowTop150] = useState<boolean>(false);
+  const [showBattlesModal, setShowBattlesModal] = useState<boolean>(false);
+  const [battleSearch, setBattleSearch] = useState<string>("");
+  const [battleSagaFilter, setBattleSagaFilter] = useState<string>("All");
+  const [battleResultFilter, setBattleResultFilter] = useState<string>("All");
   const [page, setPage] = useState(1);
   const itemsPerPage = 12;
+
+  // Battles filtering logic
+  const filteredBattles = useMemo(() => {
+    let result = [...LUFFY_BATTLES];
+
+    if (battleSearch.trim()) {
+      const bs = battleSearch.toLowerCase().trim();
+      result = result.filter(b => 
+        (b.opponent || "").toLowerCase().includes(bs) || 
+        (b.sagaOrContext || "").toLowerCase().includes(bs) ||
+        (b.result || "").toLowerCase().includes(bs)
+      );
+    }
+
+    if (battleSagaFilter !== "All") {
+      result = result.filter(b => b.sagaOrContext === battleSagaFilter);
+    }
+
+    if (battleResultFilter !== "All") {
+      result = result.filter(b => {
+        const lowerRes = b.result.toLowerCase();
+        const lowerFilter = battleResultFilter.toLowerCase();
+        return lowerRes.includes(lowerFilter);
+      });
+    }
+
+    return result;
+  }, [battleSearch, battleSagaFilter, battleResultFilter]);
+
+  const sagas = useMemo(() => {
+    const set = new Set<string>();
+    LUFFY_BATTLES.forEach(b => {
+      if (b.sagaOrContext) set.add(b.sagaOrContext);
+    });
+    return Array.from(set);
+  }, []);
+
+  const battleStats = useMemo(() => {
+    let wins = 0;
+    let losses = 0;
+    let draws = 0;
+    LUFFY_BATTLES.forEach(b => {
+      const lowerRes = b.result.toLowerCase();
+      if (lowerRes.includes("victoire")) wins++;
+      else if (lowerRes.includes("défaite") || lowerRes.includes("defaite")) losses++;
+      else draws++;
+    });
+    return { wins, losses, draws, total: LUFFY_BATTLES.length };
+  }, []);
 
   // Filtrage intelligent
   const filteredCharacters = useMemo(() => {
@@ -93,9 +149,19 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
       result = result.filter(c => c.status === selectedStatus);
     }
 
+    if (selectedSwordsman !== "All") {
+      const wantSwordsman = selectedSwordsman === "Yes";
+      result = result.filter(c => !!c.isSwordsman === wantSwordsman);
+    }
+
+    if (selectedLuffyOpponent !== "All") {
+      const wantOpponent = selectedLuffyOpponent === "Yes";
+      result = result.filter(c => !!c.isLuffyOpponent === wantOpponent);
+    }
+
     setPage(1); // Reset page on filter change
     return result;
-  }, [characters, query, selectedAffiliation, selectedFruit, selectedStatus, showTop150]);
+  }, [characters, query, selectedAffiliation, selectedFruit, selectedStatus, selectedSwordsman, selectedLuffyOpponent, showTop150]);
 
   // Pagination
   const paginatedCharacters = useMemo(() => {
@@ -111,9 +177,17 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white font-heading mb-2 uppercase">
           ENCYCLOPÉDIE DE GRAND LINE
         </h2>
-        <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base font-medium">
+        <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base font-medium mb-4">
           Consultez et étudiez les fiches descriptives des <span className="font-extrabold text-[#8b5cf6]">{characters.length} personnages</span> de la base de données pour parfaire vos connaissances stratégiques.
         </p>
+        <button
+          type="button"
+          onClick={() => setShowBattlesModal(true)}
+          className="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-500 text-white font-heading font-black uppercase text-xs px-5 py-3 rounded-2xl border-2 border-black shadow-3xs cursor-pointer hover:-translate-y-0.5 transition-all"
+        >
+          <Swords className="w-4 h-4 animate-pulse text-yellow-300" />
+          <span>Journal des combats de Luffy ⚔️</span>
+        </button>
       </div>
 
       {/* Barre de Recherche et Filtres */}
@@ -169,6 +243,28 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
           <option value="Décédé">Décédé</option>
         </select>
 
+        {/* Filtre Épée/Sabre */}
+        <select
+          value={selectedSwordsman}
+          onChange={(e) => setSelectedSwordsman(e.target.value)}
+          className="w-full md:w-36 bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer mr-2"
+        >
+          <option value="All">Style de Combat</option>
+          <option value="Yes">Épéiste / Sabreur</option>
+          <option value="No">Autre Style</option>
+        </select>
+
+        {/* Filtre Ennemis Luffy */}
+        <select
+          value={selectedLuffyOpponent}
+          onChange={(e) => setSelectedLuffyOpponent(e.target.value)}
+          className="w-full md:w-40 bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer mr-2"
+        >
+          <option value="All">Tout Adversaire </option>
+          <option value="Yes">Vs Luffy</option>
+          <option value="No">Sans combat Vs Luffy</option>
+        </select>
+
         {/* Toggle Top 150 */}
         <button
           type="button"
@@ -208,6 +304,20 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
                   <div className="absolute bottom-2 left-2 px-2.5 py-1 bg-[#1A1A1A]/95 text-[9px] text-white rounded font-mono uppercase font-bold tracking-wider">
                     {char.crew !== null && char.crew !== undefined && char.crew !== "" ? char.crew : "Inconnu"}
                   </div>
+                  {/* Tag Épée/Sabre */}
+                  {char.isSwordsman && (
+                    <div className="absolute top-2 right-2 px-2 py-0.5 bg-[#8b5cf6] text-[8px] text-white rounded font-mono uppercase font-black tracking-wider flex items-center gap-1 shadow-sm">
+                      <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                      Sabreur
+                    </div>
+                  )}
+                  {/* Tag Adversaire de Luffy */}
+                  {char.isLuffyOpponent && (
+                    <div className="absolute top-2 left-2 px-2 py-0.5 bg-rose-600 text-[8px] text-white rounded font-mono uppercase font-black tracking-wider flex items-center gap-1 shadow-sm z-10">
+                      <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />
+                      Vs Luffy ({char.luffyBattlesCount} {char.luffyBattlesCount && char.luffyBattlesCount > 1 ? "combats" : "combat"})
+                    </div>
+                  )}
                 </div>
  
                 {/* Nom & Description */}
@@ -293,6 +403,152 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
           >
             Navire suivant →
           </button>
+        </div>
+      )}
+
+      {/* MODAL DU JOURNAL DE COMBATS DE LUFFY */}
+      {showBattlesModal && (
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-50 p-4 font-sans">
+          <div className="bg-white border-4 border-black rounded-3xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden shadow-2xl relative">
+            
+            {/* Header du modal */}
+            <div className="bg-[#1A1A1A] text-white p-5 border-b-4 border-black flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="bg-rose-600 p-2.5 rounded-2xl border-2 border-white shadow-3xs">
+                  <Swords className="w-6 h-6 text-yellow-300 animate-pulse" />
+                </div>
+                <div>
+                  <h3 className="font-heading font-black text-xl md:text-2xl uppercase tracking-tighter text-white">
+                    LE JOURNAL DES COMBATS DE LUFFY
+                  </h3>
+                  <p className="text-slate-400 text-xs font-mono">
+                    {battleStats.total} affrontements répertoriés à travers tout Grand Line
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowBattlesModal(false)}
+                className="bg-red-600 text-white rounded-xl p-2 border-2 border-black hover:bg-red-500 cursor-pointer shadow-3xs hover:-translate-y-0.5 transition-all"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Scoreboard / Stats Quick bar */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 p-4 bg-slate-50 border-b-2 border-slate-200">
+              <div className="bg-white border-2 border-black p-3 rounded-2xl text-center shadow-3xs">
+                <div className="text-[10px] font-mono font-black text-gray-400 uppercase">TOTAUX</div>
+                <div className="text-xl font-heading font-black text-[#1A1A1A]">{battleStats.total}</div>
+              </div>
+              <div className="bg-emerald-50 border-2 border-emerald-500 p-3 rounded-2xl text-center shadow-3xs">
+                <div className="text-[10px] font-mono font-black text-emerald-600 uppercase font-bold">VICTOIRES</div>
+                <div className="text-xl font-heading font-black text-emerald-700">{battleStats.wins}</div>
+              </div>
+              <div className="bg-rose-50 border-2 border-rose-500 p-3 rounded-2xl text-center shadow-3xs">
+                <div className="text-[10px] font-mono font-black text-rose-600 uppercase font-bold">DÉFAITES</div>
+                <div className="text-xl font-heading font-black text-rose-700">{battleStats.losses}</div>
+              </div>
+              <div className="bg-amber-50 border-2 border-amber-500 p-3 rounded-2xl text-center shadow-3xs">
+                <div className="text-[10px] font-mono font-black text-amber-600 uppercase font-bold">INTERROMPUS</div>
+                <div className="text-xl font-heading font-black text-amber-700">{battleStats.draws}</div>
+              </div>
+            </div>
+
+            {/* Barre de recherche et filtres de combats */}
+            <div className="p-4 bg-white border-b border-slate-200 flex flex-col sm:flex-row gap-3 items-center">
+              <div className="relative w-full sm:flex-1 bg-white border border-gray-300 focus-within:border-black focus-within:ring-1 focus-within:ring-black rounded-xl px-3 py-2 flex items-center gap-2 transition-all">
+                <Search className="w-4 h-4 text-gray-400 shrink-0" />
+                <input
+                  type="text"
+                  placeholder="Rechercher par nom d'adversaire ou arc..."
+                  value={battleSearch}
+                  onChange={(e) => setBattleSearch(e.target.value)}
+                  className="bg-transparent text-xs text-[#1A1A1A] placeholder-gray-400 outline-hidden w-full border-none"
+                />
+              </div>
+
+              <select
+                value={battleSagaFilter}
+                onChange={(e) => setBattleSagaFilter(e.target.value)}
+                className="w-full sm:w-52 bg-white border border-gray-300 p-2 rounded-xl text-xs font-mono font-bold cursor-pointer text-[#1A1A1A]"
+              >
+                <option value="All">Saga (Tout afficher)</option>
+                {sagas.map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+
+              <select
+                value={battleResultFilter}
+                onChange={(e) => setBattleResultFilter(e.target.value)}
+                className="w-full sm:w-44 bg-white border border-gray-300 p-2 rounded-xl text-xs font-mono font-bold cursor-pointer text-[#1A1A1A]"
+              >
+                <option value="All">Résultat (Tout)</option>
+                <option value="Victoire">Victoires</option>
+                <option value="Défaite">Défaites</option>
+                <option value="Interrompue">Interrompues / Inconnu</option>
+              </select>
+            </div>
+
+            {/* List of battles */}
+            <div className="flex-1 overflow-y-auto p-4 bg-slate-100">
+              <div className="space-y-3">
+                {filteredBattles.map((b) => {
+                  const isWin = b.result.toLowerCase().includes("victoire");
+                  const isLoss = b.result.toLowerCase().includes("défaite") || b.result.toLowerCase().includes("defaite");
+                  return (
+                    <div 
+                      key={b.id} 
+                      className="bg-white border-2 border-black rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-3xs"
+                    >
+                      <div className="flex-1">
+                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                          <span className="text-[10px] bg-indigo-50 border border-indigo-200 text-indigo-700 font-mono py-0.5 px-2 rounded-md font-bold uppercase">
+                            Context: {b.sagaOrContext}
+                          </span>
+                          {b.isCanon ? (
+                            <span className="text-[9px] bg-emerald-50 border border-emerald-200 text-emerald-700 font-mono py-0.5 px-1.5 rounded-md font-bold uppercase">
+                              Canon
+                            </span>
+                          ) : (
+                            <span className="text-[9px] bg-gray-100 border border-gray-200 text-gray-500 font-mono py-0.5 px-1.5 rounded-md font-bold uppercase">
+                              Hors-série
+                            </span>
+                          )}
+                        </div>
+                        <h4 className="font-heading font-black text-base text-slate-900 uppercase tracking-tight">
+                          Luffy vs. {b.opponent}
+                        </h4>
+                      </div>
+                      <div className="shrink-0 flex items-center justify-end">
+                        <span className={`text-[11px] font-heading font-black uppercase py-1.5 px-3 rounded-xl border-2 border-black shadow-3xs tracking-wider text-center ${
+                          isWin 
+                            ? "bg-emerald-400 text-slate-900" 
+                            : isLoss 
+                              ? "bg-rose-400 text-slate-900" 
+                              : "bg-amber-300 text-slate-900"
+                        }`}>
+                          {b.result}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {filteredBattles.length === 0 && (
+                  <div className="py-12 text-center text-gray-400 font-mono text-xs">
+                    Aucun combat ne correspond à vos critères.
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="p-3 bg-slate-50 border-t border-slate-200 text-center text-[10px] text-gray-400 font-mono">
+              Données de combat extraites de l'aventure officielle répertoriées en temps réel.
+            </div>
+          </div>
         </div>
       )}
     </div>

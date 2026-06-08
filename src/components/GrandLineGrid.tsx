@@ -32,6 +32,8 @@ const CATEGORIES: { [key: string]: Category } = {
   marine: { id: "marine", label: "Marine", check: (c) => c.affiliation === "Marine" },
   revolutionary: { id: "revolutionary", label: "Révolutionnaire", check: (c) => c.affiliation === "Révolutionnaire" || c.crew.toLowerCase().includes("revolutionary") },
   government: { id: "government", label: "Gouv. Mondial / CP", check: (c) => c.affiliation === "Gouvernement" || c.crew.toLowerCase().includes("cp0") || c.crew.toLowerCase().includes("cp9") || c.crew.toLowerCase().includes("five elders") || c.crew.toLowerCase().includes("knights of god") },
+  swordsman: { id: "swordsman", label: "Épéiste / Sabreur", check: (c) => !!c.isSwordsman },
+  luffy_opponent: { id: "luffy_opponent", label: "Adversaire de Luffy", check: (c) => !!c.isLuffyOpponent },
 
   fruit: { id: "fruit", label: "Possède un Fruit", check: (c) => c.devilFruit !== "Aucun" },
   no_fruit: { id: "no_fruit", label: "Sans Fruit du Démon", check: (c) => c.devilFruit === "Aucun" },
@@ -224,7 +226,8 @@ function generateValidGrid(characters: Character[]): { rows: string[]; columns: 
     "femme", "homme", "vivant", "decede", 
     "bounty_1b", "bounty_100m", "bounty_under_100m", "bounty_zero", 
     "tall", "short", "young", "old", 
-    "arc_east_blue", "arc_alabasta", "arc_marineford", "arc_new_world"
+    "arc_east_blue", "arc_alabasta", "arc_marineford", "arc_new_world",
+    "luffy_opponent"
   ];
 
   for (let attempt = 0; attempt < 80; attempt++) {

@@ -536,16 +536,25 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
         </div>
 
         {/* Calculated comparison counter */}
-        <div className="md:col-span-4 bg-slate-50 border border-slate-150 rounded-2xl p-4 text-center space-y-1 self-stretch flex flex-col justify-center">
+        <div className="md:col-span-4 bg-slate-50 border border-slate-150 rounded-2xl p-4 text-center space-y-1.5 self-stretch flex flex-col justify-center">
           <span className="text-[9.5px] uppercase font-mono text-gray-450 font-black block font-bold">
             SOMME DE VOS CHOIX ({selectedChars.filter(Boolean).length}/{gameSize})
           </span>
           <span className="text-xl font-heading font-black text-gray-900 block tracking-tight">
             {formatBounty(currentPlayerSum)} ฿
           </span>
+
+          {currentPlayerSum > 0 && (
+            <div className="text-xs font-mono font-bold py-1 px-2.5 rounded-lg bg-white border border-slate-200 inline-block mx-auto">
+              <span className="text-gray-400">Écart : </span>
+              <span className={currentPlayerSum === targetBounty ? "text-emerald-600 font-extrabold" : currentPlayerSum > targetBounty ? "text-rose-600 font-extrabold" : "text-amber-600 font-extrabold"}>
+                {currentPlayerSum === targetBounty ? "0 ฿" : (currentPlayerSum > targetBounty ? `+${formatBounty(currentPlayerSum - targetBounty)}` : `-${formatBounty(targetBounty - currentPlayerSum)}`)} ฿
+              </span>
+            </div>
+          )}
           
           {/* Target comparison live state indicator */}
-          <div className="pt-1.5 flex justify-center">
+          <div className="pt-1 flex justify-center">
             {currentPlayerSum > 0 && (
               <span className={`px-2 py-0.5 text-[8px] font-mono font-black rounded uppercase tracking-wider ${
                 currentPlayerSum === targetBounty
@@ -616,15 +625,23 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
               </div>
 
               {/* Comparison detail values */}
-              <div className="grid grid-cols-2 gap-4 text-xs font-mono max-w-sm mx-auto p-3 bg-slate-50 border border-slate-105 border-slate-100 rounded-xl animate-in zoom-in-95">
+              <div className="grid grid-cols-3 gap-2 text-xs font-mono max-w-md mx-auto p-3 bg-slate-50 border border-slate-105 border-slate-100 rounded-xl animate-in zoom-in-95">
                 <div>
-                  <span className="text-gray-400 block uppercase text-[9px] font-bold">PRIME DE LA CIBLE</span>
-                  <span className="text-[#1A1A1A] font-extrabold text-[13px]">{formatBounty(targetBounty)} ฿</span>
+                  <span className="text-gray-400 block uppercase text-[8px] font-bold">CIBLE</span>
+                  <span className="text-[#1A1A1A] font-extrabold text-[11px] sm:text-[12px] block mt-1 truncate">
+                    {formatBounty(targetBounty)} ฿
+                  </span>
                 </div>
                 <div>
-                  <span className="text-gray-400 block uppercase text-[9px] font-bold">SOMME DES SUSPECTS</span>
-                  <span className={`font-extrabold text-[13px] ${contractScore === 100 ? "text-emerald-600 font-black" : "text-rose-600"}`}>
+                  <span className="text-gray-400 block uppercase text-[8px] font-bold">VOS CHOIX</span>
+                  <span className={`font-extrabold text-[11px] sm:text-[12px] block mt-1 truncate ${contractScore === 100 ? "text-emerald-600 font-extrabold" : "text-rose-600"}`}>
                     {formatBounty(selectedChars.reduce((acc, c) => acc + (c ? c.bounty : 0), 0))} ฿
+                  </span>
+                </div>
+                <div>
+                  <span className="text-gray-400 block uppercase text-[8px] font-bold">DIFFÉRENCE</span>
+                  <span className={`font-extrabold text-[11px] sm:text-[12px] block mt-1 truncate ${currentPlayerSum === targetBounty ? "text-emerald-600" : currentPlayerSum > targetBounty ? "text-rose-600" : "text-amber-600"}`}>
+                    {currentPlayerSum === targetBounty ? "0" : (currentPlayerSum > targetBounty ? `+${formatBounty(currentPlayerSum - targetBounty)}` : `-${formatBounty(targetBounty - currentPlayerSum)}`)} ฿
                   </span>
                 </div>
               </div>

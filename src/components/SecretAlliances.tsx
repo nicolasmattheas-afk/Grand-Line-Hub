@@ -39,33 +39,13 @@ const GROUP_TEMPLATES: GroupTemplate[] = [
     id: "swordsmen",
     label: "Épéistes & Sabreurs",
     description: "Fins bretteurs et maîtres du sabre de Grand Line.",
-    check: (c) => {
-      const descLower = (c.description || "").toLowerCase();
-      const nameLower = (c.name || "").toLowerCase();
-      const famousSwordsmen = [
-        "zoro", "mihawk", "shanks", "rayleigh", "roger", "oden", "ryuma", "vista", 
-        "fujitora", "issho", "shiryu", "cavendish", "kin'emon", "denjiro", "ashura", 
-        "kawamatsu", "kiku", "izo", "okiku", "kurozumi kanjuro", "brook", "hatchan", 
-        "hyozo", "ohm", "t-bone", "cabaji", "kaku", "tashigi", "hina", "bastille", 
-        "maynard", "momonga", "onigumo", "dobon", "law", "trafalgar", "killer", 
-        "pedro", "shishilian", "inuarashi", "nekomamushi", "smoothie", "cracker", 
-        "amande", "bobbin", "perospero", "gol d. roger", "silvers rayleigh", 
-        "kozuki oden", "shimotsuki", "kuina", "koushirou"
-      ];
-      const isFamous = famousSwordsmen.some(f => nameLower.includes(f));
-      const hasKeyword = descLower.includes("swordsman") || 
-                         descLower.includes("épéiste") || 
-                         descLower.includes("sabreur") || 
-                         descLower.includes("sword master") || 
-                         descLower.includes("master swordsman") ||
-                         descLower.includes("sword-wielding") ||
-                         descLower.includes("uses a sword") ||
-                         descLower.includes("uses a katana") ||
-                         descLower.includes("uses a sabre") ||
-                         descLower.includes("uses a saber") ||
-                         descLower.includes("fencer");
-      return isFamous || hasKeyword;
-    }
+    check: (c) => !!c.isSwordsman
+  },
+  {
+    id: "luffy_opponents",
+    label: "Adversaires de Luffy",
+    description: "Combattants courageux ou rivaux cruels ayant affronté Monkey D. Luffy.",
+    check: (c) => !!c.isLuffyOpponent
   },
   {
     id: "haki_kings",

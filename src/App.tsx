@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { getCharactersDatabase } from "./data/characters";
 import { FEMALE_NAMES } from "./data/femaleNames";
+import { SWORDSMEN_NAMES } from "./data/swordsmen";
+import { LUFFY_BATTLES, getLuffyOpponentsSet } from "./data/luffyBattles";
 import { Character, BountyRank, GameLog } from "./types";
 import BountyDuel from "./components/BountyDuel";
 import LogPoseTracker from "./components/LogPoseTracker";
@@ -72,6 +74,47 @@ export default function App() {
     try {
       const rawData = getCharactersDatabase();
       const femaleNames = new Set(FEMALE_NAMES);
+
+      // Préparation de la base de données des épéistes
+      const normalizeName = (nameStr: string): string => {
+        return nameStr
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]/g, "");
+      };
+
+      const normalizedSwordsmenSet = new Set<string>();
+      const NAME_MAPPING_ALIASES: Record<string, string> = {
+        "alber": "arberking",
+        "cesarclown": "caesarclown",
+        "hermep": "helmeppo",
+        "battlefrankybf38": "cuttyflamfranky",
+        "saintethanbaronvnusjuro": "ethanbaronvnusjuro",
+        "saintfigarlandgarling": "figarlandgarling",
+        "saintshepherdsommers": "shepherdjupeter",
+        "saintesatchelsmaffey": "satchelsmaffey",
+        "shimotsukikoshiro": "shimotsukikoushirou",
+        "fujitora": "isshofujitora",
+        "kizaru": "borsalinokizaru",
+        "aokiji": "kuzanaokiji",
+        "law": "trafalgardwaterlaw",
+        "bogy": "buggy",
+        "baggy": "buggy"
+      };
+
+      SWORDSMEN_NAMES.forEach((name) => {
+        const norm = normalizeName(name);
+        normalizedSwordsmenSet.add(norm);
+
+        // Découpe des multi-personnages (ex: "Abdullah et Jeet" -> ["Abdullah", "Jeet"])
+        const parts = name.split(/\s+(?:et|&|\/|,)\s+/i);
+        if (parts.length > 1) {
+          parts.forEach((p) => {
+            normalizedSwordsmenSet.add(normalizeName(p));
+          });
+        }
+      });
 
       const mapped: Character[] = rawData.map((item, index) => {
         // Identifiant unique
@@ -260,6 +303,85 @@ export default function App() {
         const numMatch = rawChapter.match(/\d+/);
         const parsedChapter = numMatch ? parseInt(numMatch[0], 10) : null;
 
+        // Épée/Sabre check
+        const dbNameNorm = normalizeName(item.name || "");
+        let characterIsSwordsman = false;
+
+        if (normalizedSwordsmenSet.has(dbNameNorm)) {
+          characterIsSwordsman = true;
+        } else {
+          // Check aliases
+          for (const [listKey, dbKey] of Object.entries(NAME_MAPPING_ALIASES)) {
+            if (dbNameNorm === dbKey || dbNameNorm.includes(dbKey) || dbKey.includes(dbNameNorm)) {
+              characterIsSwordsman = true;
+              break;
+            }
+          }
+        }
+
+        if (!characterIsSwordsman) {
+          for (const sNorm of normalizedSwordsmenSet) {
+            if (sNorm.length >= 4) {
+              if (dbNameNorm.includes(sNorm) || sNorm.includes(dbNameNorm)) {
+                characterIsSwordsman = true;
+                break;
+              }
+            } else {
+              if (dbNameNorm === sNorm) {
+                characterIsSwordsman = true;
+                break;
+              }
+            }
+          }
+        }
+
+        // Luffy opponent check
+        let characterIsLuffyOpponent = false;
+        let characterLuffyBattlesCount = 0;
+
+        const getAlignedName = (nameStr: string): string => {
+          const norm = normalizeName(nameStr);
+          if (norm.includes("cesarclown") || norm.includes("caesarclown")) return "caesarclown";
+          if (norm.includes("koby") || norm.includes("kobby") || norm.includes("kobbi")) return "koby";
+          if (norm.includes("buggy") || norm.includes("baggy") || norm.includes("bogy")) return "buggy";
+          if (norm.includes("fujitora") || norm.includes("issho")) return "isshofujitora";
+          if (norm.includes("kizaru") || norm.includes("borsalino")) return "borsalinokizaru";
+          if (norm.includes("aokiji") || norm.includes("kuzan")) return "kuzanaokiji";
+          if (norm.includes("akainu") || norm.includes("sakazuki")) return "sakazukiakainu";
+          if (norm.includes("law") || norm.includes("trafalgar")) return "trafalgardwaterlaw";
+          if (norm.includes("zoro") || norm.includes("roronoa")) return "roronoazoro";
+          if (norm.includes("doflamingo") || norm.includes("donquixote")) return "donquixotedoflamingo";
+          if (norm.includes("croco") || norm.includes("mr0")) return "sircrocodile";
+          if (norm.includes("barbenoire") || norm.includes("teach") || norm.includes("blackbeard")) return "marshalldteach";
+          if (norm.includes("ener")) return "enel";
+          return norm;
+        };
+
+        const dbNameAligned = getAlignedName(item.name || "");
+
+        LUFFY_BATTLES.forEach((b) => {
+          const matched = b.opponentsList.some((oppName) => {
+            const oppAligned = getAlignedName(oppName);
+            if (oppAligned === dbNameAligned) return true;
+            if (oppAligned.length >= 4 && dbNameAligned.length >= 4) {
+              if (dbNameAligned.includes(oppAligned) || oppAligned.includes(dbNameAligned)) {
+                return true;
+              }
+            }
+            return false;
+          });
+
+          if (matched) {
+            characterIsLuffyOpponent = true;
+            characterLuffyBattlesCount++;
+          }
+        });
+
+        // Special fallback
+        if (dbNameNorm === "monkeydluffy") {
+          characterIsLuffyOpponent = false;
+        }
+
         return {
           id,
           name: item.name !== null && item.name !== undefined ? String(item.name) : "Inconnu",
@@ -280,6 +402,9 @@ export default function App() {
           epithet: item.epithet !== null && item.epithet !== undefined ? String(item.epithet) : "",
           apparitionChapter: parsedChapter,
           apparitionChapterRaw: rawChapter || "Inconnu",
+          isSwordsman: characterIsSwordsman,
+          isLuffyOpponent: characterIsLuffyOpponent,
+          luffyBattlesCount: characterLuffyBattlesCount,
         };
       });
       setCharactersDatabase(mapped);

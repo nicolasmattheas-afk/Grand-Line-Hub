@@ -22,6 +22,9 @@ export interface Character {
   epithet?: string; // Surnom/Épithète du personnage
   apparitionChapter?: number | null; // Chapitre d'apparition numérique
   apparitionChapterRaw?: string; // Chapitre d'apparition brut (ex: "Chapter 551")
+  isSwordsman?: boolean; // Indique si le personnage est considéré comme un épéiste/sabreur
+  isLuffyOpponent?: boolean; // Indique si le personnage a combattu Luffy
+  luffyBattlesCount?: number; // Nombre de combats contre Luffy
 }
 
 export type BountyRank = 
