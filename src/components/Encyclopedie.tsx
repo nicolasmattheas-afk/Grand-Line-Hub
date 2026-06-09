@@ -191,9 +191,9 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
       </div>
 
       {/* Barre de Recherche et Filtres */}
-      <div className="bg-white rounded-3xl border-2 border-black p-5 shadow-xs mb-8 flex flex-col md:flex-row gap-4 items-center">
+      <div className="bg-white rounded-3xl border-2 border-black p-5 shadow-xs mb-8 flex flex-col lg:flex-row flex-wrap gap-4 items-center">
         {/* Recherche par nom */}
-        <div className="relative w-full md:flex-1 bg-white border border-gray-300 focus-within:border-black focus-within:ring-1 focus-within:ring-black rounded-xl px-3.5 py-2.5 flex items-center gap-2 transition-all">
+        <div className="relative w-full lg:flex-1 min-w-[280px] bg-white border border-gray-300 focus-within:border-black focus-within:ring-1 focus-within:ring-black rounded-xl px-3.5 py-2.5 flex items-center gap-2 transition-all">
           <Search className="w-5 h-5 text-gray-400 shrink-0" />
           <input
             type="text"
@@ -205,12 +205,12 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
         </div>
 
         {/* Filtre Affiliation */}
-        <div className="flex items-center gap-2 w-full md:w-auto">
+        <div className="flex items-center gap-2 w-full sm:w-[calc(50%-0.5rem)] lg:w-auto lg:flex-1 min-w-[155px]">
           <Filter className="w-4 h-4 text-gray-400 shrink-0 hidden sm:block" />
           <select
             value={selectedAffiliation}
             onChange={(e) => setSelectedAffiliation(e.target.value)}
-            className="w-full md:w-44 bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer"
+            className="w-full bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer"
           >
             <option value="All">Toutes Affiliations</option>
             <option value="Pirate">Pirates</option>
@@ -225,7 +225,7 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
         <select
           value={selectedFruit}
           onChange={(e) => setSelectedFruit(e.target.value)}
-          className="w-full md:w-44 bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer"
+          className="w-full sm:w-[calc(50%-0.5rem)] lg:w-auto lg:flex-1 min-w-[155px] bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer"
         >
           <option value="All">Tous Fruits</option>
           <option value="Possédé">Avec Fruit</option>
@@ -236,7 +236,7 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
         <select
           value={selectedStatus}
           onChange={(e) => setSelectedStatus(e.target.value)}
-          className="w-full md:w-44 bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer mr-2"
+          className="w-full sm:w-[calc(50%-0.5rem)] lg:w-auto lg:flex-1 min-w-[155px] bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer"
         >
           <option value="All">Tout Statut</option>
           <option value="Vivant">Vivant</option>
@@ -247,7 +247,7 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
         <select
           value={selectedSwordsman}
           onChange={(e) => setSelectedSwordsman(e.target.value)}
-          className="w-full md:w-36 bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer mr-2"
+          className="w-full sm:w-[calc(50%-0.5rem)] lg:w-auto lg:flex-1 min-w-[155px] bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer"
         >
           <option value="All">Style de Combat</option>
           <option value="Yes">Épéiste / Sabreur</option>
@@ -258,7 +258,7 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
         <select
           value={selectedLuffyOpponent}
           onChange={(e) => setSelectedLuffyOpponent(e.target.value)}
-          className="w-full md:w-40 bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer mr-2"
+          className="w-full sm:w-[calc(50%-0.5rem)] lg:w-auto lg:flex-1 min-w-[155px] bg-white border-2 border-black p-2.5 rounded-xl text-xs font-heading font-black uppercase text-[#1A1A1A] outline-hidden cursor-pointer"
         >
           <option value="All">Tout Adversaire </option>
           <option value="Yes">Vs Luffy</option>
@@ -269,7 +269,7 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
         <button
           type="button"
           onClick={() => setShowTop150(!showTop150)}
-          className={`w-full md:w-auto px-4 py-2.5 rounded-xl text-xs font-heading font-black uppercase border-2 border-black cursor-pointer transition-all ${
+          className={`w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-heading font-black uppercase border-2 border-black cursor-pointer transition-all ${
             showTop150 
               ? "bg-[#8b5cf6] text-white border-[#8b5cf6]" 
               : "bg-white text-[#1A1A1A] hover:bg-slate-50"

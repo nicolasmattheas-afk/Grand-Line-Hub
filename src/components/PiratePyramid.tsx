@@ -270,7 +270,7 @@ export default function PiratePyramid({ characters, onUpdateBounty }: PiratePyra
   const rows = getRowsSlices();
 
   return (
-    <div className="section-container bg-slate-950/40 border-2 border-violet-950/70 p-6 md:p-8 rounded-3xl relative overflow-hidden shadow-2xl">
+    <div className="section-container w-full max-w-full bg-slate-950/40 border-2 border-violet-950/70 p-4 sm:p-6 md:p-8 rounded-3xl relative overflow-hidden shadow-2xl">
       {/* Decorative ambiance elements */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-pink-600/5 rounded-full blur-3xl pointer-events-none" />
@@ -375,7 +375,7 @@ export default function PiratePyramid({ characters, onUpdateBounty }: PiratePyra
 
       {/* Primary Pyramid Grid Stage */}
       {pyramidList.length > 0 && !hasUnlockingError && (
-        <div className="pyramid-canvas bg-slate-900/40 border border-slate-800/80 rounded-3xl p-4 md:p-8 flex flex-col items-center gap-6 relative z-10 w-full">
+        <div className="pyramid-canvas bg-slate-900/40 border border-slate-800/80 rounded-3xl p-3 sm:p-4 md:p-8 flex flex-col items-center gap-6 relative z-10 w-full max-w-full overflow-hidden">
           
           {/* Pyramid Direction Indicators */}
           <div className="absolute top-4 left-4 flex flex-col items-center gap-0.5 text-slate-500 font-mono text-[9px] uppercase">

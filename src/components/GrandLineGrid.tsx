@@ -2352,19 +2352,19 @@ export default function GrandLineGrid({
                     <h4 className="font-heading font-black text-gray-900 text-sm uppercase mb-1">SALON PAR CODE</h4>
                     <p className="text-gray-400 text-xs mb-4">Créez un salon ou saisissez le code partagé par votre allié.</p>
                     
-                    <form onSubmit={handleJoinWithCode} className="flex gap-2 mb-4">
+                    <form onSubmit={handleJoinWithCode} className="flex flex-col sm:flex-row gap-2 mb-4">
                       <input
                         type="text"
                         placeholder="CODE (EX: LUF2Y)"
                         value={roomCodeInput}
                         onChange={(e) => setRoomCodeInput(e.target.value)}
                         maxLength={6}
-                        className="flex-1 bg-gray-50 p-3 rounded-xl border border-slate-200 uppercase font-mono text-xs font-bold text-slate-800 placeholder-slate-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
+                        className="w-full sm:flex-1 bg-gray-50 p-3 rounded-xl border border-slate-200 uppercase font-mono text-xs font-bold text-slate-800 placeholder-slate-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500"
                       />
                       <button
                         type="submit"
                         disabled={joinLoading}
-                        className="px-4 bg-gray-950 text-white font-heading font-black text-xs uppercase rounded-xl hover:bg-slate-800 cursor-pointer disabled:opacity-50 elastic-bouncy"
+                        className="w-full sm:w-auto px-4 py-3 sm:py-0 bg-gray-950 text-white font-heading font-black text-xs uppercase rounded-xl hover:bg-slate-850 cursor-pointer disabled:opacity-50 elastic-bouncy whitespace-nowrap min-w-[100px]"
                       >
                         {joinLoading ? "En route..." : "REJOINDRE"}
                       </button>
