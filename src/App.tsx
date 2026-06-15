@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { getCharactersDatabase } from "./data/characters";
+import { getOfficialDevilFruitOverride } from "./data/official_fruits";
 import { FEMALE_NAMES } from "./data/femaleNames";
 import { SWORDSMEN_NAMES } from "./data/swordsmen";
 import { LUFFY_BATTLES, getLuffyOpponentsSet } from "./data/luffyBattles";
@@ -241,6 +242,12 @@ export default function App() {
           } else {
             mappedFruitType = "Paramecia";
           }
+        }
+
+        // Override with official fruit type from the official list
+        const officialOverride = getOfficialDevilFruitOverride(item.name || "");
+        if (officialOverride) {
+          mappedFruitType = officialOverride;
         }
 
         // Hakis
