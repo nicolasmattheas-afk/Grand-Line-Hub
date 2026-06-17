@@ -781,6 +781,155 @@ app.post("/api/blog/delete-reply", async (req, res) => {
   }
 });
 
+// Archives / Désarchives un message de bug/sujet (Seul l'admin Nicolas peut le faire !)
+app.post("/api/blog/archive", async (req, res) => {
+  const { postId, userEmail, isArchived } = req.body;
+  if (userEmail !== ADMIN_EMAIL) {
+    return res.status(403).json({ success: false, error: "Seul l'administrateur Nicolas peut archiver ou désarchiver des messages." });
+  }
+
+  try {
+    const postRef = doc(db, "blogPosts", postId);
+    await updateDoc(postRef, {
+      isArchived: !!isArchived,
+      secretPasskey: "wej-blog-backend-secret-authorized-2026",
+      updatedAt: serverTimestamp(),
+    });
+    res.json({ success: true, message: isArchived ? "Sujet archivé avec succès." : "Sujet désarchivé avec succès." });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+
+// ==========================================
+// MISSION UNDERCOVER - JEU DE DÉDUCTION SOCIALE
+// ==========================================
+
+// Point d'entrée pour que les bots génèrent un indice (clue) via l'IA
+app.post("/api/undercover/generate-bot-move", async (req, res) => {
+  const { character, role, theme, previousClues, round, botName } = req.body;
+
+  try {
+    const ai = getAiClient();
+    const cluesList = Array.isArray(previousClues) ? previousClues.join(", ") : "aucun pour l'instant";
+    
+    let prompt = "";
+    if (role === "Mister White") {
+      prompt = `Tu es un bot joueur nommé ${botName} jouant au jeu de déduction sociale "Undercover" sur One Piece.
+Tu joues le rôle secret de MISTER WHITE. Tu n'as pas de personnage secret ! Tu connais uniquement le thème général : "${theme}".
+Voici les indices qui ont déjà été donnés par d'autres joueurs lors de ce tour : [${cluesList}].
+Ton but est de deviner de quoi parlent les autres et de donner un indice plausible d'un mot (ou 2 mots maximum) en français pour te fondre dans le décor sans éveiller les soupçons.
+Ne dis jamais que tu es Mister White. Renvoie un seul mot / groupe nominal simple en minuscule, par exemple: "sabre", "capitaine", "volonté".
+Format attendu : JSON uniquement, sous la forme : { "clue": "ton_mot" }`;
+    } else {
+      prompt = `Tu es un bot joueur nommé ${botName} jouant au jeu "Undercover" sur One Piece.
+Ton personnage secret est : "${character}". Ton rôle secret est : "${role}" (soit Citoyen, soit Imposteur).
+Le thème commun de la partie est : "${theme}".
+Voici les indices déjà donnés dans ce tour : [${cluesList}].
+Propose un indice en français (Minaudé, subtil, de maximum 2 mots) qui décrit une caractéristique de ton personnage "${character}" de façon astucieuse sans jamais révéler son nom.
+Règles strictes :
+- Ne donne JAMAIS le nom exact, ni le prénom ou un surnom mythique (ex: si Zoro, ne dis pas "Zoro", "Roronoa", "Chasseur de pirates", "Marimo").
+- S'il s'agit du tour ${round}, propose un indice original mais cohérent.
+Format attendu : un objet JSON :
+{
+  "clue": "ton_mot",
+  "reasoningOnOnePiece": "pourquoi tu as choisi ce mot par rapport à l'univers"
+}`;
+    }
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        systemInstruction: "Tu es un joueur expert de One Piece jouant au jeu Undercover. Tu as une connaissance parfaite de l'anime One Piece. Tu t'exprimes de façon fluide et n'écris que du JSON.",
+      }
+    });
+
+    const parsed = JSON.parse(response.text?.trim() || "{}");
+    res.json({ success: true, clue: parsed.clue || "Aventurier", reasoning: parsed.reasoningOnOnePiece || "" });
+  } catch (err: any) {
+    // Fallback automatique de sécurité si l'API échoue ou met trop de temps
+    const fallbacks: Record<string, string[]> = {
+      "Monkey D. Luffy": ["viande", "soleil", "chapeau", "caoutchouc"],
+      "Gol D. Roger": ["roi", "trésor", "sourire", "exécution"],
+      "Roronoa Zoro": ["sabre", "direction", "œil", "vert"],
+      "Dracule Mihawk": ["yeux", "croix", "château", "solitude"],
+      "Portgas D. Ace": ["feu", "tatouage", "frère", "poing"],
+      "Sabo": ["tuyau", "flammes", "révolution", "chapeau"],
+      "Sanji": ["cuisine", "cigarette", "jambe", "sourcil"],
+      "Barbe Noire (Teach)": ["ténèbres", "rires", "tartes", "tartes"],
+      "Barbe Blanche (Newgate)": ["vortex", "père", "cicatrice", "génération"],
+      "Kuzan (Aokiji)": ["glace", "vélo", "fainéant", "justice"],
+      "Sakazuki (Akainu)": ["magma", "volcan", "justice", "absolue"],
+      "Nami": ["météo", "berry", "oranges", "carte"],
+      "Robin": ["fleur", "histoire", "mains", "livres"],
+      "Shanks": ["manche", "rouquin", "haki", "empereur"],
+      "Garp": ["beignet", "poing", "famille", "chien"],
+      "Sengoku": ["bouddha", "chèvre", "justice", "or"],
+      "Vegapunk": ["cerveau", "pomme", "clones", "île"],
+      "Caesar Clown": ["gaz", "poison", "ballon", "expérience"],
+      "Mister White": ["pirate", "océan", "navire", "pouvoir"]
+    };
+    
+    const list = fallbacks[character] || ["pirate", "grand", "marin", "combattant"];
+    const clue = list[Math.floor(Math.random() * list.length)];
+    res.json({ success: true, clue, isFallback: true });
+  }
+});
+
+// Évaluation et validation des mots par le Maître du Jeu (Vegapunk ou Morgans)
+app.post("/api/undercover/validate-clue", async (req, res) => {
+  const { clue, character, gameMaster = "Vegapunk" } = req.body;
+
+  try {
+    const ai = getAiClient();
+    const systemInstruction = gameMaster === "Morgans" 
+      ? "Tu es Morgans, le président véreux de la World Economy News Journal (WEJ). Tu as un style théâtral, tu aimes crier 'BIG NEWS !' et tu commentes le jeu 'Undercover' de One Piece de façon sensationnaliste."
+      : "Tu es le Dr. Vegapunk, le plus brillant scientifique du Gouvernement Mondial. Tu es rigoureux, curieux, joyeux et tu analyses les indices de façon technique et amusante.";
+
+    const prompt = `Un joueur vient de donner l'indice "${clue}" pour décrire secrètement son personnage d'One Piece : "${character}".
+Vérifie si cet indice est TRÈS VALIDE, ACCEPTABLE ou STRICTEMENT REJETÉ.
+Un indice est STRICTEMENT REJETÉ si :
+1. Il contient explicitement tout ou partie du nom de "${character}" (ex: "zoro" pour Zoro, "roge" pour Roger, "aka" pour Akainu, etc.).
+2. Il est quasi-identique au nom (ex: "Monkey" pour Luffy).
+
+Génère une réponse sous forme d'objet JSON contenant :
+- "isValid": boolean (true si valide ou acceptable, false si rejeté)
+- "evaluation": string (un de ces trois status : "VALIDE" | "REFUSÉ")
+- "commentary": string (un commentaire drôle, court de maximum 2 phrases, en accord avec ton caractère ${gameMaster}, s'adressant au joueur à propos de son mot "${clue}" et de la façon dont il décrit "${character}" si c'est le cas, sans dire aux autres joueurs quel est le secret).
+Syntaxe JSON stricte uniquement, sans markdown ni texte d'intro :`;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        systemInstruction,
+      }
+    });
+
+    const parsed = JSON.parse(response.text?.trim() || "{}");
+    res.json({ 
+      success: true, 
+      isValid: parsed.isValid !== undefined ? parsed.isValid : true,
+      commentary: parsed.commentary || "Hmm... une analyse intéressante de vos capacités cognitives !"
+    });
+  } catch (err: any) {
+    const lowerClue = String(clue).toLowerCase();
+    const lowerName = String(character).toLowerCase();
+    const isStrictlyForbidden = lowerClue.includes(lowerName) || lowerName.includes(lowerClue) || lowerClue.length < 2;
+    res.json({ 
+      success: true, 
+      isValid: !isStrictlyForbidden,
+      commentary: isStrictlyForbidden
+        ? `Alerte triche ! Ce mot est indiscutablement trop proche de l'identité du suspect.`
+        : `Analyse standard : L'indice semble valide pour nos algorithmes stellaires !`
+    });
+  }
+});
+
 
 // ==========================================
 // MIDDLEWARE ET SERVEUR VITE

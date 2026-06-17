@@ -542,7 +542,7 @@ export default function UserAuth({
                 </h4>
               </div>
               <p className="text-xs text-gray-500 mt-1">
-                E-mail : <span className="font-mono text-gray-700 font-bold">{currentUserEmail}</span>
+                E-mail : <span className="font-mono text-gray-700 font-bold light-email-text">{currentUserEmail}</span>
               </p>
             </div>
             

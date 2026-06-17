@@ -294,16 +294,16 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
       )}
       
       {/* Page Title & Description */}
-      <div className="text-center mb-6 relative">
+      <div className="text-center mb-6 relative bg-[#1A1A1A] p-6 sm:p-8 rounded-3xl border-2 border-black shadow-md text-white">
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white font-heading mb-2 uppercase">
           Le Compte est Bon !
         </h2>
-        <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base font-medium">
+        <p className="text-slate-300 max-w-2xl mx-auto text-xs sm:text-sm font-medium">
           Retrouvez exactement le montant total de la prime cible de la Marine en associant judicieusement les têtes de <span className="text-amber-400 font-bold">{gameSize}</span> pirates !
         </p>
 
         {/* Format Selection & New Contract triggers */}
-        <div className="flex flex-col items-center justify-center gap-3 bg-[#11142A]/85 p-4 rounded-3xl max-w-xl mx-auto border border-white/10 mt-4 text-white">
+        <div className="flex flex-col items-center justify-center gap-3 bg-slate-900 border border-slate-700 p-4 rounded-3xl max-w-xl mx-auto mt-4 text-white">
           <span className="text-xs font-mono font-black uppercase text-slate-300 tracking-wider">
             Format de la Chasse :
           </span>
@@ -430,9 +430,11 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
                     />
                   </div>
 
-                  <h4 className="font-heading font-black text-gray-950 text-xs leading-tight text-center uppercase truncate">
-                    {char.name}
-                  </h4>
+                  <div className="flex justify-center my-1">
+                    <h4 className="font-heading font-black text-xs text-white bg-[#1A1A1A] px-2.5 py-1 rounded-lg uppercase truncate max-w-full">
+                      {char.name}
+                    </h4>
+                  </div>
                 </div>
 
                 <div className="mt-2 pt-2 border-t border-slate-100 text-center bg-slate-50 rounded-lg p-1.5">
@@ -576,7 +578,7 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
         
         {/* Absolute overlay popup for modal results window */}
         {hasChecked && contractScore !== null && (
-          <div className="fixed inset-0 bg-[#1A1A1A]/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+          <div className="fixed inset-0 modal-overlay-backdrop backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
             <div className="bg-white border-3 border-[#1A1A1A] rounded-3xl max-w-lg w-full p-6 md:p-8 text-center space-y-6 shadow-2xl animate-in zoom-in-95 duration-200">
               
               {/* Crown/Banner style emblem */}

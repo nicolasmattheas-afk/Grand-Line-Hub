@@ -101,6 +101,32 @@
         "updatedAt": { "type": "object", "description": "Post update timestamp" }
       },
       "required": ["id", "title", "content", "type", "authorEmail", "authorName"]
+    },
+    "UndercoverGame": {
+      "title": "UndercoverGame",
+      "description": "A real-time, online synchronized Mission Undercover game room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique session document ID" },
+        "roomCode": { "type": "string", "description": "Unique 4-letter join code" },
+        "gameMaster": { "type": "string", "description": "Vegapunk or Morgans" },
+        "status": { "type": "string", "description": "lobby, reveal, discussion, voting, mister_white_guess, end" },
+        "players": { "type": "array", "description": "List of participating players and their secret roles" },
+        "theme": { "type": "string", "description": "Selected pairing theme" },
+        "citizen": { "type": "string", "description": "The Citizen secret character" },
+        "imposter": { "type": "string", "description": "The Imposter secret character" },
+        "citizenDesc": { "type": "string", "description": "Citizen character description" },
+        "imposterDesc": { "type": "string", "description": "Imposter character description" },
+        "creatorEmail": { "type": "string", "description": "Email address of the session creator" },
+        "winnerMessage": { "type": "string", "description": "Match victory announcement summary" },
+        "chatMessages": { "type": "array", "description": "Array of real-time synchronized chat messages in active debate" },
+        "roundScore": { "type": "object", "description": "Total round victories for both groups" },
+        "eliminatedPlayer": { "type": "object", "description": "Currently voted out player information or null" },
+        "misterWhiteGuess": { "type": "string", "description": "Word guessed by Mister White if voted out" },
+        "createdAt": { "type": "object", "description": "Creation timestamp" },
+        "updatedAt": { "type": "object", "description": "Update timestamp" }
+      },
+      "required": ["id", "roomCode", "status", "players", "creatorEmail"]
     }
   },
   "firestore": {
@@ -111,6 +137,10 @@
     "gridGames/{gameId}": {
       "schema": "GridGame",
       "description": "Grand Line Grid multiplayer rooms"
+    },
+    "undercoverGames/{gameId}": {
+      "schema": "UndercoverGame",
+      "description": "Mission Undercover interactive multiplayer game rooms"
     },
     "crews/{crewId}": {
       "schema": "Crew",

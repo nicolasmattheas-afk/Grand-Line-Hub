@@ -802,7 +802,7 @@ export default function BountyLeaderboard({
 
       {/* Modal Détails Équipage */}
       {selectedCrew && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-[110] p-4 overflow-y-auto animate-in fade-in duration-200">
+        <div className="fixed inset-0 modal-overlay-backdrop backdrop-blur-md flex items-center justify-center z-[110] p-4 overflow-y-auto animate-in fade-in duration-200">
           <div className="bg-[#121124] rounded-3xl w-full max-w-xl border border-slate-700/60 flex flex-col overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
             {/* Header */}
             <div className="p-6 bg-slate-950/40 border-b border-slate-800/80 flex items-center justify-between">

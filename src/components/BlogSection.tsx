@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Plus, MessageSquare, ShieldAlert, Pin, Trash2, HelpCircle, 
-  Bug, User, Send, Filter, CheckCircle2, UserCheck, RefreshCw, AlertTriangle
+  Bug, User, Send, Filter, CheckCircle2, UserCheck, RefreshCw, AlertTriangle,
+  Search, Archive
 } from "lucide-react";
 
 interface Reply {
@@ -23,6 +24,7 @@ interface BlogPost {
   authorName: string;
   authorAvatar: string;
   isPinned: boolean;
+  isArchived?: boolean;
   replies: Reply[];
   createdAt: any;
   updatedAt: any;
@@ -37,7 +39,8 @@ interface BlogSectionProps {
 export default function BlogSection({ playerEmail, playerUsername, playerAvatar }: BlogSectionProps) {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [filterType, setFilterType] = useState<"all" | "question" | "bug">("all");
+  const [filterType, setFilterType] = useState<"all" | "question" | "bug" | "archived">("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   // States pour la création d'un Post
@@ -214,7 +217,55 @@ export default function BlogSection({ playerEmail, playerUsername, playerAvatar 
     }
   };
 
-  const filteredPosts = posts.filter(p => filterType === "all" || p.type === filterType);
+  const handleArchivePost = async (postId: string, currentArchive: boolean) => {
+    try {
+      const resp = await fetch("/api/blog/archive", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          postId,
+          userEmail: playerEmail,
+          isArchived: !currentArchive,
+        }),
+      });
+      const data = await resp.json();
+      if (data.success) {
+        await loadPosts();
+      } else {
+        alert("Action interdite : " + data.error);
+      }
+    } catch (err) {
+      alert("Erreur de requête.");
+    }
+  };
+
+  const filteredPosts = posts.filter(p => {
+    // 1. Filtrage par statut d'archive
+    if (filterType === "archived") {
+      if (!p.isArchived) return false;
+    } else {
+      if (p.isArchived) return false;
+      // Filtrage par type
+      if (filterType !== "all" && p.type !== filterType) return false;
+    }
+
+    // 2. Filtrage par barre de recherche (recherche insensible à la casse)
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      const titleMatch = p.title ? p.title.toLowerCase().includes(q) : false;
+      const contentMatch = p.content ? p.content.toLowerCase().includes(q) : false;
+      const authorMatch = p.authorName ? p.authorName.toLowerCase().includes(q) : false;
+      
+      const repliesMatch = p.replies && p.replies.some(r => 
+        (r.content && r.content.toLowerCase().includes(q)) || 
+        (r.authorName && r.authorName.toLowerCase().includes(q))
+      );
+      
+      return titleMatch || contentMatch || authorMatch || repliesMatch;
+    }
+
+    return true;
+  });
 
   return (
     <div className="w-full flex flex-col gap-6" id="blog-community-center">
@@ -255,6 +306,13 @@ export default function BlogSection({ playerEmail, playerUsername, playerAvatar 
               <Bug className="w-3.5 h-3.5 text-rose-500" />
               Bugs
             </button>
+            <button
+              onClick={() => setFilterType("archived")}
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1 cursor-pointer transition-all ${filterType === "archived" ? "bg-amber-600/60 text-white font-black" : "hover:text-white"}`}
+            >
+              <Archive className="w-3.5 h-3.5 text-amber-500" />
+              Bugs Archivés 📦
+            </button>
           </div>
 
           <button
@@ -271,6 +329,26 @@ export default function BlogSection({ playerEmail, playerUsername, playerAvatar 
             Nouveau Sujet
           </button>
         </div>
+      </div>
+
+      {/* Barre de Recherche et de Filtrage de Contenus */}
+      <div className="relative w-full" id="community-search-bar">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-violet-400/70" />
+        <input
+          type="text"
+          placeholder="Rechercher par mot-clé, flibustier, question, bug..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full bg-[#11132a]/60 border border-white/10 rounded-2xl pl-11 pr-12 py-3 text-xs md:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-violet-500/50 shadow-inner transition-colors"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery("")}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-mono tracking-widest bg-[#1b1c34] text-slate-400 hover:text-white px-2 py-1 rounded-md border border-white/5 transition-all uppercase cursor-pointer"
+          >
+            Effacer
+          </button>
+        )}
       </div>
 
       {errorMsg && (
@@ -423,23 +501,45 @@ export default function BlogSection({ playerEmail, playerUsername, playerAvatar 
                         Épinglé par l'Équipage
                       </span>
                     )}
+
+                    {post.isArchived && (
+                      <span className="text-[9px] font-mono uppercase bg-amber-950/80 text-amber-300 border border-amber-900/60 px-2.5 py-0.5 rounded flex items-center gap-1 font-black">
+                        <Archive className="w-2.5 h-2.5 text-amber-500 animate-pulse" />
+                        Archivé
+                      </span>
+                    )}
                   </div>
 
                   {/* Moderator options ( Nicolas or Owner ) */}
                   <div className="flex items-center gap-3">
                     {isAdmin && (
-                      <button
-                        onClick={() => handlePinPost(post.id, post.isPinned)}
-                        className={`text-[10px] font-mono flex items-center gap-1.5 px-2 py-0.5 rounded border transition-all cursor-pointer ${
-                          post.isPinned 
-                            ? "bg-amber-950/40 text-amber-400 border-amber-900" 
-                            : "bg-[#141630] text-slate-400 border-white/5 hover:text-white"
-                        }`}
-                        title="Épingler ce sujet en tête du forum"
-                      >
-                        <Pin className="w-2.5 h-2.5" />
-                        {post.isPinned ? "Désépingler" : "Épingler"}
-                      </button>
+                      <>
+                        <button
+                          onClick={() => handlePinPost(post.id, post.isPinned)}
+                          className={`text-[10px] font-mono flex items-center gap-1.5 px-2 py-0.5 rounded border transition-all cursor-pointer ${
+                            post.isPinned 
+                              ? "bg-amber-950/40 text-amber-400 border-amber-900" 
+                              : "bg-[#141630] text-slate-400 border-white/5 hover:text-white"
+                          }`}
+                          title="Épingler ce sujet en tête du forum"
+                        >
+                          <Pin className="w-2.5 h-2.5" />
+                          {post.isPinned ? "Désépingler" : "Épingler"}
+                        </button>
+
+                        <button
+                          onClick={() => handleArchivePost(post.id, !!post.isArchived)}
+                          className={`text-[10px] font-mono flex items-center gap-1.5 px-2 py-0.5 rounded border transition-all cursor-pointer ${
+                            post.isArchived 
+                              ? "bg-amber-950/60 text-amber-400 border-amber-900" 
+                              : "bg-[#141630] text-slate-400 border-white/5 hover:text-white"
+                          }`}
+                          title={post.isArchived ? "Désarchiver le message" : "Archiver le message"}
+                        >
+                          <Archive className="w-2.5 h-2.5" />
+                          {post.isArchived ? "Désarchiver" : "Archiver"}
+                        </button>
+                      </>
                     )}
 
                     {canDeletePost && (

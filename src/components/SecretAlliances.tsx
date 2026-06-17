@@ -786,11 +786,11 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
       `}</style>
 
       {/* Page Title & Description */}
-      <div className="text-center mb-10 relative">
+      <div className="text-center mb-10 relative bg-[#1A1A1A] p-6 sm:p-8 rounded-3xl border-2 border-black shadow-md text-white">
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white font-heading mb-2 uppercase">
           Les Alliances Secrètes
         </h2>
-        <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base font-medium leading-relaxed">
+        <p className="text-slate-300 max-w-2xl mx-auto text-xs sm:text-sm font-medium leading-relaxed">
           Ce jeu vous défie de classer 16 personnages d'One Piece en 4 groupes secrets de 4 personnages partageant une caractéristique commune !
         </p>
 
@@ -883,7 +883,7 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
                   {cat.characters.map((char) => (
                     <span 
                       key={char.id} 
-                      className={`px-3 py-1 bg-white/20 backdrop-blur-xs rounded-full border border-white/10 ${
+                      className={`px-3 py-1 bg-white/20 backdrop-blur-xs rounded-full border border-white/10 alliance-solved-char-name ${
                         isSolved ? "text-white" : "text-gray-400"
                       }`}
                     >
@@ -929,7 +929,7 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
 
                     {/* Shading overlay */}
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-1.5 pt-5 pb-1.5 text-center flex flex-col justify-end">
-                      <span className="text-white font-heading font-black text-[9px] min-[380px]:text-[10px] sm:text-xs md:text-sm uppercase tracking-wide leading-tight drop-shadow-md select-none break-words text-wrap line-clamp-2">
+                      <span className="text-white font-heading font-black text-[9px] min-[380px]:text-[10px] sm:text-xs md:text-sm uppercase tracking-wide leading-tight drop-shadow-md select-none break-words text-wrap line-clamp-2 force-text-white alliance-grid-char-name">
                         {char.name}
                       </span>
                     </div>

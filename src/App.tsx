@@ -19,12 +19,13 @@ import SocialAndCrew from "./components/SocialAndCrew";
 import BountyLeaderboard, { LeaderboardEntry } from "./components/BountyLeaderboard";
 import WEJSection from "./components/WEJSection";
 import BlogSection from "./components/BlogSection";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import UndercoverGame from "./components/UndercoverGame";
+import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { track } from "@vercel/analytics";
 import { 
   Trophy, Award, Compass, Swords, ArrowRightLeft, BookOpen, 
-  Sparkles, History, User, Heart, Settings, LayoutDashboard, Coins, Clock, Users, Brain, Crown, Newspaper, MessageSquare, Menu, X
+  Sparkles, History, User, Heart, Settings, LayoutDashboard, Coins, Clock, Users, Brain, Crown, Newspaper, MessageSquare, Menu, X, ShieldAlert, Home, Sun, Moon
 } from "lucide-react";
 
 function getArcFromChapter(chapterStr: string): string {
@@ -422,9 +423,25 @@ export default function App() {
     }
   }, []);
   
-  // Onglets : "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid"
-  const [activeTab, setActiveTab] = useState<"grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid">("grid");
+  // Onglets : "home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover"
+  const [activeTab, setActiveTab] = useState<"home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover">("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showAuthForm, setShowAuthForm] = useState(false);
+  const [infoModal, setInfoModal] = useState<"about" | "privacy" | "terms" | "legal" | "contact" | null>(null);
+
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    return (localStorage.getItem("theme") as "light" | "dark") || "dark";
+  });
+
+  useEffect(() => {
+    if (theme === "light") {
+      document.body.classList.add("light-mode");
+      localStorage.setItem("theme", "light");
+    } else {
+      document.body.classList.remove("light-mode");
+      localStorage.setItem("theme", "dark");
+    }
+  }, [theme]);
 
   // Charge et persiste la prime du joueur (Bounty) et ses statistiques
   const [playerBounty, setPlayerBounty] = useState<number>(() => {
@@ -659,33 +676,7 @@ export default function App() {
     localStorage.setItem("playerBountyValue", String(playerBounty));
   }, [playerBounty]);
 
-  // Synchronisation automatique et détection du compte nicolasmattheas@gmail.com
-  useEffect(() => {
-    const userEmail = localStorage.getItem("firebaseUserEmail");
-    if (userEmail === "nicolasmattheas@gmail.com") {
-      const hasReset = localStorage.getItem("hasResetBountyTo50M_v2");
-      if (!hasReset) {
-        setPlayerBounty(50000000);
-        localStorage.setItem("playerBountyValue", "50000000");
-        localStorage.setItem("hasResetBountyTo50M_v2", "true");
 
-        // Mettre à jour directement la base de données Firestore pour que ça se reflète partout et instantanément sur grandlinehub.fr
-        const syncBountyToFirestore = async () => {
-          try {
-            const userDocRef = doc(db, "users", "nicolasmattheas@gmail.com");
-            await updateDoc(userDocRef, {
-              bounty: 50000000
-            });
-            console.log("Synchronisation initiale de la prime à 50 000 000 ฿ réussie !");
-            fetchOnlineUsers();
-          } catch (e) {
-            console.error("Échec de la synchronisation initiale de la prime vers Firestore :", e);
-          }
-        };
-        syncBountyToFirestore();
-      }
-    }
-  }, []);
 
   useEffect(() => {
     localStorage.setItem("playerPirateName", playerUsername);
@@ -760,6 +751,7 @@ export default function App() {
   };
 
   const activeTabName = (tab: string) => {
+    if (tab === "home") return "Accueil & Hub";
     if (tab === "grid") return "Grand Line Grid";
     if (tab === "tracker") return "Log Pose Tracker";
     if (tab === "duel") return "Bounty Duel";
@@ -768,6 +760,7 @@ export default function App() {
     if (tab === "timeline") return "Chronologie Pirate";
     if (tab === "bountyTarget") return "Cible de Primes";
     if (tab === "alliances") return "Alliances Secrètes";
+    if (tab === "undercover") return "Mission Undercover";
     if (tab === "crew") return "Équipage";
     return "Menu Principal";
   };
@@ -841,6 +834,100 @@ export default function App() {
     return 100; // Roi des pirates !
   }, [leaderboardList, playerBounty]);
 
+  const PROPOSED_GAMES = useMemo(() => [
+    {
+      id: "grid",
+      title: "Grand Line Grid",
+      description: "Morpion stratégique. Placez vos personnages d'One Piece en fonction de leurs attributs pour dominer la grille de combat !",
+      icon: Swords,
+      badge: "Morpion stratégique",
+    },
+    {
+      id: "tracker",
+      title: "Log Pose Tracker",
+      description: "Trouvez le pirate mystère du jour ! Affinez vos recherches grâce aux indices de caractéristique du Log Pose.",
+      icon: Compass,
+      badge: "Wordle Clues",
+    },
+    {
+      id: "alliances",
+      title: "Alliances Secrètes",
+      description: "Identifiez les liaisons célèbres, les fraternités et les flottes cachées reliant les personnages d'One Piece.",
+      icon: Users,
+      badge: "Réflexion",
+    },
+    {
+      id: "undercover",
+      title: "Mission Undercover",
+      description: "Un jeu de rôle social et de suspicion ! Démasquez l'imposteur (Mister White) infiltré au sein du navire.",
+      icon: ShieldAlert,
+      badge: "Rôles Cachés",
+    },
+    {
+      id: "duel",
+      title: "Bounty Duel",
+      description: "Comparez les primes de deux personnages célèbres dans un combat d'intuition. Atteignez la plus haute série !",
+      icon: ArrowRightLeft,
+      badge: "Plus haute prime",
+    },
+    {
+      id: "pyramid",
+      title: "Pyramide de Pouvoir",
+      description: "Serez-vous capable d'escalader les échelons du pouvoir mondial ? Répondez aux énigmes pour atteindre le sommet.",
+      icon: Trophy,
+      badge: "Défi royal",
+    },
+    {
+      id: "pirateShadow",
+      title: "L'Ombre du Pirate",
+      description: "Observez la silhouette noire d'un pirate mystique. Saurez-vous deviner son identité avant qu'il ne disparaisse ?",
+      icon: Sparkles,
+      badge: "Silhouette Quiz",
+    },
+    {
+      id: "timeline",
+      title: "Chronologie Pirate",
+      description: "Restaurez l'histoire officielle d'One Piece en replaçant les grandes batailles et sagas dans le bon ordre chronologique.",
+      icon: Clock,
+      badge: "Frise Historique",
+    },
+    {
+      id: "bountyTarget",
+      title: "Le Compte est Bon",
+      description: "Faites chauffer vos méninges ! Combinez les primes de personnages d'One Piece pour former exactement la cible demandée.",
+      icon: Brain,
+      badge: "Mathématiques",
+    },
+    {
+      id: "encyclopedia",
+      title: "Encyclopédie de Grand Line",
+      description: "Explorez l'archive officielle des personnages de tout l'univers d'One Piece. Consultez les fiches détaillées, fruits, âges et tailles !",
+      icon: BookOpen,
+      badge: "Base de données",
+    },
+    {
+      id: "wej",
+      title: "Journal de Morgans (WEJ)",
+      description: "Suivez l'actualité brûlante du monde de la piraterie par Morgans. Tenez-vous au courant des événements mondiaux du Hub.",
+      icon: Newspaper,
+      badge: "Journal de Morgans",
+    },
+    {
+      id: "crew",
+      title: "Équipage & Storm Chat",
+      description: "Rejoignez une guilde ou formez votre équipe. Discutez avec d'autres pirates connectés en direct.",
+      icon: Users,
+      badge: "Social",
+    },
+    {
+      id: "blog",
+      title: "Le Blog & Bugs",
+      description: "Donnez votre précieux avis, signalez d'éventuels bugs et participez aux suggestions d'amélioration en direct.",
+      icon: MessageSquare,
+      badge: "Rapport de Bord",
+    }
+  ], []);
+
   return (
     <div className="min-h-screen text-[#F8FAFC] font-sans flex flex-col relative overflow-hidden bg-[#070914]">
       
@@ -863,56 +950,77 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-3 md:px-8 py-2 md:py-4 flex flex-row items-center justify-between gap-2 md:gap-4">
           
           {/* Logo & Titre */}
-          <div className="flex items-center gap-2 md:gap-3">
+          <div 
+            onClick={() => {
+              setActiveTab("home");
+              window.dispatchEvent(new CustomEvent("click-logo"));
+            }}
+            className="flex items-center gap-2 md:gap-3 cursor-pointer select-none group/logo"
+            title="Retour à l'accueil"
+          >
             <img 
               src="/logo.svg" 
               alt="Grand Line Logo" 
-              className="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0 filter drop-shadow-[0_0_6px_rgba(239,68,68,0.35)] hover:scale-110 active:rotate-12 transition-all cursor-pointer select-none"
+              className="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0 filter drop-shadow-[0_0_6px_rgba(139,92,246,0.35)] group-hover/logo:scale-110 active:rotate-12 transition-all select-none"
               referrerPolicy="no-referrer"
-              onClick={() => {
-                // Secret easter egg: play a sound or trigger visual response if desired, or go back to main tab
-                window.dispatchEvent(new CustomEvent("click-logo"));
-              }}
             />
             <div>
-              <h1 className="text-xs sm:text-lg md:text-2xl font-black font-heading tracking-tighter uppercase leading-none text-white flex items-center gap-1.5">
-                GRAND LINE <span className="text-violet-400">HUB</span>
+              <h1 className="text-xs sm:text-lg md:text-2xl font-black font-heading tracking-tighter uppercase leading-none text-white flex items-center gap-1.5 transition-colors group-hover/logo:text-violet-300">
+                GRAND LINE <span className="text-violet-400 group-hover/logo:text-white transition-colors">HUB</span>
               </h1>
-              <p className="text-[8px] md:text-[10px] text-violet-400 font-mono tracking-widest uppercase font-extrabold mt-0.5 md:mt-1 hidden sm:block">
+              <p className="text-[8px] md:text-[10px] text-violet-400 font-mono tracking-widest uppercase font-extrabold mt-0.5 md:mt-1 hidden sm:block group-hover/logo:text-violet-300 transition-colors">
                 L'AVENTURE COMMENCE ICI
               </p>
             </div>
           </div>
 
-          {/* Profil d'Équipage Réel & Prime (Bounty) */}
-          <div 
-            onClick={() => setActiveTab("dashboard")}
-            className="flex items-center gap-2 md:gap-4 bg-[#11142A]/85 hover:bg-[#1C2042]/85 border border-white/10 hover:border-violet-500/40 rounded-xl md:rounded-2xl px-2.5 py-1.5 md:px-5 md:py-2.5 justify-between cursor-pointer transition-all active:scale-[0.98] group shadow-lg"
-            title="Accéder au Tableau de bord"
-          >
-            <img 
-              src={playerAvatar || `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(playerUsername)}`}
-              alt={playerUsername}
-              className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover shrink-0 border border-white/10 bg-[#070914] group-hover:scale-105 transition-transform"
-              referrerPolicy="no-referrer"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(playerUsername)}`;
-              }}
-            />
-            <div className="text-left font-sans flex-1">
-              <div className="flex items-center gap-1 sm:gap-2">
-                <span className="text-[10px] sm:text-xs md:text-sm font-heading font-black text-white group-hover:text-violet-400 uppercase tracking-tight leading-none transition-colors max-w-[80px] sm:max-w-none truncate block">
-                  {playerUsername}
-                </span>
-                <span className={`text-[7px] sm:text-[9px] uppercase font-mono tracking-wider font-extrabold px-1 sm:px-2 py-0.5 rounded border leading-none shrink-0 ${rankColorClass(playerRank)}`}>
-                  {playerRank}
-                </span>
-              </div>
-              <div className="flex items-center gap-1 mt-0.5 md:mt-1">
-                <Coins className="w-3 h-3 md:w-4 md:h-4 text-violet-400" />
-                <span className="font-mono text-xs sm:text-sm md:text-base font-black tracking-tight text-violet-400">
-                  ฿ {playerBounty.toLocaleString()}
-                </span>
+          {/* Section Profil & Bouton Thème */}
+          <div className="flex items-center gap-2 md:gap-3">
+            {/* Theme Toggle Button */}
+            <button
+              id="theme-toggle"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="p-2 md:p-3 rounded-xl border border-white/10 bg-[#11142A]/85 hover:bg-[#1C2042]/85 active:scale-95 transition-all cursor-pointer text-slate-300 hover:text-white shrink-0 flex items-center justify-center h-10 w-10 md:h-[50px] md:w-[50px] shadow-lg hover:border-violet-500/40 transition-colors"
+              title={theme === "dark" ? "Passer au Mode Clair" : "Passer au Mode Sombre"}
+            >
+              {theme === "dark" ? (
+                <Sun className="w-4 h-4 md:w-5 md:h-5 text-amber-400 rotate-0 transition-transform duration-500" />
+              ) : (
+                <Moon className="w-4 h-4 md:w-5 md:h-5 text-violet-600 hover:text-violet-500 transition-colors" />
+              )}
+            </button>
+
+            {/* Profil d'Équipage Réel & Prime (Bounty) */}
+            <div 
+              id="header-profile"
+              onClick={() => setActiveTab("dashboard")}
+              className="flex items-center gap-2 md:gap-4 bg-[#11142A]/85 hover:bg-[#1C2042]/85 border border-white/10 hover:border-violet-500/40 rounded-xl md:rounded-2xl px-2.5 py-1.5 md:px-5 md:py-2.5 justify-between cursor-pointer transition-all active:scale-[0.98] group shadow-lg"
+              title="Accéder au Tableau de bord"
+            >
+              <img 
+                src={playerAvatar || `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(playerUsername)}`}
+                alt={playerUsername}
+                className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover shrink-0 border border-white/10 bg-[#070914] group-hover:scale-105 transition-transform"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(playerUsername)}`;
+                }}
+              />
+              <div className="text-left font-sans flex-1">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span className="text-[10px] sm:text-xs md:text-sm font-heading font-black text-white group-hover:text-violet-400 uppercase tracking-tight leading-none transition-colors max-w-[80px] sm:max-w-none truncate block">
+                    {playerUsername}
+                  </span>
+                  <span className={`text-[7px] sm:text-[9px] uppercase font-mono tracking-wider font-extrabold px-1 sm:px-2 py-0.5 rounded border leading-none shrink-0 ${rankColorClass(playerRank)}`}>
+                    {playerRank}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1 mt-0.5 md:mt-1">
+                  <Coins className="w-3 h-3 md:w-4 md:h-4 text-violet-400" />
+                  <span className="font-mono text-xs sm:text-sm md:text-base font-black tracking-tight text-violet-400">
+                    ฿ {playerBounty.toLocaleString()}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -959,6 +1067,18 @@ export default function App() {
 
           <div className="grid grid-cols-2 gap-2">
             <button
+              onClick={() => { setActiveTab("home"); setIsMobileMenuOpen(false); }}
+              className={`p-4 col-span-2 rounded-xl border flex items-center justify-center gap-3 transition-all ${
+                activeTab === "home" 
+                  ? "bg-violet-600 border-violet-555 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Home className="w-5 h-5 text-amber-400" />
+              <span className="text-xs font-heading font-extrabold tracking-wider uppercase">ACCUEIL DE L'ÉQUIPAGE & HUB</span>
+            </button>
+
+            <button
               onClick={() => { setActiveTab("grid"); setIsMobileMenuOpen(false); }}
               className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
                 activeTab === "grid" 
@@ -992,6 +1112,19 @@ export default function App() {
             >
               <Users className="w-5 h-5 text-violet-400" />
               <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Alliances</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("undercover"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all relative ${
+                activeTab === "undercover" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <span className="absolute top-1 right-1 bg-rose-600 text-[7px] font-mono tracking-normal text-white px-1.5 py-0.5 rounded-full font-black animate-pulse shadow-md">NEW</span>
+              <ShieldAlert className="w-5 h-5 text-rose-500" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Undercover</span>
             </button>
 
             <button
@@ -1148,6 +1281,18 @@ export default function App() {
             
             <nav className="flex md:flex-col gap-1 overflow-x-auto md:overflow-visible pb-2 md:pb-0 no-scrollbar w-full">
               <button
+                onClick={() => setActiveTab("home")}
+                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
+                  activeTab === "home" 
+                    ? "bg-violet-950 text-[#F8FAFC] border border-violet-500 shadow-[0_0_15px_rgba(139,92,246,0.3)] animate-pulse" 
+                    : "text-slate-250 hover:text-white hover:bg-white/10 bg-white/5 border border-white/5"
+                }`}
+              >
+                <Home className="w-3.5 h-3.5 shrink-0 text-amber-400" />
+                <span>ACCUEIL & HUB</span>
+              </button>
+
+              <button
                 onClick={() => setActiveTab("grid")}
                 className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
                   activeTab === "grid" 
@@ -1181,6 +1326,19 @@ export default function App() {
               >
                 <Users className="w-3.5 h-3.5 shrink-0 text-violet-400" />
                 <span>ALLIANCES SECRÈTES</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab("undercover")}
+                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
+                  activeTab === "undercover" 
+                    ? "bg-violet-900 text-[#F8FAFC] border border-violet-500 animate-pulse" 
+                    : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
+                }`}
+              >
+                <ShieldAlert className="w-3.5 h-3.5 shrink-0 text-rose-500" />
+                <span>MISSION UNDERCOVER</span>
+                <span className="bg-rose-600 text-[8px] font-mono tracking-normal text-white px-1.5 py-0.5 rounded-full font-black animate-pulse ml-auto shrink-0 shadow-md">NEW</span>
               </button>
 
               <button
@@ -1400,6 +1558,13 @@ export default function App() {
               />
             )}
 
+            {activeTab === "undercover" && (
+              <UndercoverGame 
+                characters={charactersDatabase} 
+                onUpdateBounty={(amt) => handleUpdateBounty(amt, "Mission Undercover")}
+              />
+            )}
+
             {activeTab === "leaderboard" && (
               <BountyLeaderboard 
                 leaderboardList={leaderboardList}
@@ -1436,6 +1601,271 @@ export default function App() {
               />
             )}
           </>
+        )}
+
+        {/* ========================================== */}
+        {/* ACCUEIL DE L'ÉQUIPAGE & HUB DES JEUX */}
+        {/* ========================================== */}
+        {activeTab === "home" && (
+          <div className="space-y-8 animate-in fade-in duration-300">
+            {/* Grand Bandeau d'Accueil / Command Center */}
+            <div className="bg-gradient-to-r from-violet-950/45 via-[#0C0F22]/95 to-slate-900/60 border border-violet-500/20 p-6 md:p-8 rounded-3xl shadow-xl relative overflow-hidden backdrop-blur-md force-dark">
+              <div className="absolute top-[-50%] right-[-10%] w-[350px] h-[350px] bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                <div className="space-y-3 text-center md:text-left">
+                  <span className="text-[10px] md:text-xs font-mono font-bold uppercase tracking-widest text-[#a78bfa] bg-violet-950/80 px-3 py-1.5 rounded-md border border-violet-500/35 inline-block animate-pulse light-welcome-greeting">
+                    Capitaine {playerUsername}, Bienvenue à bord ! 🏴‍☠️
+                  </span>
+                  <h2 className="text-2xl md:text-4xl font-heading font-black text-white tracking-tighter uppercase leading-none">
+                    GRAND LINE INTERACTIVE HUB
+                  </h2>
+                  <p className="text-xs md:text-sm text-slate-300 max-w-2xl font-medium leading-relaxed">
+                    Le portail suprême de divertissement et de logique pour tous les pirates d'One Piece. Défiez les combats, résolvez les mystères du Log Pose, démasquez les infiltrés et faites grimper votre notoriété universelle !
+                  </p>
+                </div>
+                <div className="bg-[#10142C]/90 p-5 rounded-2xl border border-violet-500/20 shadow-lg text-center shrink-0 min-w-[200px]">
+                  <span className="text-[9px] uppercase font-mono tracking-widest text-slate-400 block font-bold mb-1">Votre Prime Actuelle</span>
+                  <span className="font-heading font-black text-3xl text-amber-400 block tracking-tight">
+                    ฿ {playerBounty.toLocaleString()}
+                  </span>
+                  <span className="text-[9px] uppercase font-heading font-black text-[#8b5cf6] block mt-1 tracking-widest">
+                    {playerRank}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Dynamic Banner: Connection Status / Login & Register opportunity */}
+            {localStorage.getItem("firebaseUserEmail") ? (
+              <div className="bg-emerald-950/20 border border-emerald-500/20 p-5 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 backdrop-blur-md">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-heading text-lg">
+                    ⚓
+                  </div>
+                  <div>
+                    <h3 className="font-heading font-black text-white text-xs uppercase tracking-wider">
+                      Compte Grand Line connecté
+                    </h3>
+                    <p className="text-xs text-slate-300 leading-relaxed font-sans mt-0.5">
+                      Votre progression est sauvegardée sous le pseudo <strong className="text-white text-[13px]">{playerUsername}</strong> — email : <span className="font-mono text-emerald-300 font-bold light-email-text">{localStorage.getItem("firebaseUserEmail")}</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 items-center w-full md:w-auto shrink-0">
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("firebaseUserEmail");
+                      // Clear state or reload to home
+                      setActiveTab("home");
+                    }}
+                    className="px-4 py-2.5 text-[10px] md:text-[11px] font-heading font-extrabold tracking-wider text-rose-450 bg-rose-950/20 hover:bg-rose-900/30 border border-rose-500/20 rounded-xl transition-all uppercase cursor-pointer text-center w-full md:w-auto"
+                  >
+                    Se déconnecter
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("dashboard")}
+                    className="px-4 py-2.5 text-[10px] md:text-[11px] font-heading font-extrabold tracking-wider text-emerald-450 bg-emerald-950/30 hover:bg-emerald-900/40 border border-emerald-500/20 rounded-xl transition-all uppercase cursor-pointer text-center w-full md:w-auto whitespace-nowrap"
+                  >
+                    Gérer Profil & Équipage
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-gradient-to-r from-violet-955/35 via-[#0D0F25]/90 to-violet-900/10 border border-violet-500/25 p-6 rounded-3xl shadow-xl space-y-5 relative overflow-hidden backdrop-blur-md">
+                <div className="absolute top-[-40%] right-[-10%] w-[255px] h-[255px] bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
+                <div className="flex flex-col md:flex-row items-center justify-between gap-5 relative z-10">
+                  <div className="space-y-1.5 text-center md:text-left">
+                    <h3 className="font-heading font-black text-sm text-white uppercase tracking-wider flex items-center gap-2 justify-center md:justify-start">
+                      <Award className="w-5 h-5 text-amber-400" />
+                      SAUVEGARDEZ VOTRE NOTORIÉTÉ PIRATE !
+                    </h3>
+                    <p className="text-xs text-slate-300 max-w-2xl font-medium leading-relaxed">
+                      Vous jouez en session visiteur. Connectez-vous ou créez un compte pirate pour sauvegarder vos primes de combat (฿ {playerBounty.toLocaleString()}), vos victoires et votre équipage sur le serveur cloud Grand Line.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setShowAuthForm(!showAuthForm)}
+                    className="px-5 py-3 bg-violet-650 hover:bg-violet-650 text-white rounded-xl text-xs font-heading font-extrabold tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(139,92,246,0.25)] cursor-pointer w-full md:w-auto whitespace-nowrap text-center"
+                  >
+                    {showAuthForm ? "Masquer le formulaire ✕" : "🔑 Se connecter / Créer un compte"}
+                  </button>
+                </div>
+
+                {showAuthForm && (
+                  <div className="pt-4 border-t border-white/5 animate-in slide-in-from-top-4 duration-300">
+                    <UserAuth 
+                      playerBounty={playerBounty}
+                      setPlayerBounty={setPlayerBounty}
+                      playerUsername={playerUsername}
+                      setPlayerUsername={setPlayerUsername}
+                      playerAvatar={playerAvatar}
+                      setPlayerAvatar={setPlayerAvatar}
+                      stats={stats}
+                      setStats={setStats}
+                      logs={logs}
+                      setLogs={setLogs}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Les îles de l'archipel des jeux (Full-width) */}
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-violet-600/15 text-violet-400 flex items-center justify-center border border-violet-500/20">
+                    <Compass className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-heading font-black text-lg text-white uppercase tracking-tight">L'ARCHIPEL DES JEUX PROPOSÉS</h3>
+                    <p className="text-[10px] text-slate-400 font-mono uppercase tracking-wider">Sélectionnez une île interactive et lancez-vous 🧭</p>
+                  </div>
+                </div>
+                <div className="text-right hidden sm:block">
+                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest bg-white/5 px-2.5 py-1 rounded-md border border-white/5 font-bold">
+                    {PROPOSED_GAMES.length} Jeux & Applications
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {PROPOSED_GAMES.map((game) => {
+                  const IconComponent = game.icon;
+                  return (
+                    <div 
+                      key={game.id}
+                      onClick={() => setActiveTab(game.id as any)}
+                      className="bg-[#151838] border border-violet-500/25 hover:border-violet-400 rounded-2xl p-5 hover:bg-[#1c2049] transition-all duration-300 cursor-pointer group flex flex-col justify-between hover:-translate-y-1 relative overflow-hidden shadow-lg shadow-black/40 hover:shadow-violet-900/30 animate-in fade-in duration-200"
+                    >
+                      <div className="space-y-3">
+                        <div className="flex items-start justify-between">
+                          <div className="p-2.5 rounded-xl bg-violet-600/10 text-violet-400 border border-violet-500/15 group-hover:bg-violet-600/20 group-hover:text-violet-300 transition-colors">
+                            <IconComponent className="w-5 h-5" />
+                          </div>
+                          <span className="text-[9px] uppercase font-mono tracking-widest bg-violet-950/40 text-violet-350 px-2 py-0.5 rounded-md border border-violet-500/15 font-black">
+                            {game.id === "grid" && stats.gridWins > 0 ? `${stats.gridWins} Vict.` : 
+                             game.id === "tracker" && stats.trackerWins > 0 ? `${stats.trackerWins} Résolus` : 
+                             game.id === "duel" && stats.duelHigh > 0 ? `Record: ${stats.duelHigh}` : game.badge}
+                          </span>
+                        </div>
+
+                        <div className="space-y-1">
+                          <h4 className="font-heading font-black text-[#F8FAFC] text-sm uppercase tracking-wider group-hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                            {game.title}
+                            {game.id === "undercover" && (
+                              <span className="bg-rose-600 text-[8px] font-mono tracking-normal normal-case text-white px-2 py-0.5 rounded-full font-black animate-pulse shadow-md shrink-0">NEW</span>
+                            )}
+                          </h4>
+                          <p className="text-[11px] text-slate-300 leading-relaxed font-sans line-clamp-3">
+                            {game.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-400 uppercase tracking-widest group-hover:text-white transition-colors">
+                        <span className="text-[9px] font-bold group-hover:underline">Lancement</span>
+                        <span className="font-bold flex items-center gap-1 group-hover:translate-x-1.5 transition-transform text-[#8b5cf6]">
+                          LANCER L'AVENTURE ⚔️
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* SECTION INFORMATIVE DE HAUTE VALEUR — GUIDE DE L'AVENTURIER ET WIKI DE COMBAT (AdSense Compliance & Real Utility) */}
+              <div id="encyclopedia-guide" className="mt-12 bg-[#141737] border border-violet-500/20 rounded-3xl p-6 md:p-8 space-y-8 backdrop-blur-md shadow-lg shadow-black/30">
+                <div className="border-b border-white/10 pb-4">
+                  <span className="text-[10px] font-mono font-bold tracking-widest text-[#a78bfa] uppercase">RESSOURCES OFFICIELLES DU HUB</span>
+                  <h3 className="font-heading font-black text-xl md:text-2xl text-white uppercase mt-1">
+                    GUIDE DE SURVIE SUR GRAND LINE : RÈGLES & STRATÉGIES 📖
+                  </h3>
+                  <p className="text-xs text-slate-350 mt-1 font-sans">
+                    Découvrez comment maîtriser les défis de notre plateforme, accumuler des primes légendaires et débloquer les secrets de l'Archipel.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                  {/* Carte FAQ 1 : Système de Primes */}
+                  <div className="space-y-3 bg-[#1c204b]/90 border border-violet-500/15 p-5 rounded-2xl shadow-sm hover:border-violet-500/30 transition-all duration-300">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">💰</span>
+                      <h4 className="font-heading font-black text-sm text-amber-400 uppercase tracking-wider">
+                        Comment fonctionne le calcul des Primes (Bounty) ?
+                      </h4>
+                    </div>
+                    <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                      Chaque joueur démarre son aventure avec le rang de <strong className="text-white">Visiteur de Loguetown</strong> et une prime nulle. En remportant des victoires sur le <span className="text-violet-350 font-semibold font-mono">Grand Line Grid</span> ou en résolvant des énigmes du <span className="text-violet-350 font-semibold font-mono">Log Pose Tracker</span>, les autorités de la Marine ajustent votre avis de recherche (Wanted Poster).
+                    </p>
+                    <ul className="text-[11px] text-slate-400 space-y-1.5 list-disc pl-5 font-medium font-sans">
+                      <li><strong className="text-slate-200">Victoire Grid :</strong> +15 000 000 ฿ pour récompenser votre alignement tactique.</li>
+                      <li><strong className="text-slate-200">Succès Log Pose :</strong> +20 000 000 ฿ en trouvant le suspect mystère.</li>
+                      <li><strong className="text-slate-200">Série de Duels :</strong> Jusqu'à +50 000 000 ฿ de bonus pour les séries de victoires d'affilée.</li>
+                    </ul>
+                  </div>
+
+                  {/* Carte FAQ 2 : Grand Line Grid */}
+                  <div className="space-y-3 bg-[#1c204b]/90 border border-violet-500/15 p-5 rounded-2xl shadow-sm hover:border-violet-500/30 transition-all duration-300">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">⚔️</span>
+                      <h4 className="font-heading font-black text-sm text-violet-400 uppercase tracking-wider">
+                        Grand Line Grid : Règles de l'Arène
+                      </h4>
+                    </div>
+                    <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                      Il s'agit d'un morpion hautement stratégique inspiré par l'univers d'One Piece. Pour occuper une case de la grille 3x3, vous devez placer un personnage qui respecte les <strong className="text-white">deux conditions d'intersection</strong> (ligne et colonne).
+                    </p>
+                    <p className="text-xs text-slate-300 leading-relaxed font-sans mt-2">
+                      Par exemple, si l'intersection requiert "Chapeau de Paille" et "Prime supérieure à 500M ฿", vous pouvez y affecter <strong className="text-amber-400 font-semibold">Luffy</strong> ou <strong className="text-amber-400 font-semibold font-bold font-sans">Zoro</strong>. Les doublons ne sont pas autorisés au cours d'une même partie !
+                    </p>
+                  </div>
+
+                  {/* Carte FAQ 3 : Log Pose Tracker */}
+                  <div className="space-y-3 bg-[#1c204b]/90 border border-violet-500/15 p-5 rounded-2xl shadow-sm hover:border-violet-500/30 transition-all duration-300">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">🧭</span>
+                      <h4 className="font-heading font-black text-sm text-teal-400 uppercase tracking-wider">
+                        Maîtriser les indices du Log Pose Tracker
+                      </h4>
+                    </div>
+                    <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                      Chaque jour, un personnage secret de la base de données de Shueisha est désigné. À l'aide de vos propositions, le Log Pose analyse les affinités pour vous rapprocher de la cible :
+                    </p>
+                    <ul className="text-[11px] text-slate-400 space-y-1.5 list-disc pl-5 font-medium font-sans">
+                      <li><span className="text-emerald-400 font-bold font-mono">Vert :</span> Correspondance exacte (ex. Genre correct, Équipage identique, Arc d'apparition identique).</li>
+                      <li><span className="text-amber-400 font-bold font-mono">Orange :</span> Correspondance partielle ou indication de distance (ex. différence de prime de moins de 100M).</li>
+                      <li><span className="text-rose-500 font-bold font-mono">Rouge :</span> Aucun élément commun. Changez drastiquement de cap d'analyse !</li>
+                    </ul>
+                  </div>
+
+                  {/* Carte FAQ 4 : Mission Undercover */}
+                  <div className="space-y-3 bg-[#1c204b]/90 border border-violet-500/15 p-5 rounded-2xl shadow-sm hover:border-violet-500/30 transition-all duration-300">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">🕵️</span>
+                      <h4 className="font-heading font-black text-sm text-rose-450 uppercase tracking-wider">
+                        Mission Undercover : Démasquez Mister White
+                      </h4>
+                    </div>
+                    <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                      Un jeu d'infiltration multijoueur local parfait pour animer vos rassemblements d'équipage ! Les pirates reçoivent un mot secret lié à l'univers d'One Piece (ex. "Merry"), tandis que l'imposteur reçoit un mot très proche (ex. "Sunny") ou mystère.
+                    </p>
+                    <p className="text-xs text-slate-300 leading-relaxed font-sans mt-2">
+                      Tour à tour, exprimez un seul mot pour prouver votre fidélité sans trop en dévoiler à l'imposteur, puis passez au vote démocratique pour le jeter aux requins.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Section Avertissement Droits d'Auteurs (AdSense Crucial Element) */}
+                <div className="bg-[#1c204b]/90 border border-violet-500/20 p-5 rounded-2xl text-center shadow-md">
+                  <span className="text-xs font-heading font-black text-white uppercase block mb-1">PROPRIÉTÉ INTELLECTUELLE & CRÉDITS</span>
+                  <p className="text-[11px] text-slate-350 max-w-4xl mx-auto leading-relaxed font-sans">
+                    Les visuels, personnages, factions et emblèmes issus de l'univers de <strong className="text-slate-200">One Piece</strong> sont la propriété exclusive de leur créateur <strong className="text-slate-200">Eiichiro Oda</strong>, et de leurs éditeurs respectifs notamment <strong className="text-slate-200">Shueisha Inc.</strong>, <strong className="text-slate-200">Toei Animation</strong> et l'éditeur de l'œuvre originale française. Grand Line Hub est un portail communautaire à but non commercial, développé par des passionnés dans le cadre du respect des conditions de fair-use. Les photographies et illustrations de profils sont récupérées via des API ouvertes et libres de droits d'illustration.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* 4. TABLEAU DE BORD & WANTED POSTER DE JOUEUR */}
@@ -1776,14 +2206,254 @@ export default function App() {
         </div>
       )}
 
+      {/* MODAL GLOBAL D'INFORMATION ET CONFORMITÉ (AdSense, RGPD, CGU, Mentions) */}
+      {infoModal && (
+        <div className="fixed inset-0 bg-[#020617]/90 z-50 flex items-center justify-center p-4 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200">
+          <div className="bg-[#0B0F24] border border-violet-500/25 max-w-2xl w-full rounded-3xl p-6 md:p-8 shadow-2xl relative my-8 text-left max-h-[90vh] overflow-y-auto flex flex-col justify-between">
+            <button 
+              onClick={() => setInfoModal(null)}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold text-xs transition-colors hover:scale-110 active:scale-95"
+              title="Fermer"
+            >
+              ✕
+            </button>
+
+            {/* Contenu de l'onglet : À PROPOS */}
+            {infoModal === "about" && (
+              <div className="space-y-4">
+                <div className="border-b border-white/10 pb-3">
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-[#a78bfa] block font-black">Pris face au vent</span>
+                  <h3 className="font-heading font-black text-xl text-white uppercase mt-0.5">Qui sommes-nous (À Propos) ⚓</h3>
+                </div>
+                <div className="text-xs text-slate-300 space-y-3 font-sans leading-relaxed">
+                  <p>
+                    Bienvenue sur <strong className="text-violet-300">Grand Line Hub</strong>, l'ambassade interactive ultime pour tous les passionnés de l'univers d'Eiichiro Oda ! Développé de A à Z par un équipage de développeurs passionnés et fans inconditionnels de la première heure (depuis l'arc Arlong Park), notre portail a pour unique mission d'offrir une plateforme ludique, saine et hautement stimulante.
+                  </p>
+                  <p>
+                    Contrairement à de simples wikis statiques, Grand Line Hub privilégie <strong className="text-amber-400">l'interaction et la logique cognitive</strong>. Nous programmons des jeux exclusifs tels que le <span className="font-mono text-violet-200 font-bold">Grand Line Grid</span>, le <span className="font-mono text-violet-200 font-bold">Log Pose Tracker</span> et d'autres outils de réflexion pour tester vos connaissances pointues sur l'organisation des équipages, l'évolution de la Marine, les primes, l'âge légendaire des empereurs et les filiations des amiraux.
+                  </p>
+                  <h4 className="font-heading font-black text-xs text-amber-300 uppercase tracking-widest mt-4">Notre Vision Communautaire</h4>
+                  <p>
+                    Nous croyons en un web ouvert, haut en couleurs et débarrassé des publicités agressives. Tous nos jeux de stratégie sont et resteront gratuits, garantis sans paywalls. Vos primes ne s'achètent pas sous forme de microtransactions, elles se méritent uniquement par la force de vos déductions !
+                  </p>
+                  <p className="text-[11px] text-slate-400 italic">
+                    Merci d'avoir jeté l'ancre chez nous. Que votre route vers Laugh Tale soit semée d'honneur et d'alliances solides !
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Contenu de l'onglet : MENTIONS LÉGALES */}
+            {infoModal === "legal" && (
+              <div className="space-y-4">
+                <div className="border-b border-white/10 pb-3">
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-[#a78bfa] block font-black">Conformité Légale .FR</span>
+                  <h3 className="font-heading font-black text-xl text-white uppercase mt-0.5">Mentions Légales ⚖️</h3>
+                </div>
+                <div className="text-xs text-slate-300 space-y-3 font-sans leading-relaxed">
+                  <p>
+                    Conformément aux dispositions de l'article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN), il est précisé aux utilisateurs du site <strong className="text-white">grandlinehub.fr</strong> l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi :
+                  </p>
+                  <ul className="list-disc pl-5 space-y-1 text-[11px] text-slate-400">
+                    <li><strong>Éditeur du site :</strong> Association Grand Line Collectif, gérée bénévolement par un collège indépendant d'étudiants et fans. Email de contact : <span className="text-violet-350 font-bold">contact@grandlinehub.fr</span>.</li>
+                    <li><strong>Directeur de la publication :</strong> Équipage Grand Line Hub (Publication communautaire non-lucrative).</li>
+                    <li><strong>Hébergement du site :</strong> Google Cloud Run & Firebase Hosting, opéré par Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irlande.</li>
+                  </ul>
+                  <h4 className="font-heading font-black text-xs text-violet-400 uppercase tracking-widest mt-4">Responsabilité pour le Contenu du Blog</h4>
+                  <p>
+                    Le site propose un espace communautaire en ligne interactif (le Forum des Pirates - Blog Section). Les propos tenus sur ce blog le sont sous la responsabilité exclusive de leurs auteurs respectifs. Tout utilisateur peut signaler un contenu abusif, diffamatoire ou contraire aux lois françaises à l'adresse de signalement immédiat : <strong className="text-white">signaler@grandlinehub.fr</strong>. Notre équipe s'engage à modérer et supprimer tout message illicite sous un délai maximum de 24 heures.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Contenu de l'onglet : CGU */}
+            {infoModal === "terms" && (
+              <div className="space-y-4">
+                <div className="border-b border-white/10 pb-3">
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-[#a78bfa] block font-black">Charte Pirate</span>
+                  <h3 className="font-heading font-black text-xl text-white uppercase mt-0.5">Conditions Générales d'Utilisation 📜</h3>
+                </div>
+                <div className="text-xs text-slate-300 space-y-3 font-sans leading-relaxed">
+                  <p>
+                    L'utilisation du site <strong className="text-white">grandlinehub.fr</strong> implique l'acceptation pleine et entière des présentes conditions d'utilisation, rédigées pour assurer le respect mutuel et le fair-play au sein de notre communauté de passionnés d'One Piece.
+                  </p>
+                  <h4 className="font-heading font-black text-xs text-amber-300 uppercase tracking-widest">1. Accès et Services Gratuits</h4>
+                  <p>
+                    L'accès aux jeux (Morpion strategic, wordle, etc.) est totalement libre et gratuit. La création d'un compte pirate ou l'utilisation d'une session visiteur est disponible pour stocker vos statistiques sur le Cloud.
+                  </p>
+                  <h4 className="font-heading font-black text-xs text-amber-300 uppercase tracking-widest">2. Comportement sur le Forum</h4>
+                  <p>
+                    Dans les espaces de discussion et de partage communautaire du site (Blog et équipages), chaque pirate s'engage à respecter les autres membres. La provocation gratuite, le harcèlement, l'injure et le partage de liens illégaux d'œuvres protégées (tels que des scans de chapitres piratés) sont strictement interdits et passibles de bannières définitives de l'adresse IP et d'un mandat d'arrêt émis par notre conseil d'administration !
+                  </p>
+                  <h4 className="font-heading font-black text-xs text-amber-300 uppercase tracking-widest">3. Propriété de l'œuvre</h4>
+                  <p>
+                    Aucune affiliation officielle avec Toei Animation ou Eiichiro Oda n'est revendiquée. Ce site est conçu sous un régime d'exception d'enseignement, d'études et de critique littéraire.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Contenu de l'onglet : CONFIDENTIALITÉ & RGPD */}
+            {infoModal === "privacy" && (
+              <div className="space-y-4">
+                <div className="border-b border-white/10 pb-3">
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-[#a78bfa] block font-black">Protection de la vie privée</span>
+                  <h3 className="font-heading font-black text-xl text-white uppercase mt-0.5">Confidentialité & Protection RGPD 🔒</h3>
+                </div>
+                <div className="text-xs text-slate-300 space-y-3 font-sans leading-relaxed animate-in fade-in duration-100">
+                  <p>
+                    Sur <strong className="text-white">grandlinehub.fr</strong>, nous prenons la sécurité de votre équipage et de vos données personnelles extrêmement au sérieux. Conformément au Règlement Général sur la Protection des Données (RGPD) n° 2016/679 de l'Union Européenne, voici comment nous traitons vos informations :
+                  </p>
+                  <h4 className="font-heading font-black text-xs text-teal-400 uppercase tracking-widest">1. Données Stockées en Local (LocalStorage)</h4>
+                  <p>
+                    Vos scores, victoires, primes de tournoi (Bounty) et préférences de jeu sont sauvegardés directement dans le stockage local de votre propre navigateur. Ces données ne quittent pas votre ordinateur, sauf si vous décidez de vous authentifier pour l'enregistrer dans nos serveurs cloud sécurisés.
+                  </p>
+                  <h4 className="font-heading font-black text-xs text-teal-400 uppercase tracking-widest">2. Comptes Firebase & Sécurité</h4>
+                  <p>
+                    Lorsque vous vous connectez à l'aide de votre adresse email, celle-ci est gérée et hébergée par Firebase Authentication dans l'Union Européenne. Les mots de passe sont rendus inaccessibles par chiffrement de haut niveau. Nous n'aurons jamais accès à votre mot de passe et n'enverrons jamais d'emails promotionnels non-sollicités (zéro Spam).
+                  </p>
+                  <h4 className="font-heading font-black text-xs text-teal-400 uppercase tracking-widest">3. Vos Droits d'Accès et d'Effacement</h4>
+                  <p>
+                    Vous disposez d'un droit total d'accès, de rectification et d'effacement total de votre compte. Vous pouvez effectuer l'effacement de vos données d'un seul clic à tout moment, ou en adressant un email amical à <strong className="text-white">rgpd@grandlinehub.fr</strong>. Toutes vos fiches et commentaires seront effacés de manière sécurisée sous 48 heures.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Contenu de l'onglet : CONTACT & SUPPORT EN DIRECT */}
+            {infoModal === "contact" && (
+              <div className="space-y-4">
+                <div className="border-b border-white/10 pb-3">
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-[#a78bfa] block font-black">Messagerie d'Amirauté</span>
+                  <h3 className="font-heading font-black text-xl text-white uppercase mt-0.5">Nous Contacter (Support & RGPD) ✉️</h3>
+                </div>
+                <div className="text-xs text-slate-300 space-y-3 font-sans leading-relaxed">
+                  <p>
+                    Un bug à signaler sur la grille du <span className="font-bold text-violet-300">Grand Line Grid</span> ? Une suggestion pour ajouter de nouvelles caractéristiques à la base de données d'One Piece ? Ou simplement pour demander la suppression de votre adresse de la base cloud de notre serveur ?
+                  </p>
+                  <p>
+                    Remplissez ce formulaire crypté pour que notre pigeon voyageur transmette votre message directement à notre équipe technique.
+                  </p>
+
+                  <form 
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      alert("Message envoyé ! Le Pigeon de Morgans a pris son envol avec votre pli urgent 🦅 !");
+                      setInfoModal(null);
+                    }}
+                    className="space-y-3 mt-4 bg-[#10142C]/80 p-4 border border-violet-500/10 rounded-2xl"
+                  >
+                    <div>
+                      <label className="block text-[10px] uppercase font-mono tracking-widest text-slate-400 font-bold mb-1">Votre Nom / Pseudo Pirate</label>
+                      <input 
+                        type="text" 
+                        required 
+                        defaultValue={playerUsername}
+                        placeholder="Ex: Luffy du 92" 
+                        className="w-full bg-[#080B1E] border border-white/10 rounded-xl px-3 py-2 text-white text-xs font-sans focus:outline-none focus:border-violet-500 transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] uppercase font-mono tracking-widest text-slate-400 font-bold mb-1">Votre Email pour la réponse</label>
+                      <input 
+                        type="email" 
+                        required 
+                        defaultValue={localStorage.getItem("firebaseUserEmail") || ""}
+                        placeholder="pirate@grandline.com" 
+                        className="w-full bg-[#080B1E] border border-white/10 rounded-xl px-3 py-2 text-white text-xs font-sans focus:outline-none focus:border-violet-500 transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] uppercase font-mono tracking-widest text-slate-400 font-bold mb-1">Sujet de votre requète</label>
+                      <select className="w-full bg-[#080B1E] border border-white/10 rounded-xl px-3 py-2 text-white text-xs font-sans focus:outline-none focus:border-violet-500 transition-colors">
+                        <option>Signaler un bug de jeu</option>
+                        <option>Demande d'exercice des droits RGPD</option>
+                        <option>Partenariat / Idée géniale</option>
+                        <option>Problème de compte ou de prime</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] uppercase font-mono tracking-widest text-slate-400 font-bold mb-1">Votre Message</label>
+                      <textarea 
+                        required 
+                        rows={3}
+                        placeholder="Détaillez votre message comme sur un parchemin d'équipage..." 
+                        className="w-full bg-[#080B1E] border border-white/10 rounded-xl px-3 py-2 text-white text-xs font-sans focus:outline-none focus:border-violet-500 transition-colors resize-none"
+                      />
+                    </div>
+                    <button 
+                      type="submit"
+                      className="w-full bg-violet-600 hover:bg-violet-500 active:scale-[0.98] transition-all py-2.5 rounded-xl text-white font-heading font-black uppercase text-xs tracking-widest mt-2"
+                    >
+                      Envoyer le pli urgent ⚔️
+                    </button>
+                  </form>
+                </div>
+              </div>
+            )}
+
+            <div className="mt-6 pt-3 border-t border-white/5 flex justify-end">
+              <button 
+                onClick={() => setInfoModal(null)}
+                className="bg-slate-800 hover:bg-slate-700 text-white font-heading font-black uppercase text-[10px] tracking-widest px-4 py-2 rounded-xl transition-colors"
+              >
+                Retourner à la Mer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 4. DESIGN FOOTER HUMBLE & CLEAN */}
-      <footer className="bg-white border-t border-[#E5E7EB] py-8 mt-16 text-center text-xs text-gray-400 font-sans">
-        <p className="font-heading font-black text-gray-500 uppercase tracking-widest text-[11px] mb-1">
-          GRAND LINE HUB &copy; {new Date().getFullYear()}
-        </p>
-        <p className="max-w-md mx-auto text-[11px] text-gray-400 px-4 font-medium leading-relaxed">
-          Un portail d'honneur créé pour divertir la communauté de pirates à travers le monde. Naviguez toujours face au vent !
-        </p>
+      <footer className="bg-slate-950 border-t border-slate-900 py-10 mt-16 text-center text-xs text-gray-400 font-sans">
+        <div className="max-w-4xl mx-auto px-4 space-y-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-slate-300 font-medium">
+            <button 
+              onClick={() => setInfoModal("about")} 
+              className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
+            >
+              Qui sommes-nous
+            </button>
+            <span className="text-slate-700 hidden sm:inline">|</span>
+            <button 
+              onClick={() => setInfoModal("legal")} 
+              className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
+            >
+              Mentions Légales
+            </button>
+            <span className="text-slate-700 hidden sm:inline">|</span>
+            <button 
+              onClick={() => setInfoModal("terms")} 
+              className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
+            >
+              Conditions d'Utilisation (CGU)
+            </button>
+            <span className="text-slate-700 hidden sm:inline">|</span>
+            <button 
+              onClick={() => setInfoModal("privacy")} 
+              className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
+            >
+              Confidentialité & RGPD
+            </button>
+            <span className="text-slate-700 hidden sm:inline">|</span>
+            <button 
+              onClick={() => setInfoModal("contact")} 
+              className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
+            >
+              Contact / Support
+            </button>
+          </div>
+
+          <div className="h-px bg-slate-900 w-24 mx-auto" />
+
+          <p className="font-heading font-black text-slate-200 uppercase tracking-widest text-[11px] mb-1">
+            GRAND LINE HUB &copy; {new Date().getFullYear()}
+          </p>
+          <p className="max-w-md mx-auto text-[11px] text-slate-500 leading-relaxed">
+            Un portail d'honneur créé pour divertir la communauté de pirates à travers le monde. Naviguez toujours face au vent !
+          </p>
+        </div>
       </footer>
 
     </div>

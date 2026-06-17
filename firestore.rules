@@ -35,6 +35,13 @@ service cloud.firestore {
       allow delete: if true;
     }
 
+    match /undercoverGames/{gameId} {
+      allow get, list: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+
     match /crews/{crewId} {
       allow read, get, list: if true;
       allow create, update, delete: if true;

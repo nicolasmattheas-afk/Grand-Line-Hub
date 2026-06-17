@@ -173,3 +173,560 @@ body {
   }
 }
 
+
+/* ==========================================
+   SUPERBE MODE CLAIR (LIGHT MODE OVERRIDES)
+   ========================================== */
+body.light-mode {
+  background-color: #f1f5f9 !important;
+  background-image: radial-gradient(at 100% 0%, rgba(224, 231, 245, 0.45) 0px, transparent 50%),
+                    radial-gradient(at 0% 100%, rgba(219, 234, 254, 0.4) 0px, transparent 50%) !important;
+  color: #0f172a !important;
+}
+
+/* En-tête (Header) */
+body.light-mode header {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(139, 92, 246, 0.15) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light-mode header h1 {
+  color: #0f172a !important;
+}
+
+body.light-mode header p {
+  color: #7c3aed !important;
+}
+
+body.light-mode header button,
+body.light-mode header .bg-\[\#11142A\]\/85 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+body.light-mode header .bg-\[\#11142A\]\/85 span {
+  color: #1e293b !important;
+}
+
+body.light-mode header .bg-\[\#11142A\]\/85 span.rank-tag-style {
+  color: #ffffff !important; /* Keep rank tag text white */
+}
+
+/* Sidebar Navigation */
+body.light-mode aside {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-mode aside button.bg-white\/5 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+body.light-mode aside button.bg-white\/5:hover {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+body.light-mode aside button.text-slate-450,
+body.light-mode aside button.text-slate-400 {
+  color: #475569 !important;
+}
+
+body.light-mode aside button:hover {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+body.light-mode aside button.bg-violet-900,
+body.light-mode aside button.bg-violet-950,
+body.light-mode aside [class*="bg-violet"] {
+  background-color: #8b5cf6 !important;
+  border-color: #7c3aed !important;
+  color: #ffffff !important;
+}
+
+body.light-mode aside button.bg-violet-900 span,
+body.light-mode aside button.bg-violet-950 span,
+body.light-mode aside [class*="bg-violet"] span {
+  color: #ffffff !important;
+}
+
+/* CARDS, DIALOGS, PAPERS (Extremely exhaustive list) */
+body.light-mode #undercover-game-wrapper,
+body.light-mode .bg-\[\#151838\],
+body.light-mode .bg-\[\#11132a\],
+body.light-mode .bg-slate-950\/20,
+body.light-mode .bg-\[\#0B0D1E\]\/45,
+body.light-mode .bg-\[\#141737\],
+body.light-mode .bg-slate-900\/65,
+body.light-mode .bg-\[\#12142d\]\/90,
+body.light-mode .bg-\[\#0e1026\]\/90,
+body.light-mode .bg-\[\#0c0e22\],
+body.light-mode .bg-\[\#0B0D1E\]\/40,
+body.light-mode .bg-\[\#131531\],
+body.light-mode .bg-\[\#11132a\]\/60,
+body.light-mode .bg-\[\#11142a\]\/60,
+body.light-mode .bg-\[\#11132a\]\/40,
+body.light-mode .bg-\[\#0a0c1a\]\/95,
+body.light-mode .bg-\[\#0A0C1A\]\/95,
+body.light-mode .bg-slate-950\/40,
+body.light-mode .border-haki-active,
+body.light-mode .bold-card,
+body.light-mode .bg-\[\#1c204b\]\/90,
+body.light-mode .bg-\[\#1c204b\],
+body.light-mode .bg-\[\#181a39\],
+body.light-mode .bg-\[\#1e204b\]\/90,
+body.light-mode .bg-\[\#1a1c38\],
+body.light-mode .bg-\[\#0d1023\],
+body.light-mode .bg-\[\#1c2049\],
+body.light-mode .bg-\[\#16193b\]\/90,
+body.light-mode .bg-\[\#181c3e\],
+body.light-mode .bg-slate-950,
+body.light-mode .bg-slate-900,
+body.light-mode .bg-slate-850,
+body.light-mode .bg-\[\#2a2d54\],
+body.light-mode .bg-indigo-950,
+body.light-mode .bg-slate-900\/60,
+body.light-mode .bg-slate-900\/40,
+body.light-mode .bg-violet-950\/40,
+body.light-mode .bg-violet-900\/45,
+body.light-mode [class*="bg-\#151838"],
+body.light-mode [class*="bg-\#11132a"],
+body.light-mode [class*="bg-\#141737"],
+body.light-mode [class*="bg-\[\#151838\]"],
+body.light-mode [class*="bg-\[\#11132a\]"],
+body.light-mode [class*="bg-\[\#141737\]"],
+body.light-mode [class*="bg-\[\#1c204b\]"],
+body.light-mode [class*="bg-\[\#1c2049\]"],
+body.light-mode [class*="bg-slate-950"],
+body.light-mode [class*="bg-slate-900"],
+body.light-mode [class*="bg-[#1A1A1A]"],
+body.light-mode [class*="bg-[#1a1a1a]"],
+body.light-mode [class*="bg-[#0b0d1b]"],
+body.light-mode [class*="bg-[#0B0D1B]"],
+body.light-mode [class*="bg-[#0d0f23]"],
+body.light-mode [class*="bg-[#12142d]"],
+body.light-mode [class*="bg-[#0e1026]"],
+body.light-mode [class*="bg-[#0c0d1e]"],
+body.light-mode [class*="bg-[#11132a]"],
+body.light-mode [class*="bg-[#1b1c34]"],
+body.light-mode [class*="bg-[#101228]"],
+body.light-mode [class*="bg-[#1f1a3e]"],
+body.light-mode [class*="bg-[#141630]"],
+body.light-mode [class*="bg-[#121124]"],
+body.light-mode [class*="bg-[#0e0c1b]"],
+body.light-mode [class*="bg-[#11142A]"],
+body.light-mode [class*="bg-[#11142a]"],
+body.light-mode [class*="bg-[#1d1b33]"],
+body.light-mode [class*="bg-[#1c204b]"],
+body.light-mode [class*="bg-[#0d1023]"],
+body.light-mode [class*="bg-[#0d0f23]"],
+body.light-mode [class*="from-[#1e1b4b]"],
+body.light-mode [class*="bg-linear-to-r"],
+body.light-mode [class*="bg-gradient-to-or"],
+body.light-mode .bg-linear-to-r,
+body.light-mode .bg-gradient-to-or {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -4px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Hover behaviors */
+body.light-mode .bg-\[\#1c2049\]:hover,
+body.light-mode .bg-\[\#16193b\]\/90:hover,
+body.light-mode .bg-\[\#181c3e\]:hover,
+body.light-mode .bg-\[\#1c204b\]\/90:hover,
+body.light-mode .bg-\[\#151838\]:hover,
+body.light-mode .hover\:bg-slate-900\/65:hover,
+body.light-mode .hover\:bg-\[\#1c2049\]:hover,
+body.light-mode .group-hover\:bg-slate-900\/65:group-hover,
+body.light-mode .hover\:bg-slate-800:hover,
+body.light-mode .hover\:bg-slate-900:hover {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* OVERRIDE THE PRIMARY OUTERS TO FULL LIGHT BACKGROUNDS (Ensures no more dark-page margins!) */
+body.light-mode .bg-\[\#070914\],
+body.light-mode .bg-\[\#05070f\],
+body.light-mode div.min-h-screen,
+body.light-mode main {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  background-image: radial-gradient(at 100% 0%, rgba(224, 231, 245, 0.45) 0px, transparent 50%),
+                    radial-gradient(at 0% 100%, rgba(219, 234, 254, 0.4) 0px, transparent 50%) !important;
+}
+
+/* ABSOLUTELY UNIVERSAL TEXT INVERSION FOR LIGHT BACKGROUNDS */
+body.light-mode .text-white,
+body.light-mode .text-\[\#F8FAFC\],
+body.light-mode .text-slate-50,
+body.light-mode .text-slate-100,
+body.light-mode .text-slate-150,
+body.light-mode .text-slate-200,
+body.light-mode .text-slate-250,
+body.light-mode .text-slate-300,
+body.light-mode .text-slate-350,
+body.light-mode .text-slate-400,
+body.light-mode .text-slate-450,
+body.light-mode .text-gray-50,
+body.light-mode .text-gray-100,
+body.light-mode .text-gray-200,
+body.light-mode .text-gray-300,
+body.light-mode .text-gray-400,
+body.light-mode .text-neutral-50,
+body.light-mode .text-neutral-100,
+body.light-mode .text-neutral-200,
+body.light-mode .text-neutral-300,
+body.light-mode .text-zinc-50,
+body.light-mode .text-zinc-100,
+body.light-mode .text-zinc-200,
+body.light-mode .text-zinc-300,
+body.light-mode .text-violet-100,
+body.light-mode .text-violet-200,
+body.light-mode .text-violet-300,
+body.light-mode .text-indigo-100,
+body.light-mode .text-indigo-200,
+body.light-mode .text-indigo-300,
+body.light-mode .text-fuchsia-100,
+body.light-mode .text-fuchsia-200,
+body.light-mode .text-blue-100,
+body.light-mode .text-blue-200,
+body.light-mode .text-blue-300,
+body.light-mode [class*="text-slate-100"],
+body.light-mode [class*="text-slate-200"],
+body.light-mode [class*="text-slate-300"],
+body.light-mode [class*="text-slate-400"],
+body.light-mode [class*="text-gray-100"],
+body.light-mode [class*="text-gray-200"],
+body.light-mode [class*="text-gray-300"],
+body.light-mode [class*="text-violet-200"],
+body.light-mode [class*="text-violet-300"] {
+  color: #0f172a !important;
+}
+
+/* Semi-muted text colors */
+body.light-mode .text-slate-500,
+body.light-mode .text-gray-500,
+body.light-mode .text-zinc-500,
+body.light-mode .text-neutral-500,
+body.light-mode .text-slate-400\/70,
+body.light-mode .text-slate-400\/90,
+body.light-mode [class*="text-slate-400"],
+body.light-mode [class*="text-slate-500"],
+body.light-mode [class*="text-gray-400"],
+body.light-mode [class*="text-gray-500"] {
+  color: #475569 !important;
+}
+
+/* Highly muted text classes */
+body.light-mode .text-slate-600,
+body.light-mode .text-slate-700,
+body.light-mode .text-gray-600,
+body.light-mode .text-gray-700 {
+  color: #64748b !important;
+}
+
+/* Headings and generic typography tags */
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4,
+body.light-mode h5,
+body.light-mode h6,
+body.light-mode .font-heading,
+body.light-mode .font-bold {
+  color: #0f172a !important;
+}
+
+/* Specific interactive/active text color optimizations to ensure readability of accents */
+body.light-mode .text-amber-400,
+body.light-mode .text-amber-300,
+body.light-mode .text-yellow-400,
+body.light-mode [class*="text-amber-"],
+body.light-mode [class*="text-yellow-"] {
+  color: #b45309 !important; /* Elegant clear amber of high contrast */
+}
+
+body.light-mode .text-violet-400,
+body.light-mode .text-violet-500,
+body.light-mode .text-indigo-400,
+body.light-mode .text-\[\#8b5cf6\],
+body.light-mode [class*="text-violet-400"],
+body.light-mode [class*="text-indigo-400"] {
+  color: #6d28d9 !important; /* Beautiful pure violet link colors */
+}
+
+body.light-mode .text-emerald-300,
+body.light-mode .text-emerald-400,
+body.light-mode .text-green-400,
+body.light-mode [class*="text-emerald-"],
+body.light-mode [class*="text-green-"] {
+  color: #047857 !important; /* Readable dark forest/emerald green */
+}
+
+body.light-mode .text-rose-400,
+body.light-mode .text-rose-500,
+body.light-mode .text-red-400,
+body.light-mode [class*="text-rose-"],
+body.light-mode [class*="text-red-"] {
+  color: #be123c !important; /* Readable strong red/crimson */
+}
+
+/* Force dark borders universally in light mode */
+body.light-mode .border-white\/5,
+body.light-mode .border-white\/10,
+body.light-mode .border-white\/15,
+body.light-mode .border-white\/20,
+body.light-mode .border-white\/30,
+body.light-mode .border-violet-500\/15,
+body.light-mode .border-violet-500\/25,
+body.light-mode .border-violet-500\/20,
+body.light-mode .border-violet-900\/40,
+body.light-mode .border-violet-800\/20,
+body.light-mode [class*="border-white"],
+body.light-mode [class*="border-violet-500"] {
+  border-color: #cbd5e1 !important;
+}
+
+/* Specific sub-element list styling overrides for lists or items */
+body.light-mode .bg-\[\#121532\],
+body.light-mode .bg-\[\#0F1126\],
+body.light-mode .bg-\[\#11132C\],
+body.light-mode [class*="bg-\#121532"],
+body.light-mode [class*="bg-\#0F1126"] {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Modals to have fully bright white backgrounds */
+body.light-mode .fixed.inset-0.bg-black\/80,
+body.light-mode .fixed.inset-0[class*="bg-black"] {
+  background-color: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+body.light-mode .bg-\[\#0a0c1a\]\/95,
+body.light-mode .bg-\[\#0B0D1E\],
+body.light-mode .bg-slate-950\/90,
+body.light-mode .bg-slate-900,
+body.light-mode [class*="bg-slate-950/90"],
+body.light-mode [class*="bg-\[\#0a0c1a\]"] {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Inputs & Forms - keep them clean with borders */
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+body.light-mode input::placeholder,
+body.light-mode select::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Ensure gear 5 elements and celestial moons scale beautifully with the white background */
+body.light-mode .bg-violet-950\/20,
+body.light-mode .bg-violet-600\/10 {
+  background-color: rgba(139, 92, 246, 0.04) !important;
+}
+
+/* EXCEPTIONS: SOLID-COLORED BRAND ACCENTS AND ACTIVE BUTTONS MUST KEEP WHITE TEXT */
+body.light-mode [class*="bg-violet"] h1,
+body.light-mode [class*="bg-violet"] h2,
+body.light-mode [class*="bg-violet"] h3,
+body.light-mode [class*="bg-violet"] h4,
+body.light-mode [class*="bg-violet"] h5,
+body.light-mode [class*="bg-violet"] p,
+body.light-mode [class*="bg-violet"] span,
+body.light-mode [class*="bg-violet"] div,
+body.light-mode [class*="bg-violet"].text-white,
+body.light-mode [class*="bg-violet"] .text-white,
+body.light-mode [class*="bg-violet"] .text-slate-100,
+body.light-mode [class*="bg-violet"] .text-slate-200,
+body.light-mode [class*="bg-violet"] .text-slate-350,
+body.light-mode [class*="bg-violet"] .font-bold,
+body.light-mode [class*="bg-violet"] .font-heading {
+  color: #ffffff !important;
+}
+
+body.light-mode [class*="bg-\[\#5b21b6\]"] h1,
+body.light-mode [class*="bg-\[\#5b21b6\]"] h2,
+body.light-mode [class*="bg-\[\#5b21b6\]"] h3,
+body.light-mode [class*="bg-\[\#5b21b6\]"] h4,
+body.light-mode [class*="bg-\[\#5b21b6\]"] p,
+body.light-mode [class*="bg-\[\#5b21b6\]"] span,
+body.light-mode [class*="bg-\[\#5b21b6\]"] div,
+body.light-mode [class*="bg-\[\#5b21b6\]"].text-white,
+body.light-mode [class*="bg-\[\#5b21b6\]"] .text-white,
+body.light-mode [class*="bg-\[\#5b21b6\]"] .text-slate-100,
+body.light-mode [class*="bg-\[\#5b21b6\]"] .text-slate-200,
+body.light-mode [class*="bg-\[\#5b21b6\]"] .font-bold,
+body.light-mode [class*="bg-\[\#5b21b6\]"] .font-heading {
+  color: #ffffff !important;
+}
+
+/* Keep standard active button colors readable in light mode */
+body.light-mode button.bg-violet-600,
+body.light-mode button.bg-violet-700,
+body.light-mode button.bg-violet-800,
+body.light-mode button.bg-violet-900,
+body.light-mode button.bg-violet-950,
+body.light-mode button.bg-indigo-600,
+body.light-mode button.bg-indigo-700 {
+  background-color: #8b5cf6 !important;
+  color: #ffffff !important;
+  border-color: #7c3aed !important;
+}
+
+body.light-mode button.bg-violet-600 h1,
+body.light-mode button.bg-violet-600 h2,
+body.light-mode button.bg-violet-600 h3,
+body.light-mode button.bg-violet-600 p,
+body.light-mode button.bg-violet-600 span,
+body.light-mode button.bg-violet-600 div,
+body.light-mode button.bg-violet-700 *,
+body.light-mode button.bg-violet-800 *,
+body.light-mode button.bg-violet-900 *,
+body.light-mode button.bg-indigo-600 *,
+body.light-mode button.bg-indigo-700 *,
+body.light-mode [class*="bg-emerald"] span,
+body.light-mode [class*="bg-rose"] span,
+body.light-mode [class*="bg-amber"] span {
+  color: #ffffff !important;
+}
+
+/* Ensure category grids have robust borders and high readability */
+body.light-mode .border-haki-active {
+  border-color: #8b5cf6 !important;
+  background-color: rgba(139, 92, 246, 0.08) !important;
+}
+
+/* SOFT HIGH-CONTRAST PASTEL TAG BACKGROUNDS FOR STATUS BADGES IN LIGHT MODE */
+body.light-mode .bg-rose-950,
+body.light-mode [class*="bg-rose-950"],
+body.light-mode .bg-red-950,
+body.light-mode [class*="bg-red-955"],
+body.light-mode [class*="bg-red-950"] {
+  background-color: #ffe4e6 !important;
+  border-color: #fca5a5 !important;
+  color: #be123c !important;
+}
+
+body.light-mode .bg-emerald-950,
+body.light-mode [class*="bg-emerald-950"] {
+  background-color: #d1fae5 !important;
+  border-color: #6ee7b7 !important;
+  color: #047857 !important;
+}
+
+body.light-mode .bg-amber-950,
+body.light-mode [class*="bg-amber-950"] {
+  background-color: #fef3c7 !important;
+  border-color: #fcd34d !important;
+  color: #b45309 !important;
+}
+
+body.light-mode .bg-violet-950,
+body.light-mode [class*="bg-violet-950"] {
+  background-color: #ede9fe !important;
+  border-color: #c4b5fd !important;
+  color: #6d28d9 !important;
+}
+
+/* Custom styles for overlays and forcing dark state in light-mode */
+.modal-overlay-backdrop {
+  background-color: rgba(15, 23, 42, 0.72) !important;
+  background: rgba(15, 23, 42, 0.72) !important;
+}
+
+.force-text-white,
+.force-text-white * {
+  color: #ffffff !important;
+}
+
+body.light-mode .force-dark,
+body.light-mode [class*="force-dark"] {
+  background: #0f1123 !important;
+  background-color: #0f1123 !important;
+  background-image: linear-gradient(135deg, #0f1123 0%, #151838 100%) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+body.light-mode .force-dark * {
+  color: #ffffff !important;
+}
+
+/* Ensure empty cells (bg-white buttons) in the grid and elsewhere remain crisp white in light mode */
+body.light-mode button.bg-white,
+body.light-mode button[class*="bg-white"] {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  border-color: #cbd5e1 !important;
+  color: #0c0f22 !important;
+}
+
+body.light-mode button.bg-white:hover,
+body.light-mode button[class*="bg-white"]:hover {
+  background-color: #f8fafc !important;
+  background: #f8fafc !important;
+}
+
+/* Custom class to force text color to black in light mode */
+body.light-mode .force-text-black,
+body.light-mode .force-text-black * {
+  color: #000000 !important;
+}
+
+/* Hard light mode rules for search results list inside Grand Line Grid */
+body.light-mode .grandline-search-suggestions p,
+body.light-mode .grandline-search-suggestions span,
+body.light-mode .grandline-search-suggestions button {
+  color: #000000 !important;
+}
+
+body.light-mode .grandline-search-suggestions button p {
+  color: #000000 !important;
+}
+
+body.light-mode .grandline-search-suggestions button span {
+  color: #4f46e5 !important; /* Force choosing text to bold indigo in light mode */
+}
+
+body.light-mode .force-dark .light-welcome-greeting,
+body.light-mode .light-welcome-greeting {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-mode span.light-email-text,
+body.light-mode [class*="bg-emerald"] span.light-email-text {
+  color: #000000 !important;
+}
+
+/* Force Secret Alliances character names to be white in light mode */
+body.light-mode .alliance-grid-char-name,
+body.light-mode .alliance-solved-char-name {
+  color: #ffffff !important;
+}
+
+
+
+

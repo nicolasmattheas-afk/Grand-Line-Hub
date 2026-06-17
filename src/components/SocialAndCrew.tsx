@@ -1251,7 +1251,7 @@ export default function SocialAndCrew({
                             {canKickThisMember && (
                               <button
                                 onClick={() => handleKickMember(member.email, member.bounty)}
-                                className="px-2 py-1 text-[10px] font-bold text-red-650 hover:bg-red-50 hover:text-red-700 rounded transition-colors uppercase border border-red-200/50 cursor-pointer"
+                                className="px-2 py-1 text-[10.5px] font-bold text-red-600 bg-red-50 hover:bg-red-600 hover:text-white rounded border border-red-200 transition-colors uppercase cursor-pointer"
                               >
                                 Expulser
                               </button>
@@ -1577,7 +1577,7 @@ export default function SocialAndCrew({
 
       {/* Modal / Fenêtre flottante de choix de drapeau */}
       {isEmblemModalOpen && (
-        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center z-[100] p-4 animate-in fade-in duration-200">
+        <div className="fixed inset-0 modal-overlay-backdrop backdrop-blur-xs flex items-center justify-center z-[100] p-4 animate-in fade-in duration-200">
           <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-gray-150 transform scale-100 transition-all duration-300">
             {/* Header */}
             <div className="p-6 bg-slate-50 border-b border-gray-150 flex items-center justify-between">

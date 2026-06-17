@@ -145,7 +145,7 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 font-sans">
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 bg-[#1A1A1A] p-6 sm:p-8 rounded-3xl border-2 border-black shadow-md text-white">
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white font-heading mb-2 uppercase">
           BOUNTY DUEL
         </h2>
@@ -158,18 +158,18 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
 
         {/* Tableau d'affichage du score */}
         <div className="flex items-center justify-center gap-6 mt-6">
-          <div className="bg-white border-2 border-black px-5 py-3 rounded-2xl flex items-center gap-2 shadow-xs">
+          <div className="bg-slate-900 border-2 border-slate-700 px-5 py-3 rounded-2xl flex items-center gap-2 shadow-xs text-white">
             <Flame className="w-5 h-5 text-orange-500" />
             <div className="text-left">
               <span className="text-[9px] text-gray-400 block font-heading font-extrabold uppercase tracking-widest">Série Actuelle</span>
-              <span className="font-mono text-xl font-black text-[#1A1A1A]">{streak}</span>
+              <span className="font-mono text-xl font-black text-white">{streak}</span>
             </div>
           </div>
-          <div className="bg-white border-2 border-black px-5 py-3 rounded-2xl flex items-center gap-2 shadow-xs">
+          <div className="bg-slate-900 border-2 border-slate-700 px-5 py-3 rounded-2xl flex items-center gap-2 shadow-xs text-white">
             <Trophy className="w-5 h-5 text-amber-500" />
             <div className="text-left">
               <span className="text-[9px] text-gray-400 block font-heading font-extrabold uppercase tracking-widest">Record</span>
-              <span className="font-mono text-xl font-black text-[#1A1A1A]">{bestStreak}</span>
+              <span className="font-mono text-xl font-black text-white">{bestStreak}</span>
             </div>
           </div>
         </div>
@@ -220,9 +220,11 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
             </div>
 
             <div className="text-center">
-              <h3 className="font-heading text-lg min-[380px]:text-xl sm:text-2xl font-black text-[#1A1A1A] uppercase tracking-tighter truncate">
-                {leftChar.name}
-              </h3>
+              <div className="my-1.5">
+                <h3 className="font-heading text-lg min-[380px]:text-xl sm:text-2xl font-black text-white bg-[#1A1A1A] px-3.5 py-1 rounded-xl uppercase tracking-tighter truncate inline-block max-w-full">
+                  {leftChar.name}
+                </h3>
+              </div>
               <p className="text-[10px] sm:text-xs text-gray-500 italic line-clamp-2 mt-1 sm:mt-2 h-7 sm:h-8 px-1 sm:px-2 font-medium">
                 "{leftChar.description}"
               </p>
@@ -280,9 +282,11 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
             </div>
 
             <div className="text-center">
-              <h3 className="font-heading text-lg min-[380px]:text-xl sm:text-2xl font-black text-[#1A1A1A] uppercase tracking-tighter truncate">
-                {rightChar.name}
-              </h3>
+              <div className="my-1.5">
+                <h3 className="font-heading text-lg min-[380px]:text-xl sm:text-2xl font-black text-white bg-[#1A1A1A] px-3.5 py-1 rounded-xl uppercase tracking-tighter truncate inline-block max-w-full">
+                  {rightChar.name}
+                </h3>
+              </div>
               <p className="text-[10px] sm:text-xs text-gray-500 italic line-clamp-2 mt-1 sm:mt-2 h-7 sm:h-8 px-1 sm:px-2 font-medium">
                 "{rightChar.description}"
               </p>

@@ -276,15 +276,15 @@ export default function PiratePyramid({ characters, onUpdateBounty }: PiratePyra
       <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-pink-600/5 rounded-full blur-3xl pointer-events-none" />
 
       {/* Main header block */}
-      <div className="text-center mb-8 relative z-10">
+      <div className="text-center mb-8 relative z-10 bg-[#1A1A1A] p-6 sm:p-8 rounded-3xl border-2 border-black shadow-md text-white">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-violet-900/40 border border-violet-500/30 text-violet-300 font-mono text-[10px] md:text-xs rounded-full uppercase tracking-widest mb-3">
           <Trophy className="w-3.5 h-3.5 text-amber-400" />
           <span>Jeu d'Aptitude Stratégique</span>
         </div>
-        <h2 className="font-heading font-black text-2xl md:text-4xl text-[#F8FAFC] tracking-tight uppercase leading-none mb-3">
+        <h2 className="font-heading font-black text-2xl md:text-4xl text-white tracking-tight uppercase leading-none mb-3">
           Pyramide des Pirates
         </h2>
-        <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base font-medium">
+        <p className="text-slate-300 max-w-2xl mx-auto text-xs sm:text-sm font-medium">
           Ordonnez les pirates de haut en bas selon le thème choisi. <span className="text-amber-400 font-bold">Le sommet (1)</span> possède la valeur <span className="text-amber-400 font-bold">la plus élevée</span>, tandis que la <span className="text-amber-400 font-bold">base</span> contient les valeurs <span className="text-amber-400 font-bold">les plus faibles</span> !
         </p>
       </div>
@@ -442,9 +442,9 @@ export default function PiratePyramid({ characters, onUpdateBounty }: PiratePyra
                         </div>
 
                         {/* Text values */}
-                        <div className="text-center w-full pointer-events-none mt-0.5">
-                          <span className={`font-heading font-black text-slate-200 block truncate uppercase leading-tight ${
-                            gameSize === 30 ? "text-[8.5px] sm:text-[10px]" : "text-[10.5px] sm:text-xs md:text-sm"
+                        <div className="text-center w-full pointer-events-none mt-1 px-1">
+                          <span className={`font-heading font-black text-white bg-slate-950 px-1.5 py-0.5 rounded-md block truncate uppercase leading-tight ${
+                            gameSize === 30 ? "text-[8px] sm:text-[9.5px]" : "text-[10px] sm:text-xs"
                           }`}>
                             {char.name}
                           </span>

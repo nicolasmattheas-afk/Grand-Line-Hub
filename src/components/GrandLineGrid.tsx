@@ -2071,11 +2071,11 @@ export default function GrandLineGrid({
       </div>
 
       {/* Page Title & Description */}
-      <div className="text-center mb-10 relative">
+      <div className="text-center mb-10 relative bg-[#1A1A1A] p-6 sm:p-8 rounded-3xl border-2 border-black shadow-md text-white">
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white font-heading mb-2 uppercase">
           GRAND LINE GRID
         </h2>
-        <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base font-medium">
+        <p className="text-slate-300 max-w-2xl mx-auto text-xs sm:text-sm font-medium">
           Défiez d'autres pirates ou entraînez-vous en plaçant stratégiquement les personnages correspondant aux critères requis !
         </p>
       </div>
@@ -2511,18 +2511,18 @@ export default function GrandLineGrid({
                     </p>
                     <div className="flex justify-around items-center font-heading font-black text-sm text-slate-800">
                       <div className="flex flex-col items-center">
-                        <span className="text-[9px] text-slate-400">P1 {myRole === 1 && "(Vous)"}</span>
+                        <span className="text-[9px] text-black !text-black font-black">P1 {myRole === 1 && "(Vous)"}</span>
                         <span className="text-base text-indigo-650 font-black">{player1Wins}</span>
                       </div>
                       <span className="text-slate-300">/</span>
                       <div className="flex flex-col items-center">
-                        <span className="text-[10px] bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md font-bold">
+                        <span className="text-[10px] bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-md font-bold">
                           Cible : {targetWins} victoires
                         </span>
                       </div>
                       <span className="text-slate-300">/</span>
                       <div className="flex flex-col items-center">
-                        <span className="text-[9px] text-slate-400">P2 {myRole === 2 && "(Vous)"}</span>
+                        <span className="text-[9px] text-black !text-black font-black">P2 {myRole === 2 && "(Vous)"}</span>
                         <span className="text-base text-rose-650 font-black">{player2Wins}</span>
                       </div>
                     </div>
@@ -2549,19 +2549,19 @@ export default function GrandLineGrid({
                   </div>
                 )}
 
-                <div className="bg-amber-50/50 border border-amber-100 rounded-2xl p-3 text-center space-y-1">
-                  <p className="text-[10px] font-heading font-black text-amber-700 uppercase tracking-wider">
+                <div className="bg-amber-100/40 border border-amber-200 rounded-2xl p-3 text-center space-y-1">
+                  <p className="text-[10px] font-heading font-black text-black !text-black uppercase tracking-wider">
                     ⚡ VOLS DISPONIBLES (2 MAX PAR PARTIE)
                   </p>
-                  <p className="text-[10px] text-slate-400 font-medium mb-1.5 leading-tight">
+                  <p className="text-[10px] text-black !text-black font-medium mb-1.5 leading-tight">
                     En cliquant sur une case rouge adverse, vous pouvez tenter de la VOLER en trouvant un nouveau pirate valide !
                   </p>
-                  <div className="flex justify-around text-xs font-bold pt-1.5 border-t border-amber-100/50">
-                    <div className="text-slate-600">
-                      Vous : <span className="font-mono font-black text-amber-600">{activeOnlineGameId ? (myRole === 1 ? player1Steals : player2Steals) : myStealsLeft}</span> / 2
+                  <div className="flex justify-around text-xs font-bold pt-1.5 border-t border-amber-200/50">
+                    <div className="text-black !text-black flex gap-1 items-center">
+                      <span className="text-[10px] uppercase tracking-wider font-heading font-black text-black !text-black">Vous :</span> <span className="font-mono font-black text-amber-600 !text-black">{activeOnlineGameId ? (myRole === 1 ? player1Steals : player2Steals) : myStealsLeft}</span> / 2
                     </div>
-                    <div className="text-slate-600">
-                      Adversaire : <span className="font-mono font-black text-slate-500">{activeOnlineGameId ? (myRole === 1 ? player2Steals : player1Steals) : (botOpponent ? botStealsLeft : "N/A")}</span> / 2
+                    <div className="text-black !text-black flex gap-1 items-center">
+                      <span className="text-[10px] uppercase tracking-wider font-heading font-black text-black !text-black">Adversaire :</span> <span className="font-mono font-black text-slate-600 !text-black">{activeOnlineGameId ? (myRole === 1 ? player2Steals : player1Steals) : (botOpponent ? botStealsLeft : "N/A")}</span> / 2
                     </div>
                   </div>
                 </div>
@@ -2761,7 +2761,7 @@ export default function GrandLineGrid({
                             }`}
                           >
                             {cell.owner === null ? (
-                              <span className="text-sm md:text-lg font-heading font-black text-gray-300 group-hover:text-[#8b5cf6]">
+                              <span className="text-sm md:text-lg font-heading font-black text-black !text-black group-hover:text-black">
                                 +
                               </span>
                             ) : (
@@ -2777,10 +2777,8 @@ export default function GrandLineGrid({
                                     (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(cell.character?.name || "")}&backgroundColor=b59a7c`;
                                   }}
                                 />
-                                <div className="text-center w-full min-w-0 mt-1">
-                                  <p className={`font-heading font-black text-[7px] sm:text-[9px] md:text-[11px] uppercase truncate leading-tight ${
-                                    cell.owner === 1 ? "text-blue-900" : "text-red-900"
-                                  }`}>
+                                <div className="text-center w-full min-w-0 mt-1 flex justify-center">
+                                  <p className="font-heading font-black text-[6.5px] sm:text-[8px] md:text-[9px] uppercase truncate leading-none bg-[#1A1A1A] text-white px-1 py-0.5 rounded-md max-w-full">
                                     {cell.character?.name}
                                   </p>
                                   <p className={`font-mono text-[5px] sm:text-[7px] md:text-[8px] opacity-75 truncate leading-none mt-0.5 ${
@@ -2824,7 +2822,7 @@ export default function GrandLineGrid({
       {/* MODAL DIALOG : Saisie de la proposition pour la capture */}
       <AnimatePresence>
         {selectedCellIndex !== null && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/55 backdrop-blur-xs">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay-backdrop backdrop-blur-xs">
             <motion.div
               initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -2841,7 +2839,7 @@ export default function GrandLineGrid({
               <h3 className="text-xl font-bold font-heading text-gray-900 mb-1 uppercase tracking-wide">CAPTURER L'INTERSECTION</h3>
               <p className="text-xs text-gray-500 mb-6 font-medium">
                 Saisissez un personnage d'One Piece répondant aux critères :
-                <span className="block mt-1 font-heading text-xs text-[#8b5cf6] font-extrabold uppercase bg-violet-50/50 p-2 rounded-lg">
+                <span className="block mt-1 font-heading text-xs text-indigo-700 font-extrabold uppercase bg-indigo-100/50 p-2 rounded-lg">
                   {CATEGORIES[rowKeys[getCellCoords(selectedCellIndex).rowIndex]].label} &times; {CATEGORIES[columnKeys[getCellCoords(selectedCellIndex).colIndex]].label}
                 </span>
               </p>
@@ -2865,7 +2863,7 @@ export default function GrandLineGrid({
                     <motion.div
                       initial={{ opacity: 0, y: 5 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="absolute left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-xl z-50 max-h-56 overflow-y-auto divide-y divide-gray-50"
+                      className="grandline-search-suggestions absolute left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-xl z-50 max-h-56 overflow-y-auto divide-y divide-gray-50"
                     >
                       {suggestions.map((char, idx) => {
                         const alreadyGuessed = usedCharacterIds.has(char.id) || board.some(cell => {
@@ -2882,9 +2880,9 @@ export default function GrandLineGrid({
                             disabled={alreadyGuessed}
                             className={`w-full text-left p-2.5 flex items-center gap-3 transition-all ${
                               alreadyGuessed 
-                                ? "opacity-35 bg-gray-50" 
+                                ? "opacity-35 bg-gray-50 text-slate-400" 
                                 : isActive 
-                                  ? "bg-violet-50 border-l-4 border-violet-500 font-bold" 
+                                  ? "bg-indigo-50 border-l-4 border-indigo-600 font-bold" 
                                   : "hover:bg-slate-50 cursor-pointer"
                             }`}
                           >
@@ -2898,10 +2896,10 @@ export default function GrandLineGrid({
                               }}
                             />
                             <div className="flex-1 min-w-0">
-                              <p className="font-heading font-bold text-[#0f172a] text-xs truncate">{char.name}</p>
-                              <p className="text-[10px] text-gray-400 font-mono truncate font-semibold">{char.crew}</p>
+                              <p className="font-heading font-bold text-black !text-black text-xs truncate">{char.name}</p>
+                              <p className="text-[10px] text-gray-500 !text-gray-500 font-mono truncate font-semibold">{char.crew}</p>
                             </div>
-                            <span className="text-[10px] font-heading font-black text-violet-600 uppercase">
+                            <span className="text-[10px] font-heading font-black text-indigo-600 uppercase">
                               {alreadyGuessed ? "Déjà Posé" : "Choisir"}
                             </span>
                           </button>

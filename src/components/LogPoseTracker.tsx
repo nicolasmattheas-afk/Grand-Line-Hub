@@ -485,9 +485,9 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
 
           <button
             onClick={() => setViewMode(viewMode === "table" ? "cards" : "table")}
-            className="flex items-center gap-2 text-xs font-heading font-black bg-indigo-600 hover:bg-indigo-700 border-2 border-transparent text-white uppercase tracking-widest rounded-xl px-4 py-2 hover:scale-95 transition-all cursor-pointer"
+            className="flex items-center gap-2 text-xs font-heading font-black bg-indigo-600 hover:bg-indigo-700 border-2 border-transparent text-white uppercase tracking-widest rounded-xl px-4 py-2 hover:scale-95 transition-all cursor-pointer force-text-white"
           >
-            <span>{viewMode === "table" ? "📱 VUE FICHES (MOBILE)" : "📊 VUE TABLEAU (LARGE)"}</span>
+            <span className="force-text-white">{viewMode === "table" ? "📱 VUE FICHES (MOBILE)" : "📊 VUE TABLEAU (LARGE)"}</span>
           </button>
           
           <button

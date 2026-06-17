@@ -292,11 +292,11 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
     <div className="max-w-2xl mx-auto space-y-8 font-sans">
       
       {/* Page Title & Description */}
-      <div className="text-center mb-10 relative">
+      <div className="text-center mb-10 relative bg-[#1A1A1A] p-6 sm:p-8 rounded-3xl border-2 border-black shadow-md text-white">
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white font-heading mb-2 uppercase">
           L'Ombre du Pirate
         </h2>
-        <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base font-medium">
+        <p className="text-slate-300 max-w-2xl mx-auto text-xs sm:text-sm font-medium">
           Identifiez le personnage mystère caché derrière la silhouette. Évitez les erreurs sous peine de révéler sa véritable identité !
         </p>
 
@@ -437,8 +437,8 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
                   <div className="flex items-center justify-center gap-1 text-emerald-600 font-heading font-black text-lg uppercase">
                     <Smile className="w-5 h-5" /> EXCELLENT !
                   </div>
-                  <p className="text-sm font-semibold text-gray-800">
-                    C'était bien <span className="font-heading font-black text-rose-500">{targetChar.name}</span> !
+                  <p className="text-sm font-semibold text-gray-800 flex flex-wrap items-center justify-center gap-1">
+                    C'était bien <span className="font-heading font-black text-white bg-slate-950 px-2.5 py-0.5 rounded-lg inline-block">{targetChar.name}</span> !
                   </p>
                   <p className="text-xs text-gray-500 font-mono">
                     Trouvé avec {errors} {errors === 1 ? "erreur" : "erreurs"}.
@@ -452,8 +452,8 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
                   <div className="flex items-center justify-center gap-1 text-red-600 font-heading font-black text-lg uppercase">
                     <ShieldAlert className="w-5 h-5" /> RECHERCHE PERDUE
                   </div>
-                  <p className="text-sm font-semibold text-gray-800">
-                    Le pirate s'est échappé ! C'était <span className="font-heading font-black text-violet-600">{targetChar.name}</span>.
+                  <p className="text-sm font-semibold text-gray-800 flex flex-wrap items-center justify-center gap-1">
+                    Le pirate s'est échappé ! C'était <span className="font-heading font-black text-white bg-slate-950 px-2.5 py-0.5 rounded-lg inline-block">{targetChar.name}</span>.
                   </p>
                   <p className="text-rose-500 font-black font-mono text-xs uppercase tracking-wider animate-pulse pt-1">
                     -3 000 ฿ Prime réduite
