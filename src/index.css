@@ -727,6 +727,12 @@ body.light-mode .alliance-solved-char-name {
   color: #ffffff !important;
 }
 
+/* Hide fallback preview when an actual AdSense ad content has fully loaded or is active */
+ins.adsbygoogle[data-ad-status="filled"] + .ads-fallback,
+ins.adsbygoogle:not(:empty) + .ads-fallback {
+  display: none !important;
+}
+
 
 
 

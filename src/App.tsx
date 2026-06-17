@@ -20,6 +20,7 @@ import BountyLeaderboard, { LeaderboardEntry } from "./components/BountyLeaderbo
 import WEJSection from "./components/WEJSection";
 import BlogSection from "./components/BlogSection";
 import UndercoverGame from "./components/UndercoverGame";
+import AdSenseBanner from "./components/AdSenseBanner";
 import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { track } from "@vercel/analytics";
@@ -1494,6 +1495,9 @@ export default function App() {
           </div>
         ) : (
           <>
+            {/* Bannière Publicitaire Google AdSense Supérieure (non intrusive) */}
+            <AdSenseBanner key={`upper-${activeTab}`} slot="1853909559" format="horizontal" className="mb-6" />
+
             {activeTab === "grid" && (
               <GrandLineGrid 
                 characters={charactersDatabase} 
@@ -2407,7 +2411,10 @@ export default function App() {
 
       {/* 4. DESIGN FOOTER HUMBLE & CLEAN */}
       <footer className="bg-slate-950 border-t border-slate-900 py-10 mt-16 text-center text-xs text-gray-400 font-sans">
-        <div className="max-w-4xl mx-auto px-4 space-y-4">
+        <div className="max-w-4xl mx-auto px-4 space-y-6">
+          {/* Bannière Publicitaire Google AdSense en Pied de Page */}
+          <AdSenseBanner key={`footer-${activeTab}`} slot="1658390955" format="horizontal" />
+
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-slate-300 font-medium">
             <button 
               onClick={() => setInfoModal("about")} 
