@@ -2778,12 +2778,14 @@ export default function GrandLineGrid({
                                     (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(cell.character?.name || "")}&backgroundColor=b59a7c`;
                                   }}
                                 />
-                                <div className="text-center w-full min-w-0 mt-1 flex justify-center">
-                                  <p className={`font-heading font-black text-[6.5px] sm:text-[8px] md:text-[9px] uppercase truncate leading-none bg-[#1A1A1A] text-white px-1 py-0.5 rounded-md max-w-full ${getNotranslateClass()}`}>
+                                <div className="text-center w-full min-w-0 mt-1 flex flex-col items-center justify-center">
+                                  <p className={`font-heading font-black text-[8.5px] sm:text-xs md:text-sm uppercase truncate leading-tight max-w-full ${
+                                    cell.owner === 1 ? "text-blue-600" : "text-red-600"
+                                  } ${getNotranslateClass()}`}>
                                     {cell.character?.name}
                                   </p>
-                                  <p className={`font-mono text-[5px] sm:text-[7px] md:text-[8px] opacity-75 truncate leading-none mt-0.5 ${
-                                    cell.owner === 1 ? "text-blue-700/80" : "text-red-700/80"
+                                  <p className={`font-mono text-[6.5px] sm:text-[8.5px] md:text-[9.5px] font-medium opacity-80 truncate leading-tight max-w-full mt-0.5 ${
+                                    cell.owner === 1 ? "text-blue-500" : "text-red-500"
                                   }`}>
                                     {cell.character?.crew}
                                   </p>
