@@ -842,6 +842,73 @@ div.goog-te-balloon-frame {
   display: none !important;
 }
 
+/* ==========================================
+   MOBILE RESET & MOBILE-FIRST APP OPTIMIZATION
+   ========================================== */
+*, *::before, *::after {
+  box-sizing: border-box !important;
+  -webkit-tap-highlight-color: transparent; /* Disable tap highlight gray box in Mobile Safari/Chrome */
+}
+
+html, body {
+  width: 100% !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important; /* Strictly no horizontal scrolling */
+  position: relative;
+  -webkit-text-size-adjust: 100%; /* Prevents iOS rotation font size scale */
+  text-size-adjust: 100%;
+  overscroll-behavior-y: contain; /* Prevents pull-to-refresh on mobile browser if unwanted */
+}
+
+/* Global touch manipulaion to bypass double-tap delay */
+a, button, select, input, [role="button"] {
+  touch-action: manipulation;
+  font-size: 16px !important; /* Crucial: ensures iOS Safari never zooms in when focusing input */
+}
+
+/* Keep headings/smaller text from auto-zooming, but enable proper wrapping */
+.font-heading, h1, h2, h3, h4, p, span {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Mobile-First Centering and Viewport Height Safe Wrappers */
+.mobile-app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh; /* Accurate modern viewport height counting mobile system bars */
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Safe Area Inset support for modern notched phones */
+.safe-padding-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.safe-padding-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Perfect container center helper */
+.flex-viewport-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  width: 100%;
+}
+
+/* Minimum recommended design guidelines Touch Target (Min 44px to 48px) */
+.mobile-touch-target {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 
 
 
