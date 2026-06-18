@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Character } from "../types";
 import { ShieldCheck, AlertCircle, RefreshCw, Trophy, Flame } from "lucide-react";
+import { getNotranslateClass } from "../lib/translate";
 
 interface BountyDuelProps {
   characters: Character[];
@@ -221,8 +222,8 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
 
             <div className="text-center">
               <div className="my-1.5">
-                <h3 className="font-heading text-lg min-[380px]:text-xl sm:text-2xl font-black text-white bg-[#1A1A1A] px-3.5 py-1 rounded-xl uppercase tracking-tighter truncate inline-block max-w-full">
-                  {leftChar.name}
+                <h3 className={`font-heading text-lg min-[380px]:text-xl sm:text-2xl font-black text-white bg-[#1A1A1A] px-3.5 py-1 rounded-xl uppercase tracking-tighter truncate inline-block max-w-full ${getNotranslateClass()}`}>
+                  {leftChar?.name}
                 </h3>
               </div>
               <p className="text-[10px] sm:text-xs text-gray-500 italic line-clamp-2 mt-1 sm:mt-2 h-7 sm:h-8 px-1 sm:px-2 font-medium">
@@ -283,8 +284,8 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
 
             <div className="text-center">
               <div className="my-1.5">
-                <h3 className="font-heading text-lg min-[380px]:text-xl sm:text-2xl font-black text-white bg-[#1A1A1A] px-3.5 py-1 rounded-xl uppercase tracking-tighter truncate inline-block max-w-full">
-                  {rightChar.name}
+                <h3 className={`font-heading text-lg min-[380px]:text-xl sm:text-2xl font-black text-white bg-[#1A1A1A] px-3.5 py-1 rounded-xl uppercase tracking-tighter truncate inline-block max-w-full ${getNotranslateClass()}`}>
+                  {rightChar?.name}
                 </h3>
               </div>
               <p className="text-[10px] sm:text-xs text-gray-500 italic line-clamp-2 mt-1 sm:mt-2 h-7 sm:h-8 px-1 sm:px-2 font-medium">

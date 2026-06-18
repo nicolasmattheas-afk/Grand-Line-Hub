@@ -21,6 +21,7 @@ import WEJSection from "./components/WEJSection";
 import BlogSection from "./components/BlogSection";
 import UndercoverGame from "./components/UndercoverGame";
 import AdSenseBanner from "./components/AdSenseBanner";
+import { LanguageSelector } from "./components/LanguageSelector";
 import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { track } from "@vercel/analytics";
@@ -977,6 +978,9 @@ export default function App() {
 
           {/* Section Profil & Bouton Thème */}
           <div className="flex items-center gap-2 md:gap-3">
+            {/* Language Selector */}
+            <LanguageSelector />
+
             {/* Theme Toggle Button */}
             <button
               id="theme-toggle"

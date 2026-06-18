@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Character } from "../types";
 import { searchCharacters } from "../data/characters";
+import { getNotranslateClass } from "../lib/translate";
 import { 
   Users, Globe, Compass, RefreshCw, X, Check, AlertTriangle, 
   HelpCircle, Trophy, UserCheck, Play, Swords, UserPlus, Send, Copy, Key
@@ -2778,7 +2779,7 @@ export default function GrandLineGrid({
                                   }}
                                 />
                                 <div className="text-center w-full min-w-0 mt-1 flex justify-center">
-                                  <p className="font-heading font-black text-[6.5px] sm:text-[8px] md:text-[9px] uppercase truncate leading-none bg-[#1A1A1A] text-white px-1 py-0.5 rounded-md max-w-full">
+                                  <p className={`font-heading font-black text-[6.5px] sm:text-[8px] md:text-[9px] uppercase truncate leading-none bg-[#1A1A1A] text-white px-1 py-0.5 rounded-md max-w-full ${getNotranslateClass()}`}>
                                     {cell.character?.name}
                                   </p>
                                   <p className={`font-mono text-[5px] sm:text-[7px] md:text-[8px] opacity-75 truncate leading-none mt-0.5 ${
@@ -2896,7 +2897,7 @@ export default function GrandLineGrid({
                               }}
                             />
                             <div className="flex-1 min-w-0">
-                              <p className="font-heading font-bold text-black !text-black text-xs truncate">{char.name}</p>
+                              <p className={`font-heading font-bold text-black !text-black text-xs truncate ${getNotranslateClass()}`}>{char.name}</p>
                               <p className="text-[10px] text-gray-500 !text-gray-500 font-mono truncate font-semibold">{char.crew}</p>
                             </div>
                             <span className="text-[10px] font-heading font-black text-indigo-600 uppercase">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Character } from "../types";
 import { Search, RotateCcw, HelpCircle, Coins, Plus, X, Check, ShieldCheck, ShieldAlert, Sparkles, User } from "lucide-react";
+import { getNotranslateClass } from "../lib/translate";
 
 interface BountyTargetGameProps {
   characters: Character[];
@@ -430,9 +431,9 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
                     />
                   </div>
 
-                  <div className="flex justify-center my-1">
-                    <h4 className="font-heading font-black text-xs text-white bg-[#1A1A1A] px-2.5 py-1 rounded-lg uppercase truncate max-w-full">
-                      {char.name}
+                   <div className="flex justify-center my-1">
+                    <h4 className={`font-heading font-black text-xs text-white bg-[#1A1A1A] px-2.5 py-1 rounded-lg uppercase truncate max-w-full ${getNotranslateClass()}`}>
+                      {char?.name}
                     </h4>
                   </div>
                 </div>
@@ -513,7 +514,7 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
                           }}
                         />
                         <div>
-                          <span className={`text-xs font-heading font-black block leading-none uppercase ${isAlreadySelected ? "text-gray-400" : "text-gray-900"}`}>
+                          <span className={`text-xs font-heading font-black block leading-none uppercase ${isAlreadySelected ? "text-gray-400" : "text-gray-900"} ${getNotranslateClass()}`}>
                             {char.name}
                           </span>
                           <span className="text-[9px] font-mono text-gray-400 uppercase tracking-wider block mt-0.5">

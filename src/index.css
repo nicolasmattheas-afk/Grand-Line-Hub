@@ -786,6 +786,63 @@ ins.adsbygoogle:not(:empty) + .ads-fallback {
   display: none !important;
 }
 
+/* ==========================================
+   GOOGLE TRANSLATE HARMONIZATION & CLEANUP
+   ========================================== */
+.goog-te-banner-frame, 
+.goog-te-banner-frame.skiptranslate,
+[id^=":views"],
+.skiptranslate,
+body > .skiptranslate,
+[class*="skiptranslate"],
+iframe[class*="skiptranslate"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+iframe.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+}
+
+body {
+  top: 0px !important;
+  position: static !important;
+}
+
+#google_translate_element,
+.goog-te-gadget,
+.goog-logo-link {
+  display: none !important;
+}
+
+#goog-gt-tt, 
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Hard reset for popup tooltips */
+div#goog-gt-tt {
+  display: none !important;
+}
+div.goog-te-balloon-frame {
+  display: none !important;
+}
+
+
 
 
 

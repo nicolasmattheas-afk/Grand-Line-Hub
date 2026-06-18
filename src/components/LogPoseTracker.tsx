@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Character } from "../types";
 import { searchCharacters } from "../data/characters";
 import { HelpCircle, RefreshCw, Search, Sparkles, Compass, HelpCircle as HelpIcon, ArrowUp, ArrowDown } from "lucide-react";
+import { getNotranslateClass } from "../lib/translate";
 
 interface LogPoseTrackerProps {
   characters: Character[];
@@ -642,7 +643,7 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
                         }}
                       />
                       <div className="flex-1">
-                        <p className="font-heading font-bold text-gray-950 text-sm">{char.name}</p>
+                        <p className={`font-heading font-bold text-gray-950 text-sm ${getNotranslateClass()}`}>{char.name}</p>
                         <p className="text-xs text-gray-500 font-mono inline-block mr-2">{char.crew}</p>
                         {char.bounty > 0 && (
                           <span className="text-[10px] bg-amber-50 text-amber-800 border border-amber-200 px-1.5 py-0.5 rounded font-mono font-bold">
@@ -701,7 +702,7 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
                       }}
                     />
                     <div className="truncate flex-1 text-left">
-                      <span className="font-heading font-black text-gray-900 block text-sm truncate leading-tight uppercase">{char.name}</span>
+                      <span className={`font-heading font-black text-gray-900 block text-sm truncate leading-tight uppercase ${getNotranslateClass()}`}>{char.name}</span>
                       <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider">{char.originArc}</span>
                     </div>
                   </div>
@@ -843,7 +844,7 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
                         }}
                         />
                         <div className="truncate text-left">
-                          <span className="font-heading font-black text-gray-900 block truncate text-sm">{char.name}</span>
+                          <span className={`font-heading font-black text-gray-900 block truncate text-sm ${getNotranslateClass()}`}>{char.name}</span>
                           <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">{char.originArc}</span>
                         </div>
                       </td>

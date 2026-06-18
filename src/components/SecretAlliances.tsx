@@ -5,6 +5,7 @@ import {
   Users, Sparkles, RefreshCw, X, Check, Award, 
   Trash2, Play, Info, AlertOctagon, HelpCircle, Trophy
 } from "lucide-react";
+import { getNotranslateClass } from "../lib/translate";
 
 interface SecretAlliancesProps {
   characters: Character[];
@@ -885,7 +886,7 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
                       key={char.id} 
                       className={`px-3 py-1 bg-white/20 backdrop-blur-xs rounded-full border border-white/10 alliance-solved-char-name ${
                         isSolved ? "text-white" : "text-gray-400"
-                      }`}
+                      } ${getNotranslateClass()}`}
                     >
                       {char.name}
                     </span>
@@ -929,7 +930,7 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
 
                     {/* Shading overlay */}
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-1.5 pt-5 pb-1.5 text-center flex flex-col justify-end">
-                      <span className="text-white font-heading font-black text-[9px] min-[380px]:text-[10px] sm:text-xs md:text-sm uppercase tracking-wide leading-tight drop-shadow-md select-none break-words text-wrap line-clamp-2 force-text-white alliance-grid-char-name">
+                      <span className={`text-white font-heading font-black text-[9px] min-[380px]:text-[10px] sm:text-xs md:text-sm uppercase tracking-wide leading-tight drop-shadow-md select-none break-words text-wrap line-clamp-2 force-text-white alliance-grid-char-name ${getNotranslateClass()}`}>
                         {char.name}
                       </span>
                     </div>

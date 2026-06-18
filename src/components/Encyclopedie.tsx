@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { Character } from "../types";
 import { Search, Filter, ShieldCheck, HelpCircle, Compass, Anchor, User, Bookmark, Swords, X, Trophy, Flame } from "lucide-react";
 import { LUFFY_BATTLES } from "../data/luffyBattles";
+import { getNotranslateClass } from "../lib/translate";
 
 interface EncyclopedieProps {
   characters: Character[];
@@ -322,7 +323,7 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
  
                 {/* Nom & Description */}
                 <div>
-                  <h3 className="font-heading font-black text-lg text-[#1A1A1A] uppercase tracking-tighter truncate leading-none">
+                  <h3 className={`font-heading font-black text-lg text-[#1A1A1A] uppercase tracking-tighter truncate leading-none ${getNotranslateClass()}`}>
                     {char.name}
                   </h3>
                   <p className="text-[10px] text-gray-500 leading-relaxed line-clamp-3 mt-2 h-12 font-medium">

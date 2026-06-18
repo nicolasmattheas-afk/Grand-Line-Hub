@@ -15,6 +15,7 @@ import {
   ChevronUp,
   ChevronDown
 } from "lucide-react";
+import { getNotranslateClass } from "../lib/translate";
 
 interface PiratePyramidProps {
   characters: Character[];
@@ -445,7 +446,7 @@ export default function PiratePyramid({ characters, onUpdateBounty }: PiratePyra
                         <div className="text-center w-full pointer-events-none mt-1 px-1">
                           <span className={`font-heading font-black text-white bg-slate-950 px-1.5 py-0.5 rounded-md block truncate uppercase leading-tight ${
                             gameSize === 30 ? "text-[8px] sm:text-[9.5px]" : "text-[10px] sm:text-xs"
-                          }`}>
+                          } ${getNotranslateClass()}`}>
                             {char.name}
                           </span>
                           

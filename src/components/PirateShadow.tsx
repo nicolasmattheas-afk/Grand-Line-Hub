@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Character } from "../types";
 import { Search, RotateCcw, HelpCircle, Sparkles, Smile, ShieldAlert } from "lucide-react";
 import { searchCharacters } from "../data/characters";
+import { getNotranslateClass } from "../lib/translate";
 
 interface PirateShadowProps {
   characters: Character[];
@@ -343,8 +344,8 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
             </div>
             
             <div className="text-center">
-              <h3 className="font-heading text-2xl font-black text-[#1A1A1A] uppercase tracking-tighter">
-                {revealed ? targetChar.name : "? ? ?"}
+              <h3 className={`font-heading text-2xl font-black text-[#1A1A1A] uppercase tracking-tighter ${getNotranslateClass()}`}>
+                {revealed ? targetChar?.name : "? ? ?"}
               </h3>
             </div>
           </div>
@@ -414,7 +415,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
                               }}
                             />
                             <div>
-                              <span className="text-xs font-bold text-[#1A1A1A] block">{char.name}</span>
+                              <span className={`text-xs font-bold text-[#1A1A1A] block ${getNotranslateClass()}`}>{char.name}</span>
                               <span className="text-[9px] font-mono text-gray-400 uppercase leading-none">{char.crew || "Inconnu"}</span>
                             </div>
                           </div>
@@ -438,7 +439,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
                     <Smile className="w-5 h-5" /> EXCELLENT !
                   </div>
                   <p className="text-sm font-semibold text-gray-800 flex flex-wrap items-center justify-center gap-1">
-                    C'était bien <span className="font-heading font-black text-white bg-slate-950 px-2.5 py-0.5 rounded-lg inline-block">{targetChar.name}</span> !
+                    C'était bien <span className={`font-heading font-black text-white bg-slate-950 px-2.5 py-0.5 rounded-lg inline-block ${getNotranslateClass()}`}>{targetChar?.name}</span> !
                   </p>
                   <p className="text-xs text-gray-500 font-mono">
                     Trouvé avec {errors} {errors === 1 ? "erreur" : "erreurs"}.
@@ -453,7 +454,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
                     <ShieldAlert className="w-5 h-5" /> RECHERCHE PERDUE
                   </div>
                   <p className="text-sm font-semibold text-gray-800 flex flex-wrap items-center justify-center gap-1">
-                    Le pirate s'est échappé ! C'était <span className="font-heading font-black text-white bg-slate-950 px-2.5 py-0.5 rounded-lg inline-block">{targetChar.name}</span>.
+                    Le pirate s'est échappé ! C'était <span className={`font-heading font-black text-white bg-slate-950 px-2.5 py-0.5 rounded-lg inline-block ${getNotranslateClass()}`}>{targetChar?.name}</span>.
                   </p>
                   <p className="text-rose-500 font-black font-mono text-xs uppercase tracking-wider animate-pulse pt-1">
                     -3 000 ฿ Prime réduite
