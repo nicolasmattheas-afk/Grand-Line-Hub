@@ -242,8 +242,9 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
       );
     } else if (e.key === "Enter") {
       e.preventDefault();
-      if (activeSuggestionIndex >= 0 && activeSuggestionIndex < searchResults.length) {
-        selectSuggestion(searchResults[activeSuggestionIndex]);
+      const indexToSelect = activeSuggestionIndex >= 0 ? activeSuggestionIndex : 0;
+      if (indexToSelect >= 0 && indexToSelect < searchResults.length) {
+        selectSuggestion(searchResults[indexToSelect]);
       } else {
         verifyGuess();
       }
