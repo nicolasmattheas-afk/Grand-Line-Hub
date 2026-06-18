@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Globe, Check, ChevronDown } from "lucide-react";
+import { updateDynamicSEO } from "../lib/seo";
 
 interface Language {
   code: string;
@@ -32,47 +33,65 @@ export const LanguageSelector: React.FC = () => {
   };
 
   useEffect(() => {
-    // 1. Try reading the saved user choice from localStorage first for maximum reliability
-    const savedLang = localStorage.getItem("app-language");
+    // 0. Super-powerful index-friendly check: look for parameter "?lang=xx" or "?locale=xx"
+    const params = new URLSearchParams(window.location.search);
+    const queryLang = params.get("lang") || params.get("locale");
     let activeLang = "";
 
-    if (savedLang && LANGUAGES.some((l) => l.code === savedLang)) {
-      activeLang = savedLang;
-      setCurrentLang(savedLang);
-    } else {
-      // 2. Fallback to check standard googtrans translation cookie
-      const googtrans = getCookie("googtrans");
-      if (googtrans) {
-        try {
-          const decoded = decodeURIComponent(googtrans);
-          const parts = decoded.split("/");
-          const lang = parts[parts.length - 1];
-          if (lang && LANGUAGES.some((l) => l.code === lang)) {
-            activeLang = lang;
-            setCurrentLang(lang);
-            // Sync to local storage
-            localStorage.setItem("app-language", lang);
-          }
-        } catch (e) {
-          console.error("Error reading googtrans cookie:", e);
-        }
+    if (queryLang) {
+      const normalizedQuery = queryLang.trim().toLowerCase();
+      // Look for a matching language code among our configured languages
+      const found = LANGUAGES.find(
+        (l) => l.code.toLowerCase() === normalizedQuery || l.code.toLowerCase().startsWith(normalizedQuery)
+      );
+      if (found) {
+        activeLang = found.code;
+        setCurrentLang(found.code);
+        localStorage.setItem("app-language", found.code);
       }
+    }
 
-      // 3. Brand New Auto-Detect: If no previous choices exist, detect via browser default settings
-      if (!activeLang) {
-        const browserLang = (navigator.language || (navigator as any).userLanguage || "fr").toLowerCase();
-        const primaryCode = browserLang.split("-")[0]; // e.g., "ja" from "ja-JP"
+    if (!activeLang) {
+      // 1. Try reading the saved user choice from localStorage first for maximum reliability
+      const savedLang = localStorage.getItem("app-language");
+      if (savedLang && LANGUAGES.some((l) => l.code === savedLang)) {
+        activeLang = savedLang;
+        setCurrentLang(savedLang);
+      } else {
+        // 2. Fallback to check standard googtrans translation cookie
+        const googtrans = getCookie("googtrans");
+        if (googtrans) {
+          try {
+            const decoded = decodeURIComponent(googtrans);
+            const parts = decoded.split("/");
+            const lang = parts[parts.length - 1];
+            if (lang && LANGUAGES.some((l) => l.code === lang)) {
+              activeLang = lang;
+              setCurrentLang(lang);
+              // Sync to local storage
+              localStorage.setItem("app-language", lang);
+            }
+          } catch (e) {
+            console.error("Error reading googtrans cookie:", e);
+          }
+        }
 
-        // Check if the browser language is one of our fully supported languages
-        if (LANGUAGES.some((l) => l.code === primaryCode)) {
-          activeLang = primaryCode;
-          setCurrentLang(primaryCode);
-          localStorage.setItem("app-language", primaryCode);
-        } else {
-          // Absolute fallback default translates to standard French
-          activeLang = "fr";
-          setCurrentLang("fr");
-          localStorage.setItem("app-language", "fr");
+        // 3. Brand New Auto-Detect: If no previous choices exist, detect via browser default settings
+        if (!activeLang) {
+          const browserLang = (navigator.language || (navigator as any).userLanguage || "fr").toLowerCase();
+          const primaryCode = browserLang.split("-")[0]; // e.g., "ja" from "ja-JP"
+
+          // Check if the browser language is one of our fully supported languages
+          if (LANGUAGES.some((l) => l.code === primaryCode)) {
+            activeLang = primaryCode;
+            setCurrentLang(primaryCode);
+            localStorage.setItem("app-language", primaryCode);
+          } else {
+            // Absolute fallback default translates to standard French
+            activeLang = "fr";
+            setCurrentLang("fr");
+            localStorage.setItem("app-language", "fr");
+          }
         }
       }
     }
@@ -88,6 +107,9 @@ export const LanguageSelector: React.FC = () => {
         document.cookie = `googtrans=/fr/${activeLang}; path=/; domain=.${rootDomain}; SameSite=None; Secure;`;
       }
     }
+
+    // Update dynamic SEO & Multi-language tags
+    updateDynamicSEO(activeLang);
 
     // Set up Google Translate callback
     (window as any).googleTranslateElementInit = () => {
@@ -132,6 +154,9 @@ export const LanguageSelector: React.FC = () => {
         document.cookie = `googtrans=/fr/${langCode}; path=/; domain=.${rootDomain}; SameSite=None; Secure;`;
       }
     }
+
+    // Trigger instant SEO metadata change
+    updateDynamicSEO(langCode);
 
     // Try programmatically trigger select element within Google Translate combo box for instant feedback
     const selectEl = document.querySelector(".goog-te-combo") as HTMLSelectElement;
