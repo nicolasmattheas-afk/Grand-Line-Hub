@@ -2345,7 +2345,7 @@ export default function UndercoverGame({ characters, onUpdateBounty }: Undercove
     <div id="undercover-game-wrapper" className="bg-[#0B0D1B] border border-violet-950 rounded-2xl p-4 md:p-6 shadow-2xl overflow-hidden min-h-[600px] flex flex-col justify-between">
       
       {/* HEADER SECTION */}
-      <div className="bg-[#1A1A1A] border-2 border-black p-4 sm:p-5 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center mb-5 gap-3 text-white">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 gap-3 text-white">
         <div>
           <div className="flex items-center gap-2 flex-wrap">
             <ShieldAlert className="w-5 h-5 text-rose-500 animate-pulse shrink-0" />

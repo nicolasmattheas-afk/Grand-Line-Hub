@@ -276,7 +276,7 @@ export default function PiratePyramid({ characters, onUpdateBounty }: PiratePyra
       <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-pink-600/5 rounded-full blur-3xl pointer-events-none" />
 
       {/* Main header block */}
-      <div className="text-center mb-8 relative z-10 bg-[#1A1A1A] p-6 sm:p-8 rounded-3xl border-2 border-black shadow-md text-white">
+      <div className="text-center mb-8 relative z-10 text-white">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-violet-900/40 border border-violet-500/30 text-violet-300 font-mono text-[10px] md:text-xs rounded-full uppercase tracking-widest mb-3">
           <Trophy className="w-3.5 h-3.5 text-amber-400" />
           <span>Jeu d'Aptitude Stratégique</span>

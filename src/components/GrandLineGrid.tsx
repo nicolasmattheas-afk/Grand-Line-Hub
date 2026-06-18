@@ -2071,7 +2071,7 @@ export default function GrandLineGrid({
       </div>
 
       {/* Page Title & Description */}
-      <div className="text-center mb-10 relative bg-[#1A1A1A] p-6 sm:p-8 rounded-3xl border-2 border-black shadow-md text-white">
+      <div className="text-center mb-10 relative text-white">
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white font-heading mb-2 uppercase">
           GRAND LINE GRID
         </h2>
