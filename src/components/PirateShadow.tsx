@@ -262,7 +262,12 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
         ? targetChar.devilFruitName
         : "Aucun";
       const hakiInfo = targetChar.haki && targetChar.haki.length > 0
-        ? targetChar.haki.join(", ")
+        ? targetChar.haki.map(h => {
+          if (h === "Haoshoku") return "Haki des rois";
+          if (h === "Kenbunshoku") return "Haki de l'observation";
+          if (h === "Busoshoku") return "Haki de l'armement";
+          return h;
+        }).join(", ")
         : "Aucun";
 
       return `Indice (Compétence) : Fruit du Démon: ${fruitInfo}. Maîtrise les hakis: ${hakiInfo}`;

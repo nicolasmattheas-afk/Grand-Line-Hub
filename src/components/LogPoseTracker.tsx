@@ -144,6 +144,18 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
     if (!targetChar) return { status: "red", text: "" };
     const targetVal = targetChar[attr];
 
+    const parseNumber = (val: any): number => {
+      if (val === null || val === undefined) return NaN;
+      if (typeof val === "number") return val;
+      const str = String(val).toLowerCase().replace(/,/g, ".").trim();
+      if (str === "inconnu" || str === "unknown" || str === "") return NaN;
+      const match = str.match(/\d+/);
+      if (match) {
+        return parseInt(match[0], 10);
+      }
+      return NaN;
+    };
+
     if (attr === "name") {
       const match = String(guessVal).toLowerCase() === String(targetVal).toLowerCase();
       return { status: match ? "green" : "red", text: String(guessVal) };
@@ -334,15 +346,12 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
     }
 
     if (attr === "age") {
-      if (guessVal === "Inconnu" || targetVal === "Inconnu" || guessVal === null || targetVal === null || guessVal === undefined || targetVal === undefined) {
-        const match = guessVal === targetVal;
-        return { status: match ? "green" : "red", text: guessVal !== null && guessVal !== undefined && guessVal !== "" ? `${guessVal}${guessVal !== "Inconnu" ? " ans" : ""}` : "Inconnu" };
-      }
-      const gAge = Number(guessVal);
-      const tAge = Number(targetVal);
+      const gAge = parseNumber(guessVal);
+      const tAge = parseNumber(targetVal);
+
       if (isNaN(gAge) || isNaN(tAge)) {
         const match = guessVal === targetVal;
-        return { status: match ? "green" : "red", text: String(guessVal) };
+        return { status: match ? "green" : "red", text: guessVal !== null && guessVal !== undefined && guessVal !== "" ? `${guessVal}${guessVal !== "Inconnu" ? " ans" : ""}` : "Inconnu" };
       }
       const diff = Math.abs(gAge - tAge);
       
@@ -360,15 +369,12 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
     }
 
     if (attr === "height") {
-      if (guessVal === "Inconnu" || targetVal === "Inconnu" || guessVal === null || targetVal === null || guessVal === undefined || targetVal === undefined) {
-        const match = guessVal === targetVal;
-        return { status: match ? "green" : "red", text: guessVal !== null && guessVal !== undefined && guessVal !== "" ? `${guessVal}${guessVal !== "Inconnu" ? " cm" : ""}` : "Inconnu" };
-      }
-      const gHeight = Number(guessVal);
-      const tHeight = Number(targetVal);
+      const gHeight = parseNumber(guessVal);
+      const tHeight = parseNumber(targetVal);
+
       if (isNaN(gHeight) || isNaN(tHeight)) {
         const match = guessVal === targetVal;
-        return { status: match ? "green" : "red", text: String(guessVal) };
+        return { status: match ? "green" : "red", text: guessVal !== null && guessVal !== undefined && guessVal !== "" ? `${guessVal}${guessVal !== "Inconnu" ? " cm" : ""}` : "Inconnu" };
       }
       const diff = Math.abs(gHeight - tHeight);
       
