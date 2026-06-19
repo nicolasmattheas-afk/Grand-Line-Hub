@@ -312,7 +312,7 @@ const GROUP_TEMPLATES: GroupTemplate[] = [
     id: "arc_summit",
     label: "Acteurs de la Guerre au Sommet",
     description: "Combattants déployés sur Marineford ou évadés de la prison d'Impel Down.",
-    check: (c) => c.originArc === "Marineford" || c.originArc === "Impel Down" || c.originArc === "Amazon Lily"
+    check: (c) => (c.originArc === "Marineford" || c.originArc === "Impel Down" || c.originArc === "Amazon Lily") && c.name !== "Karasu"
   },
   {
     id: "bounty_giga",

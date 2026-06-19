@@ -170,7 +170,7 @@ const CATEGORIES: { [key: string]: Category } = {
 
   arc_east_blue: { id: "arc_east_blue", label: "Apparu à East Blue", check: (c) => c.originArc === "East Blue" },
   arc_alabasta: { id: "arc_alabasta", label: "Apparu à Alabasta", check: (c) => c.originArc === "Alabasta" },
-  arc_marineford: { id: "arc_marineford", label: "Apparu à Marineford / ID", check: (c) => c.originArc === "Marineford" || c.originArc === "Impel Down" },
+  arc_marineford: { id: "arc_marineford", label: "Apparu à Marineford / ID", check: (c) => (c.originArc === "Marineford" || c.originArc === "Impel Down") && c.name !== "Karasu" },
   arc_new_world: { id: "arc_new_world", label: "Apparu Nouveau Monde", check: (c) => ["Wano", "Whole Cake Island", "Egghead", "Dressrosa", "Zou", "Punk Hazard"].includes(c.originArc) },
 };
 
