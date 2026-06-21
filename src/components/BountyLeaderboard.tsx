@@ -5,7 +5,7 @@ import {
   Coins, HelpCircle, Flame, ArrowUpRight, ShieldCheck, Zap, Compass, X, Check
 } from "lucide-react";
 import { BountyRank } from "../types";
-import { collection, getDocs, query, onSnapshot, doc, updateDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, query, onSnapshot, doc, updateDoc, getDoc, orderBy, limit } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useEffect } from "react";
 
@@ -31,6 +31,7 @@ interface BountyLeaderboardProps {
   playerUsername?: string;
   playerAvatar?: string;
   playerBounty?: number;
+  totalUsers?: number;
 }
 
 export default function BountyLeaderboard({
@@ -41,7 +42,8 @@ export default function BountyLeaderboard({
   onRefresh,
   playerUsername,
   playerAvatar,
-  playerBounty
+  playerBounty,
+  totalUsers = 0
 }: BountyLeaderboardProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [leaderboardTab, setLeaderboardTab] = useState<"players" | "crews">("players");
@@ -100,7 +102,7 @@ export default function BountyLeaderboard({
   const loadLeaderboardCrews = async () => {
     setCrewsLoading(true);
     try {
-      const q = query(collection(db, "crews"));
+      const q = query(collection(db, "crews"), orderBy("totalBounty", "desc"), limit(100));
       const snap = await getDocs(q);
       const list: any[] = [];
       snap.forEach((docSnap) => {
@@ -574,11 +576,18 @@ export default function BountyLeaderboard({
       {/* FILTER BUTTONS & SEARCH TAB */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
         
-        <div className="flex items-center gap-2 px-1">
-          <UserCheck className="w-4 h-4 text-violet-400" />
-          <span className="text-xs font-bold tracking-wider text-slate-300 uppercase">
-            Joueurs ({leaderboardList.length})
-          </span>
+        <div className="flex flex-col gap-0.5 px-1">
+          <div className="flex items-center gap-2">
+            <UserCheck className="w-4 h-4 text-violet-400" />
+            <span className="text-xs font-bold tracking-wider text-slate-300 uppercase">
+              TOP 150 ({totalUsers > 0 ? totalUsers : "..."} JOUEURS)
+            </span>
+          </div>
+          {playerRankNumber > 0 && (
+            <span className="text-[10px] text-violet-300/80 font-mono tracking-widest pl-6 uppercase">
+              Votre Classement: #{playerRankNumber}
+            </span>
+          )}
         </div>
 
         {/* Input Search */}

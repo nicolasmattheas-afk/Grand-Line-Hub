@@ -17,7 +17,8 @@ import {
   serverTimestamp, 
   arrayUnion, 
   query, 
-  orderBy 
+  orderBy,
+  limit
 } from "firebase/firestore";
 import dotenv from "dotenv";
 
@@ -296,12 +297,12 @@ async function seedWEJArticlesIfEmpty() {
 // Liste tous les articles
 app.get("/api/wej/articles", async (req, res) => {
   try {
-    let snap = await getDocs(query(collection(db, "wejArticles"), orderBy("publishDate", "desc")));
+    let snap = await getDocs(query(collection(db, "wejArticles"), orderBy("publishDate", "desc"), limit(50)));
     
     // Si la base de données est vide ou contient très peu d'articles, on alimente le journal automatiquement
     if (snap.size < 5) {
       await seedWEJArticlesIfEmpty();
-      snap = await getDocs(query(collection(db, "wejArticles"), orderBy("publishDate", "desc")));
+      snap = await getDocs(query(collection(db, "wejArticles"), orderBy("publishDate", "desc"), limit(50)));
     }
 
     const articles = snap.docs.map((doc) => ({

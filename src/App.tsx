@@ -22,7 +22,7 @@ import BlogSection from "./components/BlogSection";
 import UndercoverGame from "./components/UndercoverGame";
 import AdSenseBanner from "./components/AdSenseBanner";
 import { LanguageSelector } from "./components/LanguageSelector";
-import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, getDoc, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { track } from "@vercel/analytics";
 import { 
@@ -568,11 +568,13 @@ export default function App() {
   // States pour le classement des primes en ligne
   const [onlineUsers, setOnlineUsers] = useState<any[]>([]);
   const [loadingOnlineUsers, setLoadingOnlineUsers] = useState(false);
+  const [totalUsers, setTotalUsers] = useState<number>(0);
 
   const fetchOnlineUsers = async () => {
     try {
       setLoadingOnlineUsers(true);
-      const querySnapshot = await getDocs(collection(db, "users"));
+      const q = query(collection(db, "users"), orderBy("bounty", "desc"), limit(150));
+      const querySnapshot = await getDocs(q);
       const usersList: any[] = [];
       querySnapshot.forEach((docSnap) => {
         usersList.push({
@@ -582,6 +584,14 @@ export default function App() {
       });
       setOnlineUsers(usersList);
       localStorage.setItem("cached_online_users", JSON.stringify(usersList));
+
+      try {
+        const countSnap = await getCountFromServer(collection(db, "users"));
+        setTotalUsers(countSnap.data().count);
+      } catch (countErr) {
+        console.warn("Erreur comptage:", countErr);
+      }
+
     } catch (e: any) {
       console.warn("[Firebase Quota] Erreur lors de la récupération des joueurs réels, bascule sur le cache local :", e?.message || e);
       const cached = localStorage.getItem("cached_online_users");
@@ -597,18 +607,21 @@ export default function App() {
 
   useEffect(() => {
     fetchOnlineUsers();
-  }, [playerBounty]); // Re-fetch quand notre prime change
+  }, []); // Fetch initial rankings on mount
 
   // Liste globale fusionnée et classée par prime décroissante
   const leaderboardList: LeaderboardEntry[] = useMemo(() => {
-    let filteredOnline = onlineUsers.map(u => ({
-      username: u.username || "Pirate Mystère",
-      bounty: Number(u.bounty ?? 0),
-      avatar: u.avatar || "",
-      email: u.email,
-      isRival: false,
-      isCurrentUser: u.email === localStorage.getItem("firebaseUserEmail")
-    }));
+    let filteredOnline = onlineUsers.map(u => {
+      const isCurrentUser = u.email === localStorage.getItem("firebaseUserEmail");
+      return {
+        username: u.username || "Pirate Mystère",
+        bounty: isCurrentUser ? Math.max(Number(u.bounty ?? 0), playerBounty) : Number(u.bounty ?? 0),
+        avatar: u.avatar || "",
+        email: u.email,
+        isRival: false,
+        isCurrentUser
+      };
+    });
 
     const hasCurrentUser = filteredOnline.some(u => u.isCurrentUser);
     let listToMerge = [...filteredOnline];
@@ -1583,6 +1596,7 @@ export default function App() {
                 playerUsername={playerUsername}
                 playerAvatar={playerAvatar}
                 playerBounty={playerBounty}
+                totalUsers={totalUsers}
               />
             )}
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { 
   collection, doc, getDoc, getDocs, updateDoc, setDoc, deleteDoc, 
-  arrayUnion, arrayRemove, query, where, limit, onSnapshot, serverTimestamp 
+  arrayUnion, arrayRemove, query, where, limit, onSnapshot, serverTimestamp, orderBy 
 } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { 
@@ -214,7 +214,7 @@ export default function SocialAndCrew({
   const loadAllCrews = async () => {
     setCrewsLoading(true);
     try {
-      const q = query(collection(db, "crews"));
+      const q = query(collection(db, "crews"), orderBy("totalBounty", "desc"), limit(100));
       const querySnap = await getDocs(q);
       const list: Crew[] = [];
       querySnap.forEach((docSnap) => {
