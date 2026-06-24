@@ -416,7 +416,7 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
                   {/* Character info text */}
                   <div className="text-center flex-1 flex flex-col justify-between pointer-events-none w-full">
                     <div>
-                      <span className={`font-heading font-black text-gray-900 text-[11px] sm:text-xs md:text-sm block truncate leading-tight uppercase ${getNotranslateClass()}`}>
+                      <span className={`font-heading font-black text-gray-900 text-[11px] sm:text-xs md:text-sm block break-words leading-tight uppercase ${getNotranslateClass()}`}>
                         {char.name}
                       </span>
                       <span className="text-[7.5px] sm:text-[8px] md:text-[9.5px] font-mono text-gray-400 block truncate mt-0.5 uppercase tracking-widest max-w-full">

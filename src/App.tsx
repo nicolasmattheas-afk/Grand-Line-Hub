@@ -3,7 +3,7 @@ import { getCharactersDatabase } from "./data/characters";
 import { getOfficialDevilFruitOverride } from "./data/official_fruits";
 import { FEMALE_NAMES } from "./data/femaleNames";
 import { SWORDSMEN_NAMES } from "./data/swordsmen";
-import { LUFFY_BATTLES, getLuffyOpponentsSet } from "./data/luffyBattles";
+import { LUFFY_BATTLES } from "./data/luffyBattles";
 import { Character, BountyRank, GameLog } from "./types";
 import BountyDuel from "./components/BountyDuel";
 import LogPoseTracker from "./components/LogPoseTracker";
