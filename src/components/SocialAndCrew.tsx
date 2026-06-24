@@ -90,6 +90,7 @@ export default function SocialAndCrew({
   const [allCrews, setAllCrews] = useState<Crew[]>([]);
   const [myCrew, setMyCrew] = useState<Crew | null>(null);
   const [userProfile, setUserProfile] = useState<any>(null);
+  const [crewMemberProfiles, setCrewMemberProfiles] = useState<Record<string, { username: string; bounty: number; avatar: string }>>({});
   const [crewSearch, setCrewSearch] = useState("");
   const [crewsLoading, setCrewsLoading] = useState(false);
 
@@ -201,6 +202,33 @@ export default function SocialAndCrew({
     });
 
     return () => unsubscribeCrew();
+  }, [userProfile?.crewId]);
+
+  // Écouter en temps réel les membres de mon équipage
+  useEffect(() => {
+    const crewId = userProfile?.crewId;
+    if (!crewId) {
+      setCrewMemberProfiles({});
+      return;
+    }
+
+    const q = query(collection(db, "users"), where("crewId", "==", crewId));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const profiles: Record<string, { username: string; bounty: number; avatar: string }> = {};
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        profiles[docSnap.id.toLowerCase()] = {
+          username: data.username || "",
+          bounty: Number(data.bounty || 0),
+          avatar: data.avatar || ""
+        };
+      });
+      setCrewMemberProfiles(profiles);
+    }, (error) => {
+      console.warn("[Firebase Quota] Erreur lors de l'écoute des profils des membres de l'équipage:", error.message || error);
+    });
+
+    return () => unsubscribe();
   }, [userProfile?.crewId]);
 
   // Synchroniser automatiquement l'onglet actif vers "crews" lors de la détection d'un équipage
@@ -853,6 +881,14 @@ export default function SocialAndCrew({
   const myCrewRole = meInCrew?.role || (myCrew?.creatorEmail === playerEmail ? "Capitaine" : "mousse");
   const isHabilitatedToEdit = myCrew ? (myCrew.creatorEmail === playerEmail || myCrewRole === "Capitaine" || myCrewRole === "Second" || myCrewRole === "second") : false;
 
+  const computedTotalBounty = myCrew
+    ? myCrew.members.reduce((sum, member) => {
+        const emailKey = member.email.toLowerCase();
+        const live = crewMemberProfiles[emailKey];
+        return sum + (live ? live.bounty : member.bounty);
+      }, 0)
+    : 0;
+
   if (!playerEmail) {
     return (
       <div className="bg-slate-950 border border-slate-800 rounded-3xl p-8 text-white max-w-xl mx-auto shadow-2xl text-center font-sans space-y-4">
@@ -1141,7 +1177,7 @@ export default function SocialAndCrew({
                     <Trophy className="w-4 h-4 text-amber-500" />
                     <span className="font-mono font-bold text-amber-900 uppercase tracking-tight">Prime Cumulative</span>
                   </div>
-                  <span className="font-mono font-black text-gray-800 tracking-tight">฿ {myCrew.totalBounty.toLocaleString()}</span>
+                  <span className="font-mono font-black text-gray-800 tracking-tight">฿ {computedTotalBounty.toLocaleString()}</span>
                 </div>
 
                 {myCrew.creatorEmail === playerEmail ? (
@@ -1174,6 +1210,12 @@ export default function SocialAndCrew({
 
                   <div className="flex flex-col gap-3">
                     {myCrew.members.map((member, idx) => {
+                      const emailKey = member.email.toLowerCase();
+                      const live = crewMemberProfiles[emailKey];
+                      const displayName = live ? live.username : member.name;
+                      const displayBounty = live ? live.bounty : member.bounty;
+                      const displayAvatar = live ? live.avatar : member.avatar;
+
                       const isCreator = member.email === myCrew.creatorEmail;
                       const memberRole = member.role || (isCreator ? "Capitaine" : "mousse");
 
@@ -1208,16 +1250,16 @@ export default function SocialAndCrew({
                         <div key={idx} className="p-3 bg-slate-50/70 border border-slate-100 rounded-xl flex items-center justify-between gap-3 flex-wrap">
                           <div className="flex items-center gap-3 min-w-0">
                             <img 
-                              src={member.avatar || `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(member.name)}`} 
+                              src={displayAvatar || `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(displayName)}`} 
                               alt="Avatar"
                               className="w-8 h-8 rounded-lg object-cover bg-slate-100"
                             />
                             <div className="min-w-0">
                               <p className="text-xs font-bold text-gray-900 truncate uppercase flex items-center gap-1.5">
-                                {member.name}
+                                {displayName}
                                 {isCreator && <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" />}
                               </p>
-                              <p className="text-[10px] font-mono text-amber-600">฿ {member.bounty.toLocaleString()}</p>
+                              <p className="text-[10px] font-mono text-amber-600">฿ {displayBounty.toLocaleString()}</p>
                             </div>
                           </div>
 
