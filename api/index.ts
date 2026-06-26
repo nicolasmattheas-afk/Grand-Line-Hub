@@ -560,63 +560,9 @@ async function cleanAndReplaceDuplicates() {
         activeTopics.add(pickedTopic);
       }
 
-      console.log(`Régénération de l'article en double '${item.id}' avec le sujet : ${pickedTopic}`);
+      console.log(`Régénération instantanée de l'article en double '${item.id}' avec le sujet de haute qualité : ${pickedTopic}`);
       
-      let finalArticle: { title: string; summary: string; content: string; tags: string[] };
-
-      try {
-        const response = await getAiClient().models.generateContent({
-          model: "gemini-3.5-flash",
-          contents: `Tu es le célèbre président du journal de l'Économie Mondiale (le grand oiseau Morgans du Weekly Economy Journal - WEJ d'One Piece).
-          Rédige une édition quotidienne sensationnelle, percutante et passionnante en français sur le sujet suivant : ${pickedTopic}.
-          L'article doit être hautement ciblé et cibler UN SEUL aspect précis ou UNE SEULE question claire à la fois (ne fais pas d'articles généraux fleuves ou de FAQ multiples). Ne submerge pas le lecteur d'informations.
-          
-          Directives STRICTES de structure de rédaction :
-          - Reste extrêmement concis : rédige 2 à 3 paragraphes complets, fluides et très soignés qui répondent directement à la question de manière passionnée.
-          - INTERDICTION ABSOLUE d'utiliser des balises de titres de niveau Markdown avec des croisillons (comme '#', '##' ou '###'). Ne génère jamais de lignes commençant par ces caractères !
-          - Pour structurer occasionnellement, utilise à la place UNIQUEMENT de la mise en gras comme ceci : **Mon Titre de Section** ou **Ma Question clé** de début de paragraphe.
-          
-          Format de retour requis : Renvoie strictement un fichier JSON correspondant à ce schéma :
-          {
-            "title": "Titre journalistique percutant et très court",
-            "summary": "Résumé d'une phrase d'accroche captivante pour l'édition du jour",
-            "content": "Texte complet en format texte avec paragraphes espacés et mise en gras uniquement (aucun caractère # ou ###)",
-            "tags": ["One Piece", "Luffy", "Morgans"]
-          }`,
-          config: {
-            responseMimeType: "application/json",
-            responseSchema: {
-              type: Type.OBJECT,
-              properties: {
-                title: { type: Type.STRING },
-                summary: { type: Type.STRING },
-                content: { type: Type.STRING },
-                tags: {
-                  type: Type.ARRAY,
-                  items: { type: Type.STRING },
-                },
-              },
-              required: ["title", "summary", "content", "tags"],
-            },
-          },
-        });
-
-        const generatedText = response.text;
-        if (!generatedText) {
-          throw new Error("Gemini n'a renvoyé aucun texte exploitable.");
-        }
-
-        const parsed = JSON.parse(generatedText.trim());
-        finalArticle = {
-          title: parsed.title,
-          summary: parsed.summary,
-          content: parsed.content,
-          tags: parsed.tags || ["One Piece", "Luffy", "Morgans"]
-        };
-      } catch (apiErr: any) {
-        console.warn(`La génération IA a échoué pour le doublon '${item.id}' (${apiErr.message || apiErr}). Utilisation du plan de secours.`);
-        finalArticle = getFallbackArticleForTopic(pickedTopic);
-      }
+      const finalArticle = getFallbackArticleForTopic(pickedTopic);
 
       await setDoc(doc(db, "wejArticles", item.id), {
         title: finalArticle.title,
@@ -712,7 +658,7 @@ app.get("/api/wej/generate-daily", async (req, res) => {
 
     try {
       const response = await getAiClient().models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-2.5-flash",
         contents: `Tu es le célèbre président du journal de l'Économie Mondiale (le grand oiseau Morgans du Weekly Economy Journal - WEJ d'One Piece).
         Rédige une édition quotidienne sensationnelle, percutante et passionnante en français sur le sujet suivant : ${pickedTopic}.
         L'article doit être hautement ciblé et cibler UN SEUL aspect précis ou UNE SEULE question claire à la fois (ne fais pas d'articles généraux fleuves ou de FAQ multiples). Ne submerge pas le lecteur d'informations.
@@ -791,6 +737,125 @@ app.get("/api/wej/generate-daily", async (req, res) => {
     });
   } catch (err: any) {
     console.error("Erreur durant la génération du WEJ par le bot:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Permet à n'importe quel utilisateur de forcer la rédaction d'un article sur un sujet ou une question populaire d'One Piece
+app.post("/api/wej/generate-topic", async (req, res) => {
+  const { topic } = req.body;
+  if (!topic || typeof topic !== "string" || topic.trim().length < 3) {
+    return res.status(400).json({ success: false, error: "Le sujet ou la question doit contenir au moins 3 caractères." });
+  }
+
+  try {
+    const trimmedTopic = topic.trim();
+    // 1. Rechercher si un article avec ce sujet exact ou quasi-exact existe déjà en base de données
+    const snap = await getDocs(collection(db, "wejArticles"));
+    let existingArticle: any = null;
+    snap.forEach((doc) => {
+      const data = doc.data();
+      if (data.topic && data.topic.toLowerCase() === trimmedTopic.toLowerCase()) {
+        existingArticle = { id: doc.id, ...data };
+      }
+    });
+
+    if (existingArticle) {
+      // Si l'article existe déjà, on augmente ses vues et on le retourne
+      const docRef = doc(db, "wejArticles", existingArticle.id);
+      await updateDoc(docRef, {
+        views: increment(1),
+        secretPasskey: "wej-blog-backend-secret-authorized-2026",
+      });
+      existingArticle.views += 1;
+      return res.json({ success: true, article: existingArticle, generatedNow: false });
+    }
+
+    // 2. Sinon, on génère un nouvel article de Morgans avec Gemini
+    console.log(`Morgans lance la rédaction de l'article spécial pour : "${trimmedTopic}"...`);
+    const todayStr = new Date().toLocaleDateString("fr-CA", { timeZone: "Europe/Paris" });
+    const slug = trimmedTopic.toLowerCase().replace(/[^a-z0-9]+/g, "-").substring(0, 50);
+    const articleId = `wej-topic-${slug}-${Date.now()}`;
+
+    let finalArticle: { title: string; summary: string; content: string; tags: string[] };
+
+    try {
+      const response = await getAiClient().models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: `Tu es le célèbre président du journal de l'Économie Mondiale (le grand oiseau Morgans du Weekly Economy Journal - WEJ d'One Piece).
+        Rédige une édition quotidienne sensationnelle, percutante et passionnante en français sur le sujet suivant : ${trimmedTopic}.
+        L'article doit être hautement ciblé et cibler UN SEUL aspect précis ou UNE SEULE question claire à la fois (ne fais pas d'articles généraux fleuves ou de FAQ multiples). Ne submerge pas le lecteur d'informations.
+        
+        Directives STRICTES de structure de rédaction :
+        - Reste extrêmement concis : rédige 2 à 3 paragraphes complets, fluides et très soignés qui répondent directement à la question de manière passionnée.
+        - INTERDICTION ABSOLUE d'utiliser des balises de titres de niveau Markdown avec des croisillons (comme '#', '##' ou '###'). Ne génère jamais de lignes commençant par ces caractères !
+        - Pour structurer occasionnellement, utilise à la place UNIQUEMENT de la mise en gras comme ceci : **Mon Titre de Section** ou **Ma Question clé** de début de paragraphe.
+        
+        Format de retour requis : Renvoie strictement un fichier JSON correspondant à ce schéma :
+        {
+          "title": "Titre journalistique percutant et très court",
+          "summary": "Résumé d'une phrase d'accroche captivante pour l'édition du jour",
+          "content": "Texte complet en format texte avec paragraphes espacés et mise en gras uniquement (aucun caractère # ou ###)",
+          "tags": ["One Piece", "Luffy", "Morgans"]
+        }`,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.OBJECT,
+            properties: {
+              title: { type: Type.STRING },
+              summary: { type: Type.STRING },
+              content: { type: Type.STRING },
+              tags: {
+                type: Type.ARRAY,
+                items: { type: Type.STRING },
+              },
+            },
+            required: ["title", "summary", "content", "tags"],
+          },
+        },
+      });
+
+      const generatedText = response.text;
+      if (!generatedText) {
+        throw new Error("Gemini n'a renvoyé aucun texte exploitable.");
+      }
+
+      const parsed = JSON.parse(generatedText.trim());
+      finalArticle = {
+        title: parsed.title,
+        summary: parsed.summary,
+        content: parsed.content,
+        tags: parsed.tags || ["One Piece", "Luffy", "Morgans"]
+      };
+    } catch (apiErr: any) {
+      console.warn("La génération par l'API Gemini a échoué (surcharde ou indisponibilité s'expliquant par le message suivant):", apiErr.message || apiErr);
+      finalArticle = getFallbackArticleForTopic(trimmedTopic);
+    }
+
+    const newArticle = {
+      title: finalArticle.title,
+      summary: finalArticle.summary,
+      content: finalArticle.content,
+      tags: finalArticle.tags,
+      topic: trimmedTopic,
+      author: "Morgans (Journaliste WEJ)",
+      publishDate: todayStr,
+      views: 1,
+      secretPasskey: "wej-blog-backend-secret-authorized-2026",
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    };
+
+    await setDoc(doc(db, "wejArticles", articleId), newArticle);
+
+    res.json({
+      success: true,
+      article: { id: articleId, ...newArticle },
+      generatedNow: true,
+    });
+  } catch (err: any) {
+    console.error("Erreur durant la génération du sujet WEJ par le bot:", err);
     res.status(500).json({ success: false, error: err.message });
   }
 });
@@ -1058,7 +1123,7 @@ Format attendu : un objet JSON :
     }
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -1121,7 +1186,7 @@ Génère une réponse sous forme d'objet JSON contenant :
 Syntaxe JSON stricte uniquement, sans markdown ni texte d'intro :`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",

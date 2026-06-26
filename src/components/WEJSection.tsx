@@ -31,6 +31,10 @@ export default function WEJSection({ playerEmail }: WEJSectionProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
+  // States pour les questions personnalisées
+  const [customTopic, setCustomTopic] = useState<string>("");
+  const [isGeneratingTopic, setIsGeneratingTopic] = useState<boolean>(false);
+
   // Mode Édition pour l'Admin
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editTitle, setEditTitle] = useState<string>("");
@@ -57,6 +61,43 @@ export default function WEJSection({ playerEmail }: WEJSectionProps) {
       setErrorMsg("Erreur réseau lors de la récupération des articles.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Lancer la génération d'un sujet ou d'une question populaire
+  const triggerTopicGeneration = async (topicToGenerate: string) => {
+    if (!topicToGenerate.trim() || topicToGenerate.trim().length < 3) {
+      setErrorMsg("Veuillez entrer un sujet d'au moins 3 caractères.");
+      return;
+    }
+    setIsGeneratingTopic(true);
+    setStatusMessage(`Morgans lance ses goélands et rédige un article spécial sur : "${topicToGenerate}"...`);
+    setErrorMsg(null);
+    try {
+      const resp = await fetch("/api/wej/generate-topic", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic: topicToGenerate })
+      });
+      const data = await resp.json();
+      if (data.success) {
+        setStatusMessage(
+          data.generatedNow 
+            ? `Grande Nouvelle ! Morgans a publié un article d'investigation sur : ${topicToGenerate} !` 
+            : `L'analyse de Morgans sur ce sujet est déjà disponible et à jour.`
+        );
+        // Recharger le flux
+        await loadArticles(false);
+        setSelectedArticle(data.article);
+        setCustomTopic("");
+      } else {
+        setErrorMsg(data.error || "Morgans n'a pas pu imprimer cette édition spéciale.");
+      }
+    } catch (err: any) {
+      setErrorMsg("Impossible de joindre la rédaction du WEJ pour ce sujet.");
+    } finally {
+      setIsGeneratingTopic(false);
+      setTimeout(() => setStatusMessage(""), 5000);
     }
   };
 
@@ -241,6 +282,78 @@ export default function WEJSection({ playerEmail }: WEJSectionProps) {
               <span>{errorMsg}</span>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* SECTION : Questions Populaires & Sujets Chauds */}
+      <div className="w-full bg-[#0c0d21] border border-violet-500/15 rounded-2xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col gap-4">
+        <div>
+          <h2 className="text-sm font-mono font-black text-rose-400 uppercase tracking-widest flex items-center gap-2 mb-1">
+            <Sparkles className="w-4 h-4 text-rose-400 animate-pulse" />
+            Questions les Plus Posées d'One Piece (Sujets Chauds)
+          </h2>
+          <p className="text-[11px] text-slate-400 leading-relaxed">
+            Le Président de la Presse Mondiale Morgans est prêt à révéler la vérité ! Cliquez sur l'une des questions brûlantes ci-dessous ou saisissez votre propre théorie pour forcer la rédaction en temps réel d'une édition d'investigation exclusive !
+          </p>
+        </div>
+
+        {/* Grille de questions rapides */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+          {[
+            "Qu'est-ce que la Volonté du D. ?",
+            "Qu'est-ce que le trésor national de Mary Geoise ?",
+            "Comment Barbe Noire peut-il avoir deux fruits du démon ?",
+            "Quel est le véritable rêve secret de Luffy ?",
+            "Qui est Crocodile réellement et quel secret cache Ivankov ?",
+            "Qui est Imu et pourquoi est-il sur le trône vacant ?",
+            "Pourquoi Shanks a-t-il sacrifié son bras ?",
+            "Qui est Joy Boy et son lien historique avec Poséidon ?",
+            "Pourquoi Zoro a-t-il une cicatrice à l'œil gauche ?",
+          ].map((q, idx) => (
+            <button
+              key={idx}
+              onClick={() => triggerTopicGeneration(q)}
+              disabled={isGeneratingTopic}
+              className="text-left text-[11px] font-medium bg-[#141630] border border-white/5 hover:border-rose-500/30 hover:bg-[#1a1c3d] text-slate-300 hover:text-white px-3 py-2.5 rounded-xl transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-start gap-2"
+            >
+              <span className="text-rose-400 font-bold shrink-0">#</span>
+              <span>{q}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Posez votre propre question */}
+        <div className="border-t border-white/5 pt-4 mt-1">
+          <label className="text-[10px] uppercase font-mono tracking-widest text-slate-400 mb-2 block font-bold">
+            Poser une question personnalisée ou théorie à Morgans :
+          </label>
+          <div className="flex gap-2.5">
+            <input
+              type="text"
+              placeholder="Ex: Pourquoi Dragon a-t-il créé l'Armée Révolutionnaire ?..."
+              value={customTopic}
+              onChange={(e) => setCustomTopic(e.target.value)}
+              disabled={isGeneratingTopic}
+              className="flex-1 bg-[#11132a] text-slate-100 placeholder-slate-500 text-xs rounded-xl px-4 py-3 border border-white/5 focus:outline-none focus:border-rose-500/50 transition-all font-sans"
+            />
+            <button
+              onClick={() => triggerTopicGeneration(customTopic)}
+              disabled={isGeneratingTopic || !customTopic.trim() || customTopic.trim().length < 3}
+              className="px-5 py-3 bg-linear-to-r from-rose-600 to-violet-600 hover:from-rose-500 hover:to-violet-500 text-xs font-heading font-extrabold rounded-xl text-white tracking-wider uppercase flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0 shadow-lg shadow-rose-500/10"
+            >
+              {isGeneratingTopic ? (
+                <>
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin text-rose-400" />
+                  Rédaction...
+                </>
+              ) : (
+                <>
+                  <Feather className="w-3.5 h-3.5" />
+                  Demander à Morgans
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
