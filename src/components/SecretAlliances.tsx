@@ -193,7 +193,7 @@ const GROUP_TEMPLATES: GroupTemplate[] = [
   },
   {
     id: "crew_whitebeard",
-    label: "Flotte de Barbe Blanche (Whitebeard)",
+    label: "Flotte de Barbe Blanche",
     description: "Fiers compagnons de l'empereur légendaire Edward Newgate.",
     check: (c) => {
       const cl = c.crew.toLowerCase();

@@ -89,11 +89,11 @@ export const jollyRogersList: JollyRoger[] = [
     "image": "https://static.wikia.nocookie.net/onepiece/images/f/fd/Saruyama_Alliance%27s_Jolly_Roger.png"
   },
   {
-    "name": "Blackbeard Pirates' Jolly Roger",
+    "name": "Équipage de Barbe Noire' Jolly Roger",
     "image": "https://static.wikia.nocookie.net/onepiece/images/b/b4/Blackbeard_Pirates%27_Jolly_Roger.png"
   },
   {
-    "name": "Whitebeard Pirates Original Jolly Roger",
+    "name": "Équipage de Barbe Blanche Original Jolly Roger",
     "image": "https://static.wikia.nocookie.net/onepiece/images/d/d8/Whitebeard_Pirates_Original_Jolly_Roger.png"
   },
   {
@@ -157,7 +157,7 @@ export const jollyRogersList: JollyRoger[] = [
     "image": "https://static.wikia.nocookie.net/onepiece/images/e/ec/Golden_Lion_Pirates%27_Jolly_Roger.png"
   },
   {
-    "name": "Brownbeard Pirates' Jolly Roger",
+    "name": "Équipage de Barbe Brune' Jolly Roger",
     "image": "https://static.wikia.nocookie.net/onepiece/images/c/c3/Brownbeard_Pirates%27_Jolly_Roger.png"
   },
   {
@@ -201,7 +201,7 @@ export const jollyRogersList: JollyRoger[] = [
     "image": "https://static.wikia.nocookie.net/onepiece/images/e/eb/Tontatta_Pirates%27_Jolly_Roger.png"
   },
   {
-    "name": "Peachbeard Pirates' Jolly Roger",
+    "name": "Barbe Rose Pirates' Jolly Roger",
     "image": "https://static.wikia.nocookie.net/onepiece/images/8/8f/Peachbeard_Pirates%27_Jolly_Roger.png"
   },
   {
@@ -417,7 +417,7 @@ export const jollyRogersList: JollyRoger[] = [
     "image": "https://static.wikia.nocookie.net/onepiece/images/c/cc/Makiguso_Pirates%27_Jolly_Roger.png"
   },
   {
-    "name": "Beardless Pirates' Jolly Roger",
+    "name": "Jolly Roger des Pirates Sans-Barbe",
     "image": "https://static.wikia.nocookie.net/onepiece/images/0/06/Beardless_Pirates%27_Jolly_Roger.png"
   },
   {

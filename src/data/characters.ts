@@ -6,13 +6,13 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 551",
     "race": "Human",
     "status": "Unknown",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford"},
       {"location":"Unknown island - got defeated by Weevil","chapter":"Chapter 802", "region":"New World"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"},
         {"name": "Edward Weevil","relationship": "Defeated by"}
     ]
   },
@@ -157,7 +157,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -182,16 +182,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Agsilly",
     "image": "/images/characters/Agsilly.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 578",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate captain who allied with Whitebeard Pirates",
+    "description": "New World pirate captain who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 578"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -471,16 +471,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Amadob",
     "image": "/images/characters/Amadob.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 558",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 558"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -547,19 +547,19 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Andre",
     "image": "/images/characters/Andre.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 558",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate, former Whitebeard Pirates member and now subordinate ally with his own crew",
+    "description": "New World pirate, former Équipage de Barbe Blanche member and now subordinate ally with his own crew",
     "journey": [
       {"location":"Wano Country's Island"},
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Marineford"},
-      {"location":"Unknown island - attending Whitebeard's funeral","chapter":"Chapter 590", "region":"New World"}
+      {"location":"Unknown island - attending de Barbe Blanche funeral","chapter":"Chapter 590", "region":"New World"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain, Served"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain, Served"},
         {"name": "Candre","relationship": "Brother"}
     ]
   },
@@ -781,16 +781,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Arthur",
     "image": "/images/characters/Arthur.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 556",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 556"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -947,20 +947,20 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Atmos",
     "image": "/images/characters/Atmos.webp",
     "epithet": "Water Buffalo",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "origin": "West Blue",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "13th division commander of the Whitebeard Pirates",
+    "description": "13th division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Wano Country's Island"},
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Marineford"},
-      {"location":"Unknown island - attending Whitebeard's funeral","chapter":"Chapter 590", "region":"New World"}
+      {"location":"Unknown island - attending de Barbe Blanche funeral","chapter":"Chapter 590", "region":"New World"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"}
     ]
   },
   {
@@ -989,7 +989,7 @@ export const RAW_CHARACTERS: any[] = [
     "image": "/images/characters/Avalo_Pizarro.webp",
     "image_pre": "/images/characters/Avalo_Pizarro_Pre.webp",
     "epithet": "Corrupt King",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": "Shima Shima no Mi",
     "origin": "North Blue",
     "height": 505,
@@ -997,7 +997,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 575",
     "race": "Human",
     "status": "Alive",
-    "description": "Captain of the 4th ship of Blackbeard Pirates, formerly a king of a North Blue kingdom that overthrew him for his despotic ways",
+    "description": "Captain of the 4th ship of Équipage de Barbe Noire, formerly a king of a North Blue kingdom that overthrew him for his despotic ways",
     "journey": [
       {"location":"Unknown island - ruling over a kingdom", "region":"North Blue"},
       {"location":"Impel Down"},
@@ -1009,10 +1009,10 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Hachinosu","chapter":"Chapter 903"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
         {"name": "Monkey D. Garp","relationship": "Enemy"},
         {"name": "Koby","relationship": "Enemy"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Participated in killing"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Participated in killing"}
     ]
   },
   {
@@ -1161,16 +1161,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Baggaley",
     "image": "/images/characters/Baggaley.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 561",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 561"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -1263,11 +1263,11 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -1390,11 +1390,11 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -1476,7 +1476,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Brook","relationship": "Separated from his crew"},
         {"name": "Borsalino [Kizaru]","relationship": "Friend"},
         {"name": "Jaygarcia Saturn","relationship": "Enemy"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Rescued"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Rescued"},
         {"name": "Eris","relationship": "Rescued"}
     ]
   },
@@ -1561,7 +1561,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Kaidou","relationship": "Former Captain"},
         {"name": "Eustass Kid","relationship": "Former Ally, Betrayed"},
         {"name": "Scratchmen Apoo","relationship": "Betrayed by"},
-        {"name": "Chadros Higelyges [Brownbeard]","relationship": "Defeated"},
+        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Defeated"},
         {"name": "Trafalgar D. Water Law","relationship": "Enemy"},
         {"name": "Monkey D. Luffy","relationship": "Enemy"},
         {"name": "X Drake","relationship": "Enemy, Former Superior (undercover)"},
@@ -1898,7 +1898,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - met Mihawk", "region":"New World"},
       {"location":"Yukiryu Island"},
       {"location":"Marineford"},
-      {"location":"Unknown island - attending Whitebeard's funeral", "region":"New World"},
+      {"location":"Unknown island - attending de Barbe Blanche funeral", "region":"New World"},
       {"location":"Unknown island - attending a wedding", "region":"New World"},
       {"location":"Wano Country's Island"},
       {"location":"Elbaph Island"},
@@ -1916,7 +1916,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 1134",
     "race": "Giant",
     "status": "Alive",
-    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Knights of God",
+    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Chevaliers Divins",
     "journey": [
       {"location":"Elbaph Island","chapter":"Chapter 1134"}
     ],
@@ -2021,7 +2021,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Inuarashi","relationship": "Ally"},
         {"name": "Nekomamushi","relationship": "Ally"},
         {"name": "Kinemon","relationship": "Ally"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
         {"name": "Jack","relationship": "Enemy"},
         {"name": "Zunesha","relationship": "Homeland"}
     ]
@@ -2226,16 +2226,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Bizarre",
     "image": "/images/characters/Bizarre.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -2245,7 +2245,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 1134",
     "race": "Giant",
     "status": "Alive",
-    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Knights of God. Road's younger brother",
+    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Chevaliers Divins. Road's younger brother",
     "journey": [
       {"location":"Elbaph Island","chapter":"Chapter 1134"}
     ],
@@ -2384,50 +2384,50 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Blamenco",
     "image": "/images/characters/Blamenco.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "devil_fruit": "Poke Poke no Mi",
     "origin": "South Blue",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "Former 6th division commander of the Whitebeard Pirates",
+    "description": "Former 6th division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"}
     ]
   },
   {
     "name": "Blenheim",
     "image": "/images/characters/Blenheim.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "origin": "Grand Line",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "Former 9th division commander of the Whitebeard Pirates",
+    "description": "Former 9th division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Marineford", "chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"}
     ]
   },
   {
     "name": "Blondie",
     "image": "/images/characters/Blondie.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 558",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 558"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -2613,7 +2613,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Tritoma","relationship": "Empress Predecessor"},
         {"name": "Shakuyaku [Shakky]","relationship": "Empress Predecessor"},
         {"name": "Gloriosa","relationship": "Empress Predecessor"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
         {"name": "Fisher Tiger","relationship": "Freed by"},
         {"name": "Shanks","relationship": "Indirectly freed by"},
         {"name": "Trafalgar D. Water Law","relationship": "Friend"}
@@ -2956,14 +2956,14 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Braham",
     "image": "/images/characters/Braham.webp",
-    "affiliation": "God's Guards",
+    "affiliation": "Gardes Divins",
     "origin": "Sky Islands (Skypiea)",
     "height": 179,
     "age": 24,
     "first_appearance_arc": "Chapter 249",
     "race": "Moon people - Shandian",
     "status": "Alive",
-    "description": "One of the Shandia warriors who fought to take back Upper Yard from Enel. He later joined the God's Guards under Wyper",
+    "description": "One of the Shandia warriors who fought to take back Upper Yard from Enel. He later joined the Gardes Divins under Wyper",
     "journey": [
       {"location":"Skypiea","chapter":"Chapter 249"}
     ],
@@ -3015,16 +3015,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Brew",
     "image": "/images/characters/Brew.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 561",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 561"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -3048,16 +3048,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Brocca",
     "image": "/images/characters/Brocca.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 561",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 561"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -3227,7 +3227,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 802",
     "race": "Human",
     "status": "Alive",
-    "description": "Former member of the Rocks Pirates and MADS. Self-proclaimed lover of Whitebeard, mother of Weevil and used to create the first successful clone of MADS - Stussy",
+    "description": "Former member of the Rocks Pirates and MADS. Self-proclaimed lover of Barbe Blanche, mother of Weevil and used to create the first successful clone of MADS - Stussy",
     "journey": [
       {"location":"Elbaph Island"},
       {"location":"Hachinosu"},
@@ -3240,7 +3240,7 @@ export const RAW_CHARACTERS: any[] = [
 
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Unrequited love"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Unrequited love"},
         {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
         {"name": "Edward Weevil","relationship": "Son"},
         {"name": "Vegapunk","relationship": "Former Leader"},
@@ -3292,7 +3292,7 @@ export const RAW_CHARACTERS: any[] = [
     "status": "Alive",
     "description": "One of the Four Emperors and recognized as Cross Guild's leader. Formerly and apprentice of the Roger Pirates and a Warlord",
     "journey": [
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Tequila Wolf"},
@@ -3547,7 +3547,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monet","relationship": "Killed, Former Ally"},
         {"name": "Vergo","relationship": "Former Ally"},
         {"name": "Smiley","relationship": "Pet"},
-        {"name": "Chadros Higelyges [Brownbeard]","relationship": "Former Subordinate"},
+        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Subordinate"},
         {"name": "Kouzuki Momonosuke","relationship": "Captured"}
     ]
   },
@@ -3572,7 +3572,7 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Camel",
     "image": "/images/characters/Camel.webp",
-    "affiliation": "Blackbeard Pirates (former)",
+    "affiliation": "Équipage de Barbe Noire (former)",
     "first_appearance_arc": "Chapter 695",
     "race": "Animal",
     "status": "Alive",
@@ -3646,16 +3646,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Cands",
     "image": "/images/characters/Cands.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 569",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates. He only appears in the manga",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche. He only appears in the manga",
     "journey":[
       {"location":"Marineford", "chapter":"Chapter 569"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -3790,7 +3790,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Coribou","relationship": "Brother and Co-Captain"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Admires"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Admires"},
         {"name": "Demalo Black","relationship": "Served"},
         {"name": "Baburu","relationship": "Taken care of by"},
         {"name": "Monkey D. Luffy","relationship": "Enemy"},
@@ -3890,7 +3890,7 @@ export const RAW_CHARACTERS: any[] = [
     "image": "/images/characters/Catarina_Devon.webp",
     "image_pre": "/images/characters/Catarina_Devon_Pre.webp",
     "epithet": "Crescent Moon Hunter",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": "Inu Inu no Mi, Model: Kyubi no Kitsune",
     "origin": "South Blue",
     "height": 361,
@@ -3912,8 +3912,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Hachinosu","chapter":"Chapter 1126"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Participated in killing"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Participated in killing"}
     ]
   },
   {
@@ -3975,7 +3975,7 @@ export const RAW_CHARACTERS: any[] = [
     "status": "Unknown",
     "description": "He was a member of the Roger pirates until the crew's dissolution",
     "journey": [
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Fish-Man Island"},
       {"location":"Zou"},
       {"location":"Wano Country's Island", "chapter": "Chapter 968"}
@@ -4003,7 +4003,7 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Cerberus (Sword)",
     "image": "/images/characters/Cerberus_(sword).webp",
-    "affiliation": "Knights of God",
+    "affiliation": "Chevaliers Divins",
     "devil_fruit": "Unnamed Cerberus Zoan (Awakened)",
     "first_appearance_arc": "Chapter 1137",
     "race": "Object",
@@ -4050,7 +4050,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Chadros Higelyges [Brownbeard]",
+    "name": "Chadros Higelyges [Barbe Brune]",
     "image": "/images/characters/Chadros_Higelyges.webp",
     "epithet": "Boss",
     "affiliation": "Caesar Clown (Defected)",
@@ -4061,7 +4061,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 581",
     "race": "Human",
     "status": "Alive",
-    "description": "Former New World pirate. After Whitebeard's death, he went off and took control of Foodvalten. He quit being a pirate after being defeated by Hawkins and resided on Punk Hazard",
+    "description": "Former New World pirate. After de Barbe Blanche death, he went off and took control of Foodvalten. He quit being a pirate after being defeated by Hawkins and resided on Punk Hazard",
     "journey": [
       {"location":"Foodvalten"},
       {"location":"Punk Hazard","chapter":"Chapter 644"}
@@ -4142,7 +4142,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Caesar Clown","relationship": "Former Boss"},
-        {"name": "Chadros Higelyges [Brownbeard]","relationship": "Former Superior"}
+        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
     ]
   },
   {
@@ -5724,7 +5724,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
         {"name": "Sanji","relationship": "Former Fiancé and Ally, In Love With"},
         {"name": "Monkey D. Luffy","relationship": "Ally, Former Enemy"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Kidnapped by"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Kidnapped by"},
         {"name": "Nitro","relationship": "Friend"},
         {"name": "Rabiyan","relationship": "Friend"}
     ]
@@ -6166,16 +6166,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Choi",
     "image": "/images/characters/Choi.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 555",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 555"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -6375,7 +6375,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 1076",
     "race": "Giant-Human hybrid",
     "status": "Alive",
-    "description": "Giant-human hybrid, son of Scopper Gaban and Ripley. One of the 10 kids that were kidnapped by the Knights of God",
+    "description": "Giant-human hybrid, son of Scopper Gaban and Ripley. One of the 10 kids that were kidnapped by the Chevaliers Divins",
     "journey": [
       {"location":"Elbaph Island","chapter":"Chapter 1076"}
     ],
@@ -6390,16 +6390,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Colscon",
     "image": "/images/characters/Colscon.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 574",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 574"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -6571,7 +6571,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -6703,7 +6703,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "Former Warlord and president of Baroque Works. Now working as the co-leader of Cross Guild alongside Mihawk",
     "journey": [
       {"location":"Polestar Islands"},
-      {"location":"Unknown island - fought Whitebeard", "region":"New World"},
+      {"location":"Unknown island - fought Barbe Blanche", "region":"New World"},
       {"location":"Sandy Island"},
       {"location":"Unknown island - imprisoned", "region":"Paradise"},
       {"location":"Impel Down"},
@@ -6737,7 +6737,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Pell","relationship": "Enemy"},
         {"name": "Smoker","relationship": "Imprisoned"},
         {"name": "Emporio Ivankov","relationship": "Knows his secret weakness"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Hates"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Hates"},
         {"name": "Igaram","relationship": "Former Subordinate and Enemy"},
         {"name": "Monkey D. Luffy","relationship": "Defeated by"}
     ]
@@ -6756,7 +6756,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "Former Roger Pirates member (doctor) and now working as the caretaker of Laboon and the overseer of Twin Cape Lighthouse",
     "journey": [
       {"location":"Reverse Mountain"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Tequila Wolf"},
@@ -6776,19 +6776,19 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Curiel",
     "image": "/images/characters/Curiel.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "origin": "Grand Line",
     "first_appearance_arc": "Chapter 552",
     "race": "Human",
     "status": "Alive",
-    "description": "Former 10th division commander of the Whitebeard Pirates",
+    "description": "Former 10th division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Marineford"},
-      {"location":"Unknown island - attending Whitebeard's funeral","chapter":"Chapter 590", "region":"New World"}
+      {"location":"Unknown island - attending de Barbe Blanche funeral","chapter":"Chapter 590", "region":"New World"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"}
     ]
   },
   {
@@ -7124,7 +7124,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Davy D. Xebec [Rocks]","relationship": "Inspired, Descendant"},
         {"name": "Nerona Imu","relationship": "Enemy"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Inspired, Descendant"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Inspired, Descendant"}
     ]
   },
   {
@@ -7150,10 +7150,10 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"God Valley","chapter":"Chapter 1159"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Son"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Son"},
         {"name": "Davy D. Jones","relationship": "Ancestor, Inspiration"},
         {"name": "Eris","relationship": "Wife"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Subordinate"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Subordinate"},
         {"name": "Charlotte Linlin [Big Mom]","relationship": "Former Subordinate"},
         {"name": "Shiki","relationship": "Former Subordinate"},
         {"name": "Buckingham Stussy","relationship": "Former Subordinate"},
@@ -7237,16 +7237,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Decalvan Brothers",
     "image": "/images/characters/Decalvan_Brothers.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 551",
     "race": "Human",
     "status": "Alive",
-    "description": "Two New World pirates who allied with Whitebeard Pirates",
+    "description": "Two New World pirates who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 551"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -7263,16 +7263,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Delacuaji",
     "image": "/images/characters/Delacuaji.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 551",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 551"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -7632,7 +7632,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Doc Q",
     "image": "/images/characters/Doc_Q.webp",
     "epithet": "Death God",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": "Shiku Shiku no Mi",
     "bounty": "At least 72,000,000",
     "origin": "North Blue",
@@ -7641,7 +7641,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 223",
     "race": "Human",
     "status": "Alive",
-    "description": "Doctor and captain of the 9th ship of the Blackbeard Pirates",
+    "description": "Doctor and captain of the 9th ship of the Équipage de Barbe Noire",
     "journey": [
       {"location":"Drum Island"},
       {"location":"Jaya"},
@@ -7657,8 +7657,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Hachinosu","chapter":"Chapter 1126"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Participated in killing"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Participated in killing"},
         {"name": "Stronger","relationship": "Rides"}
     ]
   },
@@ -7693,7 +7693,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -7741,16 +7741,16 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Doma",
     "image": "/images/characters/Doma.webp",
     "epithet": "Bohemian Knight",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 551",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 551"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -7813,7 +7813,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "He was the helmsman of the Roger pirates until the crew's dissolution",
     "journey": [
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Wano Country's Island","chapter":"Chapter 968"}
     ],
     "relationships": [
@@ -7988,7 +7988,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "He was a member of the Roger pirates until the crew's dissolution",
     "journey": [
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Fish-Man Island"},
       {"location":"Wano Country's Island"},
       {"location":"Zou"},
@@ -8262,7 +8262,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -8335,10 +8335,10 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Edward Newgate [Whitebeard]",
+    "name": "Edward Newgate [Barbe Blanche]",
     "image": "/images/characters/Edward_Newgate.webp",
     "epithet": "the Strongest Man in the World",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "devil_fruit": "Gura Gura no Mi",
     "haki": ["Conquerors","Observation","Armament"],
     "bounty": 5046000000,
@@ -8358,7 +8358,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Foot Colony's Island"},
       {"location":"Hachinosu"},
       {"location":"God Valley"},
-      {"location":"Unknown island - met Blackbeard", "region":"Paradise"},
+      {"location":"Unknown island - met Barbe Noire", "region":"Paradise"},
       {"location":"Wano Country's Island"},
       {"location":"Unknown island - met Toki", "region":"New World"},
       {"location":"Unknown island - met Teach", "region":"New World"},
@@ -8374,7 +8374,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Kouzuki Oden","relationship": "Former Subordinate"},
         {"name": "Monkey D. Luffy","relationship": "Former Ally"},
         {"name": "Jinbe","relationship": "Former Ally"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy, Former Subordinate"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy, Former Subordinate"},
         {"name": "Portgas D. Ace","relationship": "Former Subordinate"},
         {"name": "Marco","relationship": "Former Subordinate"},
         {"name": "Jozu","relationship": "Former Subordinate"},
@@ -8410,14 +8410,14 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 802",
     "race": "Human",
     "status": "Alive",
-    "description": "Self-proclaimed son of Whitebeard, son of Buckingham Stussy and former Warlord",
+    "description": "Self-proclaimed son of Barbe Blanche, son of Buckingham Stussy and former Warlord",
     "journey": [
       {"location":"Unknown island - fought A O", "region":"New World"},
       {"location":"Unknown island - fighting marines", "region":"New World"},
       {"location":"Sphinx","chapter":"Chapter 1073"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Father (supposedly)"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Father (supposedly)"},
         {"name": "Buckingham Stussy","relationship": "Mother"},
         {"name": "Aramaki [Ryokugyu]","relationship": "Captured by"},
         {"name": "Marco","relationship": "Enemy"}
@@ -8524,16 +8524,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Elmy",
     "image": "/images/characters/Elmy.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 551",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 551"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -8666,19 +8666,19 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Epoida",
     "image": "/images/characters/Epoida.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "devil_fruit": "Unnamed Caterpillar Zoan",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who was once a member of the Whitebeard Pirates, before forming his own crew subordinate to Whitebeard",
+    "description": "New World pirate who was once a member of the Équipage de Barbe Blanche, before forming his own crew subordinate to Barbe Blanche",
     "journey": [
       {"location":"Wano Country's Island"},
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Marineford","chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain, Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain, Served"}
     ]
   },
   {
@@ -8743,7 +8743,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Davy D. Xebec [Rocks]","relationship": "Husband"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Son"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Son"}
     ]
   },
   {
@@ -8783,7 +8783,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 233",
     "race": "Human",
     "status": "Alive",
-    "description": "World Noble and one of the Five Elders - <strong>Warrior God of Finance</strong>",
+    "description": "World Noble and one of the Five Elders - <strong>Dieu Guerrier of Finance</strong>",
     "journey": [
       {"location":"Mary Geoise"},
       {"location":"Egghead"},
@@ -8919,7 +8919,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Caesar Clown","relationship": "Former Boss"},
-        {"name": "Chadros Higelyges [Brownbeard]","relationship": "Former Superior"}
+        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
     ]
   },
   {
@@ -8929,7 +8929,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 1086",
     "race": "Human",
     "status": "Alive",
-    "description": "World Noble and one of the Five Elders - <strong>Warrior God of Science and Defense</strong> succeeding Saturn. Biological father of Shamrock and Shanks",
+    "description": "World Noble and one of the Five Elders - <strong>Dieu Guerrier of Science and Defense</strong> succeeding Saturn. Biological father of Shamrock and Shanks",
     "journey": [
       {"location":"God Valley"},
       {"location":"Mary Geoise"},
@@ -8953,13 +8953,13 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Figarland Shamrock",
     "image": "/images/characters/Figarland_Shamrock.webp",
-    "affiliation": "Knights of God",
+    "affiliation": "Chevaliers Divins",
     "origin": "West Blue (God Valley)",
     "age": 39,
     "first_appearance_arc": "Chapter 907",
     "race": "Human",
     "status": "Alive",
-    "description": "Commander of the Knights of God and World Noble son of Garling. Twin brother of Shanks",
+    "description": "Commander of the Chevaliers Divins and World Noble son of Garling. Twin brother of Shanks",
     "journey": [
       {"location":"God Valley"},
       {"location":"Mary Geoise"},
@@ -9009,7 +9009,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -9135,33 +9135,33 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Forliewbs",
     "image": "/images/characters/Forliewbs.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 566",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 566"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
     "name": "Fossa",
     "image": "/images/characters/Fossa.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "origin": "North Blue",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "Former 15th division commander of the Whitebeard Pirates",
+    "description": "Former 15th division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Wano Country's Island"},
       {"location":"Marineford", "chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"}
     ]
   },
   {
@@ -9559,7 +9559,7 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Fuza",
     "image": "/images/characters/Fuza.webp",
-    "affiliation": "God's Army (former)",
+    "affiliation": "Armée Divine (ancien)",
     "first_appearance_arc": "Chapter 241",
     "race": "Animal",
     "status": "Alive",
@@ -9861,7 +9861,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -9878,7 +9878,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Hachinosu"},
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Fish-Man Island"},
@@ -10060,14 +10060,14 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Genbo",
     "image": "/images/characters/Genbo.webp",
-    "affiliation": "God's Guards",
+    "affiliation": "Gardes Divins",
     "origin": "Sky Islands (Skypiea)",
     "height": 193,
     "age": 25,
     "first_appearance_arc": "Chapter 249",
     "race": "Moon people - Shandian",
     "status": "Alive",
-    "description": "One of the Shandia warriors who fought to take back Upper Yard from Enel. He later joined the God's Guards under Wyper",
+    "description": "One of the Shandia warriors who fought to take back Upper Yard from Enel. He later joined the Gardes Divins under Wyper",
     "journey": [
       {"location":"Skypiea","chapter":"Chapter 249"}
     ],
@@ -10560,7 +10560,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Gode",
     "image": "/images/characters/Gode.webp",
     "epithet": "Sage",
-    "affiliation": "God's Army (former)",
+    "affiliation": "Armée Divine (ancien)",
     "first_appearance_arc": "Chapter 254",
     "race": "Moon people - Birkan",
     "status": "Unknown",
@@ -10614,7 +10614,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - recovered in a hospital", "region":"New World"},
       {"location":"Reverse Mountain"},
       {"location":"Little Garden"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Fish-Man Island"},
@@ -10639,7 +10639,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Garp","relationship": "Former Rival"},
         {"name": "Shiki","relationship": "Former Rival"},
         {"name": "Davy D. Xebec [Rocks]","relationship": "Former Rival"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Rival"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Rival"},
         {"name": "Gan Fall","relationship": "Friend"},
         {"name": "Tom","relationship": "Friend"},
         {"name": "Kokoro","relationship": "Friend"},
@@ -10871,16 +10871,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Great Michael",
     "image": "/images/characters/Great_Michael.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 563",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 563"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -10994,11 +10994,11 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sorbet's Kingdom Island"},
       {"location":"Sabaody Archipelago"},
-      {"location":"Unknown island - defeated by Blackbeard","chapter":"Chapter 595", "region": "New World"}
+      {"location":"Unknown island - defeated by Barbe Noire","chapter":"Chapter 595", "region": "New World"}
     ],
     "relationships": [
         {"name": "Jewelry Bonney","relationship": "Captain"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Defeated by"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"},
         {"name": "Sakazuki [Akainu]","relationship": "Captured by"},
         {"name": "Potato","relationship": "Crewmate"},
         {"name": "Totts","relationship": "Crewmate"},
@@ -11280,16 +11280,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Hangan",
     "image": "/images/characters/Hangan.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 556",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 556"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -11348,7 +11348,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Saldeath","relationship": "Subordinate"},
         {"name": "Sadi","relationship": "Subordinate"},
         {"name": "Bentham (Bon Clay) [Mr. 2]","relationship": "Defeated by"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Defeated by"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"}
     ]
   },
   {
@@ -11386,16 +11386,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Happygun",
     "image": "/images/characters/Happygun.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 578",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 578"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -11419,7 +11419,7 @@ export const RAW_CHARACTERS: any[] = [
     "age": "144",
     "race": "Giant",
     "status": "Deceased",
-    "description": "Former king of Elbaph and member of the Knights of God. Father of Hajrudin and Loki. He was murdered by the latter 14 years ago while being under Imu's control",
+    "description": "Former king of Elbaph and member of the Chevaliers Divins. Father of Hajrudin and Loki. He was murdered by the latter 14 years ago while being under Imu's control",
     "journey": [
       {"location":"Elbaph Island"},
       {"location":"Unknown island - raiding a kingdom", "region":"New World"},
@@ -11501,17 +11501,17 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Haruta",
     "image": "/images/characters/Haruta.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "origin": "South Blue",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "Former 12th division commander of the Whitebeard Pirates",
+    "description": "Former 12th division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"}
     ]
   },
   {
@@ -12348,7 +12348,7 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Holy",
     "image": "/images/characters/Holy.webp",
-    "affiliation": "God's Army (former)",
+    "affiliation": "Armée Divine (ancien)",
     "first_appearance_arc": "Chapter 241",
     "race": "Animal",
     "status": "Alive",
@@ -12470,7 +12470,7 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Hotori",
     "image": "/images/characters/Hotori.webp",
-    "affiliation": "God's Army (former)",
+    "affiliation": "Armée Divine (ancien)",
     "haki": ["Observation"],
     "origin": "Sky Islands (Birka)",
     "height": 179,
@@ -12562,7 +12562,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -12650,7 +12650,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Caesar Clown","relationship": "Former Boss"},
-      {"name": "Chadros Higelyges [Brownbeard]","relationship": "Former Superior"}
+      {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
   ]
   },
   {
@@ -13185,17 +13185,17 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Islewan",
     "image": "/images/characters/Islewan.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who was once a member of the Whitebeard Pirates, before forming his own crew subordinate to Whitebeard",
+    "description": "New World pirate who was once a member of the Équipage de Barbe Blanche, before forming his own crew subordinate to Barbe Blanche",
     "journey": [
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Marineford","chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain, Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain, Served"}
     ]
   },
   {
@@ -13322,7 +13322,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Izou",
     "image": "/images/characters/Izou.webp",
     "image_pre": "/images/characters/Izou_Pre.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "haki": ["Observation","Armament"],
     "bounty": 510000000,
     "origin": "Grand Line (Wano Country)",
@@ -13331,9 +13331,9 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Deceased",
-    "description": "Former 16th division commander of the Whitebeard Pirates and prior to this, a retainer of Oden. Elder brother of Kikunojo. He died fighting Maha from CP0 in Wano",
+    "description": "Former 16th division commander of the Équipage de Barbe Blanche and prior to this, a retainer of Oden. Elder brother of Kikunojo. He died fighting Maha from CP0 in Wano",
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"},
         {"name": "Kouzuki Oden","relationship": "Served"},
         {"name": "Kinemon","relationship": "Ally"},
         {"name": "Denjiro","relationship": "Ally"},
@@ -13619,7 +13619,7 @@ export const RAW_CHARACTERS: any[] = [
     "age": "Over 200",
     "race": "Human",
     "status": "Deceased",
-    "description": "Was a World Noble, scientist and one of the Five Elders - <strong>Warrior God of Science and Defense</strong> until he died when his immortality was stripped from him by Imu",
+    "description": "Was a World Noble, scientist and one of the Five Elders - <strong>Dieu Guerrier of Science and Defense</strong> until he died when his immortality was stripped from him by Imu",
     "journey": [
       {"location":"Mary Geoise"},
       {"location":"God Valley"},
@@ -13779,7 +13779,7 @@ export const RAW_CHARACTERS: any[] = [
     "image": "/images/characters/Jesus_Burgess.webp",
     "image_pre": "/images/characters/Jesus_Burgess_Pre.webp",
     "epithet": "Champion",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": "Riki Riki no Mi",
     "haki": ["Observation","Armament"],
     "bounty": "At least 20,000,000",
@@ -13789,7 +13789,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 222",
     "race": "Human",
     "status": "Alive",
-    "description": "Helmsman and captain of the First Ship of the Blackbeard Pirates",
+    "description": "Helmsman and captain of the First Ship of the Équipage de Barbe Noire",
     "journey": [
       {"location":"Drum Island"},
       {"location":"Jaya"},
@@ -13805,8 +13805,8 @@ export const RAW_CHARACTERS: any[] = [
 
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Participated in killing"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Participated in killing"},
         {"name": "Sabo","relationship": "Enemy"}
     ]
   },
@@ -13841,7 +13841,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Vegapunk","relationship": "Friend"},
         {"name": "Sentomaru","relationship": "Friend"},
         {"name": "Bartholomew Kuma","relationship": "Adoptive Father"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captured by"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captured by"},
         {"name": "Ginny","relationship": "Mother"},
         {"name": "Jaygarcia Saturn","relationship": "Enemy"},
         {"name": "Alpha","relationship": "Enemy"},
@@ -13857,7 +13857,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Sorbet's Kingdom Island"},
       {"location":"Unknown island - almost met Kuma", "region":"South Blue"},
       {"location":"Sabaody Archipelago"},
-      {"location":"Unknown island - defeated by Blackbeard", "region":"New World"},
+      {"location":"Unknown island - defeated by Barbe Noire", "region":"New World"},
       {"location":"Marineford"},
       {"location":"Unknown island - reading newspaper", "region":"New World"},
       {"location":"Mary Geoise"},
@@ -13995,7 +13995,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Aladine","relationship": "Ally"},
         {"name": "Wadatsumi","relationship": "Ally"},
         {"name": "Charlotte Praline","relationship": "Ally"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Ally"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Ally"},
         {"name": "Portgas D. Ace","relationship": "Ally"},
         {"name": "Trafalgar D. Water Law","relationship": "Ally"},
         {"name": "Hody Jones","relationship": "Enemy"},
@@ -14040,7 +14040,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 1135",
     "race": "Giant",
     "status": "Alive",
-    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Knights of God",
+    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Chevaliers Divins",
     "journey": [
       {"location":"Elbaph Island","chapter":"Chapter 1135"}
     ],
@@ -14103,7 +14103,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Marineford", "chapter":"Chapter 96"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Defeated by"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Defeated by"},
         {"name": "Carmel","relationship": "Trafficked by"}
     ]
   },
@@ -14235,7 +14235,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Jozu",
     "image": "/images/characters/Jozu.webp",
     "epithet": "Diamond",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "devil_fruit": "Kira Kira no Mi",
     "haki": ["Observation","Armament"],
     "origin": "West Blue",
@@ -14244,16 +14244,16 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 234",
     "race": "Human",
     "status": "Alive",
-    "description": "Former 3rd division commander of the Whitebeard Pirates",
+    "description": "Former 3rd division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Wano Country's Island"},
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Fish-Man Island"},
       {"location":"Marineford"},
-      {"location":"Unknown island - attending Whitebeard's funeral","chapter":"Chapter 590", "region":"New World"}
+      {"location":"Unknown island - attending de Barbe Blanche funeral","chapter":"Chapter 590", "region":"New World"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"}
     ]
   },
   {
@@ -14318,16 +14318,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Julius",
     "image": "/images/characters/Julius.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 578",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 578"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -14479,7 +14479,7 @@ export const RAW_CHARACTERS: any[] = [
       {"name": "Yamato","relationship": "Son"},
       {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
       {"name": "Gol D. Roger","relationship": "Enemy"},
-      {"name": "Edward Newgate [Whitebeard]","relationship": "Enemy and Former Crewmate"},
+      {"name": "Edward Newgate [Barbe Blanche]","relationship": "Enemy and Former Crewmate"},
       {"name": "Shanks","relationship": "Enemy"},
       {"name": "X Drake","relationship": "Enemy"},
       {"name": "Scratchmen Apoo","relationship": "Subordinate"},
@@ -14697,14 +14697,14 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Kamakiri",
     "image": "/images/characters/Kamakiri.webp",
-    "affiliation": "God's Guards",
+    "affiliation": "Gardes Divins",
     "origin": "Sky Islands (Skypiea)",
     "height": 214,
     "age": 24,
     "first_appearance_arc": "Chapter 249",
     "race": "Moon people - Shandian",
     "status": "Alive",
-    "description": "One of the Shandia warriors who fought to take back Upper Yard from Enel. He later joined the God's Guards under Wyper",
+    "description": "One of the Shandia warriors who fought to take back Upper Yard from Enel. He later joined the Gardes Divins under Wyper",
     "journey": [
       {"location":"Skypiea","chapter":"Chapter 249"}
     ],
@@ -14847,7 +14847,7 @@ export const RAW_CHARACTERS: any[] = [
     "affiliation": "Walrus School",
     "race": "Giant",
     "status": "Alive",
-    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Knights of God",
+    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Chevaliers Divins",
     "journey": [
       {"location":"Elbaph Island","chapter":"Chapter 1134"}
     ],
@@ -14878,13 +14878,13 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 553",
     "race": "Fish-man",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates and captain of the Takotopus Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche and captain of the Takotopus Pirates",
     "journey": [
       {"location":"Unknown island - trying to capture Toki","region":"New World"},
       {"location":"Marineford","chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"},
         {"name": "Sarai","relationship": "Former Subordinate"}
     ]
   },
@@ -15160,16 +15160,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Kechatch",
     "image": "/images/characters/Kechatch.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -15333,16 +15333,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Kikipatsu",
     "image": "/images/characters/Kikipatsu.webp",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "first_appearance_arc": "Chapter 925",
     "race": "Human",
     "status": "Alive",
-    "description": "Member of the Blackbeard Pirates",
+    "description": "Member of the Équipage de Barbe Noire",
     "journey": [
       {"location":"Hachinosu","chapter":"Chapter 925"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"}
     ]
   },
   {
@@ -15461,7 +15461,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -15548,16 +15548,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Kinga",
     "image": "/images/characters/Kinga.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 570",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who was once a member of the Whitebeard Pirates, before forming his own crew subordinate to Whitebeard",
+    "description": "New World pirate who was once a member of the Équipage de Barbe Blanche, before forming his own crew subordinate to Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 570"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain, Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain, Served"}
     ]
   },
   {
@@ -15583,18 +15583,18 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Kingdew",
     "image": "/images/characters/Kingdew.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "origin": "Grand Line",
     "first_appearance_arc": "Chapter 562",
     "race": "Human",
     "status": "Alive",
-    "description": "11th division commander of the Whitebeard Pirates",
+    "description": "11th division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Wano Country's Island"},
       {"location":"Marineford", "chapter":"Chapter 562"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"}
     ]
   },
   {
@@ -15647,7 +15647,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Caesar Clown","relationship": "Former Boss"},
-      {"name": "Chadros Higelyges [Brownbeard]","relationship": "Former Superior"}
+      {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
   ]
   },
   {
@@ -15777,7 +15777,7 @@ export const RAW_CHARACTERS: any[] = [
       {"name": "Prince Grus","relationship": "Comrade"},
       {"name": "Kujaku","relationship": "Comrade"},
       {"name": "Hibari","relationship": "Comrade"},
-      {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy, Captured by"}
+      {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy, Captured by"}
   ]
   },
   {
@@ -15987,7 +15987,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -16009,7 +16009,7 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Kotori",
     "image": "/images/characters/Kotori.webp",
-    "affiliation": "God's Army (former)",
+    "affiliation": "Armée Divine (ancien)",
     "haki": ["Observation"],
     "origin": "Sky Islands (Birka)",
     "height": 179,
@@ -16149,7 +16149,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 920",
     "race": "Human",
     "status": "Deceased",
-    "description": "Was the daimyo of Kuri in Wano and leader of the legendary group of samurai known as Nine Red Scabbards. He was also a pirate serving as the 2nd division commander of the Whitebeard Pirates and later becoming a member of the Roger Pirates. He was executed by Orochi and Kaido",
+    "description": "Was the daimyo of Kuri in Wano and leader of the legendary group of samurai known as Nine Red Scabbards. He was also a pirate serving as the 2nd division commander of the Équipage de Barbe Blanche and later becoming a member of the Roger Pirates. He was executed by Orochi and Kaido",
     "journey": [
       {"location":"Wano Country's Island"},
       {"location":"Unknown island - met Toki", "region":"New World"},
@@ -16182,7 +16182,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Inuarashi","relationship": "Retainer"},
         {"name": "Nekomamushi","relationship": "Retainer"},
         {"name": "Kawamatsu","relationship": "Retainer"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"},
         {"name": "Gol D. Roger","relationship": "Former Captain"}
     ]
   },
@@ -16238,12 +16238,12 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 960",
     "race": "Animal",
     "status": "Unknown",
-    "description": "White boar and the child of the Mountain God that lived in the forests of Wano as late as 30 years ago",
+    "description": "White boar and the child of the Dieu de la Montagne that lived in the forests of Wano as late as 30 years ago",
     "journey": [
       {"location":"Wano Country's Island","chapter":"Chapter 960"}
     ],
     "relationships": [
-        {"name": "Mountain God","relationship": "Father"}
+        {"name": "Dieu de la Montagne","relationship": "Father"}
     ]
   },
   {
@@ -16356,7 +16356,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -16765,7 +16765,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Kuzan [Aokiji]",
     "image": "/images/characters/Kuzan.webp",
     "image_pre": "/images/characters/Kuzan_Pre.webp",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": "Hie Hie no Mi",
     "haki": ["Observation","Armament"],
     "origin": "South Blue (Vespa Kingdom)",
@@ -16774,7 +16774,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 303",
     "race": "Human",
     "status": "Alive",
-    "description": "Captain of the Tenth Ship of the Blackbeard Pirates and former Marine Admiral",
+    "description": "Captain of the Tenth Ship of the Équipage de Barbe Noire and former Marine Admiral",
     "journey": [
       {"location":"Vespa's Kingdom Island"},
       {"location":"Unknown island - ship graveyard","region":"Paradise"},
@@ -16785,7 +16785,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Water 7"},
       {"location":"Marineford"},
       {"location":"Punk Hazard"},
-      {"location":"Unknown island - met Blackbeard", "region":"New World"},
+      {"location":"Unknown island - met Barbe Noire", "region":"New World"},
       {"location":"Punk Hazard"},
       {"location":"Unknown island - cooking with Camel", "region":"New World"},
       {"location":"Totto Land"},
@@ -16796,7 +16796,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Jaguar D. Saul","relationship": "Former Friend"},
         {"name": "Sakazuki [Akainu]","relationship": "Enemy, Former Colleague"},
         {"name": "Camel","relationship": "Former Partner"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
         {"name": "Borsalino [Kizaru]","relationship": "Former Colleague"},
         {"name": "Nico Robin","relationship": "Respects"},
         {"name": "Monkey D. Luffy","relationship": "Respects"},
@@ -16964,7 +16964,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Laffitte",
     "image": "/images/characters/Laffitte.webp",
     "epithet": "Demon Sheriff",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": "Unnamed Wings Devil Fruit",
     "bounty": "At least 42,200,000",
     "origin": "West Blue",
@@ -16973,7 +16973,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 234",
     "race": "Human",
     "status": "Alive",
-    "description": "Navigator, chief of staff and captain of the 5th ship of Blackbeard Pirates. Former West Blue policeman known for countless acts of police brutality",
+    "description": "Navigator, chief of staff and captain of the 5th ship of Équipage de Barbe Noire. Former West Blue policeman known for countless acts of police brutality",
     "journey": [
       {"location":"Drum Island"},
       {"location":"Mary Geoise"},
@@ -16987,8 +16987,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - Umit Shipping HQ", "Chapter": "Chapter 1126", "region":"New World"}
     ],
     "relationships": [
-      {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"},
-      {"name": "Edward Newgate [Whitebeard]","relationship": "Participated in killing"}
+      {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
+      {"name": "Edward Newgate [Barbe Blanche]","relationship": "Participated in killing"}
   ]
   },
   {
@@ -17109,7 +17109,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -17282,13 +17282,13 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 554",
     "race": "Ancient Giant",
     "status": "Unknown",
-    "description": "New World pirate who allied with Whitebeard Pirates and captain of the Little Pirates. Descendant of Oars",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche and captain of the Little Pirates. Descendant of Oars",
     "journey": [
       {"location":"Unknown island - Ace gave him kasa hat", "region":"New World"},
       {"location":"Marineford", "chapter":"Chapter 554"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"},
         {"name": "Portgas D. Ace","relationship": "Friend"},
         {"name": "Oars","relationship": "Ancestor"}
     ]
@@ -17441,7 +17441,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - met Mihawk", "region":"New World"},
       {"location":"Yukiryu Island"},
       {"location":"Marineford"},
-      {"location":"Unknown island - attending Whitebeard's funeral", "region":"New World"},
+      {"location":"Unknown island - attending de Barbe Blanche funeral", "region":"New World"},
       {"location":"Wano Country's Island"},
       {"location":"Sphinx"},
       {"location":"Elbaph Island"},
@@ -17569,7 +17569,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 1134",
     "race": "Giant",
     "status": "Alive",
-    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Knights of God",
+    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Chevaliers Divins",
     "journey": [
       {"location":"Elbaph Island","chapter":"Chapter 1134"}
     ],
@@ -17613,7 +17613,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Hannyabal","relationship": "Superior, Former Subordinate"},
         {"name": "Shiryu","relationship": "Enemy, Former Subordinate"},
         {"name": "Monkey D. Luffy","relationship": "Enemy"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"}
     ]
   },
   {
@@ -17699,16 +17699,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Maki",
     "image": "/images/characters/Maki.webp",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "first_appearance_arc": "Chapter 925",
     "race": "Human",
     "status": "Alive",
-    "description": "Member of the Blackbeard Pirates",
+    "description": "Member of the Équipage de Barbe Noire",
     "journey": [
       {"location":"Hachinosu","chapter":"Chapter 925"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"}
     ]
   },
   {
@@ -17842,7 +17842,7 @@ export const RAW_CHARACTERS: any[] = [
     "image": "/images/characters/Marco.webp",
     "image_pre": "/images/characters/Marco_Pre.webp",
     "epithet": "the Phoenix",
-    "affiliation": "Whitebeard Pirates (former)",
+    "affiliation": "Équipage de Barbe Blanche (former)",
     "devil_fruit": "Tori Tori no Mi, Model: Phoenix",
     "haki": ["Observation","Armament"],
     "bounty": 1374000000,
@@ -17852,13 +17852,13 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 234",
     "race": "Human",
     "status": "Alive",
-    "description": "Former 1st division commander of the Whitebeard Pirates. He later worked as a doctor in Sphinx, permanently retiring from piracy",
+    "description": "Former 1st division commander of the Équipage de Barbe Blanche. He later worked as a doctor in Sphinx, permanently retiring from piracy",
     "journey": [
       {"location":"Wano Country's Island"},
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Fish-Man Island"},
       {"location":"Marineford"},
-      {"location":"Unknown island - attending Whitebeard's funeral", "region":"New World"},
+      {"location":"Unknown island - attending de Barbe Blanche funeral", "region":"New World"},
       {"location":"Sphinx"},
       {"location":"Wano Country's Island"},
       {"location":"Sphinx", "chapter":"Chapter 1059"}
@@ -17867,10 +17867,10 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Luffy","relationship": "Ally"},
         {"name": "Shanks","relationship": "Ally"},
         {"name": "Nekomamushi","relationship": "Ally"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
         {"name": "Kaidou","relationship": "Enemy"},
         {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"},
         {"name": "Portgas D. Ace","relationship": "Former Crewmate"}
     ]
   },
@@ -17882,7 +17882,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 233",
     "race": "Human",
     "status": "Alive",
-    "description": "World Noble and one of the Five Elders - <strong>Warrior God of Environment</strong>",
+    "description": "World Noble and one of the Five Elders - <strong>Dieu Guerrier of Environment</strong>",
     "journey": [
       {"location":"Mary Geoise"},
       {"location":"Egghead"},
@@ -18072,10 +18072,10 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Marshall D. Teach [Blackbeard]",
+    "name": "Marshall D. Teach [Barbe Noire]",
     "image": "/images/characters/Teach.webp",
     "image_pre": "/images/characters/Teach_Pre.webp",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": ["Yami Yami no Mi"," Gura Gura No Mi"],
     "haki": ["Observation","Armament"],
     "bounty": 3996000000,
@@ -18085,11 +18085,11 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 223",
     "race": "Human",
     "status": "Alive",
-    "description": "Captain of the Blackbeard Pirates and one of the Four Emperors. Member of the Davy clan and son of Davy D. Xebec. Only person in history to wield the power of 2 Devil Fruits. Former member of the 2nd division of the Whitebeard Pirates",
+    "description": "Captain of the Équipage de Barbe Noire and one of the Four Emperors. Member of the Davy clan and son of Davy D. Xebec. Only person in history to wield the power of 2 Devil Fruits. Former member of the 2nd division of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Shade's Port Island"},
       {"location":"God Valley"},
-      {"location":"Unknown island - met Whitebeard", "region":"Paradise"},
+      {"location":"Unknown island - met Barbe Blanche", "region":"Paradise"},
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Fish-Man Island"},
       {"location":"Drum Island"},
@@ -18125,7 +18125,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Davy D. Xebec [Rocks]","relationship": "Father"},
         {"name": "Eris","relationship": "Mother"},
         {"name": "Shanks","relationship": "Enemy"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Enemy, Killed"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Enemy, Killed"},
         {"name": "Magellan","relationship": "Enemy"},
         {"name": "Shanks","relationship": "Enemy"},
         {"name": "Thatch","relationship": "Killed"},
@@ -18223,7 +18223,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Sabaody Archipelago"},
       {"location":"Fish-Man Island"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"},
@@ -18445,16 +18445,16 @@ export const RAW_CHARACTERS: any[] = [
     "name": "McGuy",
     "image": "/images/characters/Mcguy.webp",
     "epithet": "Thunder Lord",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 551",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 551"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -18465,7 +18465,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 241",
     "race": "Moon people - Skypiean",
     "status": "Alive",
-    "description": "Member of the God's Guards, previously known as the White Berets",
+    "description": "Member of the Gardes Divins, previously known as the White Berets",
     "journey": [
       {"location":"Skypiea","chapter":"Chapter 241"}
     ],
@@ -18613,7 +18613,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -18711,7 +18711,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "He was the torturer of the Roger pirates until the crew's dissolution",
     "journey": [
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Fish-Man Island"},
@@ -19262,7 +19262,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Koda","relationship": "Mother"},
         {"name": "Kyuji","relationship": "Father"},
-        {"name": "Peachbeard","relationship": "Defeated"},
+        {"name": "Barbe Rose","relationship": "Defeated"},
         {"name": "Monkey D. Dragon","relationship": "Supreme Commander"},
         {"name": "Sabo","relationship": "Chief of Staff"},
         {"name": "Portgas D. Ace","relationship": "Friend"}
@@ -19517,11 +19517,11 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Curly Dadan","relationship": "Friend"},
         {"name": "Portgas D. Ace","relationship": "Friend"},
         {"name": "Gol D. Roger","relationship": "Rival"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Rival"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Rival"},
         {"name": "Chinjao","relationship": "Rival"},
         {"name": "Davy D. Xebec [Rocks]","relationship": "Rival"},
         {"name": "Kuzan [Aokiji]","relationship": "Former Student, Rival"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captured by, Enemy"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captured by, Enemy"}
     ]
   },
   {
@@ -19646,14 +19646,14 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Marguerite","relationship": "Friend"},
         {"name": "Caribou","relationship": "Enemy"},
         {"name": "Vander Decken IX","relationship": "Enemy"},
-        {"name": "Chadros Higelyges [Brownbeard]","relationship": "Ally"},
+        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Ally"},
         {"name": "Shanks","relationship": "Friend"},
         {"name": "Benn Beckman","relationship": "Friend"},
         {"name": "Yasopp","relationship": "Friend"},
         {"name": "Uta","relationship": "Friend"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Ally"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Ally"},
         {"name": "Marco","relationship": "Ally"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
         {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"},
         {"name": "Charlotte Pudding","relationship": "Ally"},
         {"name": "Shepherd Ju Peter","relationship": "Enemy"},
@@ -19820,7 +19820,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "He was the tactical officer of the Roger pirates until the crew's dissolution",
     "journey": [
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Fish-Man Island"},
@@ -20046,7 +20046,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Mountain God",
+    "name": "Dieu de la Montagne",
     "image": "/images/characters/Mountain_God.webp",
     "affiliation": "Kouzuki Family",
     "first_appearance_arc": "Chapter 960",
@@ -20364,7 +20364,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "He was a member of the Roger pirates until the crew's dissolution",
     "journey": [
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Fish-Man Island"},
       {"location":"Laugh Tale"},
       {"location":"Wano Country's Island", "chapter":"Chapter 968"}
@@ -20631,17 +20631,17 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Namur",
     "image": "/images/characters/Namur.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "origin": "Grand Line",
     "first_appearance_arc": "Chapter 552",
     "race": "Fish-man",
     "status": "Alive",
-    "description": "8th division commander of the Whitebeard Pirates",
+    "description": "8th division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 552"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Forme Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Forme Captain"}
     ]
   },
   {
@@ -20754,7 +20754,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "Marine Vice Admiral and the head of a Marine Headquarters division in charge of assigning epithets to Marines, including the Admiral aliases"
   },
   {
-    "name": "Needle God",
+    "name": "Dieu Aiguille",
     "image": "/images/characters/Needle_God.webp",
     "first_appearance_arc": "Chapter 1127",
     "race": "Animal",
@@ -20905,7 +20905,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 809",
     "race": "Mink",
     "status": "Alive",
-    "description": "Former guardian of the Whale Forest on Zou and Ruler of the Night. He and Inuarashi serve as retainers for the Kouzuki Family of Wano Country, as members of the Nine Red Scabbards. Former member of the Whitebeard pirates and Roger Pirates. Currently overseeing the Flower Capital as the underworld's boss, assisting Momonosuke",
+    "description": "Former guardian of the Whale Forest on Zou and Ruler of the Night. He and Inuarashi serve as retainers for the Kouzuki Family of Wano Country, as members of the Nine Red Scabbards. Former member of the pirates de Barbe Blanche and Roger Pirates. Currently overseeing the Flower Capital as the underworld's boss, assisting Momonosuke",
     "journey": [
       {"location":"Zou"},
       {"location":"Wano Country's Island"},
@@ -20977,7 +20977,7 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Neptune",
     "image": "/images/characters/Neptune.webp",
-    "epithet": "God of the Sea",
+    "epithet": "Dieu de la Mer",
     "affiliation": "Ryugu Kingdom",
     "origin": "Grand Line (Ryugu Kingdom)",
     "height": 1220,
@@ -20994,7 +20994,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Harald","relationship": "Friend"},
         {"name": "Gol D. Roger","relationship": "Friend"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Friend"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Friend"},
         {"name": "Otohime","relationship": "Wife"},
         {"name": "Shirahoshi","relationship": "Daughter"},
         {"name": "Fukaboshi","relationship": "Son"},
@@ -21068,7 +21068,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Davy D. Xebec [Rocks]","relationship": "Enemy"},
         {"name": "Davy D. Jones","relationship": "Enemy"},
         {"name": "Monkey D. Luffy","relationship": "Enemy"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
         {"name": "Joy Boy","relationship": "Enemy, Former Friend"},
         {"name": "Nefertari Vivi","relationship": "Enemy"},
         {"name": "Nefertari Cobra","relationship": "Enemy"},
@@ -21252,13 +21252,13 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Nika [Sun God]",
+    "name": "Nika [Dieu du Soleil]",
     "image": "/images/characters/Nika.webp",
     "epithet": "Warrior of Liberation",
     "first_appearance_arc": "Chapter 1018 (silhouette)",
     "race": "Human",
     "status": "Unknown",
-    "description": "Legendary warrior known as the <strong>Sun God</strong> by the slaves from ancient times and those existence is tied to Elbaph mythology"
+    "description": "Legendary warrior known as the <strong>Dieu du Soleil</strong> by the slaves from ancient times and those existence is tied to Elbaph mythology"
   },
   {
     "name": "Nin",
@@ -21307,16 +21307,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Ninth",
     "image": "/images/characters/Ninth.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 558",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 558"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -21492,16 +21492,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Nosgarl",
     "image": "/images/characters/Nosgarl.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 579",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 579"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -21620,7 +21620,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain, Betrayed (supposedly)"},
         {"name": "Shakuyaku [Shakky]","relationship": "Betrayed (supposedly)"},
         {"name": "Marlon","relationship": "Killed (supposedly)"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Defeated by"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"},
         {"name": "Koby","relationship": "Defeated by"}
     ]
   },
@@ -21640,7 +21640,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Ohm",
     "image": "/images/characters/Ohm.webp",
     "epithet": "Sky Breeder",
-    "affiliation": "God's Army (former)",
+    "affiliation": "Armée Divine (ancien)",
     "haki": ["Observation"],
     "origin": "Sky Islands (Birka)",
     "height": 189,
@@ -21755,7 +21755,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 1134",
     "race": "Giant",
     "status": "Alive",
-    "description": "Giant kid from Elbaph that attends the Walrus School. Oimo's grandson and one of the 10 kids that were kidnapped by the Knights of God",
+    "description": "Giant kid from Elbaph that attends the Walrus School. Oimo's grandson and one of the 10 kids that were kidnapped by the Chevaliers Divins",
     "journey": [
       {"location":"Elbaph Island","chapter":"Chapter 1134"}
     ],
@@ -21798,17 +21798,17 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Oliva",
     "image": "/images/characters/Oliva.webp",
-    "affiliation": "Whitebeard Pirates (former)",
+    "affiliation": "Équipage de Barbe Blanche (former)",
     "first_appearance_arc": "One Piece novel A - Vol. 2",
     "race": "Human",
     "status": "Alive",
-    "description": "Former boss of Port Chibaralta Island, which was part of Whitebeard's territory. However, he was deposed by Portgas D. Ace due to partaking in the slave trade",
+    "description": "Former boss of Port Chibaralta Island, which was part of de Barbe Blanche territory. However, he was deposed by Portgas D. Ace due to partaking in the slave trade",
     "journey": [
       {"location":"Port Chibaralta Island","chapter":"One Piece novel A - Vol. 2"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Deposed by"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -21927,7 +21927,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -22067,16 +22067,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Palms",
     "image": "/images/characters/Palms.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -22187,11 +22187,11 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sorbet's Kingdom Island"},
       {"location":"Sabaody Archipelago"},
-      {"location":"Unknown island - defeated by Blackbeard","chapter":"Chapter 595", "region": "New World"}
+      {"location":"Unknown island - defeated by Barbe Noire","chapter":"Chapter 595", "region": "New World"}
     ],
     "relationships": [
         {"name": "Jewelry Bonney","relationship": "Captain"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Defeated by"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"},
         {"name": "Sakazuki [Akainu]","relationship": "Captured by"},
         {"name": "Potato","relationship": "Crewmate"},
         {"name": "Totts","relationship": "Crewmate"},
@@ -22272,31 +22272,31 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Pavlik",
     "image": "/images/characters/Pavlik.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
-    "name": "Peachbeard",
+    "name": "Barbe Rose",
     "image": "/images/characters/Peachbeard.webp",
-    "affiliation": "Peachbeard Pirates",
+    "affiliation": "Barbe Rose Pirates",
     "first_appearance_arc": "Chapter 904",
     "race": "Human",
     "status": "Alive",
-    "description": "Captain of the Peachbeard Pirates who are subordinates of Blackbeard",
+    "description": "Captain of the Barbe Rose Pirates who are subordinates of Barbe Noire",
     "journey": [
       {"location":"Lulusia's Kingdom Island","chapter":"Chapter 904"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Serving"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Serving"},
         {"name": "Moda","relationship": "Defeated by"}
     ]
   },
@@ -22579,7 +22579,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "He was the gunner of the Roger pirates until the crew's dissolution",
     "journey": [
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Fish-Man Island"},
@@ -22780,11 +22780,11 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Polo Gram",
     "image": "/images/characters/Graham.webp",
-    "affiliation": "Whitebeard Pirates (former)",
+    "affiliation": "Équipage de Barbe Blanche (former)",
     "first_appearance_arc": "Chapter 1162",
     "race": "Human",
     "status": "Unknown",
-    "description": "Former captain of the Polo Pirates and first mate of the Whitebeard Pirates",
+    "description": "Former captain of the Polo Pirates and first mate of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"God Valley","chapter":"Chapter 1162"}
     ]
@@ -22925,7 +22925,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Portgas D. Ace",
     "image": "/images/characters/Portgas_D._Ace.webp",
     "epithet": "Fire Fist",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "devil_fruit": "Mera Mera no Mi",
     "haki": ["Conquerors","Observation","Armament"],
     "bounty": 550000000,
@@ -22935,7 +22935,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 154",
     "race": "Human",
     "status": "Deceased",
-    "description": "Was the captain of the Spade Pirates before being recruited into the Whitebeard Pirates as the 2nd division commander. Son of Gol D. Roger and Portgas D. Rouge. Sworn brother of Luffy and Sabo",
+    "description": "Was the captain of the Spade Pirates before being recruited into the Équipage de Barbe Blanche as the 2nd division commander. Son of Gol D. Roger and Portgas D. Rouge. Sworn brother of Luffy and Sabo",
     "journey": [
       {"location":"Baterilla"},
       {"location":"Dawn Island"},
@@ -22959,9 +22959,9 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Mihar","relationship": "Former Subordinate"},
         {"name": "Monkey D. Luffy","relationship": "Sworn Brother"},
         {"name": "Sabo","relationship": "Sworn Brother"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"},
         {"name": "Marco","relationship": "Former Crewmate"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
         {"name": "Sakazuki [Akainu]","relationship": "Enemy"},
         {"name": "Gol D. Roger","relationship": "Father"},
         {"name": "Portgas D. Rouge","relationship": "Mother"},
@@ -23003,11 +23003,11 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sorbet's Kingdom Island"},
       {"location":"Sabaody Archipelago"},
-      {"location":"Unknown island - defeated by Blackbeard","chapter":"Chapter 595", "region": "New World"}
+      {"location":"Unknown island - defeated by Barbe Noire","chapter":"Chapter 595", "region": "New World"}
     ],
     "relationships": [
         {"name": "Jewelry Bonney","relationship": "Captain"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Defeated by"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"},
         {"name": "Sakazuki [Akainu]","relationship": "Captured by"},
         {"name": "Gyogyo","relationship": "Crewmate"},
         {"name": "Totts","relationship": "Crewmate"},
@@ -23280,12 +23280,12 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "One Piece novel A - Vol. 2",
     "race": "Human",
     "status": "Unknown",
-    "description": "Pirate captain previously active in the West Blue until he was defeated by the Whitebeard Pirates",
+    "description": "Pirate captain previously active in the West Blue until he was defeated by the Équipage de Barbe Blanche",
     "journey": [
-      {"location":"Unknown island - defeated by Blackbeard","chapter":"One Piece novel A - Vol. 2", "region":"Paradise"}
+      {"location":"Unknown island - defeated by Barbe Noire","chapter":"One Piece novel A - Vol. 2", "region":"Paradise"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Defeated by"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"}
     ]
   },
   {
@@ -23303,7 +23303,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Loki","relationship": "Owner"},
         {"name": "Nerona Imu","relationship": "Enemy"},
-        {"name": "Warrior God","relationship": "Former Owner"}
+        {"name": "Dieu Guerrier","relationship": "Former Owner"}
     ]
   },
   {
@@ -23437,34 +23437,34 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Rakuyo",
     "image": "/images/characters/Rakuyo.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "origin": "South Blue",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "7th division commander of the Whitebeard Pirates",
+    "description": "7th division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Wano Country's Island"},
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Marineford", "chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"}
     ]
   },
   {
     "name": "Ramba",
     "image": "/images/characters/Ramba.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 551",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate captain who allied with Whitebeard Pirates",
+    "description": "New World pirate captain who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 551"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -23543,7 +23543,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "He was a member of the Roger pirates until the crew's dissolution",
     "journey": [
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Zou", "chapter": "Chapter 967"}
     ],
     "relationships": [
@@ -23553,14 +23553,14 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Ratatoskr",
     "image": "/images/characters/Ratatoskr.webp",
-    "affiliation": "Warrior God",
+    "affiliation": "Dieu Guerrier",
     "first_appearance_arc": "Chapter 1175",
     "race": "Animal",
     "status": "Unknown",
-    "description": "Ice squirrel who was the companion of the Warrior God many centuries ago. It is said to live on in the Warrior God's hammer Ragnir, which can transform into a similar-looking creature",
+    "description": "Ice squirrel who was the companion of the Dieu Guerrier many centuries ago. It is said to live on in the Dieu Guerrier's hammer Ragnir, which can transform into a similar-looking creature",
     "relationships": [
-        {"name": "Warrior God","relationship": "Former Partner"},
-        {"name": "Nika [Sun God]","relationship": "Enemy"}
+        {"name": "Dieu Guerrier","relationship": "Former Partner"},
+        {"name": "Nika [Dieu du Soleil]","relationship": "Enemy"}
     ]
   },
   {
@@ -23683,16 +23683,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Reforte",
     "image": "/images/characters/Reforte.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 556",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 556"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -23806,12 +23806,12 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Rimoshifu Killingham",
     "image": "/images/characters/Rimoshifu_Killingham.webp",
-    "affiliation": "Knights of God",
+    "affiliation": "Chevaliers Divins",
     "devil_fruit": "Ryu Ryu no Mi, Model: Qilin (Awakened)",
     "first_appearance_arc": "Chapter 1140",
     "race": "Human",
     "status": "Alive",
-    "description": "Member of the Knights of God and World Noble",
+    "description": "Member of the Chevaliers Divins and World Noble",
     "journey": [
       {"location":"Elbaph Island","chapter":"Chapter 1140"}
     ],
@@ -23824,7 +23824,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Luffy","relationship": "Enemy"},
         {"name": "Loki","relationship": "Enemy"},
         {"name": "Jarul","relationship": "Enemy"},
-        {"name": "Zaza [Rain God]","relationship": "Scared by"}
+        {"name": "Zaza [Dieu de la Pluie]","relationship": "Scared by"}
     ]
   },
   {
@@ -23973,7 +23973,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 898 (cover)",
     "race": "Giant",
     "status": "Alive",
-    "description": "Member of the New Giant Warrior Pirates and the navigator of the crew. Formerly an S-Class ranked mercenary for Buggy's Delivery. He rules over a personal diorama full of entrapped humans as its Sun God. Bjorn's older brother",
+    "description": "Member of the New Giant Warrior Pirates and the navigator of the crew. Formerly an S-Class ranked mercenary for Buggy's Delivery. He rules over a personal diorama full of entrapped humans as its Dieu du Soleil. Bjorn's older brother",
     "journey": [
       {"location":"Elbaph Island"},
       {"location":"Karai Bari Island"},
@@ -24210,7 +24210,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 1134",
     "race": "Giant",
     "status": "Alive",
-    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Knights of God",
+    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Chevaliers Divins",
     "journey": [
       {"location":"Elbaph Island","chapter":"Chapter 1134"}
     ],
@@ -24534,22 +24534,22 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Caesar Clown","relationship": "Former Boss"},
-        {"name": "Chadros Higelyges [Brownbeard]","relationship": "Former Superior"}
+        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
     ]
   },
   {
     "name": "Rush",
     "image": "/images/characters/Rush.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 558",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate captain who allied with Whitebeard Pirates",
+    "description": "New World pirate captain who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 558"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -24643,7 +24643,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -25015,7 +25015,7 @@ export const RAW_CHARACTERS: any[] = [
     "image": "/images/characters/Sanjuan_Wolf.webp",
     "epithet": "Colossal Battleship",
     "image_pre": "/images/characters/Sanjuan_Wolf_Pre.webp",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": "Deka Deka no Mi",
     "origin": "West Blue",
     "height": 18000,
@@ -25034,8 +25034,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Hachinosu","chapter":"Chapter 1080"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Participated in killing"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Participated in killing"}
     ] 
   },
   {
@@ -25229,11 +25229,11 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Satchels Maffey",
     "image": "/images/characters/Satchels_Maffey.webp",
-    "affiliation": "Knights of God",
+    "affiliation": "Chevaliers Divins",
     "first_appearance_arc": "Chapter 1160",
     "race": "Human",
     "status": "Unknown",
-    "description": "Member of the Knights of God and World Noble. She was present at God Valley Incident",
+    "description": "Member of the Chevaliers Divins and World Noble. She was present at God Valley Incident",
     "journey": [
       {"location":"God Valley","chapter":"Chapter 1160"}
     ],
@@ -25248,7 +25248,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Satori",
     "image": "/images/characters/Satori.webp",
     "epithet": "of the Forest",
-    "affiliation": "God's Army (former)",
+    "affiliation": "Armée Divine (ancien)",
     "haki": ["Observation"],
     "origin": "Sky Islands (Birka)",
     "height": 179,
@@ -25406,7 +25406,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"God Valley"},
       {"location":"Unknown island - defending Roger in a mountain hospital", "region":"Paradise"},
       {"location":"Little Garden"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Sabaody Archipelago"},
@@ -25541,7 +25541,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Hachinosu"},
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Fish-Man Island"},
@@ -25645,9 +25645,9 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Helmeppo","relationship": "Subordinate"},
         {"name": "Donquixote Rosinante","relationship": "Recruited, Raised"},
         {"name": "X Drake","relationship": "Recruited"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Rival"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Rival"},
         {"name": "Gol D. Roger","relationship": "Rival"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
         {"name": "Shiki","relationship": "Enemy, Defeated"},
         {"name": "Monkey D. Luffy","relationship": "Respects"},
         {"name": "Shanks","relationship": "Respects"},
@@ -25900,7 +25900,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"God Valley"},
       {"location":"Little Garden"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Tequila Wolf"},
@@ -25922,7 +25922,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - meeting with Mihawk", "region":"New World"},
       {"location":"Yukiryu Island"},
       {"location":"Marineford"},
-      {"location":"Unknown island - attending Whitebeard's funeral", "region":"New World"},
+      {"location":"Unknown island - attending de Barbe Blanche funeral", "region":"New World"},
       {"location":"Unknown island - attending a wedding", "region":"New World"},
       {"location":"Wano Country's Island"},
       {"location":"Sphinx"},
@@ -25957,10 +25957,10 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Buggy","relationship": "Rival, Former Crewmate"},
         {"name": "Dracule Mihawk","relationship": "Rival"},
         {"name": "Monkey D. Luffy","relationship": "Friend, Inspired"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
         {"name": "Higuma","relationship": "Defeated, Enemy"},
         {"name": "Eustass Kid","relationship": "Defeated, Enemy"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Rival"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Rival"}
     ]
   },
   {
@@ -26021,7 +26021,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 233",
     "race": "Human",
     "status": "Alive",
-    "description": "World Noble and one of the Five Elders - <strong>Warrior God of Agriculture</strong>",
+    "description": "World Noble and one of the Five Elders - <strong>Dieu Guerrier of Agriculture</strong>",
     "journey": [
       {"location":"Mary Geoise"},
       {"location":"Egghead"},
@@ -26041,12 +26041,12 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Shepherd Sommers",
     "image": "/images/characters/Shepherd_Sommers.webp",
-    "affiliation": "Knights of God",
+    "affiliation": "Chevaliers Divins",
     "devil_fruit": "Iba Iba no Mi",
     "first_appearance_arc": "Chapter 1140",
     "race": "Human",
     "status": "Alive",
-    "description": "Member of the Knights of God and World Noble",
+    "description": "Member of the Chevaliers Divins and World Noble",
     "journey": [
       {"location":"God Valley"},
       {"location":"Mary Geoise"},
@@ -26090,7 +26090,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
         {"name": "Kyo [Silver Axe]","relationship": "Rival"},
         {"name": "Indigo","relationship": "Subordinate"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Respects"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Respects"},
         {"name": "Gol D. Roger","relationship": "Respects"},
         {"name": "Monkey D. Garp","relationship": "Defeated by"},
         {"name": "Sengoku","relationship": "Defeated by"}
@@ -26422,7 +26422,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Shiryu",
     "image": "/images/characters/Shiryu.webp",
     "epithet": "of the Rain",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": "Suke Suke no Mi",
     "haki": ["Armament"],
     "origin": "Grand Line",
@@ -26431,7 +26431,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 538",
     "race": "Human",
     "status": "Alive",
-    "description": "Captain of the 2nd ship of Blackbeard Pirates and former Head Jailer of Impel Down who had himself been imprisoned on Level 6 death row for his excessive, murderous violence against prisoners",
+    "description": "Captain of the 2nd ship of Équipage de Barbe Noire and former Head Jailer of Impel Down who had himself been imprisoned on Level 6 death row for his excessive, murderous violence against prisoners",
     "journey": [
       {"location":"Impel Down"},
       {"location":"Marineford"},
@@ -26443,9 +26443,9 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Hachinosu","chapter":"Chapter 925"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
         {"name": "Magellan","relationship": "Former Superior"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Participated in killing"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Participated in killing"}
     ]
   },
   {
@@ -26515,7 +26515,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Shura",
     "image": "/images/characters/Shura.webp",
     "epithet": "Sky Rider",
-    "affiliation": "God's Army (former)",
+    "affiliation": "Armée Divine (ancien)",
     "haki": ["Observation"],
     "origin": "Sky Islands (Birka)",
     "height": 191,
@@ -26544,14 +26544,14 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Shuri [Gunko]",
     "image": "/images/characters/Gunko.webp",
     "epithet": "Father-Killing Princess",
-    "affiliation": "Knights of God",
+    "affiliation": "Chevaliers Divins",
     "devil_fruit": "Aro Aro no Mi",
     "origin": "West Blue (Esperia Kingdom)",
     "first_appearance_arc": "Chapter 1134",
     "age": 77,
     "race": "Human",
     "status": "Alive",
-    "description": "Member of the Knights of God and adopted World Noble. Former princess of Esperia kingdom where she acquainted with Brook and seemingly killed her own father, although her memories of the past are repressed by Imu",
+    "description": "Member of the Chevaliers Divins and adopted World Noble. Former princess of Esperia kingdom where she acquainted with Brook and seemingly killed her own father, although her memories of the past are repressed by Imu",
     "journey": [
       {"location":"Esperia's Kingdom Island"},
       {"location":"Mary Geoise"},
@@ -26646,7 +26646,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - met Roger", "region":"East Blue"},
       {"location":"Hachinosu"},
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Sabaody Archipelago"},
@@ -26672,7 +26672,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Boa Hancock","relationship": "Ally"},
         {"name": "Gloriosa","relationship": "Ally"},
         {"name": "Hatchan","relationship": "Ally"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"}
     ]
   },
   {
@@ -26700,7 +26700,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 1134",
     "race": "Giant",
     "status": "Alive",
-    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Knights of God",
+    "description": "Giant kid from Elbaph that attends the Walrus School. One of the 10 kids that were kidnapped by the Chevaliers Divins",
     "journey": [
       {"location":"Elbaph Island","chapter":"Chapter 1134"}
     ],
@@ -26735,7 +26735,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","region":"New World"},
+      {"location":"Unknown island - fighting Barbe Blanche","region":"New World"},
       {"location":"Marineford","chapter":"Chapter 553"}
     ],
     "relationships": [
@@ -26745,16 +26745,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Sleepy",
     "image": "/images/characters/Sleepy.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "One Piece Green: Secret Pieces (sketch)",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate captain who allied with Whitebeard Pirates",
+    "description": "New World pirate captain who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -26826,7 +26826,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Caesar Clown","relationship": "Former Boss"},
-        {"name": "Chadros Higelyges [Brownbeard]","relationship": "Former Superior"}
+        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
     ]
   },
   {
@@ -27096,17 +27096,17 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Speed Jiru",
     "image": "/images/characters/Speed_Jiru.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "origin": "East Blue",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "Former 14th division commander of the Whitebeard Pirates",
+    "description": "Former 14th division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"}
     ]
   },
   {
@@ -27200,12 +27200,12 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 551",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate who allied with Whitebeard Pirates and captain of the Maelstrom Spider Pirates",
+    "description": "New World pirate who allied with Équipage de Barbe Blanche and captain of the Maelstrom Spider Pirates",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 551"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"},
         {"name": "Gol D. Roger","relationship": "Enemy"}
     ]
   },
@@ -27407,7 +27407,7 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Stronger",
     "image": "/images/characters/Stronger.webp",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": "Uma Uma no Mi, Model: Pegasus",
     "first_appearance_arc": "Chapter 223",
     "race": "Animal",
@@ -27426,7 +27426,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Hachinosu","chapter":"Chapter 1126"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
         {"name": "Doc Q","relationship": "Ridden by"}
     ]
   },
@@ -27641,7 +27641,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "He was a member of the Roger pirates until the crew's dissolution",
     "journey": [
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Fish-Man Island"},
@@ -27804,7 +27804,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 909",
     "race": "Animal",
     "status": "Alive",
-    "description": "Friendly pet sphinx from Whitebeard's home island Sphinx. Owned by Oide",
+    "description": "Friendly pet sphinx from de Barbe Blanche home island Sphinx. Owned by Oide",
     "journey": [
       {"location":"Sphinx","chapter":"Chapter 909"}
     ],
@@ -27994,7 +27994,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Hachinosu"},
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise"},
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise"},
       {"location":"Skypiea"},
       {"location":"Water 7"},
       {"location":"Fish-Man Island"},
@@ -28060,16 +28060,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Tate",
     "image": "/images/characters/Tate.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 234",
     "race": "Human",
     "status": "Alive",
-    "description": "Nurse who worked for the Whitebeard Pirates as part of the crew's medical division",
+    "description": "Nurse who worked for the Équipage de Barbe Blanche as part of the crew's medical division",
     "journey": [
       {"location":"Unknown island - left somewhere safe before the","chapter":"SBS Volume 76"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"}
     ]
   },
   {
@@ -28220,18 +28220,18 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Thatch",
     "image": "/images/characters/Thatch.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "origin": "North Blue",
     "first_appearance_arc": "Chapter 440",
     "race": "Human",
     "status": "Deceased",
-    "description": "Was 4th division commander of the Whitebeard Pirates as well as the culinary chef of the crew. He was killed by Teach prior to the main story",
+    "description": "Was 4th division commander of the Équipage de Barbe Blanche as well as the culinary chef of the crew. He was killed by Teach prior to the main story",
     "journey": [
       {"location":"Unknown island - defeating Raccoon","chapter":"One Piece novel A - Vol. 2", "region":"Paradise"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Killed by"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Killed by"}
     ]
   },
   {
@@ -28545,7 +28545,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 233",
     "race": "Human",
     "status": "Alive",
-    "description": "World Noble and one of the Five Elders - <strong>Warrior God of Justice</strong>",
+    "description": "World Noble and one of the Five Elders - <strong>Dieu Guerrier of Justice</strong>",
     "journey": [
       {"location":"Mary Geoise"},
       {"location":"Egghead"},
@@ -28581,16 +28581,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Tori",
     "image": "/images/characters/Tori.webp",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "first_appearance_arc": "Chapter 925",
     "race": "Human",
     "status": "Alive",
-    "description": "Member of the Blackbeard Pirates",
+    "description": "Member of the Équipage de Barbe Noire",
     "journey": [
       {"location":"Hachinosu","chapter":"Chapter 925"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"}
     ]
   },
   {
@@ -28649,11 +28649,11 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sorbet's Kingdom Island"},
       {"location":"Sabaody Archipelago"},
-      {"location":"Unknown island - defeated by Blackbeard","chapter":"Chapter 595", "region": "New World"}
+      {"location":"Unknown island - defeated by Barbe Noire","chapter":"Chapter 595", "region": "New World"}
     ],
     "relationships": [
         {"name": "Jewelry Bonney","relationship": "Captain"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Defeated by"},
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"},
         {"name": "Sakazuki [Akainu]","relationship": "Captured by"},
         {"name": "Potato","relationship": "Crewmate"},
         {"name": "Gyogyo","relationship": "Crewmate"},
@@ -28733,7 +28733,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy, Defeated"},
         {"name": "Kaidou","relationship": "Enemy"},
         {"name": "Donquixote Rosinante","relationship": "Friend"},
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Enemy"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"}
     ]
   },
   {
@@ -29564,7 +29564,7 @@ export const RAW_CHARACTERS: any[] = [
     "image": "/images/characters/Van_Augur.webp",
     "image_pre": "/images/characters/Van_Augur_Pre.webp",
     "epithet": "the Supersonic",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": "Wapu Wapu no Mi",
     "bounty": "At least 64,000,000",
     "origin": "East Blue",
@@ -29573,7 +29573,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 222",
     "race": "Human",
     "status": "Alive",
-    "description": "Captain of the 3rd ship of Blackbeard Pirates and the sniper of the crew",
+    "description": "Captain of the 3rd ship of Équipage de Barbe Noire and the sniper of the crew",
     "journey": [
       {"location":"Drum Island"},
       {"location":"Jaya"},
@@ -29593,8 +29593,8 @@ export const RAW_CHARACTERS: any[] = [
 
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Participated in killing"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Participated in killing"}
     ]
   },
   {
@@ -29645,7 +29645,7 @@ export const RAW_CHARACTERS: any[] = [
     "image": "/images/characters/Vasco_Shot.webp",
     "image_pre": "/images/characters/Vasco_Shot_Pre.webp",
     "epithet": "Heavy Drinker",
-    "affiliation": "Blackbeard Pirates",
+    "affiliation": "Équipage de Barbe Noire",
     "devil_fruit": "Gabu Gabu no Mi",
     "origin": "South Blue",
     "height": 573,
@@ -29653,7 +29653,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 575",
     "race": "Human",
     "status": "Alive",
-    "description": "Captain of the 8th ship of Blackbeard Pirates",
+    "description": "Captain of the 8th ship of Équipage de Barbe Noire",
     "journey": [
       {"location":"Impel Down"},
       {"location":"Marineford"},
@@ -29665,8 +29665,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Hachinosu","chapter":"Chapter 1080"}
     ],
     "relationships": [
-        {"name": "Marshall D. Teach [Blackbeard]","relationship": "Captain"},
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Participated in killing"}
+        {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Participated in killing"}
     ] 
   },
   {
@@ -30053,7 +30053,7 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Vista",
     "image": "/images/characters/Vista.webp",
     "epithet": "of the Flower Swords",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "haki": ["Observation","Armament"],
     "origin": "North Blue",
     "height": 328,
@@ -30061,31 +30061,31 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 552",
     "race": "Human",
     "status": "Alive",
-    "description": "Former 5th division commander of the Whitebeard Pirates",
+    "description": "Former 5th division commander of the Équipage de Barbe Blanche",
     "journey": [
       {"location":"Wano Country's Island"},
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Marineford"},
-      {"location":"Unknown island - attending Whitebeard's funeral","chapter":"Chapter 590", "region":"New World"}
+      {"location":"Unknown island - attending de Barbe Blanche funeral","chapter":"Chapter 590", "region":"New World"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain"},
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"},
         {"name": "Yasopp","relationship": "Enemy (allegedly)"}
     ]
   },
   {
     "name": "Vitan",
     "image": "/images/characters/Vitan.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate captain who allied with Whitebeard Pirates",
+    "description": "New World pirate captain who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -30181,7 +30181,7 @@ export const RAW_CHARACTERS: any[] = [
     "journey": [
       {"location":"Sabaody Archipelago"},
       {"location":"Wano Country's Island"},
-      {"location":"Unknown island - fighting Whitebeard","chapter":"Chapter 552", "region":"New World"}
+      {"location":"Unknown island - fighting Barbe Blanche","chapter":"Chapter 552", "region":"New World"}
     ],
     "relationships": [
         {"name": "Portgas D. Ace","relationship": "Former Captain"}
@@ -30190,16 +30190,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Wallem",
     "image": "/images/characters/Wallem.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 561",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate captain who allied with Whitebeard Pirates",
+    "description": "New World pirate captain who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 561"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -30324,7 +30324,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 269",
     "race": "Moon people - Shandian",
     "status": "Alive",
-    "description": "One of the Shandia warriors who fought to take back Upper Yard from Enel. He later joined the God's Guards under Wyper",
+    "description": "One of the Shandia warriors who fought to take back Upper Yard from Enel. He later joined the Gardes Divins under Wyper",
     "journey": [
       {"location":"Skypiea","chapter":"Chapter 269"}
     ],
@@ -30349,16 +30349,16 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Warrior God",
+    "name": "Dieu Guerrier",
     "image": "/images/characters/Warrior_God.webp",
     "devil_fruit": "Ryu Ryu no Mi, Model: Nidhogg",
     "first_appearance_arc": "Chapter 1175",
     "race": "Giant",
     "status": "Deceased",
-    "description": "Legendary giant of Elbaph who wielded Ragnir and fought against the Sun God alongside his loyal companion Ratatoskr",
+    "description": "Legendary giant of Elbaph who wielded Ragnir and fought against the Dieu du Soleil alongside his loyal companion Ratatoskr",
     "relationships": [
       {"name": "Ratatoskr","relationship": "Former Partner"},
-      {"name": "Nika [Sun God]","relationship": "Enemy"},
+      {"name": "Nika [Dieu du Soleil]","relationship": "Enemy"},
       {"name": "Ragnir","relationship": "Weapon"}
   ]
   },
@@ -30410,18 +30410,18 @@ export const RAW_CHARACTERS: any[] = [
     "name": "Whitey Bay",
     "image": "/images/characters/Whitey_Bay.webp",
     "epithet": "Ice Witch",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 556",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate captain who allied with Whitebeard Pirates before forming her own crew subordinate to Whitebeard",
+    "description": "New World pirate captain who allied with Équipage de Barbe Blanche before forming her own crew subordinate to Barbe Blanche",
     "journey": [
       {"location":"Wano Country's Island"},
       {"location":"Unknown island - fighting Roger pirates", "region":"Paradise"},
       {"location":"Marineford","chapter":"Chapter 553"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Former Captain, Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain, Served"}
     ]
   },
   {
@@ -30552,14 +30552,14 @@ export const RAW_CHARACTERS: any[] = [
     "image": "/images/characters/Wyper.webp",
     "image_pre": "/images/characters/Wyper_Pre.webp",
     "epithet": "Berserker",
-    "affiliation": "God's Guards",
+    "affiliation": "Gardes Divins",
     "origin": "Sky Islands (Skypiea)",
     "height": 183,
     "age": 24,
     "first_appearance_arc": "Chapter 237",
     "race": "Moon people - Shandian",
     "status": "Alive",
-    "description": "Former leader of the Shandia and descendant of Kalgara, now working as the captain of the God's Guards",
+    "description": "Former leader of the Shandia and descendant of Kalgara, now working as the captain of the Gardes Divins",
     "journey": [
       {"location":"Skypiea","chapter":"Chapter 237"}
     ],
@@ -30801,7 +30801,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - meeting with Mihawk", "region":"New World"},
       {"location":"Yukiryu Island"},
       {"location":"Marineford"},
-      {"location":"Unknown island - attending Whitebeard's funeral", "region":"New World"},
+      {"location":"Unknown island - attending de Barbe Blanche funeral", "region":"New World"},
       {"location":"Unknown island - visiting ruins", "region":"New World"},
       {"location":"Wano Country's Island"},
       {"location":"Sphinx"},
@@ -30858,7 +30858,7 @@ export const RAW_CHARACTERS: any[] = [
     "first_appearance_arc": "Chapter 1134",
     "race": "Giant",
     "status": "Alive",
-    "description": "Giant kid from Elbaph that attends the Walrus School. Jarul's Great-Great-Granddaughter. One of the 10 kids that were kidnapped by the Knights of God",
+    "description": "Giant kid from Elbaph that attends the Walrus School. Jarul's Great-Great-Granddaughter. One of the 10 kids that were kidnapped by the Chevaliers Divins",
     "journey": [
       {"location":"Elbaph Island","chapter":"Chapter 1134"}
     ],
@@ -31094,7 +31094,7 @@ export const RAW_CHARACTERS: any[] = [
     "description": "He was a member of the Roger pirates until the crew's dissolution",
     "journey": [
       {"location":"God Valley"},
-      {"location":"Unknown island - fighting Whitebeard pirates", "region":"Paradise", "chapter":"Chapter 965"}
+      {"location":"Unknown island - fighting pirates de Barbe Blanche", "region":"Paradise", "chapter":"Chapter 965"}
     ],
     "relationships": [
         {"name": "Gol D. Roger","relationship": "Former Captain"}
@@ -31245,12 +31245,12 @@ export const RAW_CHARACTERS: any[] = [
   ]
   },
   {
-    "name": "Zaza [Rain God]",
+    "name": "Zaza [Dieu de la Pluie]",
     "image": "/images/characters/Zaza.webp",
     "first_appearance_arc": "Chapter 1182 (mentioned)",
     "race": "Human",
     "status": "Unknown",
-    "description": "Mythical <strong>God of Rain</strong> who is feared by the World Nobles"
+    "description": "Mythical <strong>Dieu de la Pluie</strong> who is feared by the World Nobles"
   },
   {
     "name": "Zeff",
@@ -31350,16 +31350,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Zodia",
     "image": "/images/characters/Zodia.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 553",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate captain who allied with Whitebeard Pirates",
+    "description": "New World pirate captain who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford","chapter":"Chapter 533"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
@@ -31381,16 +31381,16 @@ export const RAW_CHARACTERS: any[] = [
   {
     "name": "Zucca",
     "image": "/images/characters/Zucca.webp",
-    "affiliation": "Whitebeard Pirates",
+    "affiliation": "Équipage de Barbe Blanche",
     "first_appearance_arc": "Chapter 564",
     "race": "Human",
     "status": "Alive",
-    "description": "New World pirate captain who allied with Whitebeard Pirates",
+    "description": "New World pirate captain who allied with Équipage de Barbe Blanche",
     "journey": [
       {"location":"Marineford", "chapter":"Chapter 564"}
     ],
     "relationships": [
-        {"name": "Edward Newgate [Whitebeard]","relationship": "Served"}
+        {"name": "Edward Newgate [Barbe Blanche]","relationship": "Served"}
     ]
   },
   {
