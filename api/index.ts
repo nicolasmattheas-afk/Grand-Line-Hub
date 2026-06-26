@@ -36,6 +36,21 @@ const db = getFirestore(firebaseApp, firebaseConfig.firestoreDatabaseId);
 const app = express();
 app.use(express.json());
 
+// Endpoint spécifique et infaillible pour ads.txt exigé par Google AdSense
+app.get("/ads.txt", (req, res) => {
+  res.setHeader("Content-Type", "text/plain");
+  const adsPath = path.join(process.cwd(), "public", "ads.txt");
+  if (fs.existsSync(adsPath)) {
+    return res.sendFile(adsPath);
+  }
+  const distAdsPath = path.join(process.cwd(), "dist", "ads.txt");
+  if (fs.existsSync(distAdsPath)) {
+    return res.sendFile(distAdsPath);
+  }
+  // Fallback direct de sécurité avec les identifiants actifs du site
+  return res.send("google.com, pub-2543561141625687, DIRECT, f08c47fec0942fa0");
+});
+
 const PORT = 3000;
 
 // Initialisation du client de l'API Gemini (uniquement côté serveur, lazy initialization !)
@@ -294,6 +309,336 @@ async function seedWEJArticlesIfEmpty() {
 // ROUTES API - WEEKLY ECONOMY JOURNAL (WEJ)
 // ==========================================
 
+// Liste complète et ordonnée des sujets d'actualité et questions d'One Piece
+const WEJ_TOPICS = [
+  "le manga au cœur d'Erbaf avec le chapitre 1184 d'One Piece et les retombées de l'incident de God Valley",
+  "le rythme de parution régulier d'Eiichiro Oda pour préserver sa santé et la pause programmée du Shonen Jump début juin 2026",
+  "les mystères d'Erbaf, l'île des géants, et son importance fondamentale pour l'histoire finale d'One Piece",
+  "le changement historique de format de la Toei Animation avec une production limitée à 26 épisodes par an depuis avril 2026",
+  "l'amélioration formidable du rythme de l'anime adaptant désormais 1.5 à 2 chapitres par épisode, un régal pour les fans",
+  "le lancement grandiose de l'Arc Erbaf dans l'anime le 5 avril 2026 après trois mois d'attente préparatoire",
+  "le succès phénoménal de la Saison 2 du Live Action One Piece sur Netflix sortie en mars 2026",
+  "les coulisses de la Saison 3 du Live Action d'Arabasta en fin de tournage pour juin 2026 et sa sortie programmée en 2027",
+  "les nouveaux visuels d'avril pour le remake THE ONE PIECE par Wit Studio et l'annonce de sa sortie en février 2027",
+  "l'arrivée imminente de la partie 6 de l'arc Whole Cake Island sur Netflix pour le mois de juin 2026",
+  "le lancement des tournois casual Pirates Party par Bandai en mai 2026 pour accueillir les nouveaux joueurs",
+  "la secousse de la méta du TCG One Piece avec le bannissement temporaire des 10 leaders les plus dominants",
+  "le système de reconnaissance faciale anti-scalpers au ONE PIECE BASE SHOP nippon à compter du 1er juin 2026",
+  "l'arrivée tant attendue des encyclopédies Vivre Cards d'One Piece éditées en français par Glénat",
+  "la sortie en France du Light Novel One Piece Heroines par Glénat centré sur les femmes fortes du manga",
+  "la suprématie incontestée d'One Piece en France, leader absolu des ventes de mangas et de la pop-culture",
+  "qu'est-ce que le One Piece de Gol D. Roger et la vraie nature du trésor ultime",
+  "qui est le légendaire Joy Boy du Siècle Oublié et sa promesse historique non tenue",
+  "l'identité mystérieuse d'Im (Imu) assis sur le trône vacant de la Terre Sainte",
+  "que s'est-il réellement passé pendant l'époque secrète du Siècle Oublié",
+  "les théories de fans les plus populaires sur l'emplacement actuel de Raftel (Laugh Tale) et le trésor One Piece",
+  "qu'est-ce que la Volonté du D. et l'impact de ce nom maudit sur le Gouvernement Mondial",
+  "le secret politique terrifiant derrière le trésor national caché à Mary Geoise",
+  "qui sont les 5 Doyens du Gorosei et la vraie nature de leurs terrifiants pouvoirs démonstriaques",
+  "les trois armes antiques Poséidon, Pluton et Uranus et leur rôle géologique pour le monde",
+  "pourquoi le Gouvernement Mondial cherche-t-il à tout prix à masquer l'Histoire véritable",
+  "quel est le véritable rêve ultime de Monkey D. Luffy, celui caché derrière son envie d'être Roi des Pirates",
+  "les mystères du vrai fruit du démon de Luffy, l'Hito Hito no Mi modèle Nika (Dieu du Soleil)",
+  "qui est l'énigmatique mère de Monkey D. Luffy et la théorie folle liant Crocodile à son passé",
+  "le sort futur de Luffy : va-t-il subir le même destin tragique et mortel que Gol D. Roger",
+  "pourquoi Zoro possède-t-il une cicatrice à l'œil gauche depuis l'ellipse des deux ans avec Mihawk",
+  "qui est le père biologique de Roronoa Zoro et ses liens de sang avec le pays de Wano",
+  "le tempérament et la puissance de Sanji : possède-t-il le fluide suprême Haki des Rois",
+  "la comparaison de force entre l'homme-poisson Jinbe et la jambe noire Sanji au sein de l'équipage",
+  "les spéculations intenses sur le 10ème et ultime membre définitif des Chapeaux de Paille",
+  "le rôle futur de Yamato et son envie ardente d'explorer les mers comme Kozuki Oden",
+  "le combat prophétisé entre Roronoa Zoro et son maître Dracule Mihawk pour le titre de meilleur escrimeur",
+  "l'éveil progressif d'Usopp au Haki de l'observation depuis l'arc Dressrosa",
+  "Nami obtiendra-t-elle un jour la puissance d'un fruit du démon ou restera-t-elle la reine du climat",
+  "la prime dérisoire de Tony Tony Chopper : aura-t-il un jour une prime à la hauteur de son statut de monstre",
+  "l'alliance ambiguë de Shanks le Roux : est-il le plus grand protecteur de la paix ou un traître infiltré",
+  "pourquoi Shanks le Roux a-t-il perdu un bras face au monstre de la baie au tout début de l'aventure",
+  "comment Marshall D. Teach (Barbe Noire) parvient-il à assimiler deux fruits du démon uniques",
+  "qui est le plus puissant entre Shanks le Roux et Dracule Mihawk, une éternelle rivalité d'épéistes",
+  "les origines royales de Shanks : est-il lié génétiquement à Saint Figarland Garling",
+  "le destin tragique du héros de la Marine Garp après les intenses affrontements sur l'île des pirates",
+  "la survie de Trafalgar Law et Eustass Kid suite aux assauts foudroyants des Empereurs",
+  "l'irrésistible ascension de Baggy le Clown vers le titre suprême de Roi des Pirates",
+  "les quatre Empereurs Yonko actuels et la redéfinition des forces maritimes",
+  "le commandement implacable de l'Amiral en Chef Akainu et la justice intransigeante de la Marine",
+  "pourquoi Luffy est-il immunisé contre l'électricité d'Enel lors de l'affrontement céleste à Skypiea",
+  "quelle est l'origine du chapeau de paille transmis de Gol D. Roger à Shanks, puis à Luffy",
+  "quelle est l'importance géopolitique de la Rêverie et l'assassinat du roi Cobra d'Alabasta",
+  "quel est le rôle mystérieux de l'arbre d'Eve et de l'arbre d'Adam dans la construction de Sunny et les îles",
+  "pourquoi la Marine interdit-elle d'étudier l'histoire ancienne et pourchasse les archéologues d'Ohara",
+  "quel est le secret de la longévité et de la jeunesse de la doctoresse Kureha de l'île de Drum",
+  "comment le Fruit du Démon se réincarne-t-il à la mort de son utilisateur dans le fruit le plus proche",
+  "qui est Crocodile réellement et quelle est la nature du secret détenu par Emporio Ivankov",
+  "pourquoi Dragon, le père de Luffy, a-t-il fondé l'Armée Révolutionnaire contre le Gouvernement Mondial",
+  "quelle est la puissance et l'importance de l'équipage de Gol D. Roger et le sort de ses compagnons",
+  "comment Barbe Blanche maîtrisait-il le séisme avec le Gura Gura no Mi et son impact géologique",
+  "qui est Vegapunk et pourquoi a-t-il divisé son esprit en six satellites distincts à Egghead",
+  "comment fonctionne le réseau d'information mondial de Morgans avec ses goélands et l'indépendance de sa presse"
+];
+
+const FALLBACK_ARTICLES: Record<string, { title: string; summary: string; content: string; tags: string[] }> = {
+  "les mystères du Siècle Oublié et l'importance de Luffy en Gear 5": {
+    title: "EXCLUSIF WEJ : Le secret de l'éveil légendaire du Gear 5 !",
+    summary: "Découvrez notre analyse focalisée sur les battements de cœur célèbres sous le nom de « Tambours de la Libération » et leur lien direct avec Nika.",
+    content: `**Le retour des Tambours de la Libération**
+    
+Après huit siècles de silence absolu imposé par la Marine, les battements de cœur mythiques de Monkey D. Luffy résonnent enfin sur Grand Line. C'est le réveil de l'Hito Hito no Mi, modèle Nika, le Dieu du Soleil.
+
+**Une seule question brûle les lèvres : pourquoi cette forme terrifie-t-elle les tyrans ?**
+C'est parce que ce pouvoir incarne la liberté absolue. Là où les autres pouvoirs obéissent à des règles de physique strictes, le Gear 5 permet à Luffy de transformer en caoutchouc tout ce qu’il touche selon sa simple imagination. C'est l'arme originelle de joy Boy pour libérer le monde !`,
+    tags: ["Luffy", "Gear 5", "Nika", "Morgans"]
+  },
+  "les théories de fans les plus populaires sur l'emplacement actuel de Raftel (Laugh Tale) et le trésor One Piece": {
+    title: "ENQUÊTE : L'emplacement de Laugh Tale caché sous nos yeux ?",
+    summary: "Notre journaliste décrypte la théorie phare situant la dernière île directement sous le sommet de Reverse Mountain.",
+    content: `**La théorie du croisement central**
+    
+Comment atteindre Laugh Tale ? La carte se dessine au croisement des coordonnées de quatre Road Ponéglyphes sacrés. La théorie la plus étayée suggère que cette intersection géante pointe précisément vers les profondeurs ou la structure interne de Reverse Mountain, le point d'entrée reliant les quatre mers du globe.
+
+**Pourquoi Roger a-t-il ri en arrivant ?**
+Il a découvert que le trésor n'attend pas d'être conquis par la force militaire, mais qu'il raconte une histoire joyeuse et universelle d'unification. Le One Piece est une archive physique et matérielle qui scellera l'aventure de toute une vie !`,
+    tags: ["Laugh Tale", "Trésor", "Théorie", "Roger"]
+  },
+  "la comparaison de puissance entre Luffy, les Yonko et les Amiraux de la Marine": {
+    title: "ANALYSE DE PUISSANCE : Le Gear 5 face aux Amiraux de la Marine !",
+    summary: "Une mesure de force précise : la liberté totale de Luffy peut-elle surpasser la rigidité défensive des Amiraux ?",
+    content: `**Le choc du fluide divin face à la justice absolue**
+    
+Est-ce que l'éveil ultime de Luffy surclasse les Amiraux ? La réponse réside dans la maîtrise du Haki des Rois avancé. Les Amiraux de la Marine disposent de fruits du démon de type Logia dévastateurs, mais ils manquent de cette flexibilité suprême apportée par le Gear 5.
+
+**Le verdict militaire de Morgans**
+En combat rapproché singulier, la liberté d'adaptation du Dieu du Soleil déstabilise n'importe quel dispositif défensif. L'éveil de Luffy outrepasse les défenses rigides des officiers de la Marine grâce à une imprévisibilité totale !`,
+    tags: ["Puissance", "Luffy", "Amiraux", "Marine"]
+  },
+  "quand sortira le prochain chapitre d'One Piece et à quoi s'attendre pour le dénouement de la série": {
+    title: "SAGA FINALE : Qu'attendre du prochain chapitre d'One Piece ?",
+    summary: "Morgans dévoile les informations cruciales sur notre rendez-vous hebdomadaire et le rythme des révélations de l'auteur.",
+    content: `**Un rythme soutenu vers les sommets d'Elbaf**
+    
+Nos goélands survolent les studios de la Shueisha ! L'auteur Eiichiro Oda maintient son calendrier de publication officiel alternant trois chapitres d'écriture intense suivis d'une semaine de repérage bien méritée pour sa santé.
+
+**Que lire dans l'immédiat ?**
+Le focus actuel reste centré sur les révélations géopolitiques autour d'Egghead et la marche triomphale vers Elbaf. Les chapitres officiels sont consultables de façon légitime sur l'application officielle MANGA Plus, garantissant des traductions impeccables et un accès en temps réel dès la parution au Japon.`,
+    tags: ["Oda", "Manga Plus", "Chapitres", "Saga Finale"]
+  },
+  "le concept du Haki des Rois (Haoshoku) et les personnages légendaires qui le maîtrisent": {
+    title: "L'ART DU COMBAT : Le mystère profond du Haki des Rois !",
+    summary: "Décryptage ciblé de l'énergie spirituelle des conquérants, un pouvoir d'esprit qu'un être sur un milieu possède dès l'enfance.",
+    content: `**La volonté de dominer et d'unifier**
+    
+Le Haoshoku Haki (Haki des Rois) ne s'acquiert pas par l'entraînement physique intensif. C'est l'essence spirituelle d'une personne née pour diriger les autres. Ce fluide exceptionnel permet d'intimider, de faire plier les esprits adverses et de projeter ses coups sans aucun contact physique direct.
+
+**Qui le maîtrise avec panache ?**
+De la force brute de Gol D. Roger au Haki impérial déferlant de Shanks le Roux, ce pouvoir reste le propre des personnages qui changent le cours de l'histoire par leur détermination inébranlable.`,
+    tags: ["Haki des Rois", "Volonté", "Shanks", "Luffy"]
+  },
+  "l'analyse du jeu One Piece Odyssey, de Grand Line Hub et des meilleurs jeux mobiles de la franchise": {
+    title: "CHRONIQUE JEU : Pourquoi One Piece Odyssey est un régal pour les fans !",
+    summary: "Une critique focalisée sur la fidélité de l'adaptation en RPG traditionnel par rapport aux souvenirs et aux batailles iconiques.",
+    content: `**Une immersion totale au cœur de nos souvenirs**
+    
+Le RPG tour par tour 'One Piece Odyssey' brille par son écriture soignée par l'auteur original. Le joueur revit les arcs narratifs majeurs tels qu'Alabasta ou Water Seven sous un prisme nostalgique enrichi par des mécaniques de combat tactiques adaptées à chaque membre de l'équipage.
+
+**Pourquoi y jouer maintenant ?**
+Le moyen idéal d'incarner chaque membre du Chapeau de Paille avec de véritables compétences fidèles au manga. Un pur moment d'exploration d'une beauté saisissante !`,
+    tags: ["Jeux Vidéo", "Odyssey", "Chronique", "RPG"]
+  },
+  "le destin tragique de Portgas D. Ace et l'héritage transmis à Luffy et Sabo": {
+    title: "MÉMOIRE D'ACE : Les flammes du destin vivent à travers Sabo !",
+    summary: "Analyse d'une transmission de volonté légendaire : comment Sabo a repris le flambeau du poing de feu à Dressrosa.",
+    content: `**Le sacrifice inoubliable de Marineford**
+    
+Le trépas héroïque de Portgas D. Ace a secoué le monde entier. Mais sa volonté n'a jamais péri de la surface du globe. Elle a ressuscité sous la forme éclatante de son frère d'armes Sabo, devenu le numéro deux de l'Armée Révolutionnaire.
+
+**La conquête du Mera Mera no Mi**
+Lors du tournoi du Colisée de Dressrosa, en s'emparant du fruit des flammes d'Ace, Sabo a accompli la plus belle promesse d'héritage d'One Piece. Sabo protège désormais la route de Luffy sous les traits étincelants du nouvel Empereur des Flammes !`,
+    tags: ["Ace", "Sabo", "Mera Mera", "Héritage"]
+  },
+  "qui est Joy Boy, son lien historique avec Zunesha et les hommes-poissons": {
+    title: "JOY BOY : La promesse brisée d'un monde sans chaînes !",
+    summary: "L'histoire touchante de la lettre d'excuses gravée sur le Ponéglyphe de la forêt sous-marine et adressée aux habitants de l'océan.",
+    content: `**La lettre d'excuse de la Forêt Marine**
+    
+Joy Boy était un homme d'action du Siècle Oublié. Il s'était engagé auprès de la Princesse Sirène (Poséidon) à remonter tous les Hommes-Poissons à la surface de la terre à bord de l'arche géante Noah. 
+
+**Pourquoi la promesse est-elle restée inachevée ?**
+N'ayant pu tenir parole suite à la chute de son royaume face à l'Alliance des vingt rois coalisés, il fit sculpter un mot d'excuse immortel sur un Ponéglyphe. Ce regret historique lie à jamais l'avenir des Hommes-Poissons à l'éveil du prochain messager de liberté !`,
+    tags: ["Joy Boy", "Ponéglyphe", "Poséidon", "Hommes-Poissons"]
+  }
+};
+
+// Renvoie un article de secours de haute qualité personnalisé pour le sujet pour éliminer tout doublon
+function getFallbackArticleForTopic(topic: string): { title: string; summary: string; content: string; tags: string[] } {
+  // Recherche d'abord s'il y a une correspondance exacte dans la table statique
+  const key = Object.keys(FALLBACK_ARTICLES).find(
+    k => topic.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(topic.toLowerCase())
+  );
+  if (key && FALLBACK_ARTICLES[key]) {
+    return FALLBACK_ARTICLES[key];
+  }
+
+  // Sinon, génération à la volée d'un superbe modèle informatif et thématique 100% adapté au sujet
+  const capitalizedTopic = topic.charAt(0).toUpperCase() + topic.slice(1);
+  const title = `BIG NEWS : Les secrets révélés sur ${capitalizedTopic.substring(0, 50)}... !`;
+  const summary = `Le président de la presse Morgans lève le voile sur l'un des plus grands mystères : ${topic.substring(0, 80)}.`;
+  const content = `**L'enquête secrète et audacieuse de nos goélands d'information**
+  
+La rumeur enflamme à présent tous les ports libres de Grand Line ainsi que les recoins obscurs du Nouveau Monde ! Nos journalistes chevronnés du Journal de l'Économie Mondiale (WEJ) ont intercepté des transmissions confidentielles cryptées par escargophones au sujet de : **${topic}**. Les détails de cette affaire suggèrent un lien de cause à effet capital avec les forces motrices qui façonnent l'époque de la piraterie.
+
+**Pourquoi cette question change-t-elle le destin des mers ?**
+Dans le sillage du réveil divin du Gear 5 et du bouleversement géopolitique mondial menaçant de submerger la planète, la vérité entourant **${topic}** devient cruciale pour quiconque aspire à la liberté ou à l'ordre absolu. Les empereurs de la mer tout comme les amiraux de la Marine surveillent de très près ces précieux indices. C'est une pièce essentielle et incontournable du puzzle menant au trésor légendaire !
+
+*(Note du Président Morgans : Nos escargophones de transmission ont été brouillés temporairement par le Gouvernement Mondial, mais l'information triomphera toujours grâce à notre flotte de mouettes et notre journalisme d'investigation incorruptible !)*`;
+
+  const tags = ["One Piece", "Sensationnel", "Analyses", "Morgans"];
+  return { title, summary, content, tags };
+}
+
+// Fonction de nettoyage automatique des doublons en base de données avec remplacement par des sujets uniques
+async function cleanAndReplaceDuplicates() {
+  try {
+    console.log("Morgans lance l'analyse anti-doublons des articles du WEJ...");
+    const snap = await getDocs(query(collection(db, "wejArticles"), orderBy("publishDate", "desc"), limit(50)));
+    
+    if (snap.empty) {
+      console.log("Aucun article en base de données.");
+      return;
+    }
+
+    const docs = snap.docs;
+    const seenTitles = new Set<string>();
+    const seenContents = new Set<string>();
+    
+    const duplicatesToReplace: { id: string; publishDate: string }[] = [];
+    const activeTopics = new Set<string>();
+
+    for (const d of docs) {
+      const data = d.data();
+      const title = (data.title || "").trim();
+      const content = (data.content || "").trim();
+      const topic = (data.topic || "").trim();
+
+      // Est-ce un doublon basé sur le titre, le contenu, ou l'article générique de secours répété
+      const isFallbackDefault = title.includes("Le secret de l'éveil légendaire du Gear 5") || content.includes("Note du Président Morgans");
+      
+      let isDuplicate = false;
+      if (title && seenTitles.has(title)) {
+        isDuplicate = true;
+      } else if (content && seenContents.has(content)) {
+        isDuplicate = true;
+      } else if (isFallbackDefault && seenTitles.has("fallback-default")) {
+        isDuplicate = true;
+      }
+
+      if (isDuplicate) {
+        duplicatesToReplace.push({ id: d.id, publishDate: data.publishDate || d.id.replace("wej-", "") });
+      } else {
+        if (title) seenTitles.add(title);
+        if (content) seenContents.add(content);
+        if (isFallbackDefault) seenTitles.add("fallback-default");
+        if (topic) activeTopics.add(topic);
+      }
+    }
+
+    if (duplicatesToReplace.length === 0) {
+      console.log("Aucun article en double détecté dans le WEJ.");
+      return;
+    }
+
+    console.log(`Détection de ${duplicatesToReplace.length} articles en double. Remplacement automatique par de nouveaux articles uniques...`);
+
+    // Sélectionner les sujets restants non exploités
+    const unusedTopics = WEJ_TOPICS.filter(t => !activeTopics.has(t));
+    let topicIndex = 0;
+
+    for (const item of duplicatesToReplace) {
+      let pickedTopic = unusedTopics[topicIndex];
+      if (!pickedTopic) {
+        pickedTopic = WEJ_TOPICS[Math.floor(Math.random() * WEJ_TOPICS.length)];
+      } else {
+        topicIndex++;
+        activeTopics.add(pickedTopic);
+      }
+
+      console.log(`Régénération de l'article en double '${item.id}' avec le sujet : ${pickedTopic}`);
+      
+      let finalArticle: { title: string; summary: string; content: string; tags: string[] };
+
+      try {
+        const response = await getAiClient().models.generateContent({
+          model: "gemini-3.5-flash",
+          contents: `Tu es le célèbre président du journal de l'Économie Mondiale (le grand oiseau Morgans du Weekly Economy Journal - WEJ d'One Piece).
+          Rédige une édition quotidienne sensationnelle, percutante et passionnante en français sur le sujet suivant : ${pickedTopic}.
+          L'article doit être hautement ciblé et cibler UN SEUL aspect précis ou UNE SEULE question claire à la fois (ne fais pas d'articles généraux fleuves ou de FAQ multiples). Ne submerge pas le lecteur d'informations.
+          
+          Directives STRICTES de structure de rédaction :
+          - Reste extrêmement concis : rédige 2 à 3 paragraphes complets, fluides et très soignés qui répondent directement à la question de manière passionnée.
+          - INTERDICTION ABSOLUE d'utiliser des balises de titres de niveau Markdown avec des croisillons (comme '#', '##' ou '###'). Ne génère jamais de lignes commençant par ces caractères !
+          - Pour structurer occasionnellement, utilise à la place UNIQUEMENT de la mise en gras comme ceci : **Mon Titre de Section** ou **Ma Question clé** de début de paragraphe.
+          
+          Format de retour requis : Renvoie strictement un fichier JSON correspondant à ce schéma :
+          {
+            "title": "Titre journalistique percutant et très court",
+            "summary": "Résumé d'une phrase d'accroche captivante pour l'édition du jour",
+            "content": "Texte complet en format texte avec paragraphes espacés et mise en gras uniquement (aucun caractère # ou ###)",
+            "tags": ["One Piece", "Luffy", "Morgans"]
+          }`,
+          config: {
+            responseMimeType: "application/json",
+            responseSchema: {
+              type: Type.OBJECT,
+              properties: {
+                title: { type: Type.STRING },
+                summary: { type: Type.STRING },
+                content: { type: Type.STRING },
+                tags: {
+                  type: Type.ARRAY,
+                  items: { type: Type.STRING },
+                },
+              },
+              required: ["title", "summary", "content", "tags"],
+            },
+          },
+        });
+
+        const generatedText = response.text;
+        if (!generatedText) {
+          throw new Error("Gemini n'a renvoyé aucun texte exploitable.");
+        }
+
+        const parsed = JSON.parse(generatedText.trim());
+        finalArticle = {
+          title: parsed.title,
+          summary: parsed.summary,
+          content: parsed.content,
+          tags: parsed.tags || ["One Piece", "Luffy", "Morgans"]
+        };
+      } catch (apiErr: any) {
+        console.warn(`La génération IA a échoué pour le doublon '${item.id}' (${apiErr.message || apiErr}). Utilisation du plan de secours.`);
+        finalArticle = getFallbackArticleForTopic(pickedTopic);
+      }
+
+      await setDoc(doc(db, "wejArticles", item.id), {
+        title: finalArticle.title,
+        summary: finalArticle.summary,
+        content: finalArticle.content,
+        tags: finalArticle.tags,
+        topic: pickedTopic,
+        author: "Morgans (Journaliste WEJ)",
+        publishDate: item.publishDate,
+        views: Math.floor(Math.random() * 180) + 120,
+        secretPasskey: "wej-blog-backend-secret-authorized-2026",
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+    }
+
+    console.log("Analyse anti-doublon et remplacement terminés !");
+  } catch (err: any) {
+    console.error("Erreur durant le nettoyage des doublons du WEJ :", err);
+  }
+}
+
 // Liste tous les articles
 app.get("/api/wej/articles", async (req, res) => {
   try {
@@ -304,6 +649,9 @@ app.get("/api/wej/articles", async (req, res) => {
       await seedWEJArticlesIfEmpty();
       snap = await getDocs(query(collection(db, "wejArticles"), orderBy("publishDate", "desc"), limit(50)));
     }
+
+    // Lance le nettoyage automatique des doublons en arrière-plan pour garder la base saine et unique
+    cleanAndReplaceDuplicates().catch(err => console.error("Nettoyage asynchrone échoué :", err));
 
     const articles = snap.docs.map((doc) => ({
       id: doc.id,
@@ -332,6 +680,9 @@ app.get("/api/wej/generate-daily", async (req, res) => {
         views: increment(1),
         secretPasskey: "wej-blog-backend-secret-authorized-2026",
       });
+      // Nettoyage en arrière-plan
+      cleanAndReplaceDuplicates().catch(err => console.error("Nettoyage asynchrone échoué :", err));
+      
       const data = docSnap.data();
       return res.json({ success: true, article: { id: articleId, ...data }, generatedNow: false });
     }
@@ -339,152 +690,23 @@ app.get("/api/wej/generate-daily", async (req, res) => {
     // Sinon, on lance Morgans (le robot WEJ) avec Gemini 3.5-flash
     console.log(`Morgans lance la rédaction de l'article du jour pour le ${todayStr}...`);
     
-    // Sujets d'actus récents (mai 2026) et questions légendaires du Top 50 pour diversifier les rédactions quotidiennes de Morgans
-    const topics = [
-      "le manga au cœur d'Erbaf avec le chapitre 1184 d'One Piece et les retombées de l'incident de God Valley",
-      "le rythme de parution régulier d'Eiichiro Oda pour préserver sa santé et la pause programmée du Shonen Jump début juin 2026",
-      "les mystères d'Erbaf, l'île des géants, et son importance fondamentale pour l'histoire finale d'One Piece",
-      "le changement historique de format de la Toei Animation avec une production limitée à 26 épisodes par an depuis avril 2026",
-      "l'amélioration formidable du rythme de l'anime adaptant désormais 1.5 à 2 chapitres par épisode, un régal pour les fans",
-      "le lancement grandiose de l'Arc Erbaf dans l'anime le 5 avril 2026 après trois mois d'attente préparatoire",
-      "le succès phénoménal de la Saison 2 du Live Action One Piece sur Netflix sortie en mars 2026",
-      "les coulisses de la Saison 3 du Live Action d'Arabasta en fin de tournage pour juin 2026 et sa sortie programmée en 2027",
-      "les nouveaux visuels d'avril pour le remake THE ONE PIECE par Wit Studio et l'annonce de sa sortie en février 2027",
-      "l'arrivée imminente de la partie 6 de l'arc Whole Cake Island sur Netflix pour le mois de juin 2026",
-      "le lancement des tournois casual Pirates Party par Bandai en mai 2026 pour accueillir les nouveaux joueurs",
-      "la secousse de la méta du TCG One Piece avec le bannissement temporaire des 10 leaders les plus dominants",
-      "le système de reconnaissance faciale anti-scalpers au ONE PIECE BASE SHOP nippon à compter du 1er juin 2026",
-      "l'arrivée tant attendue des encyclopédies Vivre Cards d'One Piece éditées en français par Glénat",
-      "la sortie en France du Light Novel One Piece Heroines par Glénat centré sur les femmes fortes du manga",
-      "la suprématie incontestée d'One Piece en France, leader absolu des ventes de mangas et de la pop-culture",
-      "qu'est-ce que le One Piece de Gol D. Roger et la vraie nature du trésor ultime",
-      "qui est le légendaire Joy Boy du Siècle Oublié et sa promesse historique non tenue",
-      "l'identité mystérieuse d'Im (Imu) assis sur le trône vacant de la Terre Sainte",
-      "que s'est-il réellement passé pendant l'époque secrète du Siècle Oublié",
-      "les théories de fans les plus populaires sur l'emplacement actuel de Raftel (Laugh Tale) et le trésor One Piece",
-      "qu'est-ce que la Volonté du D. et l'impact de ce nom maudit sur le Gouvernement Mondial",
-      "le secret politique terrifiant derrière le trésor national caché à Mary Geoise",
-      "qui sont les 5 Doyens du Gorosei et la vraie nature de leurs terrifiants pouvoirs démonstriaques",
-      "les trois armes antiques Poséidon, Pluton et Uranus et leur rôle géologique pour le monde",
-      "pourquoi le Gouvernement Mondial cherche-t-il à tout prix à masquer l'Histoire véritable",
-      "quel est le véritable rêve ultime de Monkey D. Luffy, celui caché derrière son envie d'être Roi des Pirates",
-      "les mystères du vrai fruit du démon de Luffy, l'Hito Hito no Mi modèle Nika (Dieu du Soleil)",
-      "qui est l'énigmatique mère de Monkey D. Luffy et la théorie folle liant Crocodile à son passé",
-      "le sort futur de Luffy : va-t-il subir le même destin tragique et mortel que Gol D. Roger",
-      "pourquoi Zoro possède-t-il une cicatrice à l'œil gauche depuis l'ellipse des deux ans avec Mihawk",
-      "qui est le père biologique de Roronoa Zoro et ses liens de sang avec le pays de Wano",
-      "le tempérament et la puissance de Sanji : possède-t-il le fluide suprême Haki des Rois",
-      "la comparaison de force entre l'homme-poisson Jinbe et la jambe noire Sanji au sein de l'équipage",
-      "les spéculations intenses sur le 10ème et ultime membre définitif des Chapeaux de Paille",
-      "le rôle futur de Yamato et son envie ardente d'explorer les mers comme Kozuki Oden",
-      "le combat prophétisé entre Roronoa Zoro et son maître Dracule Mihawk pour le titre de meilleur escrimeur",
-      "l'éveil progressif d'Usopp au Haki de l'observation depuis l'arc Dressrosa",
-      "Nami obtiendra-t-elle un jour la puissance d'un fruit du démon ou restera-t-elle la reine du climat",
-      "la prime dérisoire de Tony Tony Chopper : aura-t-il un jour une prime à la hauteur de son statut de monstre",
-      "l'alliance ambiguë de Shanks le Roux : est-il le plus grand protecteur de la paix ou un traître infiltré",
-      "pourquoi Shanks le Roux a-t-il perdu un bras face au monstre de la baie au tout début de l'aventure",
-      "comment Marshall D. Teach (Barbe Noire) parvient-il à assimiler deux fruits du démon uniques",
-      "qui est le plus puissant entre Shanks le Roux et Dracule Mihawk, une éternelle rivalité d'épéistes",
-      "les origines royales de Shanks : est-il lié génétiquement à Saint Figarland Garling",
-      "le destin tragique du héros de la Marine Garp après les intenses affrontements sur l'île des pirates",
-      "la survie de Trafalgar Law et Eustass Kid suite aux assauts foudroyants des Empereurs",
-      "l'irrésistible ascension de Baggy le Clown vers le titre suprême de Roi des Pirates",
-      "les quatre Empereurs Yonko actuels et la redéfinition des forces maritimes",
-      "le commandement implacable de l'Amiral en Chef Akainu et la justice intransigeante de la Marine"
-    ];
-    const pickedTopic = topics[Math.floor(Math.random() * topics.length)];
-
-    // Définition des articles de secours ultra-qualitatifs et ciblés sur un seul sujet précis sans surcharge cognitive
-    const FALLBACK_ARTICLES: Record<string, { title: string; summary: string; content: string; tags: string[] }> = {
-      "les mystères du Siècle Oublié et l'importance de Luffy en Gear 5": {
-        title: "EXCLUSIF WEJ : Le secret de l'éveil légendaire du Gear 5 !",
-        summary: "Découvrez notre analyse focalisée sur les battements de cœur célèbres sous le nom de « Tambours de la Libération » et leur lien direct avec Nika.",
-        content: `**Le retour des Tambours de la Libération**
-        
-Après huit siècles de silence absolu imposé par la Marine, les battements de cœur mythiques de Monkey D. Luffy résonnent enfin sur Grand Line. C'est le réveil de l'Hito Hito no Mi, modèle Nika, le Dieu du Soleil.
-
-**Une seule question brûle les lèvres : pourquoi cette forme terrifie-t-elle les tyrans ?**
-C'est parce que ce pouvoir incarne la liberté absolue. Là où les autres pouvoirs obéissent à des règles de physique strictes, le Gear 5 permet à Luffy de transformer en caoutchouc tout ce qu’il touche selon sa simple imagination. C'est l'arme originelle de joy Boy pour libérer le monde !`,
-        tags: ["Luffy", "Gear 5", "Nika", "Morgans"]
-      },
-      "les théories de fans les plus populaires sur l'emplacement actuel de Raftel (Laugh Tale) et le trésor One Piece": {
-        title: "ENQUÊTE : L'emplacement de Laugh Tale caché sous nos yeux ?",
-        summary: "Notre journaliste décrypte la théorie phare situant la dernière île directement sous le sommet de Reverse Mountain.",
-        content: `**La théorie du croisement central**
-        
-Comment atteindre Laugh Tale ? La carte se dessine au croisement des coordonnées de quatre Road Ponéglyphes sacrés. La théorie la plus étayée suggère que cette intersection géante pointe précisément vers les profondeurs ou la structure interne de Reverse Mountain, le point d'entrée reliant les quatre mers du globe.
-
-**Pourquoi Roger a-t-il ri en arrivant ?**
-Il a découvert que le trésor n'attend pas d'être conquis par la force militaire, mais qu'il raconte une histoire joyeuse et universelle d'unification. Le One Piece est une archive physique et matérielle qui scellera l'aventure de toute une vie !`,
-        tags: ["Laugh Tale", "Trésor", "Théorie", "Roger"]
-      },
-      "la comparaison de puissance entre Luffy, les Yonko et les Amiraux de la Marine": {
-        title: "ANALYSE DE PUISSANCE : Le Gear 5 face aux Amiraux de la Marine !",
-        summary: "Une mesure de force précise : la liberté totale de Luffy peut-elle surpasser la rigidité défensive des Amiraux ?",
-        content: `**Le choc du fluide divin face à la justice absolue**
-        
-Est-ce que l'éveil ultime de Luffy surclasse les Amiraux ? La réponse réside dans la maîtrise du Haki des Rois avancé. Les Amiraux de la Marine disposent de fruits du démon de type Logia dévastateurs, mais ils manquent de cette flexibilité suprême apportée par le Gear 5.
-
-**Le verdict militaire de Morgans**
-En combat rapproché singulier, la liberté d'adaptation du Dieu du Soleil déstabilise n'importe quel dispositif défensif. L'éveil de Luffy outrepasse les défenses rigides des officiers de la Marine grâce à une imprévisibilité totale !`,
-        tags: ["Puissance", "Luffy", "Amiraux", "Marine"]
-      },
-      "quand sortira le prochain chapitre d'One Piece et à quoi s'attendre pour le dénouement de la série": {
-        title: "SAGA FINALE : Qu'attendre du prochain chapitre d'One Piece ?",
-        summary: "Morgans dévoile les informations cruciales sur notre rendez-vous hebdomadaire et le rythme des révélations de l'auteur.",
-        content: `**Un rythme soutenu vers les sommets d'Elbaf**
-        
-Nos goélands survolent les studios de la Shueisha ! L'auteur Eiichiro Oda maintient son calendrier de publication officiel alternant trois chapitres d'écriture intense suivis d'une semaine de repérage bien méritée pour sa santé.
-
-**Que lire dans l'immédiat ?**
-Le focus actuel reste centré sur les révélations géopolitiques autour d'Egghead et la marche triomphale vers Elbaf. Les chapitres officiels sont consultables de façon légitime sur l'application officielle MANGA Plus, garantissant des traductions impeccables et un accès en temps réel dès la parution au Japon.`,
-        tags: ["Oda", "Manga Plus", "Chapitres", "Saga Finale"]
-      },
-      "le concept du Haki des Rois (Haoshoku) et les personnages légendaires qui le maîtrisent": {
-        title: "L'ART DU COMBAT : Le mystère profond du Haki des Rois !",
-        summary: "Décryptage ciblé de l'énergie spirituelle des conquérants, un pouvoir d'esprit qu'un être sur un milieu possède dès l'enfance.",
-        content: `**La volonté de dominer et d'unifier**
-        
-Le Haoshoku Haki (Haki des Rois) ne s'acquiert pas par l'entraînement physique intensif. C'est l'essence spirituelle d'une personne née pour diriger les autres. Ce fluide exceptionnel permet d'intimider, de faire plier les esprits adverses et de projeter ses coups sans aucun contact physique direct.
-
-**Qui le maîtrise avec panache ?**
-De la force brute de Gol D. Roger au Haki impérial déferlant de Shanks le Roux, ce pouvoir reste le propre des personnages qui changent le cours de l'histoire par leur détermination inébranlable.`,
-        tags: ["Haki des Rois", "Volonté", "Shanks", "Luffy"]
-      },
-      "l'analyse du jeu One Piece Odyssey, de Grand Line Hub et des meilleurs jeux mobiles de la franchise": {
-        title: "CHRONIQUE JEU : Pourquoi One Piece Odyssey est un régal pour les fans !",
-        summary: "Une critique focalisée sur la fidélité de l'adaptation en RPG traditionnel par rapport aux souvenirs et aux batailles iconiques.",
-        content: `**Une immersion totale au cœur de nos souvenirs**
-        
-Le RPG tour par tour 'One Piece Odyssey' brille par son écriture soignée par l'auteur original. Le joueur revit les arcs narratifs majeurs tels qu'Alabasta ou Water Seven sous un prisme nostalgique enrichi par des mécaniques de combat tactiques adaptées à chaque membre de l'équipage.
-
-**Pourquoi y jouer maintenant ?**
-Le moyen idéal d'incarner chaque membre du Chapeau de Paille avec de véritables compétences fidèles au manga. Un pur moment d'exploration d'une beauté saisissante !`,
-        tags: ["Jeux Vidéo", "Odyssey", "Chronique", "RPG"]
-      },
-      "le destin tragique de Portgas D. Ace et l'héritage transmis à Luffy et Sabo": {
-        title: "MÉMOIRE D'ACE : Les flammes du destin vivent à travers Sabo !",
-        summary: "Analyse d'une transmission de volonté légendaire : comment Sabo a repris le flambeau du poing de feu à Dressrosa.",
-        content: `**Le sacrifice inoubliable de Marineford**
-        
-Le trépas héroïque de Portgas D. Ace a secoué le monde entier. Mais sa volonté n'a jamais péri de la surface du globe. Elle a ressuscité sous la forme éclatante de son frère d'armes Sabo, devenu le numéro deux de l'Armée Révolutionnaire.
-
-**La conquête du Mera Mera no Mi**
-Lors du tournoi du Colisée de Dressrosa, en s'emparant du fruit des flammes d'Ace, Sabo a accompli la plus belle promesse d'héritage d'One Piece. Sabo protège désormais la route de Luffy sous les traits étincelants du nouvel Empereur des Flammes !`,
-        tags: ["Ace", "Sabo", "Mera Mera", "Héritage"]
-      },
-      "qui est Joy Boy, son lien historique avec Zunesha et les hommes-poissons": {
-        title: "JOY BOY : La promesse brisée d'un monde sans chaînes !",
-        summary: "L'histoire touchante de la lettre d'excuses gravée sur le Ponéglyphe de la forêt sous-marine et adressée aux habitants de l'océan.",
-        content: `**La lettre d'excuse de la Forêt Marine**
-        
-Joy Boy était un homme d'action du Siècle Oublié. Il s'était engagé auprès de la Princesse Sirène (Poséidon) à remonter tous les Hommes-Poissons à la surface de la terre à bord de l'arche géante Noah. 
-
-**Pourquoi la promesse est-elle restée inachevée ?**
-N'ayant pu tenir parole suite à la chute de son royaume face à l'Alliance des vingt rois coalisés, il fit sculpter un mot d'excuse immortel sur un Ponéglyphe. Ce regret historique lie à jamais l'avenir des Hommes-Poissons à l'éveil du prochain messager de liberté !`,
-        tags: ["Joy Boy", "Ponéglyphe", "Poséidon", "Hommes-Poissons"]
+    // Récupérer les articles existants pour en extraire les sujets déjà traités
+    const allArticlesSnap = await getDocs(collection(db, "wejArticles"));
+    const activeTopics = new Set<string>();
+    allArticlesSnap.forEach(d => {
+      const data = d.data();
+      if (data.topic) {
+        activeTopics.add(data.topic);
+      } else if (data.title) {
+        const matchedTopic = WEJ_TOPICS.find(t => data.title.toLowerCase().includes(t.toLowerCase().substring(0, 15)));
+        if (matchedTopic) activeTopics.add(matchedTopic);
       }
-    };
+    });
+
+    const unusedTopics = WEJ_TOPICS.filter(t => !activeTopics.has(t));
+    let pickedTopic = unusedTopics.length > 0 
+      ? unusedTopics[Math.floor(Math.random() * unusedTopics.length)]
+      : WEJ_TOPICS[Math.floor(Math.random() * WEJ_TOPICS.length)];
 
     let finalArticle: { title: string; summary: string; content: string; tags: string[] };
 
@@ -540,15 +762,7 @@ N'ayant pu tenir parole suite à la chute de son royaume face à l'Alliance des 
     } catch (apiErr: any) {
       console.warn("La génération par l'API Gemini a échoué (surcharde ou indisponibilité s'expliquant par le message suivant):", apiErr.message || apiErr);
       
-      // Sélectionne l'article pré-écrit approprié, ou l'article par défaut
-      const fallback = FALLBACK_ARTICLES[pickedTopic] || FALLBACK_ARTICLES["les mystères du Siècle Oublié et l'importance de Luffy en Gear 5"];
-      
-      finalArticle = {
-        title: fallback.title,
-        summary: fallback.summary,
-        content: fallback.content + "\n\n*(Note du Président Morgans : Nos escargophones de transmission ont subi des interférences majeures provoquées par la Marine ou une forte demande mondiale ! Cette édition a été acheminée et imprimée grâce à notre flotte de mouettes de secours afin d'assurer l'information quotidienne de nos abonnés !)*",
-        tags: [...fallback.tags, "Édition de Secours", "Pigeon Voyageur"]
-      };
+      finalArticle = getFallbackArticleForTopic(pickedTopic);
     }
 
     const newArticle = {
@@ -556,6 +770,7 @@ N'ayant pu tenir parole suite à la chute de son royaume face à l'Alliance des 
       summary: finalArticle.summary,
       content: finalArticle.content,
       tags: finalArticle.tags,
+      topic: pickedTopic,
       author: "Morgans (Journaliste WEJ)",
       publishDate: todayStr,
       views: 1,
@@ -565,6 +780,9 @@ N'ayant pu tenir parole suite à la chute de son royaume face à l'Alliance des 
     };
 
     await setDoc(docRef, newArticle);
+
+    // Lance également un nettoyage des doublons asynchrone
+    cleanAndReplaceDuplicates().catch(err => console.error("Nettoyage asynchrone échoué :", err));
 
     res.json({
       success: true,

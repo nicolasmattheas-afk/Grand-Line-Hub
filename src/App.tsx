@@ -20,6 +20,7 @@ import BountyLeaderboard, { LeaderboardEntry } from "./components/BountyLeaderbo
 import WEJSection from "./components/WEJSection";
 import BlogSection from "./components/BlogSection";
 import UndercoverGame from "./components/UndercoverGame";
+import MotsCroises from "./components/MotsCroises";
 import AdSenseBanner from "./components/AdSenseBanner";
 import { LanguageSelector } from "./components/LanguageSelector";
 import { collection, getDocs, doc, updateDoc, getDoc, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
@@ -358,9 +359,22 @@ export default function App() {
           if (norm.includes("kizaru") || norm.includes("borsalino")) return "borsalinokizaru";
           if (norm.includes("aokiji") || norm.includes("kuzan")) return "kuzanaokiji";
           if (norm.includes("akainu") || norm.includes("sakazuki")) return "sakazukiakainu";
-          if (norm.includes("law") || norm.includes("trafalgar")) return "trafalgardwaterlaw";
-          if (norm.includes("zoro") || norm.includes("roronoa")) return "roronoazoro";
-          if (norm.includes("doflamingo") || norm.includes("donquixote")) return "donquixotedoflamingo";
+          if (norm.includes("law") || norm.includes("trafalgar")) {
+            if (norm.includes("lami") || norm.includes("lamy")) return "trafalgarlami";
+            return "trafalgardwaterlaw";
+          }
+          if (norm.includes("zoro") || norm.includes("roronoa")) {
+            if (norm.includes("pinzoro")) return "roronoapinzoro";
+            if (norm.includes("arashi")) return "roronoaarashi";
+            return "roronoazoro";
+          }
+          if (norm.includes("doflamingo") || norm.includes("donquixote")) {
+            if (norm.includes("rosinante") || norm.includes("corazon")) return "donquixoterosinante";
+            if (norm.includes("homing")) return "donquixotehoming";
+            if (norm.includes("mjosgard")) return "donquixotemjosgard";
+            if (norm.includes("shivercalero")) return "donquixoteshivercalero";
+            return "donquixotedoflamingo";
+          }
           if (norm.includes("croco") || norm.includes("mr0")) return "sircrocodile";
           if (norm.includes("barbenoire") || norm.includes("teach") || norm.includes("blackbeard")) return "marshalldteach";
           if (norm.includes("ener")) return "enel";
@@ -387,9 +401,37 @@ export default function App() {
           }
         });
 
-        // Special fallback
-        if (dbNameNorm === "monkeydluffy") {
+        // Special fallback to exclude allies and relatives who never fought Luffy as an opponent
+        const nonOpponents = [
+          "monkeydluffy",
+          "monkeyddragon",
+          "trafalgardwaterlaw",
+          "trafalgarlami",
+          "eustasskid",
+          "killer",
+          "sabo",
+          "portgasdace",
+          "yamato",
+          "jewelrybonney",
+          "silversrayleigh",
+          "shanks",
+          "marco",
+          "edwardnewgate",
+          "roronoapinzoro",
+          "roronoaarashi",
+          "donquixotehoming",
+          "donquixotemjosgard",
+          "donquixoterosinante",
+          "donquixoteshivercalero",
+          "kozukioden",
+          "shimotsukikozaburo",
+          "shimotsukiushimaru",
+          "shimotsukiryuma"
+        ];
+
+        if (nonOpponents.includes(dbNameNorm) || nonOpponents.includes(dbNameAligned)) {
           characterIsLuffyOpponent = false;
+          characterLuffyBattlesCount = 0;
         }
 
         return {
@@ -425,8 +467,8 @@ export default function App() {
     }
   }, []);
   
-  // Onglets : "home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover"
-  const [activeTab, setActiveTab] = useState<"home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover">("home");
+  // Onglets : "home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword"
+  const [activeTab, setActiveTab] = useState<"home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword">("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showAuthForm, setShowAuthForm] = useState(false);
   const [infoModal, setInfoModal] = useState<"about" | "privacy" | "terms" | "legal" | "contact" | null>(null);
@@ -666,11 +708,11 @@ export default function App() {
     else if (position <= 4) title = "Yonko";
     else if (position <= 11) title = "Shishibukai";
     else if (position <= 22) title = "Supernova";
-    else if (position <= 122) title = "Second d'empereur";
-    else if (position <= 322) title = "Commandant d'empereur";
-    else if (position <= 622) title = "Combattant de l'équipage";
-    else if (position <= 1122) title = "Membre de l'équipage";
-    else if (position <= 1922) title = "Chasseur de prime";
+    else if (position <= 30) title = "Second d'empereur";
+    else if (position <= 46) title = "Commandant d'empereur";
+    else if (position <= 69) title = "Combattant de l'équipage";
+    else if (position <= 99) title = "Membre de l'équipage";
+    else if (position <= 149) title = "Chasseur de prime";
     else title = "Mousse";
 
     return {
@@ -776,6 +818,7 @@ export default function App() {
     if (tab === "bountyTarget") return "Cible de Primes";
     if (tab === "alliances") return "Alliances Secrètes";
     if (tab === "undercover") return "Mission Undercover";
+    if (tab === "crossword") return "Mots Croisés";
     if (tab === "crew") return "Équipage";
     return "Menu Principal";
   };
@@ -877,6 +920,13 @@ export default function App() {
       description: "Un jeu de rôle social et de suspicion ! Démasquez l'imposteur (Mister White) infiltré au sein du navire.",
       icon: ShieldAlert,
       badge: "Rôles Cachés",
+    },
+    {
+      id: "crossword",
+      title: "Mots Croisés",
+      description: "Une grille de mots croisés sur l'univers de One Piece générée de manière procédurale avec une cagnotte de Berrys !",
+      icon: Brain,
+      badge: "Mots Croisés",
     },
     {
       id: "duel",
@@ -1142,7 +1192,20 @@ export default function App() {
             >
               <span className="absolute top-1 right-1 bg-rose-600 text-[7px] font-mono tracking-normal text-white px-1.5 py-0.5 rounded-full font-black animate-pulse shadow-md">NEW</span>
               <ShieldAlert className="w-5 h-5 text-rose-500" />
-              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Undercover</span>
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase whitespace-nowrap">Undercover</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("crossword"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all relative ${
+                activeTab === "crossword" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <span className="absolute top-1 right-1 bg-amber-500 text-[7px] font-mono tracking-normal text-black px-1.5 py-0.5 rounded-full font-black animate-pulse shadow-md">NEW</span>
+              <Brain className="w-5 h-5 text-amber-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase whitespace-nowrap">Mots Croisés</span>
             </button>
 
             <button
@@ -1355,8 +1418,21 @@ export default function App() {
                 }`}
               >
                 <ShieldAlert className="w-3.5 h-3.5 shrink-0 text-rose-500" />
-                <span>MISSION UNDERCOVER</span>
+                <span className="whitespace-nowrap">MISSION UNDERCOVER</span>
                 <span className="bg-rose-600 text-[8px] font-mono tracking-normal text-white px-1.5 py-0.5 rounded-full font-black animate-pulse ml-auto shrink-0 shadow-md">NEW</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab("crossword")}
+                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
+                  activeTab === "crossword" 
+                    ? "bg-violet-900 text-[#F8FAFC] border border-violet-500 animate-pulse" 
+                    : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
+                }`}
+              >
+                <Brain className="w-3.5 h-3.5 shrink-0 text-amber-400" />
+                <span className="whitespace-nowrap">MOTS CROISÉS</span>
+                <span className="bg-amber-500 text-[8px] font-mono tracking-normal text-black px-1.5 py-0.5 rounded-full font-black animate-pulse ml-auto shrink-0 shadow-md">NEW</span>
               </button>
 
               <button
@@ -1583,6 +1659,13 @@ export default function App() {
               <UndercoverGame 
                 characters={charactersDatabase} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Mission Undercover")}
+              />
+            )}
+
+            {activeTab === "crossword" && (
+              <MotsCroises 
+                globalBounty={playerBounty}
+                onUpdateBounty={(amt) => handleUpdateBounty(amt)}
               />
             )}
 

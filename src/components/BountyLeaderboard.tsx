@@ -306,11 +306,11 @@ export default function BountyLeaderboard({
     if (index <= 4) return "Yonko";
     if (index <= 11) return "Shishibukai";
     if (index <= 22) return "Supernova";
-    if (index <= 122) return "Second d'empereur";
-    if (index <= 322) return "Commandant d'empereur";
-    if (index <= 622) return "Combattant de l'équipage";
-    if (index <= 1122) return "Membre de l'équipage";
-    if (index <= 1922) return "Chasseur de prime";
+    if (index <= 30) return "Second d'empereur";
+    if (index <= 46) return "Commandant d'empereur";
+    if (index <= 69) return "Combattant de l'équipage";
+    if (index <= 99) return "Membre de l'équipage";
+    if (index <= 149) return "Chasseur de prime";
     return "Mousse";
   };
 
