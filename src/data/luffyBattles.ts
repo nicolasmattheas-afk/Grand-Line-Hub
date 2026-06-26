@@ -597,7 +597,7 @@ export const LUFFY_BATTLES: LuffyBattle[] = [
   {
     id: 66,
     opponent: "Aokiji, Kizaru & Akainu",
-    opponentsList: ["Kuzan [Aokiji]", "Borsalino [Kizaru]", "Sakazuki [Akainu]"],
+    opponentsList: ["Aokiji [Kuzan]", "Kizaru [Borsalino]", "Akainu [Sakazuki]"],
     result: "Fuite / Les trois Amiraux le bloquent",
     outcomeType: "fuite",
     sagaOrContext: "Marineford",
@@ -642,7 +642,7 @@ export const LUFFY_BATTLES: LuffyBattle[] = [
   {
     id: 71,
     opponent: "Kizaru & Aokiji",
-    opponentsList: ["Kuzan [Aokiji]", "Borsalino [Kizaru]", "Jinbe"],
+    opponentsList: ["Aokiji [Kuzan]", "Kizaru [Borsalino]", "Jinbe"],
     result: "Fuite réussie d'extrême justesse via le sous-marin de Law",
     outcomeType: "fuite",
     sagaOrContext: "Marineford",
@@ -1038,7 +1038,7 @@ export const LUFFY_BATTLES: LuffyBattle[] = [
   {
     id: 115,
     opponent: "L'armée enragée de Big Mom",
-    opponentsList: ["Charlotte Linlin [Big Mom]"],
+    opponentsList: ["Big Mom [Charlotte Linlin]"],
     result: "Défaite (Luffy finit totalement épuisé et capturé avec Nami)",
     outcomeType: "defaite",
     sagaOrContext: "Whole Cake Island",
@@ -1092,7 +1092,7 @@ export const LUFFY_BATTLES: LuffyBattle[] = [
   {
     id: 121,
     opponent: "Big Mom et Prométhée",
-    opponentsList: ["Charlotte Linlin [Big Mom]"],
+    opponentsList: ["Big Mom [Charlotte Linlin]"],
     result: "Interrompu / Fuite tactique",
     outcomeType: "fuite",
     sagaOrContext: "Whole Cake Island",
@@ -1101,7 +1101,7 @@ export const LUFFY_BATTLES: LuffyBattle[] = [
   {
     id: 122,
     opponent: "Big Mom et Zeus",
-    opponentsList: ["Charlotte Linlin [Big Mom]", "Sanji"],
+    opponentsList: ["Big Mom [Charlotte Linlin]", "Sanji"],
     result: "Interrompu / Fuite",
     outcomeType: "interrompu",
     sagaOrContext: "Whole Cake Island",
@@ -1254,7 +1254,7 @@ export const LUFFY_BATTLES: LuffyBattle[] = [
   {
     id: 139,
     opponent: "Kaidou & Big Mom",
-    opponentsList: ["Kaidou", "Charlotte Linlin [Big Mom]", "Roronoa Zoro", "Trafalgar D. Water Law", "Eustass Kid", "Killer"],
+    opponentsList: ["Kaidou", "Big Mom [Charlotte Linlin]", "Roronoa Zoro", "Trafalgar D. Water Law", "Eustass Kid", "Killer"],
     result: "Combat sur le toit d'Onigashima (Alliance Supernovas)",
     outcomeType: "interrompu",
     sagaOrContext: "Pays de Wa",
@@ -1281,7 +1281,7 @@ export const LUFFY_BATTLES: LuffyBattle[] = [
   {
     id: 142,
     opponent: "Kizaru",
-    opponentsList: ["Borsalino [Kizaru]"],
+    opponentsList: ["Kizaru [Borsalino]"],
     result: "Victoire (met Kizaru hors de combat temporairement avec un White Star Gun en Gear 5)",
     outcomeType: "victoire",
     sagaOrContext: "Egghead",
@@ -1290,7 +1290,7 @@ export const LUFFY_BATTLES: LuffyBattle[] = [
   {
     id: 143,
     opponent: "Kizaru et Saturn",
-    opponentsList: ["Borsalino [Kizaru]", "Jaygarcia Saturn"],
+    opponentsList: ["Kizaru [Borsalino]", "Jaygarcia Saturn"],
     result: "Victoire (les écrase littéralement comme des crêpes avec un Dawn Cymbal en Gear 5)",
     outcomeType: "victoire",
     sagaOrContext: "Egghead",

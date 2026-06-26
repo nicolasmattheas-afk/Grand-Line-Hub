@@ -650,7 +650,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Aramaki [Ryokugyu]",
+    "name": "Ryokugyu [Aramaki]",
     "image": "/images/characters/Aramaki.webp",
     "affiliation": "Marines",
     "devil_fruit": "Mori Mori no Mi",
@@ -670,14 +670,14 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Sphinx","chapter":"Chapter 1073"}
     ],
     "relationships": [
-        {"name": "Sakazuki [Akainu]","relationship": "Superior"},
-        {"name": "Issho [Fujitora]","relationship": "Colleague"},
-        {"name": "Borsalino [Kizaru]","relationship": "Colleague"},
+        {"name": "Akainu [Sakazuki]","relationship": "Superior"},
+        {"name": "Fujitora [Issho]","relationship": "Colleague"},
+        {"name": "Kizaru [Borsalino]","relationship": "Colleague"},
         {"name": "Monkey D. Luffy","relationship": "Enemy"}
     ]
   },
   {
-    "name": "Arber [King]",
+    "name": "King [Arber]",
     "image": "/images/characters/King.webp",
     "epithet": "the Conflagration",
     "affiliation": "Beasts Pirates",
@@ -698,7 +698,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Kaidou","relationship": "Former Captain"},
-        {"name": "Scien [Queen]","relationship": "Former Crewmate"},
+        {"name": "Queen [Scien]","relationship": "Former Crewmate"},
         {"name": "Jack","relationship": "Former Crewmate"},
         {"name": "Roronoa Zoro","relationship": "Defeated by"},
         {"name": "Page One","relationship": "Former Subordinate"},
@@ -756,7 +756,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Hody Jones","relationship": "Inspired"},
         {"name": "Nezumi","relationship": "Former Ally"},
         {"name": "Genzo","relationship": "Enemy"},
-        {"name": "Borsalino [Kizaru]","relationship": "Arrested by"}
+        {"name": "Kizaru [Borsalino]","relationship": "Arrested by"}
     ]
   },
   {
@@ -1052,7 +1052,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Kaidou","relationship": "Former Captain"},
-        {"name": "Scien [Queen]","relationship": "Former Superior"},
+        {"name": "Queen [Scien]","relationship": "Former Superior"},
         {"name": "Kurozumi Tama","relationship": "Tamed by"},
         {"name": "Dobon","relationship": "Former Subordinate"},
         {"name": "Daifugo","relationship": "Former Subordinate"},
@@ -1060,7 +1060,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Babe [Mr. 4]",
+    "name": "Mr. 4 [Babe]",
     "image": "/images/characters/Babe.webp",
     "epithet": "Catcher-Killing",
     "affiliation": "Baroque Works",
@@ -1079,19 +1079,19 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Crocodile","relationship": "Former Boss"},
-        {"name": "Drophy [Miss Merry Christmas]","relationship": "Partner, Coworker"},
+        {"name": "Miss Merry Christmas [Drophy]","relationship": "Partner, Coworker"},
         {"name": "Lassoo","relationship": "Weapon and Pet"},
         {"name": "Miss Thursday","relationship": "Sister"},
         {"name": "Usopp","relationship": "Defeated by"},
         {"name": "Nico Robin","relationship": "Former Superior"},
-        {"name": "Daz Bonez [Mr. 1]","relationship": "Former Superior"},
+        {"name": "Mr. 1 [Daz Bonez]","relationship": "Former Superior"},
         {"name": "Bentham (Bon Clay) [Mr. 2]","relationship": "Former Superior"},
-        {"name": "Galdino [Mr. 3]","relationship": "Former Superior"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Former Superior"},
         {"name": "Tashigi","relationship": "Arrested by"},
-        {"name": "Zala [Miss Doublefinger]","relationship": "Former Superior, Coworker"},
-        {"name": "Marianne [Miss Goldenweek]","relationship": "Former Superior, Coworker and Fred by"},
-        {"name": "Mikita [Miss Valentine]","relationship": "Former Subordinate, Coworker and Fred by"},
-        {"name": "Gem [Mr. 5]","relationship": "Former Subordinate, Coworker and Fred by"}
+        {"name": "Miss Doublefinger [Zala]","relationship": "Former Superior, Coworker"},
+        {"name": "Miss Goldenweek [Marianne]","relationship": "Former Superior, Coworker and Fred by"},
+        {"name": "Miss Valentine [Mikita]","relationship": "Former Subordinate, Coworker and Fred by"},
+        {"name": "Mr. 5 [Gem]","relationship": "Former Subordinate, Coworker and Fred by"}
     ]
   },
   {
@@ -1336,8 +1336,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"God Valley","chapter":"Chapter 1160"}
     ],
     "relationships": [
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
-        {"name": "Shakuyaku [Shakky]","relationship": "Ally"}
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"},
+        {"name": "Shakky [Shakuyaku]","relationship": "Ally"}
     ]
   },
   {
@@ -1474,7 +1474,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Nico Robin","relationship": "Separated from his crew"},
         {"name": "Cutty Flam [Franky]","relationship": "Separated from his crew"},
         {"name": "Brook","relationship": "Separated from his crew"},
-        {"name": "Borsalino [Kizaru]","relationship": "Friend"},
+        {"name": "Kizaru [Borsalino]","relationship": "Friend"},
         {"name": "Jaygarcia Saturn","relationship": "Enemy"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Rescued"},
         {"name": "Eris","relationship": "Rescued"}
@@ -1561,7 +1561,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Kaidou","relationship": "Former Captain"},
         {"name": "Eustass Kid","relationship": "Former Ally, Betrayed"},
         {"name": "Scratchmen Apoo","relationship": "Betrayed by"},
-        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Defeated"},
+        {"name": "Barbe Brune [Chadros Higelyges]","relationship": "Defeated"},
         {"name": "Trafalgar D. Water Law","relationship": "Enemy"},
         {"name": "Monkey D. Luffy","relationship": "Enemy"},
         {"name": "X Drake","relationship": "Enemy, Former Superior (undercover)"},
@@ -1606,7 +1606,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Dressrosa","chapter":"Chapter 717"}
     ],
     "relationships": [
-        {"name": "Issho [Fujitora]","relationship": "Superior"},
+        {"name": "Fujitora [Issho]","relationship": "Superior"},
         {"name": "Sabo","relationship": "Defeated by"},
         {"name": "Maynard","relationship": "Comrade"}
     ]
@@ -1967,17 +1967,17 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Luffy","relationship": "Friend"},
         {"name": "Crocodile","relationship": "Former Boss"},
         {"name": "Akumai","relationship": "Former Subordinate"},
-        {"name": "Drophy [Miss Merry Christmas]","relationship": "Former Subordinate"},
+        {"name": "Miss Merry Christmas [Drophy]","relationship": "Former Subordinate"},
         {"name": "Sanji","relationship": "Defeated by"},
         {"name": "Nico Robin","relationship": "Former Superior"},
-        {"name": "Daz Bonez [Mr. 1]","relationship": "Former Superior"},
-        {"name": "Galdino [Mr. 3]","relationship": "Former Subordinate"},
+        {"name": "Mr. 1 [Daz Bonez]","relationship": "Former Superior"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Former Subordinate"},
         {"name": "Magellan","relationship": "Enemy"},
         {"name": "Hannyabal","relationship": "Enemy"},
-        {"name": "Zala [Miss Doublefinger]","relationship": "Former Superior"},
-        {"name": "Marianne [Miss Goldenweek]","relationship": "Former Subordinate"},
-        {"name": "Mikita [Miss Valentine]","relationship": "Former Subordinate"},
-        {"name": "Gem [Mr. 5]","relationship": "Former Subordinate"},
+        {"name": "Miss Doublefinger [Zala]","relationship": "Former Superior"},
+        {"name": "Miss Goldenweek [Marianne]","relationship": "Former Subordinate"},
+        {"name": "Miss Valentine [Mikita]","relationship": "Former Subordinate"},
+        {"name": "Mr. 5 [Gem]","relationship": "Former Subordinate"},
         {"name": "Hina","relationship": "Arrested by"},
         {"name": "Emporio Ivankov","relationship": "Idol"}
     ]
@@ -2488,7 +2488,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Jaygarcia Saturn","relationship": "Ordered Buster Call"},
-      {"name": "Borsalino [Kizaru]","relationship": "Superior"},
+      {"name": "Kizaru [Borsalino]","relationship": "Superior"},
       {"name": "Doberman","relationship": "Buster Call Comrade"},
       {"name": "Red King","relationship": "Buster Call Comrade"},
       {"name": "Doll","relationship": "Buster Call Comrade"},
@@ -2611,7 +2611,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Boa Sandersonia","relationship": "Sister"},
         {"name": "Silvers Rayleigh","relationship": "Friend"},
         {"name": "Tritoma","relationship": "Empress Predecessor"},
-        {"name": "Shakuyaku [Shakky]","relationship": "Empress Predecessor"},
+        {"name": "Shakky [Shakuyaku]","relationship": "Empress Predecessor"},
         {"name": "Gloriosa","relationship": "Empress Predecessor"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
         {"name": "Fisher Tiger","relationship": "Freed by"},
@@ -2688,7 +2688,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 651"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Former Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Former Captain"},
         {"name": "Vito","relationship": "Defeated by"}
     ]
   },
@@ -2893,7 +2893,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Borsalino [Kizaru]",
+    "name": "Kizaru [Borsalino]",
     "image": "/images/characters/Borsalino.webp",
     "affiliation": "Marines",
     "devil_fruit": "Pika Pika no Mi",
@@ -2919,9 +2919,9 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Egghead","chapter":"Chapter 1069"}
     ],
     "relationships": [
-        {"name": "Sakazuki [Akainu]","relationship": "Superior"},
-        {"name": "Issho [Fujitora]","relationship": "Colleague"},
-        {"name": "Aramaki [Ryokugyu]","relationship": "Colleague"},
+        {"name": "Akainu [Sakazuki]","relationship": "Superior"},
+        {"name": "Fujitora [Issho]","relationship": "Colleague"},
+        {"name": "Ryokugyu [Aramaki]","relationship": "Colleague"},
         {"name": "Vegapunk","relationship": "Friend"},
         {"name": "Sentomaru","relationship": "Friend"},
         {"name": "Monkey D. Luffy","relationship": "Enemy"},
@@ -3087,7 +3087,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Kashii","relationship": "Subordinate"},
         {"name": "Monkey D. Luffy","relationship": "Ally"},
         {"name": "Nerona Imu","relationship": "Domi Reversi'ed by"},
-        {"name": "Galdino [Mr. 3]","relationship": "Defeated by"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Defeated by"},
         {"name": "Jarul","relationship": "Former Captain"},
         {"name": "Jorul","relationship": "Former Captain"},
         {"name": "Shanks","relationship": "Friend"}
@@ -3156,7 +3156,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Gecko Moria [Kouzuki Moria]","relationship": "Shadow stolen by"},
         {"name": "Shimotsuki Ryuma","relationship": "Shadow Vessel, Enemy"},
         {"name": "Sancrin","relationship": "Former Manager"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"},
         {"name": "Shuri [Gunko]","relationship": "Old friend"},
         {"name": "Reuven","relationship": "Former Boss"},
         {"name": "Candelle","relationship": "Former Boss"}
@@ -3191,7 +3191,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Streusen","relationship": "Leader"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Serving"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Serving"}
     ]
   },
   {
@@ -3241,14 +3241,14 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Edward Newgate [Barbe Blanche]","relationship": "Unrequited love"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"},
         {"name": "Edward Weevil","relationship": "Son"},
         {"name": "Vegapunk","relationship": "Former Leader"},
         {"name": "Caesar Clown","relationship": "Former Colleague"},
         {"name": "Vinsmoke Judge","relationship": "Former Colleague"},
-        {"name": "Scien [Queen]","relationship": "Former Colleague"},
+        {"name": "Queen [Scien]","relationship": "Former Colleague"},
         {"name": "Stussy","relationship": "Clone"},
-        {"name": "Shakuyaku [Shakky]","relationship": "Ally"}
+        {"name": "Shakky [Shakuyaku]","relationship": "Ally"}
     ]
   },
   {
@@ -3318,8 +3318,8 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Dracule Mihawk","relationship": "De Facto Captain"},
         {"name": "Alvida","relationship": "Subordinate"},
         {"name": "Cabaji","relationship": "Subordinate"},
-        {"name": "Daz Bonez [Mr. 1]","relationship": "Subordinate"},
-        {"name": "Galdino [Mr. 3]","relationship": "Subordinate"},
+        {"name": "Mr. 1 [Daz Bonez]","relationship": "Subordinate"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Subordinate"},
         {"name": "Mohji","relationship": "Subordinate"},
         {"name": "Richie","relationship": "Subordinate"},
         {"name": "Gol D. Roger","relationship": "Former Captain"},
@@ -3506,8 +3506,8 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Roronoa Zoro","relationship": "Defeated by"},
         {"name": "Mohji","relationship": "Crewmate"},
         {"name": "Alvida","relationship": "Crewmate"},
-        {"name": "Galdino [Mr. 3]","relationship": "Crewmate"},
-        {"name": "Daz Bonez [Mr. 1]","relationship": "Crewmate"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Crewmate"},
+        {"name": "Mr. 1 [Daz Bonez]","relationship": "Crewmate"},
         {"name": "Richie","relationship": "Crewmate"}
     ]
   },
@@ -3537,17 +3537,17 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Vegapunk","relationship": "Former Leader and Rival"},
         {"name": "Buckingham Stussy","relationship": "Former Colleague"},
         {"name": "Vinsmoke Judge","relationship": "NEO MADS Co-Founder and Former Colleague"},
-        {"name": "Scien [Queen]","relationship": "Former Colleague"},
+        {"name": "Queen [Scien]","relationship": "Former Colleague"},
         {"name": "Monkey D. Luffy","relationship": "Defeated by"},
         {"name": "Trafalgar D. Water Law","relationship": "Enemy"},
         {"name": "Donquixote Doflamingo","relationship": "Served"},
         {"name": "Kaidou","relationship": "Served"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Captured by"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Captured by"},
         {"name": "Capone Bege","relationship": "Enemy and Freed by"},
         {"name": "Monet","relationship": "Killed, Former Ally"},
         {"name": "Vergo","relationship": "Former Ally"},
         {"name": "Smiley","relationship": "Pet"},
-        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Subordinate"},
+        {"name": "Barbe Brune [Chadros Higelyges]","relationship": "Former Subordinate"},
         {"name": "Kouzuki Momonosuke","relationship": "Captured"}
     ]
   },
@@ -3582,7 +3582,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - cooking with Kuzan","chapter":"Chapter 836", "region":"New World"}
     ],
     "relationships": [
-        {"name": "Kuzan [Aokiji]","relationship": "Former Owner"}
+        {"name": "Aokiji [Kuzan]","relationship": "Former Owner"}
     ]
   },
   {
@@ -3724,7 +3724,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Pound","relationship": "Father-in-law"},
         {"name": "Vito","relationship": "Subordinate"},
         {"name": "Pekoms","relationship": "Enemy, Former Ally"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy (formerly served) and mother-in-law"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy (formerly served) and mother-in-law"}
     ]
   },
   {
@@ -3817,7 +3817,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 867"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Took care of, later eaten by"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Took care of, later eaten by"},
         {"name": "John Giant","relationship": "Allowed to join the marines (scripted)"},
         {"name": "Pandora","relationship": "Created"}
     ]
@@ -4050,7 +4050,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Chadros Higelyges [Barbe Brune]",
+    "name": "Barbe Brune [Chadros Higelyges]",
     "image": "/images/characters/Chadros_Higelyges.webp",
     "epithet": "Boss",
     "affiliation": "Caesar Clown (Defected)",
@@ -4142,7 +4142,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Caesar Clown","relationship": "Former Boss"},
-        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
+        {"name": "Barbe Brune [Chadros Higelyges]","relationship": "Former Superior"}
     ]
   },
   {
@@ -4158,7 +4158,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 894"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Newichi","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newji","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newsan","relationship": "Decuplet and Crewmate"},
@@ -4183,7 +4183,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 894"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Newichi","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newji","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newsan","relationship": "Decuplet and Crewmate"},
@@ -4209,7 +4209,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 827"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Mondée","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Hachée","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Effilée","relationship": "Quadruplet and Crewmate"}
@@ -4228,7 +4228,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -4245,7 +4245,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 860"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Cracker","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Custard","relationship": "Triplet and Crewmate"}
     ]
@@ -4263,7 +4263,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -4279,7 +4279,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 862"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Saint-Marc","relationship": "Twin Brother and Crewmate"}
     ]
   },
@@ -4297,7 +4297,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 930"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Nusstorte","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Dosmarche","relationship": "Triplet and Crewmate"}
     ]
@@ -4315,7 +4315,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 888"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Snack","relationship": "Twin Brother and Crewmate"}
     ]
   },
@@ -4332,7 +4332,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -4351,7 +4351,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 1119"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Brûlée","relationship": "Twin Sister and Crewmate"}
     ]
   },
@@ -4371,7 +4371,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 831"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Broyé","relationship": "Twin Sister and Crewmate"},
         {"name": "Charlotte Katakuri","relationship": "Admires, Brother"},
         {"name": "Kingbaum","relationship": "Subordinate"},
@@ -4391,7 +4391,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Opera","relationship": "Quintuplet and Crewmate"},
         {"name": "Charlotte Counter","relationship": "Quintuplet and Crewmate"},
         {"name": "Charlotte Cadenza","relationship": "Quintuplet and Crewmate"},
@@ -4412,7 +4412,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Opera","relationship": "Quintuplet and Crewmate"},
         {"name": "Charlotte Counter","relationship": "Quintuplet and Crewmate"},
         {"name": "Charlotte Cabaletta","relationship": "Quintuplet and Crewmate"},
@@ -4432,7 +4432,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 894"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -4456,7 +4456,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Charlotte Lola","relationship": "Twin Sister"},
         {"name": "Capone Pez","relationship": "Son"},
         {"name": "Pound","relationship": "Father"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother, Former Captain and Abused by"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother, Former Captain and Abused by"},
         {"name": "Gotti","relationship": "Brother-in-law and Crewmate"},
         {"name": "Vito","relationship": "Crewmate"},
         {"name": "Monkey D. Luffy","relationship": "Ally"},
@@ -4478,7 +4478,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 860"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Smoothie","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Citron","relationship": "Triplet and Crewmate"}
     ]
@@ -4497,7 +4497,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 861"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Smoothie","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Cinnamon","relationship": "Triplet and Crewmate"}
     ]
@@ -4515,7 +4515,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 864"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Laurin","relationship": "Twin Brother and Crewmate"}
     ]
   },
@@ -4533,7 +4533,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 930"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -4549,7 +4549,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 865"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Moscato","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Mash","relationship": "Triplet and Crewmate"}
     ]
@@ -4568,7 +4568,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Opera","relationship": "Quintuplet and Crewmate"},
         {"name": "Charlotte Cabaletta","relationship": "Quintuplet and Crewmate"},
         {"name": "Charlotte Cadenza","relationship": "Quintuplet and Crewmate"},
@@ -4594,11 +4594,11 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 835"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Custard","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Angel","relationship": "Triplet and Crewmate"},
         {"name": "Monkey D. Luffy","relationship": "Defeated by"},
-        {"name": "Kuzan [Aokiji]","relationship": "Defeated by"},
+        {"name": "Aokiji [Kuzan]","relationship": "Defeated by"},
         {"name": "Kingbaum","relationship": "Subordinate"},
         {"name": "Randolph","relationship": "Subordinate"}
     ]
@@ -4617,7 +4617,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 862"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Cracker","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Angel","relationship": "Triplet and Crewmate"}
     ]
@@ -4635,7 +4635,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 854"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -4658,7 +4658,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 930"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Katakuri","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Oven","relationship": "Triplet and Crewmate"},
         {"name": "Capone Bege","relationship": "Enemy"}
@@ -4677,7 +4677,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother"}
     ]
   },
   {
@@ -4693,7 +4693,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Dragée","relationship": "Twin Brother and Crewmate"}
     ]
   },
@@ -4710,7 +4710,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 861"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Nusstorte","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Basskarte","relationship": "Triplet and Crewmate"}
     ]
@@ -4728,7 +4728,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Dolce","relationship": "Twin Brother and Crewmate"}
     ]
   },
@@ -4746,7 +4746,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 930"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Mondée","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Amande","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Hachée","relationship": "Quadruplet and Crewmate"}
@@ -4768,7 +4768,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 930"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Katakuri","relationship": "Admired, Brother"}
     ]
   },
@@ -4785,7 +4785,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 894"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Newichi","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newji","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newsan","relationship": "Decuplet and Crewmate"},
@@ -4810,7 +4810,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Opera","relationship": "Quintuplet and Crewmate"},
         {"name": "Charlotte Cabaletta","relationship": "Quintuplet and Crewmate"},
         {"name": "Charlotte Cadenza","relationship": "Quintuplet and Crewmate"},
@@ -4832,7 +4832,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 930"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Poire","relationship": "Twin Sister and Crewmate"}
     ]
   },
@@ -4849,7 +4849,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 871"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Effilée","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Amande","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Mondée","relationship": "Quadruplet and Crewmate"}
@@ -4868,7 +4868,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 894"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Newichi","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newji","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newsan","relationship": "Decuplet and Crewmate"},
@@ -4893,7 +4893,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 862"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Tablet","relationship": "Twin Brother and Crewmate"}
     ]
   },
@@ -4910,7 +4910,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 894"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -4926,7 +4926,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Mascarpone","relationship": "Twin Brother and Crewmate"}
     ]
   },
@@ -4943,7 +4943,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 862"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Kato","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Montb","relationship": "Triplet and Crewmate"}
     ]
@@ -4967,7 +4967,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 930"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Daifuku","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Oven","relationship": "Triplet and Crewmate"},
         {"name": "Monkey D. Luffy","relationship": "Rival and Defeated by"},
@@ -4987,7 +4987,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 854"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Kanten","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Montb","relationship": "Triplet and Crewmate"}
     ]
@@ -5005,12 +5005,12 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 864"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Compo","relationship": "Twin Brother and Crewmate"}
     ]
   },
   {
-    "name": "Charlotte Linlin [Big Mom]",
+    "name": "Big Mom [Charlotte Linlin]",
     "image": "/images/characters/Charlotte_Linlin.webp",
     "epithet": "Evil Spirit",
     "affiliation": "Big Mom Pirates",
@@ -5059,7 +5059,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Luffy","relationship": "Enemy"},
         {"name": "Charlotte Pudding","relationship": "Enemy and Daughter"},
         {"name": "Vinsmoke Judge","relationship": "Enemy"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"},
         {"name": "Brook","relationship": "Captured for her collection"},
         {"name": "Jinbe","relationship": "Enemy and Former Subordinate"},
         {"name": "Caesar Clown","relationship": "Former Ally"},
@@ -5091,7 +5091,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - getting married","chapter":"Chapter 993", "region":"New World"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother"},
         {"name": "Charlotte Chiffon","relationship": "Twin Sister"},
         {"name": "Gotti","relationship": "Husband"},
         {"name": "Capone Bege","relationship": "Brother-in-law"},
@@ -5115,7 +5115,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 897"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Mobile","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Marble","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Myukuru","relationship": "Quadruplet and Crewmate"}
@@ -5134,7 +5134,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 894"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Mobile","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Maple","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Myukuru","relationship": "Quadruplet and Crewmate"}
@@ -5153,7 +5153,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 861"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Marnier","relationship": "Twin Sister and Crewmate"}
     ]
   },
@@ -5170,7 +5170,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Joscarpone","relationship": "Twin Brother and Crewmate"}
     ]
   },
@@ -5187,7 +5187,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 865"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Moscato","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Cornstarch","relationship": "Triplet and Crewmate"}
     ]
@@ -5205,7 +5205,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 854"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -5223,7 +5223,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 1119"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Marble","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Maple","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Myukuru","relationship": "Quadruplet and Crewmate"}
@@ -5242,7 +5242,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 854"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Amande","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Hachée","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Effilée","relationship": "Quadruplet and Crewmate"}
@@ -5268,7 +5268,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 1119"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Monkey D. Luffy","relationship": "Enemy"}
     ]
   },
@@ -5285,7 +5285,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 897"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Kanten","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Kato","relationship": "Triplet and Crewmate"}
     ]
@@ -5303,7 +5303,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 829"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain; Lifespan removed by"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain; Lifespan removed by"},
         {"name": "Charlotte Mash","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Cornstarch","relationship": "Triplet and Crewmate"}
     ]
@@ -5321,7 +5321,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 862"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Marnier","relationship": "Twin Sister and Crewmate"}
     ]
   },
@@ -5338,7 +5338,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Mobile","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Marble","relationship": "Quadruplet and Crewmate"},
         {"name": "Charlotte Maple","relationship": "Quadruplet and Crewmate"}
@@ -5357,7 +5357,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Harumeg","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newji","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newsan","relationship": "Decuplet and Crewmate"},
@@ -5382,7 +5382,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Harumeg","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newji","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newsan","relationship": "Decuplet and Crewmate"},
@@ -5407,7 +5407,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Harumeg","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newichi","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newsan","relationship": "Decuplet and Crewmate"},
@@ -5432,7 +5432,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Harumeg","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newji","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newichi","relationship": "Decuplet and Crewmate"},
@@ -5458,7 +5458,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Harumeg","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newji","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newsan","relationship": "Decuplet and Crewmate"},
@@ -5483,7 +5483,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 862"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -5499,7 +5499,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -5515,7 +5515,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 894"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -5531,7 +5531,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 854"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Basskarte","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Dosmarche","relationship": "Triplet and Crewmate"}
     ]
@@ -5549,7 +5549,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 894"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Harumeg","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newji","relationship": "Decuplet and Crewmate"},
         {"name": "Charlotte Newsan","relationship": "Decuplet and Crewmate"},
@@ -5575,7 +5575,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 829"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain; Lifespan removed by"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain; Lifespan removed by"},
         {"name": "Charlotte Gala","relationship": "Quintuplet and Crewmate"},
         {"name": "Charlotte Cabaletta","relationship": "Quintuplet and Crewmate"},
         {"name": "Charlotte Cadenza","relationship": "Quintuplet and Crewmate"},
@@ -5601,7 +5601,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 861"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Katakuri","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Daifuku","relationship": "Triplet and Crewmate"}
     ]
@@ -5619,7 +5619,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 897"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -5641,7 +5641,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 930"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Pedro","relationship": "Killed"},
         {"name": "Carrot","relationship": "Enemy"},
         {"name": "Marco","relationship": "Enemy"}
@@ -5660,7 +5660,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 860"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Galette","relationship": "Twin Sister and Crewmate"}
     ]
   },
@@ -5680,7 +5680,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 860"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Enemy"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Enemy"},
         {"name": "Charlotte Prim","relationship": "Twin Sister"},
         {"name": "Aladine","relationship": "Husband and Crewmate"},
         {"name": "Jinbe","relationship": "Former Captain"}
@@ -5700,7 +5700,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 896"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Praline","relationship": "Twin Sister"}
     ]
   },
@@ -5721,7 +5721,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Hachinosu","chapter":"Chapter 1126"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Sanji","relationship": "Former Fiancé and Ally, In Love With"},
         {"name": "Monkey D. Luffy","relationship": "Ally, Former Enemy"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Kidnapped by"},
@@ -5743,7 +5743,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -5759,7 +5759,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 862"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Basans","relationship": "Twin Brother and Crewmate"}
     ]
   },
@@ -5783,7 +5783,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 1114"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte Cinnamon","relationship": "Triplet and Crewmate"},
         {"name": "Charlotte Citron","relationship": "Triplet and Crewmate"}
     ]
@@ -5802,7 +5802,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 894"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Urouge","relationship": "Defeated by"},
         {"name": "Charlotte Bavarois","relationship": "Twin Brother and Crewmate"}
     ]
@@ -5820,7 +5820,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 862"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"},
         {"name": "Charlotte High-Fat","relationship": "Twin Brother and Crewmate"}
     ]
   },
@@ -5837,7 +5837,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 845"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -5850,7 +5850,7 @@ export const RAW_CHARACTERS: any[] = [
     "status": "Alive",
     "description": "43th son and 80th child of the Charlotte Family. Snakeneck-human hybrid",
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -5866,7 +5866,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 894"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -5882,7 +5882,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 862"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Mother and Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Mother and Captain"}
     ]
   },
   {
@@ -6142,7 +6142,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 827"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Served"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Served"}
     ]
   },
   {
@@ -6716,19 +6716,19 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Buggy","relationship": "Captain (figurehead)"},
         {"name": "Dracule Mihawk","relationship": "De Facto Captain Comrade"},
         {"name": "Nico Robin","relationship": "Former Partner"},
-        {"name": "Daz Bonez [Mr. 1]","relationship": "Subordinate"},
-        {"name": "Galdino [Mr. 3]","relationship": "Subordinate"},
+        {"name": "Mr. 1 [Daz Bonez]","relationship": "Subordinate"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Subordinate"},
         {"name": "Alvida","relationship": "Subordinate"},
         {"name": "Mohji","relationship": "Subordinate"},
         {"name": "Richie","relationship": "Subordinate"},
         {"name": "Cabaji","relationship": "Subordinate"},
-        {"name": "Zala [Miss Doublefinger]","relationship": "Former Subordinate"},
+        {"name": "Miss Doublefinger [Zala]","relationship": "Former Subordinate"},
         {"name": "Bentham (Bon Clay) [Mr. 2]","relationship": "Former Subordinate"},
-        {"name": "Marianne [Miss Goldenweek]","relationship": "Former Subordinate"},
-        {"name": "Babe [Mr. 4]","relationship": "Former Subordinate"},
-        {"name": "Drophy [Miss Merry Christmas]","relationship": "Former Subordinate"},
-        {"name": "Gem [Mr. 5]","relationship": "Former Subordinate"},
-        {"name": "Mikita [Miss Valentine]","relationship": "Former Subordinate"},
+        {"name": "Miss Goldenweek [Marianne]","relationship": "Former Subordinate"},
+        {"name": "Mr. 4 [Babe]","relationship": "Former Subordinate"},
+        {"name": "Miss Merry Christmas [Drophy]","relationship": "Former Subordinate"},
+        {"name": "Mr. 5 [Gem]","relationship": "Former Subordinate"},
+        {"name": "Miss Valentine [Mikita]","relationship": "Former Subordinate"},
         {"name": "Mr. 13","relationship": "Former Subordinate"},
         {"name": "Miss Friday","relationship": "Former Subordinate"},
         {"name": "Nefertari Vivi","relationship": "Former Subordinate and Enemy"},
@@ -6963,7 +6963,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Monkey D. Luffy","relationship": "Target"},
-        {"name": "Sakazuki [Akainu]","relationship": "Superior"}
+        {"name": "Akainu [Sakazuki]","relationship": "Superior"}
     ]
   },
   {
@@ -7122,13 +7122,13 @@ export const RAW_CHARACTERS: any[] = [
     "status": "Deceased",
     "description": "Legendary pirate and member of the Davy clan from 800 years ago who was said to have been cursed by a demon to live on the sea floor. Throughout history, certain pirates have admired and even worshipped this figure, and he is the namesake behind the Davy Back Fight. Speculated to be previous King of the World ",
     "relationships": [
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Inspired, Descendant"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Inspired, Descendant"},
         {"name": "Nerona Imu","relationship": "Enemy"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Inspired, Descendant"}
     ]
   },
   {
-    "name": "Davy D. Xebec [Rocks]",
+    "name": "Rocks D. Xebec [Davy]",
     "image": "/images/characters/Rocks_D._Xebec.webp",
     "affiliation": "Rocks Pirates",
     "origin": "West Blue (God Valley)",
@@ -7154,7 +7154,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Davy D. Jones","relationship": "Ancestor, Inspiration"},
         {"name": "Eris","relationship": "Wife"},
         {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Subordinate"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Former Subordinate"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Former Subordinate"},
         {"name": "Shiki","relationship": "Former Subordinate"},
         {"name": "Buckingham Stussy","relationship": "Former Subordinate"},
         {"name": "Marlon","relationship": "Former Subordinate"},
@@ -7162,10 +7162,10 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Ganzui","relationship": "Former Subordinate"},
         {"name": "John","relationship": "Former Subordinate"},
         {"name": "Streusen","relationship": "Former Subordinate"},
-        {"name": "Shakuyaku [Shakky]","relationship": "Ally"},
+        {"name": "Shakky [Shakuyaku]","relationship": "Ally"},
         {"name": "Harald","relationship": "Friend"},
         {"name": "Barbel","relationship": "Former Subordinate"},
-        {"name": "Kyo [Silver Axe]","relationship": "Former Subordinate"},
+        {"name": "Silver Axe [Kyo]","relationship": "Former Subordinate"},
         {"name": "Gloriosa","relationship": "Former Subordinate"},
         {"name": "Gill Bastar","relationship": "Former Subordinate"},
         {"name": "Kaidou","relationship": "Former Subordinate"},
@@ -7177,7 +7177,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Daz Bonez [Mr. 1]",
+    "name": "Mr. 1 [Daz Bonez]",
     "image": "/images/characters/Daz_Bonez.webp",
     "epithet": "the Killer",
     "affiliation": "Cross Guild",
@@ -7202,16 +7202,16 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Crocodile","relationship": "De Facto Captain"},
         {"name": "Dracule Mihawk","relationship": "De Facto Captain"},
         {"name": "Buggy","relationship": "Captain (figurehead)"},
-        {"name": "Zala [Miss Doublefinger]","relationship": "Former Partner"},
+        {"name": "Miss Doublefinger [Zala]","relationship": "Former Partner"},
         {"name": "Roronoa Zoro","relationship": "Defeated by"},
         {"name": "Nico Robin","relationship": "Former Superior"},
         {"name": "Bentham (Bon Clay) [Mr. 2]","relationship": "Former Subordinate"},
-        {"name": "Galdino [Mr. 3]","relationship": "Crewmate, Former Subordinate"},
-        {"name": "Marianne [Miss Goldenweek]","relationship": "Former Subordinate"},
-        {"name": "Babe [Mr. 4]","relationship": "Former Subordinate"},
-        {"name": "Drophy [Miss Merry Christmas]","relationship": "Former Subordinate"},
-        {"name": "Gem [Mr. 5]","relationship": "Former Subordinate"},
-        {"name": "Mikita [Miss Valentine]","relationship": "Former Subordinate"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Crewmate, Former Subordinate"},
+        {"name": "Miss Goldenweek [Marianne]","relationship": "Former Subordinate"},
+        {"name": "Mr. 4 [Babe]","relationship": "Former Subordinate"},
+        {"name": "Miss Merry Christmas [Drophy]","relationship": "Former Subordinate"},
+        {"name": "Mr. 5 [Gem]","relationship": "Former Subordinate"},
+        {"name": "Miss Valentine [Mikita]","relationship": "Former Subordinate"},
         {"name": "Alvida","relationship": "Crewmate"},
         {"name": "Mohji","relationship": "Crewmate"},
         {"name": "Richie","relationship": "Crewmate"},
@@ -7477,7 +7477,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 827"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Captain"}
     ]
   },
   {
@@ -7593,7 +7593,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Jaygarcia Saturn","relationship": "Ordered Buster Call"},
-        {"name": "Borsalino [Kizaru]","relationship": "Superior"},
+        {"name": "Kizaru [Borsalino]","relationship": "Superior"},
         {"name": "Spandam","relationship": "Ordered Buster Call"},
         {"name": "Doll","relationship": "Buster Call Comrade"},
         {"name": "Red King","relationship": "Buster Call Comrade"},
@@ -7726,7 +7726,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Jaygarcia Saturn","relationship": "Ordered Buster Call"},
-        {"name": "Borsalino [Kizaru]","relationship": "Superior"},
+        {"name": "Kizaru [Borsalino]","relationship": "Superior"},
         {"name": "Doberman","relationship": "Buster Call Comrade"},
         {"name": "Red King","relationship": "Buster Call Comrade"},
         {"name": "Bluegrass","relationship": "Buster Call Comrade"},
@@ -7868,7 +7868,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Luffy","relationship": "Defeated by"},
         {"name": "Trafalgar D. Water Law","relationship": "Enemy"},
         {"name": "Donquixote Homing","relationship": "Father, Killed"},
-        {"name": "Issho [Fujitora]","relationship": "Arrested by"},
+        {"name": "Fujitora [Issho]","relationship": "Arrested by"},
         {"name": "Kaidou","relationship": "Ally"},
         {"name": "Caesar Clown","relationship": "Former Subordinate"},
         {"name": "Riku Doldo III","relationship": "Enemy"},
@@ -8025,7 +8025,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Kashii","relationship": "Subordinate"},
         {"name": "Monkey D. Luffy","relationship": "Ally"},
         {"name": "Nerona Imu","relationship": "Domi Reversi'ed by"},
-        {"name": "Galdino [Mr. 3]","relationship": "Defeated by"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Defeated by"},
         {"name": "Jarul","relationship": "Former Captain"},
         {"name": "Jorul","relationship": "Former Captain"},
         {"name": "Shanks","relationship": "Friend"}
@@ -8198,7 +8198,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Drophy [Miss Merry Christmas]",
+    "name": "Miss Merry Christmas [Drophy]",
     "image": "/images/characters/Drophy.webp",
     "epithet": "Town-Collapser",
     "affiliation": "Baroque Works",
@@ -8218,17 +8218,17 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Crocodile","relationship": "Former Boss"},
-        {"name": "Babe [Mr. 4]","relationship": "Partner and Coworker"},
+        {"name": "Mr. 4 [Babe]","relationship": "Partner and Coworker"},
         {"name": "Usopp","relationship": "Defeated by"},
         {"name": "Nico Robin","relationship": "Former Superior"},
-        {"name": "Daz Bonez [Mr. 1]","relationship": "Former Superior"},
+        {"name": "Mr. 1 [Daz Bonez]","relationship": "Former Superior"},
         {"name": "Bentham (Bon Clay) [Mr. 2]","relationship": "Former Superior"},
-        {"name": "Galdino [Mr. 3]","relationship": "Former Superior"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Former Superior"},
         {"name": "Tashigi","relationship": "Arrested by"},
-        {"name": "Zala [Miss Doublefinger]","relationship": "Former Superior, Coworker"},
-        {"name": "Marianne [Miss Goldenweek]","relationship": "Former Superior, Coworker and Fred by"},
-        {"name": "Mikita [Miss Valentine]","relationship": "Former Subordinate, Coworker and Fred by"},
-        {"name": "Gem [Mr. 5]","relationship": "Former Subordinate, Coworker and Fred by"}
+        {"name": "Miss Doublefinger [Zala]","relationship": "Former Superior, Coworker"},
+        {"name": "Miss Goldenweek [Marianne]","relationship": "Former Superior, Coworker and Fred by"},
+        {"name": "Miss Valentine [Mikita]","relationship": "Former Subordinate, Coworker and Fred by"},
+        {"name": "Mr. 5 [Gem]","relationship": "Former Subordinate, Coworker and Fred by"}
     ]
   },
   {
@@ -8370,7 +8370,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Gol D. Roger","relationship": "Former Rival"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"},
         {"name": "Kouzuki Oden","relationship": "Former Subordinate"},
         {"name": "Monkey D. Luffy","relationship": "Former Ally"},
         {"name": "Jinbe","relationship": "Former Ally"},
@@ -8419,7 +8419,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Edward Newgate [Barbe Blanche]","relationship": "Father (supposedly)"},
         {"name": "Buckingham Stussy","relationship": "Mother"},
-        {"name": "Aramaki [Ryokugyu]","relationship": "Captured by"},
+        {"name": "Ryokugyu [Aramaki]","relationship": "Captured by"},
         {"name": "Marco","relationship": "Enemy"}
     ]
   },
@@ -8449,7 +8449,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 849"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Captain"}
     ]
   },
   {
@@ -8479,7 +8479,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Elbaph Island","chapter":"Chapter 866"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Injured by"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Injured by"}
     ]
   },
   {
@@ -8742,7 +8742,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - sent by Kuma","chapter":"Chapter 1164", "region":"Paradise"}
     ],
     "relationships": [
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Husband"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Husband"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Son"}
     ]
   },
@@ -8850,7 +8850,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Shanks","relationship": "Defeated by, Enemy"},
         {"name": "Scratchmen Apoo","relationship": "Betrayed by"},
         {"name": "Basil Hawkins","relationship": "Former Ally, Betrayed by"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy, Defeated"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy, Defeated"},
         {"name": "Kaidou","relationship": "Enemy"}
     ]
   },
@@ -8919,7 +8919,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Caesar Clown","relationship": "Former Boss"},
-        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
+        {"name": "Barbe Brune [Chadros Higelyges]","relationship": "Former Superior"}
     ]
   },
   {
@@ -8946,7 +8946,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Marcus Mars","relationship": "Fellow Elder"},
         {"name": "Jaygarcia Saturn","relationship": " Elder Predecessor"},
         {"name": "Nerona Imu","relationship": "Supreme Ruler"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Killed"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Killed"},
         {"name": "Donquixote Mjosgard","relationship": "Killed"}
     ]
   },
@@ -9267,7 +9267,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Elbaph Island","chapter":"Chapter 1126"}
     ],
     "relationships": [
-        {"name": "Scien [Queen]","relationship": "Father"},
+        {"name": "Queen [Scien]","relationship": "Father"},
         {"name": "Monkey D. Luffy","relationship": "Captain"},
         {"name": "Brook","relationship": "Crewmate"},
         {"name": "Jinbe","relationship": "Crewmate"},
@@ -9671,7 +9671,7 @@ export const RAW_CHARACTERS: any[] = [
   ]
   },
   {
-    "name": "Galdino [Mr. 3]",
+    "name": "Mr. 3 [Galdino]",
     "image": "/images/characters/Galdino.webp",
     "epithet": "Loan Shark",
     "affiliation": "Cross Guild",
@@ -9699,16 +9699,16 @@ export const RAW_CHARACTERS: any[] = [
       {"name": "Crocodile","relationship": "De Facto Captain"},
       {"name": "Dracule Mihawk","relationship": "De Facto Captain"},
       {"name": "Buggy","relationship": "Captain (figurehead)"},
-      {"name": "Zala [Miss Doublefinger]","relationship": "Former Superior"},
+      {"name": "Miss Doublefinger [Zala]","relationship": "Former Superior"},
       {"name": "Monkey D. Luffy","relationship": "Defeated by"},
       {"name": "Nico Robin","relationship": "Former Superior"},
       {"name": "Bentham (Bon Clay) [Mr. 2]","relationship": "Former Superior"},
-      {"name": "Daz Bonez [Mr. 1]","relationship": "Crewmate, Former Superior"},
-      {"name": "Marianne [Miss Goldenweek]","relationship": "Former Partner"},
-      {"name": "Babe [Mr. 4]","relationship": "Former Subordinate"},
-      {"name": "Drophy [Miss Merry Christmas]","relationship": "Former Subordinate"},
-      {"name": "Gem [Mr. 5]","relationship": "Former Subordinate"},
-      {"name": "Mikita [Miss Valentine]","relationship": "Former Subordinate"},
+      {"name": "Mr. 1 [Daz Bonez]","relationship": "Crewmate, Former Superior"},
+      {"name": "Miss Goldenweek [Marianne]","relationship": "Former Partner"},
+      {"name": "Mr. 4 [Babe]","relationship": "Former Subordinate"},
+      {"name": "Miss Merry Christmas [Drophy]","relationship": "Former Subordinate"},
+      {"name": "Mr. 5 [Gem]","relationship": "Former Subordinate"},
+      {"name": "Miss Valentine [Mikita]","relationship": "Former Subordinate"},
       {"name": "Alvida","relationship": "Crewmate"},
       {"name": "Mohji","relationship": "Crewmate"},
       {"name": "Richie","relationship": "Crewmate"},
@@ -9909,7 +9909,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Gecko Moria [Kouzuki Moria]","relationship": "Former Captain"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"},
         {"name": "Absalom","relationship": "Former Superior"}
     ]
   },
@@ -10024,7 +10024,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Gem [Mr. 5]",
+    "name": "Mr. 5 [Gem]",
     "image": "/images/characters/Gem.webp",
     "epithet": "of the Border",
     "affiliation": "Baroque Works",
@@ -10046,15 +10046,15 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Crocodile","relationship": "Former Boss"},
-      {"name": "Drophy [Miss Merry Christmas]","relationship": "Former Superior, Coworker"},
+      {"name": "Miss Merry Christmas [Drophy]","relationship": "Former Superior, Coworker"},
       {"name": "Nico Robin","relationship": "Former Superior"},
-      {"name": "Daz Bonez [Mr. 1]","relationship": "Former Superior"},
+      {"name": "Mr. 1 [Daz Bonez]","relationship": "Former Superior"},
       {"name": "Bentham (Bon Clay) [Mr. 2]","relationship": "Former Superior"},
-      {"name": "Galdino [Mr. 3]","relationship": "Former Superior"},
-      {"name": "Zala [Miss Doublefinger]","relationship": "Former Superior, Coworker and Freed"},
-      {"name": "Marianne [Miss Goldenweek]","relationship": "Former Superior and Coworker"},
-      {"name": "Mikita [Miss Valentine]","relationship": "Partner, Coworker"},
-      {"name": "Babe [Mr. 4]","relationship": "Former Superior, Coworker and Freed"}
+      {"name": "Mr. 3 [Galdino]","relationship": "Former Superior"},
+      {"name": "Miss Doublefinger [Zala]","relationship": "Former Superior, Coworker and Freed"},
+      {"name": "Miss Goldenweek [Marianne]","relationship": "Former Superior and Coworker"},
+      {"name": "Miss Valentine [Mikita]","relationship": "Partner, Coworker"},
+      {"name": "Mr. 4 [Babe]","relationship": "Former Superior, Coworker and Freed"}
   ]
   },
   {
@@ -10163,7 +10163,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Road","relationship": "Crewmate"},
         {"name": "Goldberg","relationship": "Crewmate"},
         {"name": "Piper","relationship": "Pet"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Former Friend"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Former Friend"},
         {"name": "Buggy","relationship": "Former Leader"}
     ]
   },
@@ -10234,7 +10234,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Gecko Moria [Kouzuki Moria]","relationship": "Former Captain"},
-      {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"}
+      {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"}
   ]
   },
   {
@@ -10392,7 +10392,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Gion [Momousagi]",
+    "name": "Momousagi [Gion]",
     "image": "/images/characters/Gion.webp",
     "affiliation": "Marines",
     "haki": ["Armament"],
@@ -10405,7 +10405,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Mary Geoise", "chapter":"Chapter 907"}
     ],
     "relationships": [
-      {"name": "Tokikake [Chaton]","relationship": "Loved by"},
+      {"name": "Chaton [Tokikake]","relationship": "Loved by"},
       {"name": "Tsuru","relationship": "Friend"}
     ]
   },
@@ -10521,9 +10521,9 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Boa Hancock","relationship": "Empress Successor, Advising"},
-        {"name": "Shakuyaku [Shakky]","relationship": "Empress Successor"},
+        {"name": "Shakky [Shakuyaku]","relationship": "Empress Successor"},
         {"name": "Tritoma","relationship": "Empress Successor"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"},
         {"name": "Gol D. Roger","relationship": "In Love With"},
         {"name": "Monkey D. Luffy","relationship": "Friend"},
         {"name": "Silvers Rayleigh","relationship": "Friend"}
@@ -10638,13 +10638,13 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Kouzuki Oden","relationship": " Former Subordinate"},
         {"name": "Monkey D. Garp","relationship": "Former Rival"},
         {"name": "Shiki","relationship": "Former Rival"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Rival"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Rival"},
         {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Rival"},
         {"name": "Gan Fall","relationship": "Friend"},
         {"name": "Tom","relationship": "Friend"},
         {"name": "Kokoro","relationship": "Friend"},
         {"name": "Neptune","relationship": "Friend"},
-        {"name": "Shakuyaku [Shakky]","relationship": "In Love With"},
+        {"name": "Shakky [Shakuyaku]","relationship": "In Love With"},
         {"name": "Gloriosa","relationship": "Loved by"},
         {"name": "Monkey D. Luffy","relationship": "Inspired"}
     ]
@@ -10832,7 +10832,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Capone Bege","relationship": "Captain"},
         {"name": "Charlotte Lola","relationship": "Wife"},
         {"name": "Charlotte Chiffon","relationship": "Sister-in-law and crewmate"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy, Mother-in-law"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy, Mother-in-law"},
         {"name": "Pound","relationship": "Father-in-law"},
         {"name": "Vito","relationship": "Crewmate"}
     ]
@@ -10932,7 +10932,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Jaygarcia Saturn","relationship": "Ordered Buster Call"},
-      {"name": "Borsalino [Kizaru]","relationship": "Superior"},
+      {"name": "Kizaru [Borsalino]","relationship": "Superior"},
       {"name": "Doberman","relationship": "Buster Call Comrade"},
       {"name": "Red King","relationship": "Buster Call Comrade"},
       {"name": "Bluegrass","relationship": "Buster Call Comrade"},
@@ -10999,7 +10999,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Jewelry Bonney","relationship": "Captain"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"},
-        {"name": "Sakazuki [Akainu]","relationship": "Captured by"},
+        {"name": "Akainu [Sakazuki]","relationship": "Captured by"},
         {"name": "Potato","relationship": "Crewmate"},
         {"name": "Totts","relationship": "Crewmate"},
         {"name": "Part","relationship": "Crewmate"},
@@ -11131,7 +11131,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Gerd","relationship": "Crewmate"},
         {"name": "Monkey D. Luffy","relationship": "Serving"},
         {"name": "Buggy","relationship": "Served"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"}
     ]
   },
   {
@@ -11449,7 +11449,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Loki","relationship": "Son, Killed by"},
         {"name": "Ida","relationship": "Lover"},
         {"name": "Estrid","relationship": "Wife"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Friend"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Friend"},
         {"name": "Neptune","relationship": "Friend"},
         {"name": "Nerona Imu","relationship": "Enemy"}
     ]
@@ -11751,7 +11751,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 1011"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Creator, Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Creator, Captain"},
         {"name": "Zeus","relationship": "Replaced"},
         {"name": "Prometheus","relationship": "Partner"},
         {"name": "Napoleon","relationship": "Partner"}
@@ -12525,7 +12525,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Jaygarcia Saturn","relationship": "Ordered Buster Call"},
-      {"name": "Borsalino [Kizaru]","relationship": "Superior"},
+      {"name": "Kizaru [Borsalino]","relationship": "Superior"},
       {"name": "Doberman","relationship": "Buster Call Comrade"},
       {"name": "Red King","relationship": "Buster Call Comrade"},
       {"name": "Bluegrass","relationship": "Buster Call Comrade"},
@@ -12650,7 +12650,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Caesar Clown","relationship": "Former Boss"},
-      {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
+      {"name": "Barbe Brune [Chadros Higelyges]","relationship": "Former Superior"}
   ]
   },
   {
@@ -13199,7 +13199,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Issho [Fujitora]",
+    "name": "Fujitora [Issho]",
     "image": "/images/characters/Issho.webp",
     "affiliation": "Marines",
     "devil_fruit": "Zushi Zushi no Mi",
@@ -13222,10 +13222,10 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Mary Geoise","chapter":"Chapter 905"}
     ],
     "relationships": [
-        {"name": "Sakazuki [Akainu]","relationship": "Superior"},
-        {"name": "Borsalino [Kizaru]","relationship": "Colleague"},
+        {"name": "Akainu [Sakazuki]","relationship": "Superior"},
+        {"name": "Kizaru [Borsalino]","relationship": "Colleague"},
         {"name": "Bastille","relationship": "Subordinate"},
-        {"name": "Aramaki [Ryokugyu]","relationship": "Colleague"},
+        {"name": "Ryokugyu [Aramaki]","relationship": "Colleague"},
         {"name": "Donquixote Doflamingo","relationship": "Arrested"},
         {"name": "Monkey D. Luffy","relationship": "Respects"},
         {"name": "Riku Doldo III","relationship": "Ally"}
@@ -13427,8 +13427,8 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Kaidou","relationship": "Former Captain"},
-        {"name": "Scien [Queen]","relationship": "Former Crewmate"},
-        {"name": "Arber [King]","relationship": "Former Crewmate"},
+        {"name": "Queen [Scien]","relationship": "Former Crewmate"},
+        {"name": "King [Arber]","relationship": "Former Crewmate"},
         {"name": "Inuarashi","relationship": "Enemy, Defeated by"},
         {"name": "Nekomamushi","relationship": "Enemy"},
         {"name": "Zunesha","relationship": "Enemy"},
@@ -13513,7 +13513,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Luffy","relationship": "Ally"},
         {"name": "Hajrudin","relationship": "Ally"},
         {"name": "Doll","relationship": "Former Subordinate"},
-        {"name": "Kuzan [Aokiji]","relationship": "Former Comrade"}
+        {"name": "Aokiji [Kuzan]","relationship": "Former Comrade"}
     ]
   },
   {
@@ -13607,7 +13607,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Luffy","relationship": "Ally"},
         {"name": "Loki","relationship": "Ally"},
         {"name": "Harald","relationship": "Ally"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"}
     ]
   },
   {
@@ -13939,7 +13939,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 860"}
     ],
     "relationships": [
-      {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"},
+      {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"},
       {"name": "Charlotte Katakuri","relationship": "Killed by"}
     ]
   },
@@ -13999,7 +13999,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Portgas D. Ace","relationship": "Ally"},
         {"name": "Trafalgar D. Water Law","relationship": "Ally"},
         {"name": "Hody Jones","relationship": "Enemy"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"},
         {"name": "Caribou","relationship": "Enemy"},
         {"name": "Whos-Who","relationship": "Defeated"},
         {"name": "Capone Bege","relationship": "Ally"}
@@ -14083,7 +14083,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Gecko Moria [Kouzuki Moria]","relationship": "Former Captain"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"},
         {"name": "Absalom","relationship": "Former Superior"}
     ]
   },
@@ -14163,7 +14163,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Brogy","relationship": "Former Subordinate"},
         {"name": "Dorry","relationship": "Former Subordinate"},
         {"name": "Harald","relationship": "Ally"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy, Killed by"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy, Killed by"}
     ]
   },
   {
@@ -14454,8 +14454,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 821"}
     ],
     "relationships": [
-      {"name": "Arber [King]","relationship": "Subordinate"},
-      {"name": "Scien [Queen]","relationship": "Subordinate"},
+      {"name": "King [Arber]","relationship": "Subordinate"},
+      {"name": "Queen [Scien]","relationship": "Subordinate"},
       {"name": "Jack","relationship": "Subordinate"},
       {"name": "Trafalgar D. Water Law","relationship": "Enemy"},
       {"name": "Eustass Kid","relationship": "Enemy"},
@@ -14473,11 +14473,11 @@ export const RAW_CHARACTERS: any[] = [
       {"name": "Kouzuki Momonosuke","relationship": "Enemy"},
       {"name": "Kouzuki Oden","relationship": "Enemy"},
       {"name": "Kurozumi Orochi","relationship": "Ally"},
-      {"name": "Charlotte Linlin [Big Mom]","relationship": "Rival, Ally and Former Crewmate"},
+      {"name": "Big Mom [Charlotte Linlin]","relationship": "Rival, Ally and Former Crewmate"},
       {"name": "Monkey D. Luffy","relationship": "Defeated by, Enemy"},
       {"name": "Donquixote Doflamingo","relationship": "Ally"},
       {"name": "Yamato","relationship": "Son"},
-      {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
+      {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"},
       {"name": "Gol D. Roger","relationship": "Enemy"},
       {"name": "Edward Newgate [Barbe Blanche]","relationship": "Enemy and Former Crewmate"},
       {"name": "Shanks","relationship": "Enemy"},
@@ -15447,7 +15447,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Trafalgar D. Water Law","relationship": "Ally"},
         {"name": "Basil Hawkins","relationship": "Enemy"},
         {"name": "Kaidou","relationship": "Enemy"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"}
     ]
   },
   {
@@ -15574,7 +15574,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 836"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Creator, Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Creator, Captain"},
         {"name": "Charlotte Amande","relationship": "Almost killed by"},
         {"name": "Prometheus","relationship": "Almost killed by"},
         {"name": "Lady Tree","relationship": "Fiancée"}
@@ -15647,7 +15647,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Caesar Clown","relationship": "Former Boss"},
-      {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
+      {"name": "Barbe Brune [Chadros Higelyges]","relationship": "Former Superior"}
   ]
   },
   {
@@ -16757,12 +16757,12 @@ export const RAW_CHARACTERS: any[] = [
       {"name": "Komachiyo","relationship": "Friend"},
       {"name": "Hihimaru","relationship": "Friend"},
       {"name": "Kouzuki Momonosuke","relationship": "Friend"},
-      {"name": "Charlotte Linlin [Big Mom]","relationship": "Friend"},
+      {"name": "Big Mom [Charlotte Linlin]","relationship": "Friend"},
       {"name": "Holedem","relationship": "Kidnapped by"}
     ]
   },
   {
-    "name": "Kuzan [Aokiji]",
+    "name": "Aokiji [Kuzan]",
     "image": "/images/characters/Kuzan.webp",
     "image_pre": "/images/characters/Kuzan_Pre.webp",
     "affiliation": "Équipage de Barbe Noire",
@@ -16794,17 +16794,17 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Monkey D. Garp","relationship": "Former Mentor"},
         {"name": "Jaguar D. Saul","relationship": "Former Friend"},
-        {"name": "Sakazuki [Akainu]","relationship": "Enemy, Former Colleague"},
+        {"name": "Akainu [Sakazuki]","relationship": "Enemy, Former Colleague"},
         {"name": "Camel","relationship": "Former Partner"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captain"},
-        {"name": "Borsalino [Kizaru]","relationship": "Former Colleague"},
+        {"name": "Kizaru [Borsalino]","relationship": "Former Colleague"},
         {"name": "Nico Robin","relationship": "Respects"},
         {"name": "Monkey D. Luffy","relationship": "Respects"},
         {"name": "Sengoku","relationship": "Former Superior"}
     ]
   },
   {
-    "name": "Kyo [Silver Axe]",
+    "name": "Silver Axe [Kyo]",
     "image": "/images/characters/Silver_Axe.webp",
     "affiliation": "Rocks Pirates (former)",
     "first_appearance_arc": "Chapter 1156",
@@ -16819,8 +16819,8 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Shiki","relationship": "Rival"},
-      {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
-      {"name": "Shakuyaku [Shakky]","relationship": "Ally"}
+      {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"},
+      {"name": "Shakky [Shakuyaku]","relationship": "Ally"}
     ]
   },
   {
@@ -17046,7 +17046,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - New Spiders Cafe","chapter":"Chapter 411", "region":"Paradise"}
     ],
     "relationships": [
-      {"name": "Babe [Mr. 4]","relationship": "Owner"}
+      {"name": "Mr. 4 [Babe]","relationship": "Owner"}
     ]
   },
   {
@@ -17319,7 +17319,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Luffy","relationship": "Ally, Freed by"},
         {"name": "Jarul","relationship": "Ally"},
         {"name": "Nerona Imu","relationship": "Enemy"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Inspiration"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Inspiration"},
         {"name": "Charlotte Lola","relationship": "Loved"}
     ]
   },
@@ -17367,7 +17367,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Long Ring Long Land","chapter":"Chapter 319"}
     ],
     "relationships": [
-        {"name": "Kuzan [Aokiji]","relationship": "Defeated by"}
+        {"name": "Aokiji [Kuzan]","relationship": "Defeated by"}
     ]
   },
   {
@@ -17869,7 +17869,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Nekomamushi","relationship": "Ally"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
         {"name": "Kaidou","relationship": "Enemy"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"},
         {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"},
         {"name": "Portgas D. Ace","relationship": "Former Crewmate"}
     ]
@@ -17967,7 +17967,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Marianne [Miss Goldenweek]",
+    "name": "Miss Goldenweek [Marianne]",
     "image": "/images/characters/Marianne.webp",
     "image_pre": "/images/characters/Marianne_Pre.webp",
     "epithet": "Flag-Bearer of Freedom",
@@ -17988,15 +17988,15 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Crocodile","relationship": "Former Boss"},
-        {"name": "Babe [Mr. 4]","relationship": "Former Subordinate and Coworker"},
+        {"name": "Mr. 4 [Babe]","relationship": "Former Subordinate and Coworker"},
         {"name": "Nico Robin","relationship": "Former Superior"},
-        {"name": "Daz Bonez [Mr. 1]","relationship": "Former Superior"},
+        {"name": "Mr. 1 [Daz Bonez]","relationship": "Former Superior"},
         {"name": "Bentham (Bon Clay) [Mr. 2]","relationship": "Former Superior"},
-        {"name": "Galdino [Mr. 3]","relationship": "Former Partner"},
-        {"name": "Zala [Miss Doublefinger]","relationship": "Former Superior and Coworker"},
-        {"name": "Drophy [Miss Merry Christmas]","relationship": "Former Subordinate, Coworker and Freed"},
-        {"name": "Mikita [Miss Valentine]","relationship": "Former Subordinate, Coworker and Freed"},
-        {"name": "Gem [Mr. 5]","relationship": "Former Subordinate, Coworker and Freed"}
+        {"name": "Mr. 3 [Galdino]","relationship": "Former Partner"},
+        {"name": "Miss Doublefinger [Zala]","relationship": "Former Superior and Coworker"},
+        {"name": "Miss Merry Christmas [Drophy]","relationship": "Former Subordinate, Coworker and Freed"},
+        {"name": "Miss Valentine [Mikita]","relationship": "Former Subordinate, Coworker and Freed"},
+        {"name": "Mr. 5 [Gem]","relationship": "Former Subordinate, Coworker and Freed"}
     ]
   },
   {
@@ -18067,8 +18067,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Hachinosu", "chapter":"Chapter 1159"}
     ],
     "relationships": [
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
-        {"name": "Shakuyaku [Shakky]","relationship": "Ally"}
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"},
+        {"name": "Shakky [Shakuyaku]","relationship": "Ally"}
     ]
   },
   {
@@ -18112,7 +18112,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Catarina Devon","relationship": "Subordinate"},
         {"name": "Doc Q","relationship": "Subordinate"},
         {"name": "Jesus Burgess","relationship": "Subordinate"},
-        {"name": "Kuzan [Aokiji]","relationship": "Subordinate"},
+        {"name": "Aokiji [Kuzan]","relationship": "Subordinate"},
         {"name": "Laffitte","relationship": "Subordinate"},
         {"name": "Sanjuan Wolf","relationship": "Subordinate"},
         {"name": "Shiryu","relationship": "Subordinate"},
@@ -18122,7 +18122,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Luffy","relationship": "Enemy"},
         {"name": "Portgas D. Ace","relationship": "Enemy"},
         {"name": "Nerona Imu","relationship": "Enemy"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Father"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Father"},
         {"name": "Eris","relationship": "Mother"},
         {"name": "Shanks","relationship": "Enemy"},
         {"name": "Edward Newgate [Barbe Blanche]","relationship": "Enemy, Killed"},
@@ -18421,7 +18421,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Dressrosa","chapter":"Chapter 705"}
     ],
     "relationships": [
-        {"name": "Issho [Fujitora]","relationship": "Superior"},
+        {"name": "Fujitora [Issho]","relationship": "Superior"},
         {"name": "Bartolomeo","relationship": "Defeated by"}
     ]
   },
@@ -18633,7 +18633,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Mikita [Miss Valentine]",
+    "name": "Miss Valentine [Mikita]",
     "image": "/images/characters/Mikita.webp",
     "epithet": "Courier",
     "affiliation": "Baroque Works",
@@ -18655,15 +18655,15 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Crocodile","relationship": "Former Boss"},
-      {"name": "Drophy [Miss Merry Christmas]","relationship": "Former Superior, Coworker"},
+      {"name": "Miss Merry Christmas [Drophy]","relationship": "Former Superior, Coworker"},
       {"name": "Nico Robin","relationship": "Former Superior"},
-      {"name": "Daz Bonez [Mr. 1]","relationship": "Former Superior"},
+      {"name": "Mr. 1 [Daz Bonez]","relationship": "Former Superior"},
       {"name": "Bentham (Bon Clay) [Mr. 2]","relationship": "Former Superior"},
-      {"name": "Galdino [Mr. 3]","relationship": "Former Superior"},
-      {"name": "Zala [Miss Doublefinger]","relationship": "Former Superior, Coworker and Freed"},
-      {"name": "Marianne [Miss Goldenweek]","relationship": "Former Superior, Coworker"},
-      {"name": "Gem [Mr. 5]","relationship": "Partner, Coworker"},
-      {"name": "Babe [Mr. 4]","relationship": "Former Superior, Coworker and Freed"}
+      {"name": "Mr. 3 [Galdino]","relationship": "Former Superior"},
+      {"name": "Miss Doublefinger [Zala]","relationship": "Former Superior, Coworker and Freed"},
+      {"name": "Miss Goldenweek [Marianne]","relationship": "Former Superior, Coworker"},
+      {"name": "Mr. 5 [Gem]","relationship": "Partner, Coworker"},
+      {"name": "Mr. 4 [Babe]","relationship": "Former Superior, Coworker and Freed"}
   ]
   },
   {
@@ -18927,7 +18927,7 @@ export const RAW_CHARACTERS: any[] = [
       {"name": "Napoleon","relationship": "Fused Member"},
       {"name": "Prometheus","relationship": "Fused Member"},
       {"name": "Hera","relationship": "Fused Member"},
-      {"name": "Charlotte Linlin [Big Mom]","relationship": "Creator, Captain"}
+      {"name": "Big Mom [Charlotte Linlin]","relationship": "Creator, Captain"}
     ]
   },
   {
@@ -19057,7 +19057,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
       {"name": "Crocodile","relationship": "Former Boss"},
       {"name": "Mr. 11","relationship": "Former Partner"},
-      {"name": "Babe [Mr. 4]","relationship": "Brother"}
+      {"name": "Mr. 4 [Babe]","relationship": "Brother"}
   ]
   },
   {
@@ -19298,8 +19298,8 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Roronoa Zoro","relationship": "Defeated by"},
         {"name": "Cabaji","relationship": "Crewmate"},
         {"name": "Alvida","relationship": "Crewmate"},
-        {"name": "Galdino [Mr. 3]","relationship": "Crewmate"},
-        {"name": "Daz Bonez [Mr. 1]","relationship": "Crewmate"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Crewmate"},
+        {"name": "Mr. 1 [Daz Bonez]","relationship": "Crewmate"},
         {"name": "Richie","relationship": "Pet, Crewmate"}
     ]
   },
@@ -19511,7 +19511,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Sengoku","relationship": "Friend"},
         {"name": "Tsuru","relationship": "Friend"},
         {"name": "Shiki","relationship": "Enemy, Defeated"},
-        {"name": "Sakazuki [Akainu]","relationship": "Enemy, Superior"},
+        {"name": "Akainu [Sakazuki]","relationship": "Enemy, Superior"},
         {"name": "Kong","relationship": "Friend"},
         {"name": "Neptune","relationship": "Friend"},
         {"name": "Curly Dadan","relationship": "Friend"},
@@ -19519,8 +19519,8 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Gol D. Roger","relationship": "Rival"},
         {"name": "Edward Newgate [Barbe Blanche]","relationship": "Rival"},
         {"name": "Chinjao","relationship": "Rival"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Rival"},
-        {"name": "Kuzan [Aokiji]","relationship": "Former Student, Rival"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Rival"},
+        {"name": "Aokiji [Kuzan]","relationship": "Former Student, Rival"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Captured by, Enemy"}
     ]
   },
@@ -19646,7 +19646,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Marguerite","relationship": "Friend"},
         {"name": "Caribou","relationship": "Enemy"},
         {"name": "Vander Decken IX","relationship": "Enemy"},
-        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Ally"},
+        {"name": "Barbe Brune [Chadros Higelyges]","relationship": "Ally"},
         {"name": "Shanks","relationship": "Friend"},
         {"name": "Benn Beckman","relationship": "Friend"},
         {"name": "Yasopp","relationship": "Friend"},
@@ -19654,18 +19654,18 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Edward Newgate [Barbe Blanche]","relationship": "Ally"},
         {"name": "Marco","relationship": "Ally"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"},
         {"name": "Charlotte Pudding","relationship": "Ally"},
         {"name": "Shepherd Ju Peter","relationship": "Enemy"},
         {"name": "Marcus Mars","relationship": "Enemy"},
         {"name": "Topman Warcury","relationship": "Enemy"},
         {"name": "Ethanbaron V. Nusjuro","relationship": "Enemy"},
-        {"name": "Borsalino [Kizaru]","relationship": "Enemy, Defeated by"},
+        {"name": "Kizaru [Borsalino]","relationship": "Enemy, Defeated by"},
         {"name": "Magellan","relationship": "Enemy, Defeated by"},
-        {"name": "Issho [Fujitora]","relationship": "Ally"},
+        {"name": "Fujitora [Issho]","relationship": "Ally"},
         {"name": "Koby","relationship": "Friend, Rival"},
         {"name": "Smoker","relationship": "Ally, Rival"},
-        {"name": "Sakazuki [Akainu]","relationship": "Enemy"},
+        {"name": "Akainu [Sakazuki]","relationship": "Enemy"},
         {"name": "Makino","relationship": "Friend"},
         {"name": "Rika","relationship": "Friend"},
         {"name": "Boodle","relationship": "Friend"},
@@ -19684,7 +19684,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Gan Fall","relationship": "Ally"},
         {"name": "Wyper","relationship": "Ally"},
         {"name": "Kokoro","relationship": "Friend"},
-        {"name": "Shakuyaku [Shakky]","relationship": "Friend"},
+        {"name": "Shakky [Shakuyaku]","relationship": "Friend"},
         {"name": "Shirahoshi","relationship": "Friend"},
         {"name": "Camie","relationship": "Friend"},
         {"name": "Rebecca","relationship": "Friend"},
@@ -20694,7 +20694,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 930"}
     ],
     "relationships": [
-      {"name": "Charlotte Linlin [Big Mom]","relationship": "Creator, Captain"},
+      {"name": "Big Mom [Charlotte Linlin]","relationship": "Creator, Captain"},
       {"name": "Prometheus","relationship": "Partner"},
       {"name": "Hera","relationship": "Partner"}
   ]
@@ -20712,7 +20712,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Goldberg","relationship": "Owner"},
-      {"name": "Charlotte Linlin [Big Mom]","relationship": "Creator"}
+      {"name": "Big Mom [Charlotte Linlin]","relationship": "Creator"}
     ]
   },
   {
@@ -21065,7 +21065,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Elbaph Island", "chapter":"Chapter 1179"}
     ],
     "relationships": [
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Enemy"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Enemy"},
         {"name": "Davy D. Jones","relationship": "Enemy"},
         {"name": "Monkey D. Luffy","relationship": "Enemy"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
@@ -21199,7 +21199,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Crocodile","relationship": "Former Boss, Partner"},
         {"name": "Spandam","relationship": "Enemy"},
         {"name": "Spandine","relationship": "Enemy"},
-        {"name": "Kuzan [Aokiji]","relationship": "Respected by"}
+        {"name": "Aokiji [Kuzan]","relationship": "Respected by"}
     ]
   },
   {
@@ -21331,7 +21331,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 651"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Creator, Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Creator, Captain"},
         {"name": "Charlotte Pudding","relationship": "Friend"},
         {"name": "Rabiyan","relationship": "Partner"}
     ]
@@ -21348,7 +21348,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 831"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Creator, Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Creator, Captain"}
     ]
   },
   {
@@ -21617,8 +21617,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Hachinosu", "chapter":"Chapter 1159"}
     ],
     "relationships": [
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain, Betrayed (supposedly)"},
-        {"name": "Shakuyaku [Shakky]","relationship": "Betrayed (supposedly)"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain, Betrayed (supposedly)"},
+        {"name": "Shakky [Shakuyaku]","relationship": "Betrayed (supposedly)"},
         {"name": "Marlon","relationship": "Killed (supposedly)"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"},
         {"name": "Koby","relationship": "Defeated by"}
@@ -22053,7 +22053,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Kaidou","relationship": "Former Captain"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Defeated by"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Defeated by"},
         {"name": "Whos-Who","relationship": "Former Crewmate"},
         {"name": "Ulti","relationship": "Sister, Former Crewmate"},
         {"name": "Page One","relationship": "Former Crewmate"},
@@ -22192,7 +22192,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Jewelry Bonney","relationship": "Captain"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"},
-        {"name": "Sakazuki [Akainu]","relationship": "Captured by"},
+        {"name": "Akainu [Sakazuki]","relationship": "Captured by"},
         {"name": "Potato","relationship": "Crewmate"},
         {"name": "Totts","relationship": "Crewmate"},
         {"name": "Gyogyo","relationship": "Crewmate"},
@@ -22430,7 +22430,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 823"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Captain"},
         {"name": "Tamago","relationship": "Former Crewmate and Partner"},
         {"name": "Capone Bege","relationship": "Enemy, Former Crewmate"},
         {"name": "Jack","relationship": "Enemy"},
@@ -22821,7 +22821,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Jaygarcia Saturn","relationship": "Ordered Buster Call"},
-      {"name": "Borsalino [Kizaru]","relationship": "Superior"},
+      {"name": "Kizaru [Borsalino]","relationship": "Superior"},
       {"name": "Doberman","relationship": "Buster Call Comrade"},
       {"name": "Red King","relationship": "Buster Call Comrade"},
       {"name": "Bluegrass","relationship": "Buster Call Comrade"},
@@ -22962,7 +22962,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Edward Newgate [Barbe Blanche]","relationship": "Former Captain"},
         {"name": "Marco","relationship": "Former Crewmate"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"},
-        {"name": "Sakazuki [Akainu]","relationship": "Enemy"},
+        {"name": "Akainu [Sakazuki]","relationship": "Enemy"},
         {"name": "Gol D. Roger","relationship": "Father"},
         {"name": "Portgas D. Rouge","relationship": "Mother"},
         {"name": "Curly Dadan","relationship": "Foster Mother"},
@@ -23008,7 +23008,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Jewelry Bonney","relationship": "Captain"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"},
-        {"name": "Sakazuki [Akainu]","relationship": "Captured by"},
+        {"name": "Akainu [Sakazuki]","relationship": "Captured by"},
         {"name": "Gyogyo","relationship": "Crewmate"},
         {"name": "Totts","relationship": "Crewmate"},
         {"name": "Part","relationship": "Crewmate"},
@@ -23057,7 +23057,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Unknown island - attending Lola's wedding","chapter":"Chapter 993", "region":"New World"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Ex-Wife"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Ex-Wife"},
         {"name": "Chiffon","relationship": "Daughter"},
         {"name": "Lola","relationship": "Daughter"},
         {"name": "Pez","relationship": "Grandson"},
@@ -23115,7 +23115,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 930"}
     ],
     "relationships": [
-      {"name": "Charlotte Linlin [Big Mom]","relationship": "Creator, Captain"},
+      {"name": "Big Mom [Charlotte Linlin]","relationship": "Creator, Captain"},
       {"name": "Napoleon","relationship": "Partner"},
       {"name": "Hera","relationship": "Partner"}
   ]
@@ -23219,7 +23219,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Wano Country's Island","chapter":"Chapter 930"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Creator, Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Creator, Captain"}
     ]
   },
   {
@@ -23267,7 +23267,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 651"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Creator, Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Creator, Captain"},
         {"name": "Charlotte Pudding","relationship": "Friend"},
         {"name": "Nitro","relationship": "Partner"}
     ]
@@ -23530,7 +23530,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 827"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Creator, Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Creator, Captain"}
     ]
   },
   {
@@ -23653,7 +23653,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Jaygarcia Saturn","relationship": "Ordered Buster Call"},
-      {"name": "Borsalino [Kizaru]","relationship": "Superior"},
+      {"name": "Kizaru [Borsalino]","relationship": "Superior"},
       {"name": "Doberman","relationship": "Buster Call Comrade"},
       {"name": "Hound","relationship": "Buster Call Comrade"},
       {"name": "Bluegrass","relationship": "Buster Call Comrade"},
@@ -23751,8 +23751,8 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Luffy","relationship": "Enemy, Defeated by"},
         {"name": "Cabaji","relationship": "Crewmate"},
         {"name": "Alvida","relationship": "Crewmate"},
-        {"name": "Galdino [Mr. 3]","relationship": "Crewmate"},
-        {"name": "Daz Bonez [Mr. 1]","relationship": "Crewmate"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Crewmate"},
+        {"name": "Mr. 1 [Daz Bonez]","relationship": "Crewmate"},
         {"name": "Mohji","relationship": "Owner, Crewmate"}
     ]
   },
@@ -23799,7 +23799,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Tank Lepanto","relationship": "Subordinate"},
         {"name": "Elizabello II","relationship": "Ally"},
         {"name": "Leo","relationship": "Ally"},
-        {"name": "Issho [Fujitora]","relationship": "Ally"},
+        {"name": "Fujitora [Issho]","relationship": "Ally"},
         {"name": "Monkey D. Luffy","relationship": "Ally"}
     ]
   },
@@ -24345,13 +24345,13 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Sham","relationship": "Defeated"},
         {"name": "Cabaji","relationship": "Defeated"},
         {"name": "Hatchan","relationship": "Defeated, Ally"},
-        {"name": "Daz Bonez [Mr. 1]","relationship": "Defeated"},
+        {"name": "Mr. 1 [Daz Bonez]","relationship": "Defeated"},
         {"name": "Ohm","relationship": "Defeated"},
         {"name": "T Bone","relationship": "Defeated"},
         {"name": "Kaku ","relationship": "Defeated"},
         {"name": "Hyouzou","relationship": "Defeated"},
         {"name": "Pica","relationship": "Defeated"},
-        {"name": "Arber [King]","relationship": "Defeated"},
+        {"name": "King [Arber]","relationship": "Defeated"},
         {"name": "Tashigi","relationship": "Defeated, Rival"},
         {"name": "Trafalgar D. Water Law","relationship": "Ally"},
         {"name": "Eustass Kid","relationship": "Ally"},
@@ -24534,7 +24534,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Caesar Clown","relationship": "Former Boss"},
-        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
+        {"name": "Barbe Brune [Chadros Higelyges]","relationship": "Former Superior"}
     ]
   },
   {
@@ -24775,7 +24775,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Sakazuki [Akainu]",
+    "name": "Akainu [Sakazuki]",
     "image": "/images/characters/Sakazuki.webp",
     "image_pre": "/images/characters/Sakazuki_Pre.webp",
     "affiliation": "Marines",
@@ -24800,15 +24800,15 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Mary Geoise","chapter":"Chapter 1092"}
     ],
     "relationships": [
-        {"name": "Borsalino [Kizaru]","relationship": "Subordinate"},
+        {"name": "Kizaru [Borsalino]","relationship": "Subordinate"},
         {"name": "Monkey D. Garp","relationship": "Enemy, Subordinate"},
         {"name": "Sengoku","relationship": "Former Superior"},
         {"name": "Kong","relationship": "Superior"},
         {"name": "Monkey D. Luffy","relationship": "Enemy"},
         {"name": "Portgas D. Ace","relationship": "Enemy, Killed"},
-        {"name": "Kuzan [Aokiji]","relationship": "Former Subordinate, Rival"},
-        {"name": "Aramaki [Ryokugyu]","relationship": "Subordinate"},
-        {"name": "Issho [Fujitora]","relationship": "Subordinate"}
+        {"name": "Aokiji [Kuzan]","relationship": "Former Subordinate, Rival"},
+        {"name": "Ryokugyu [Aramaki]","relationship": "Subordinate"},
+        {"name": "Fujitora [Issho]","relationship": "Subordinate"}
     ]
   },
   {
@@ -25002,7 +25002,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Wadatsumi","relationship": "Defeated"},
         {"name": "Absalom","relationship": "Defeated"},
         {"name": "Kuroobi","relationship": "Defeated"},
-        {"name": "Scien [Queen]","relationship": "Defeated"},
+        {"name": "Queen [Scien]","relationship": "Defeated"},
         {"name": "Bentham (Bon Clay) [Mr. 2]","relationship": "Defeated, Ally"},
         {"name": "Trafalgar D. Water Law","relationship": "Ally"},
         {"name": "Eustass Kid","relationship": "Ally"},
@@ -25338,7 +25338,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Scien [Queen]",
+    "name": "Queen [Scien]",
     "image": "/images/characters/Queen.webp",
     "epithet": "the Plague",
     "affiliation": "Beasts Pirates",
@@ -25358,7 +25358,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Kaidou","relationship": "Former Captain"},
-        {"name": "Arber [King]","relationship": "Former Crewmate"},
+        {"name": "King [Arber]","relationship": "Former Crewmate"},
         {"name": "Jack","relationship": "Former Crewmate"},
         {"name": "Sanji","relationship": "Defeated by"},
         {"name": "Page One","relationship": "Former Subordinate"},
@@ -25635,11 +25635,11 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"New Marineford", "chapter": "Chapter 905"}
     ],
     "relationships": [
-        {"name": "Sakazuki [Akainu]","relationship": "Former Subordinate"},
-        {"name": "Borsalino [Kizaru]","relationship": "Former Subordinate"},
-        {"name": "Kuzan [Aokiji]","relationship": "Former Subordinate"},
+        {"name": "Akainu [Sakazuki]","relationship": "Former Subordinate"},
+        {"name": "Kizaru [Borsalino]","relationship": "Former Subordinate"},
+        {"name": "Aokiji [Kuzan]","relationship": "Former Subordinate"},
         {"name": "Kong","relationship": "Former Superior"},
-        {"name": "Issho [Fujitora]","relationship": "Ally"},
+        {"name": "Fujitora [Issho]","relationship": "Ally"},
         {"name": "Tsuru","relationship": "Friend, Former Subordinate"},
         {"name": "Monkey D. Garp","relationship": "Friend, Former Subordinate"},
         {"name": "Helmeppo","relationship": "Subordinate"},
@@ -25716,7 +25716,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Egghead","chapter":"Chapter 1066"}
     ],
     "relationships": [
-        {"name": "Borsalino [Kizaru]","relationship": "Friend"},
+        {"name": "Kizaru [Borsalino]","relationship": "Friend"},
         {"name": "Vegapunk","relationship": "Friend, Former Boss"},
         {"name": "Monkey D. Luffy","relationship": "Respects"},
         {"name": "Jewelry Bonney","relationship": "Friend"},
@@ -25800,7 +25800,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Shakuyaku [Shakky]",
+    "name": "Shakky [Shakuyaku]",
     "image": "/images/characters/Shakuyaku.webp",
     "affiliation": "Shakky's Rip-off Bar",
     "haki": ["Armament"],
@@ -25827,7 +25827,7 @@ export const RAW_CHARACTERS: any[] = [
       {"name": "Monkey D. Garp","relationship": "Former Ally, Rival"},
       {"name": "Gol D. Roger","relationship": "Former Ally, Rival"},
       {"name": "Ochoku","relationship": "Kidnapped by"},
-      {"name": "Davy D. Xebec [Rocks]","relationship": "Former Ally"}
+      {"name": "Rocks D. Xebec [Davy]","relationship": "Former Ally"}
     ]
   },
   {
@@ -26087,8 +26087,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Merveille","chapter":"Strong World: Chap. 0"}
     ],
     "relationships": [
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"},
-        {"name": "Kyo [Silver Axe]","relationship": "Rival"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"},
+        {"name": "Silver Axe [Kyo]","relationship": "Rival"},
         {"name": "Indigo","relationship": "Subordinate"},
         {"name": "Edward Newgate [Barbe Blanche]","relationship": "Respects"},
         {"name": "Gol D. Roger","relationship": "Respects"},
@@ -26665,7 +26665,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Gol D. Roger","relationship": "Former Captain"},
         {"name": "Scopper Gaban","relationship": "Former Crewmate"},
-        {"name": "Shakuyaku [Shakky]","relationship": "Wife"},
+        {"name": "Shakky [Shakuyaku]","relationship": "Wife"},
         {"name": "Crocus","relationship": "Former Crewmate"},
         {"name": "Shanks","relationship": "Former Crewmate"},
         {"name": "Monkey D. Luffy","relationship": "Ally"},
@@ -26807,8 +26807,8 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Hina","relationship": "Ally"},
         {"name": "Donquixote Doflamingo","relationship": "Enemy"},
         {"name": "Crocodile","relationship": "Enemy"},
-        {"name": "Kuzan [Aokiji]","relationship": "Ally"},
-        {"name": "Issho [Fujitora]","relationship": "Superior"},
+        {"name": "Aokiji [Kuzan]","relationship": "Ally"},
+        {"name": "Fujitora [Issho]","relationship": "Superior"},
         {"name": "Vergo","relationship": "Betrayed by and Former Commander"}
     ]
   },
@@ -26826,7 +26826,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Caesar Clown","relationship": "Former Boss"},
-        {"name": "Chadros Higelyges [Barbe Brune]","relationship": "Former Superior"}
+        {"name": "Barbe Brune [Chadros Higelyges]","relationship": "Former Superior"}
     ]
   },
   {
@@ -27388,8 +27388,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 858"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Partner, Captain"},
-        {"name": "Davy D. Xebec [Rocks]","relationship": "Former Captain"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Partner, Captain"},
+        {"name": "Rocks D. Xebec [Davy]","relationship": "Former Captain"}
     ]
   },
   {
@@ -27848,7 +27848,7 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Totto Land","chapter":"Chapter 829"}
     ],
     "relationships": [
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Captain"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Captain"},
         {"name": "Pekoms","relationship": "Former Crewmate and Partner"},
         {"name": "Capone Bege","relationship": "Enemy, Former Crewmate"},
         {"name": "Pedro","relationship": "Respects"}
@@ -28115,7 +28115,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Tensei [Kurouma]",
+    "name": "Kurouma [Tensei]",
     "image": "/images/characters/Tensei.webp",
     "affiliation": "Marines ",
     "first_appearance_arc": "Chapter 1054",
@@ -28324,7 +28324,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Tokikake [Chaton]",
+    "name": "Chaton [Tokikake]",
     "image": "/images/characters/Tokikake.webp",
     "affiliation": "Marines",
     "haki": ["Armament"],
@@ -28337,8 +28337,8 @@ export const RAW_CHARACTERS: any[] = [
       {"location":"Mary Geoise","chapter":"Chapter 907"}
     ],
     "relationships": [
-      {"name": "Gion [Momousagi]","relationship": "In Love With"},
-      {"name": "Issho [Fujitora]","relationship": "Friend"}
+      {"name": "Momousagi [Gion]","relationship": "In Love With"},
+      {"name": "Fujitora [Issho]","relationship": "Friend"}
     ]
   },
   {
@@ -28608,7 +28608,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Jaygarcia Saturn","relationship": "Ordered Buster Call"},
-      {"name": "Borsalino [Kizaru]","relationship": "Superior"},
+      {"name": "Kizaru [Borsalino]","relationship": "Superior"},
       {"name": "Doberman","relationship": "Buster Call Comrade"},
       {"name": "Red King","relationship": "Buster Call Comrade"},
       {"name": "Bluegrass","relationship": "Buster Call Comrade"},
@@ -28654,7 +28654,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Jewelry Bonney","relationship": "Captain"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Defeated by"},
-        {"name": "Sakazuki [Akainu]","relationship": "Captured by"},
+        {"name": "Akainu [Sakazuki]","relationship": "Captured by"},
         {"name": "Potato","relationship": "Crewmate"},
         {"name": "Gyogyo","relationship": "Crewmate"},
         {"name": "Part","relationship": "Crewmate"},
@@ -28730,7 +28730,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Caesar Clown","relationship": "Enemy"},
         {"name": "Trebol","relationship": "Enemy"},
         {"name": "Sengoku","relationship": "Respected by"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy, Defeated"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy, Defeated"},
         {"name": "Kaidou","relationship": "Enemy"},
         {"name": "Donquixote Rosinante","relationship": "Friend"},
         {"name": "Marshall D. Teach [Barbe Noire]","relationship": "Enemy"}
@@ -28831,7 +28831,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Gloriosa","relationship": "Empress Predecessor, Former Captain"},
-      {"name": "Shakuyaku [Shakky]","relationship": "Empress Predecessor, Former Captain"},
+      {"name": "Shakky [Shakuyaku]","relationship": "Empress Predecessor, Former Captain"},
       {"name": "Boa Hancock","relationship": "Empress Successor"}
     ]
   },
@@ -28940,7 +28940,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Sengoku","relationship": "Friend, Former Superior"},
-        {"name": "Gion [Momousagi]","relationship": "Friend"},
+        {"name": "Momousagi [Gion]","relationship": "Friend"},
         {"name": "Monkey D. Garp","relationship": "Friend"},
         {"name": "Bluegrass","relationship": "Friend"},
         {"name": "Donquixote Doflamingo","relationship": "Enemy"},
@@ -29288,7 +29288,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
       {"name": "Jaygarcia Saturn","relationship": "Ordered Buster Call"},
-      {"name": "Borsalino [Kizaru]","relationship": "Superior"},
+      {"name": "Kizaru [Borsalino]","relationship": "Superior"},
       {"name": "Doberman","relationship": "Buster Call Comrade"},
       {"name": "Red King","relationship": "Buster Call Comrade"},
       {"name": "Bluegrass","relationship": "Buster Call Comrade"},
@@ -29445,7 +29445,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Leo","relationship": "Respected by"},
         {"name": "Hajrudin","relationship": "Respected by"},
         {"name": "Chew","relationship": "Defeated"},
-        {"name": "Babe [Mr. 4]","relationship": "Defeated"},
+        {"name": "Mr. 4 [Babe]","relationship": "Defeated"},
         {"name": "Perona","relationship": "Defeated"},
         {"name": "Daruma","relationship": "Defeated"},
         {"name": "Sugar","relationship": "Defeated"},
@@ -29682,7 +29682,7 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Vegapunk","relationship": "Creator"},
-        {"name": "Borsalino [Kizaru]","relationship": "Destroyed by"}
+        {"name": "Kizaru [Borsalino]","relationship": "Destroyed by"}
     ]
   },
   {
@@ -29736,13 +29736,13 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Topman Warcury","relationship": "Enemy"},
         {"name": "Sentomaru","relationship": "Bodyguard"},
         {"name": "Caesar Clown","relationship": "Rival, Former Colleague"},
-        {"name": "Borsalino [Kizaru]","relationship": "Friend, Killed by"},
+        {"name": "Kizaru [Borsalino]","relationship": "Friend, Killed by"},
         {"name": "Bartholomew Kuma","relationship": "Friend"},
         {"name": "Monkey D. Dragon","relationship": "Ally"},
         {"name": "Clou D. Clover","relationship": "Friend"},
         {"name": "Jewelry Bonney","relationship": "Friend"},
         {"name": "Vinsmoke Judge","relationship": "Former Colleague"},
-        {"name": "Scien [Queen]","relationship": "Former Colleague"},
+        {"name": "Queen [Scien]","relationship": "Former Colleague"},
         {"name": "Buckingham Stussy","relationship": "Former Colleague"},
         {"name": "Stussy","relationship": "Ally, Created"},
         {"name": "Monkey D. Luffy","relationship": "Ally"},
@@ -29877,7 +29877,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Vinsmoke Judge","relationship": "Father"},
         {"name": "Vinsmoke Sora","relationship": "Mother"},
         {"name": "Vinsmoke Reiju","relationship": "Sister"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"}
     ]
   },
   {
@@ -29906,11 +29906,11 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Vinsmoke Niji","relationship": "Son"},
         {"name": "Vinsmoke Sora","relationship": "Wife"},
         {"name": "Vinsmoke Reiju","relationship": "Daughter"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"},
         {"name": "Vegapunk","relationship": "Former Leader"},
         {"name": "Buckingham Stussy","relationship": "Former Colleague"},
         {"name": "Caesar Clown","relationship": "NEO MADS Co-Founder and Former Colleague"},
-        {"name": "Scien [Queen]","relationship": "Former Colleague"}
+        {"name": "Queen [Scien]","relationship": "Former Colleague"}
     ]
   },
   {
@@ -29940,7 +29940,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Vinsmoke Judge","relationship": "Father"},
         {"name": "Vinsmoke Sora","relationship": "Mother"},
         {"name": "Vinsmoke Reiju","relationship": "Sister"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"}
     ]
   },
   {
@@ -29970,7 +29970,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Monkey D. Luffy","relationship": "Ally"},
         {"name": "Vinsmoke Sora","relationship": "Mother"},
         {"name": "Vinsmoke Ichiji","relationship": "Brother"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"}
     ]
   },
   {
@@ -30018,7 +30018,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Vinsmoke Judge","relationship": "Father"},
         {"name": "Vinsmoke Sora","relationship": "Mother"},
         {"name": "Vinsmoke Reiju","relationship": "Sister"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"}
     ]
   },
   {
@@ -30110,7 +30110,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Capone Bege","relationship": "Captain"},
         {"name": "Charlotte Chiffon","relationship": "Crewmate"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy"},
         {"name": "Gotti","relationship": "Crewmate"}
     ]
   },
@@ -31158,7 +31158,7 @@ export const RAW_CHARACTERS: any[] = [
     ]
   },
   {
-    "name": "Zala [Miss Doublefinger]",
+    "name": "Miss Doublefinger [Zala]",
     "image": "/images/characters/Zala.webp",
     "epithet": "Poison Spider",
     "affiliation": "Baroque Works",
@@ -31178,17 +31178,17 @@ export const RAW_CHARACTERS: any[] = [
     ],
     "relationships": [
         {"name": "Crocodile","relationship": "Former Boss"},
-        {"name": "Babe [Mr. 4]","relationship": "Former Subordinate, Coworker"},
+        {"name": "Mr. 4 [Babe]","relationship": "Former Subordinate, Coworker"},
         {"name": "Nami","relationship": "Defeated by"},
         {"name": "Nico Robin","relationship": "Former Superior"},
-        {"name": "Daz Bonez [Mr. 1]","relationship": "Former Partner"},
+        {"name": "Mr. 1 [Daz Bonez]","relationship": "Former Partner"},
         {"name": "Bentham (Bon Clay) [Mr. 2]","relationship": "Former Subordinate"},
-        {"name": "Galdino [Mr. 3]","relationship": "Former Subordinate"},
+        {"name": "Mr. 3 [Galdino]","relationship": "Former Subordinate"},
         {"name": "Tashigi","relationship": "Arrested by"},
-        {"name": "Drophy [Miss Merry Christmas]","relationship": "Former Subordinate, Coworker"},
-        {"name": "Marianne [Miss Goldenweek]","relationship": "Former Subordinate, Coworker and Fred by"},
-        {"name": "Mikita [Miss Valentine]","relationship": "Former Subordinate, Coworker and Fred by"},
-        {"name": "Gem [Mr. 5]","relationship": "Former Subordinate, Coworker and Fred by"}
+        {"name": "Miss Merry Christmas [Drophy]","relationship": "Former Subordinate, Coworker"},
+        {"name": "Miss Goldenweek [Marianne]","relationship": "Former Subordinate, Coworker and Fred by"},
+        {"name": "Miss Valentine [Mikita]","relationship": "Former Subordinate, Coworker and Fred by"},
+        {"name": "Mr. 5 [Gem]","relationship": "Former Subordinate, Coworker and Fred by"}
     ]
   },
   {
@@ -31315,7 +31315,7 @@ export const RAW_CHARACTERS: any[] = [
         {"name": "Bepo","relationship": "Brother"},
         {"name": "Pekoms","relationship": "Former Crewmate"},
         {"name": "Pedro","relationship": "Former Captain"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Killed by"}
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Killed by"}
     ]
   },
   {
@@ -31341,7 +31341,7 @@ export const RAW_CHARACTERS: any[] = [
     "relationships": [
         {"name": "Monkey D. Luffy","relationship": "Captain"},
         {"name": "Nami","relationship": "Friend, Assists"},
-        {"name": "Charlotte Linlin [Big Mom]","relationship": "Enemy, Created by"},
+        {"name": "Big Mom [Charlotte Linlin]","relationship": "Enemy, Created by"},
         {"name": "Prometheus","relationship": "Enemy"},
         {"name": "Napoleon","relationship": "Enemy"},
         {"name": "Hera","relationship": "Replaced by"}

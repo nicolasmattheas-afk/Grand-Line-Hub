@@ -130,7 +130,7 @@ const GROUP_TEMPLATES: GroupTemplate[] = [
       // Seraphim models
       if (name.startsWith("s-bear") || name.startsWith("s-hawk") || name.startsWith("s-snake") || name.startsWith("s-shark")) return true;
 
-      // Scien [Queen]
+      // Queen [Scien]
       if (name.includes("queen") && (affiliation.includes("beasts") || desc.includes("all-star") || desc.includes("plague"))) return true;
 
       // Vegapunk & satellites
