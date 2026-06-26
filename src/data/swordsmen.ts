@@ -164,7 +164,6 @@ export const SWORDSMEN_NAMES = [
   "Isoka",
   "Issho",
   "Isuka",
-  "Izou",
   "Jack",
   "Jenfétro",
   "Jero",

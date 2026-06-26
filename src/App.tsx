@@ -333,7 +333,7 @@ export default function App() {
         if (!characterIsSwordsman) {
           for (const sNorm of normalizedSwordsmenSet) {
             if (sNorm.length >= 4) {
-              if (dbNameNorm.includes(sNorm) || sNorm.includes(dbNameNorm)) {
+              if (dbNameNorm.includes(sNorm)) {
                 characterIsSwordsman = true;
                 break;
               }
