@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Trophy, HelpCircle, RefreshCw, Coins, ArrowRight, Download, Brain, 
-  Volume2, VolumeX, CheckCircle, AlertCircle, Gamepad2, Info
+  Volume2, VolumeX, CheckCircle, AlertCircle, Gamepad2, Info, Flag
 } from "lucide-react";
 
 // ==========================================
@@ -218,6 +218,9 @@ export default function MotsCroises({ onUpdateBounty, globalBounty }: MotsCroise
   const [activeDirection, setActiveDirection] = useState<"across" | "down">("across");
   
   const [hasWon, setHasWon] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [hasLost, setHasLost] = useState(false);
+  const [hasAbandoned, setHasAbandoned] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [notification, setNotification] = useState<{ text: string; type: "success" | "error" | "info" } | null>(null);
   const [wrongCells, setWrongCells] = useState<Record<string, boolean>>({});
@@ -520,6 +523,10 @@ export default function MotsCroises({ onUpdateBounty, globalBounty }: MotsCroise
     setColsCount(croppedCols);
     setSelectedCell(null);
     setHasWon(false);
+    setAttempts(0);
+    setHasLost(false);
+    setHasAbandoned(false);
+    setWrongCells({});
   };
 
   // Lancer une partie au premier rendu
@@ -737,9 +744,29 @@ export default function MotsCroises({ onUpdateBounty, globalBounty }: MotsCroise
     return list.sort((a, b) => (a.number || 0) - (b.number || 0));
   };
 
+  // --- ABANDONNER ET RÉVÉLER LES RÉPONSES ---
+  const handleAbandon = () => {
+    if (hasWon || hasLost || hasAbandoned) return;
+
+    const updatedGrid = [...grid.map(row => [...row])];
+    for (let r = 0; r < rowsCount; r++) {
+      for (let c = 0; c < colsCount; c++) {
+        const cell = updatedGrid[r][c];
+        if (cell.isPlayable) {
+          cell.isRevealed = true;
+          cell.guess = cell.letter;
+        }
+      }
+    }
+    setGrid(updatedGrid);
+    setHasAbandoned(true);
+    playSound("error");
+    showNotification("Vous avez abandonné ! Les bonnes réponses sont révélées.", "info");
+  };
+
   // --- VALIDATION ET EXPÉRIENCE DE VICTOIRE ---
   const handleValidateGrid = () => {
-    if (hasWon) return;
+    if (hasWon || hasLost || hasAbandoned) return;
 
     let hasErrors = false;
     let emptyCount = 0;
@@ -763,23 +790,52 @@ export default function MotsCroises({ onUpdateBounty, globalBounty }: MotsCroise
 
     setWrongCells(newWrongCells);
 
-    if (emptyCount > 0 && !hasErrors) {
+    const isWrong = emptyCount > 0 || hasErrors;
+
+    if (isWrong) {
       playSound("error");
-      showNotification(`La grille n'est pas complète ! Il vous reste ${emptyCount} case(s) à remplir.`, "info");
-    } else if (hasErrors) {
-      playSound("error");
-      showNotification(`Validation échouée : Vous avez ${errorCount} erreur(s) (indiquées en rouge dans la grille).`, "error");
-      
-      // Effacer les erreurs après 3 secondes
-      setTimeout(() => {
-        setWrongCells({});
-      }, 3000);
+      const nextAttempts = attempts + 1;
+      setAttempts(nextAttempts);
+
+      if (nextAttempts >= 3) {
+        // Révéler toute la grille
+        const updatedGrid = [...grid.map(row => [...row])];
+        for (let r = 0; r < rowsCount; r++) {
+          for (let c = 0; c < colsCount; c++) {
+            const cell = updatedGrid[r][c];
+            if (cell.isPlayable) {
+              cell.isRevealed = true;
+              cell.guess = cell.letter;
+            }
+          }
+        }
+        setGrid(updatedGrid);
+        setHasLost(true);
+        showNotification("3 validations infructueuses ! La grille correcte a été révélée.", "error");
+      } else {
+        if (emptyCount > 0 && !hasErrors) {
+          showNotification(`Validation ${nextAttempts}/3 : Grille incomplète ! (${emptyCount} cases vides).`, "error");
+        } else {
+          showNotification(`Validation ${nextAttempts}/3 échouée : ${errorCount} erreur(s) (en rouge).`, "error");
+        }
+        // Effacer les erreurs après 3 secondes
+        setTimeout(() => {
+          setWrongCells({});
+        }, 3000);
+      }
     } else {
       // Tout est correct !
       setHasWon(true);
       playSound("win");
-      onUpdateBounty(10000);
-      showNotification("FÉLICITATIONS PIRATE ! Grille de Mots Croisés complétée à 100% avec succès ! (+10 000 ฿ de prime)", "success");
+
+      // Calcul des gains
+      let reward = 10000;
+      if (attempts === 1) reward = 5000;
+      else if (attempts === 2) reward = 2000;
+      else if (attempts >= 3) reward = 0;
+
+      onUpdateBounty(reward);
+      showNotification(`FÉLICITATIONS PIRATE ! Grille complétée avec succès ! (+${reward.toLocaleString()} ฿ de prime)`, "success");
     }
   };
 
@@ -1493,8 +1549,8 @@ export default function MotsCroises({ onUpdateBounty, globalBounty }: MotsCroise
         )}
       </AnimatePresence>
 
-      {/* 3. Panel Économie (Cagnotte de Berrys) & Boutons d'action */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      {/* 3. Panel Économie & Statut */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
         
         {/* Votre Prime globale */}
         <div className="bg-[#10142C] border border-white/5 rounded-2xl p-4 flex items-center justify-between shadow-lg">
@@ -1509,13 +1565,36 @@ export default function MotsCroises({ onUpdateBounty, globalBounty }: MotsCroise
           </div>
         </div>
 
+        {/* Tentatives & Gain */}
+        <div className="bg-[#10142C] border border-white/5 rounded-2xl p-4 flex items-center justify-between shadow-lg">
+          <div>
+            <span className="text-[10px] text-slate-400 uppercase tracking-widest block font-bold">Tentatives : {attempts}/3</span>
+            <span className="text-xs font-bold text-slate-300 mt-1 block">
+              Gains si correct : <strong className="text-emerald-400 font-extrabold">{attempts === 0 ? "10 000 ฿" : attempts === 1 ? "5 000 ฿" : attempts === 2 ? "2 000 ฿" : "0 ฿"}</strong>
+            </span>
+          </div>
+          <div className="flex gap-1">
+            {[1, 2, 3].map((step) => (
+              <span
+                key={step}
+                className={`w-2.5 h-2.5 rounded-full border ${
+                  attempts >= step
+                    ? "bg-rose-500 border-rose-400 animate-pulse"
+                    : "bg-slate-800 border-slate-700"
+                }`}
+                title={`Validation échouée ${step}`}
+              />
+            ))}
+          </div>
+        </div>
+
         {/* Bouton Révéler une lettre */}
         <button
           onClick={handleRevealLetter}
-          disabled={hasWon}
-          className="bg-gradient-to-r from-indigo-700 to-indigo-900 hover:from-indigo-600 hover:to-indigo-800 disabled:opacity-50 text-white font-extrabold px-5 py-4 rounded-2xl transition-all shadow-md flex items-center justify-between cursor-pointer active:scale-[0.98] border border-indigo-500/30"
+          disabled={hasWon || hasLost || hasAbandoned}
+          className="bg-gradient-to-r from-indigo-700 to-indigo-950 hover:from-indigo-600 hover:to-indigo-900 disabled:opacity-50 text-white font-extrabold px-4 py-4 rounded-2xl transition-all shadow-md flex items-center justify-between cursor-pointer active:scale-[0.98] border border-indigo-500/30 text-xs font-heading uppercase"
         >
-          <span className="flex items-center gap-2 text-xs uppercase font-heading">
+          <span className="flex items-center gap-2">
             <HelpCircle className="w-4 h-4 text-amber-400" />
             Indices : Révéler (-1 000 ฿)
           </span>
@@ -1524,15 +1603,25 @@ export default function MotsCroises({ onUpdateBounty, globalBounty }: MotsCroise
         {/* Bouton Valider la grille */}
         <button
           onClick={handleValidateGrid}
-          disabled={hasWon}
-          className="bg-gradient-to-r from-emerald-700 to-emerald-900 hover:from-emerald-600 hover:to-emerald-800 disabled:opacity-50 text-white font-extrabold px-5 py-4 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] border border-emerald-500/30 font-heading text-xs uppercase"
+          disabled={hasWon || hasLost || hasAbandoned}
+          className="bg-gradient-to-r from-emerald-700 to-emerald-950 hover:from-emerald-600 hover:to-emerald-900 disabled:opacity-50 text-white font-extrabold px-4 py-4 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] border border-emerald-500/30 font-heading text-xs uppercase"
         >
           <CheckCircle className="w-4 h-4 text-emerald-300" />
-          Valider la grille
+          Valider
+        </button>
+
+        {/* Bouton Abandonner et voir les réponses */}
+        <button
+          onClick={handleAbandon}
+          disabled={hasWon || hasLost || hasAbandoned}
+          className="bg-gradient-to-r from-rose-700 to-rose-950 hover:from-rose-600 hover:to-rose-900 disabled:opacity-50 text-white font-extrabold px-4 py-4 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] border border-rose-500/30 font-heading text-xs uppercase"
+        >
+          <Flag className="w-4 h-4 text-rose-300" />
+          Abandonner
         </button>
       </div>
 
-      {/* 4. Tableau d'affichage de Victoire */}
+      {/* 4. Tableau d'affichage de l'état final (Victoire / Défaite / Abandon) */}
       <AnimatePresence>
         {hasWon && (
           <motion.div
@@ -1546,13 +1635,64 @@ export default function MotsCroises({ onUpdateBounty, globalBounty }: MotsCroise
             <h3 className="text-xl md:text-2xl font-heading font-black text-amber-300 uppercase">🏆 GRILLE ENTIÈREMENT CONQUISE !</h3>
             <p className="text-slate-200 mt-2 text-xs md:text-sm max-w-xl mx-auto leading-relaxed">
               Vos connaissances en lore d'One Piece vous ont permis d'aligner chaque caractère à la perfection.
-              Votre cagnotte locale grimpe de <strong className="text-amber-400 font-black">+10 000 Berrys</strong>, 
-              et votre prime de combat pirate de recherche globale est mise à jour avec fierté !
+              Votre cagnotte locale grimpe de <strong className="text-amber-400 font-black">+{attempts === 0 ? "10 000" : attempts === 1 ? "5 000" : attempts === 2 ? "2 000" : "0"} Berrys</strong>, 
+              et votre prime de combat pirate globale est mise à jour avec fierté !
             </p>
             <div className="flex flex-col sm:flex-row gap-3 items-center justify-center mt-5">
               <button
                 onClick={generateNewCrossword}
                 className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-3 rounded-xl text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 cursor-pointer"
+              >
+                Générer une nouvelle grille
+              </button>
+            </div>
+          </motion.div>
+        )}
+
+        {hasLost && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="mb-6 bg-gradient-to-r from-rose-500/10 to-red-500/10 border-2 border-rose-400/50 rounded-2xl p-6 text-center shadow-lg relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-rose-400/10 rounded-full blur-2xl pointer-events-none"></div>
+            <AlertCircle className="w-12 h-12 text-rose-400 mx-auto mb-3 animate-bounce" />
+            <h3 className="text-xl md:text-2xl font-heading font-black text-rose-300 uppercase">☠️ TENTATIVES ÉPUISÉES</h3>
+            <p className="text-slate-200 mt-2 text-xs md:text-sm max-w-xl mx-auto leading-relaxed">
+              Vous avez effectué <strong className="text-rose-400">3 validations incorrectes</strong>.
+              La grille correcte a été entièrement révélée pour vous aider à apprendre de vos erreurs.
+              Vous gagnez <strong className="text-slate-400">0 Berry</strong> pour cette grille.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 items-center justify-center mt-5">
+              <button
+                onClick={generateNewCrossword}
+                className="bg-rose-600 hover:bg-rose-500 text-white font-black px-6 py-3 rounded-xl text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 cursor-pointer"
+              >
+                Générer une nouvelle grille
+              </button>
+            </div>
+          </motion.div>
+        )}
+
+        {hasAbandoned && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="mb-6 bg-gradient-to-r from-slate-500/10 to-slate-700/10 border-2 border-slate-400/50 rounded-2xl p-6 text-center shadow-lg relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-slate-400/10 rounded-full blur-2xl pointer-events-none"></div>
+            <HelpCircle className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+            <h3 className="text-xl md:text-2xl font-heading font-black text-slate-300 uppercase">🏳️ GRILLE ABANDONNÉE</h3>
+            <p className="text-slate-200 mt-2 text-xs md:text-sm max-w-xl mx-auto leading-relaxed">
+              Vous avez choisi d'abandonner. Toutes les réponses de la grille ont été révélées pour vous.
+              Vous gagnez <strong className="text-slate-400">0 Berry</strong> pour cette grille.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 items-center justify-center mt-5">
+              <button
+                onClick={generateNewCrossword}
+                className="bg-slate-600 hover:bg-slate-500 text-white font-black px-6 py-3 rounded-xl text-xs uppercase tracking-widest transition-all shadow-md active:scale-95 cursor-pointer"
               >
                 Générer une nouvelle grille
               </button>
@@ -1638,7 +1778,7 @@ export default function MotsCroises({ onUpdateBounty, globalBounty }: MotsCroise
                         type="text"
                         // Retrait de maxLength pour éviter de bloquer l'édition
                         value={cell.guess}
-                        disabled={cell.isRevealed || hasWon}
+                        disabled={cell.isRevealed || hasWon || hasLost || hasAbandoned}
                         onChange={(e) => handleCellChange(rIdx, cIdx, e.target.value)}
                         onKeyDown={(e) => handleKeyDown(rIdx, cIdx, e)}
                         className={`w-full h-full text-center font-black text-sm sm:text-base uppercase bg-transparent border-none focus:outline-none pt-2 font-sans ${
