@@ -31430,8 +31430,106 @@ export const RAW_CHARACTERS: any[] = [
   }
 ];
 
+export const SERAPHIM_CHARACTERS = [
+  {
+    "name": "S-Snake",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/f/f3/S-Snake_Portrait.png",
+    "affiliation": "Marine (Special Science Group)",
+    "first_appearance_arc": "Egghead Arc",
+    "race": "Lunarian Clone",
+    "status": "Alive",
+    "description": "Lunarian clone of Boa Hancock created by Vegapunk, wielding the Mero Mero no Mi.",
+    "devil_fruit": "Mero Mero no Mi"
+  },
+  {
+    "name": "S-Hawk",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/2/2d/S-Hawk_Portrait.png",
+    "affiliation": "Marine (Special Science Group)",
+    "first_appearance_arc": "Egghead Arc",
+    "race": "Lunarian Clone",
+    "status": "Alive",
+    "description": "Lunarian clone of Dracule Mihawk created by Vegapunk, wielding the Supa Supa no Mi.",
+    "devil_fruit": "Supa Supa no Mi"
+  },
+  {
+    "name": "S-Bear",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/2/27/S-Bear_Portrait.png",
+    "affiliation": "Marine (Special Science Group)",
+    "first_appearance_arc": "Egghead Arc",
+    "race": "Lunarian Clone",
+    "status": "Alive",
+    "description": "Lunarian clone of Bartholomew Kuma created by Vegapunk, wielding the Nikyu Nikyu no Mi.",
+    "devil_fruit": "Nikyu Nikyu no Mi"
+  },
+  {
+    "name": "S-Shark",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/a/aa/S-Shark_Portrait.png",
+    "affiliation": "Marine (Special Science Group)",
+    "first_appearance_arc": "Egghead Arc",
+    "race": "Lunarian Clone",
+    "status": "Alive",
+    "description": "Lunarian clone of Jinbe created by Vegapunk, wielding the Sui Sui no Mi.",
+    "devil_fruit": "Sui Sui no Mi"
+  },
+  {
+    "name": "S-Flamingo",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/3/35/S-Flamingo_Portrait.png",
+    "affiliation": "Marine (Special Science Group)",
+    "first_appearance_arc": "Egghead Arc",
+    "race": "Lunarian Clone",
+    "status": "Alive",
+    "description": "Lunarian clone of Donquixote Doflamingo created by Vegapunk, wielding the Ito Ito no Mi.",
+    "devil_fruit": "Ito Ito no Mi"
+  },
+  {
+    "name": "S-Bat",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/4/41/S-Bat_Portrait.png",
+    "affiliation": "Marine (Special Science Group)",
+    "first_appearance_arc": "Egghead Arc",
+    "race": "Lunarian Clone",
+    "status": "Alive",
+    "description": "Lunarian clone of Gecko Moria created by Vegapunk."
+  },
+  {
+    "name": "S-Crocodile",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/1/10/S-Crocodile_Portrait.png",
+    "affiliation": "Marine (Special Science Group)",
+    "first_appearance_arc": "Egghead Arc",
+    "race": "Lunarian Clone",
+    "status": "Alive",
+    "description": "Lunarian clone of Crocodile created by Vegapunk."
+  },
+  {
+    "name": "Seraphim (Anime)",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/d/de/Seraphim_Anime_Infobox.png",
+    "affiliation": "Marine (Special Science Group)",
+    "first_appearance_arc": "Egghead Arc",
+    "race": "Lunarian Clones",
+    "status": "Alive",
+    "description": "The ultimate human weapons created by Vegapunk to replace the Shichibukai. (Anime Version)"
+  },
+  {
+    "name": "Seraphim (Manga)",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/7/75/Seraphim_Manga_Infobox.png",
+    "affiliation": "Marine (Special Science Group)",
+    "first_appearance_arc": "Egghead Arc",
+    "race": "Lunarian Clones",
+    "status": "Alive",
+    "description": "The ultimate human weapons created by Vegapunk to replace the Shichibukai. (Manga Version)"
+  },
+  {
+    "name": "Espace de développement des Seraphims",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/a/ac/Espace_de_d%C3%A9veloppement_des_Seraphims.png",
+    "affiliation": "Marine (Special Science Group)",
+    "first_appearance_arc": "Egghead Arc",
+    "race": "Lieu de laboratoire / Installation",
+    "status": "Alive",
+    "description": "La salle de culture et de développement du laboratoire de recherche d'Egghead, où les Seraphims sont cultivés et modifiés."
+  }
+];
+
 export function getCharactersDatabase() {
-  return RAW_CHARACTERS.map(c => {
+  const mapped = RAW_CHARACTERS.map(c => {
     let name = c.name;
     if (name === "Cutty Flam [Franky]") {
       name = "Franky [Cutty Flam]";
@@ -31448,6 +31546,7 @@ export function getCharactersDatabase() {
       relationships
     };
   });
+  return [...mapped, ...SERAPHIM_CHARACTERS];
 }
 
 export function searchCharacters(query: string, charactersList: any[]) {

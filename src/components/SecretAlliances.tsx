@@ -128,7 +128,7 @@ const GROUP_TEMPLATES: GroupTemplate[] = [
       if (name.includes("bartholomew kuma") || name === "kuma") return true;
 
       // Seraphim models
-      if (name.startsWith("s-bear") || name.startsWith("s-hawk") || name.startsWith("s-snake") || name.startsWith("s-shark")) return true;
+      if (name.startsWith("s-bear") || name.startsWith("s-hawk") || name.startsWith("s-snake") || name.startsWith("s-shark") || name.startsWith("s-flamingo") || name.startsWith("s-bat") || name.startsWith("s-crocodile")) return true;
 
       // Queen [Scien]
       if (name.includes("queen") && (affiliation.includes("beasts") || desc.includes("all-star") || desc.includes("plague"))) return true;

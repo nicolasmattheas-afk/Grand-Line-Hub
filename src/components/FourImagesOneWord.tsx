@@ -47,16 +47,28 @@ export default function FourImagesOneWord({ characters, onUpdateBounty, playerBo
       
       // Override with official Seraphim images
       if (lowerKw === "s-snake") {
-        return "https://static.wikia.nocookie.net/onepiece/images/3/30/S-Snake_Anime.png";
+        return "https://static.wikia.nocookie.net/onepiece/images/f/f3/S-Snake_Portrait.png";
       }
       if (lowerKw === "s-hawk") {
-        return "https://static.wikia.nocookie.net/onepiece/images/5/56/S-Hawk_Anime.png";
+        return "https://static.wikia.nocookie.net/onepiece/images/2/2d/S-Hawk_Portrait.png";
       }
       if (lowerKw === "s-bear") {
-        return "https://static.wikia.nocookie.net/onepiece/images/2/28/S-Bear_Anime.png";
+        return "https://static.wikia.nocookie.net/onepiece/images/2/27/S-Bear_Portrait.png";
       }
       if (lowerKw === "s-shark") {
-        return "https://static.wikia.nocookie.net/onepiece/images/1/17/S-Shark_Anime.png";
+        return "https://static.wikia.nocookie.net/onepiece/images/a/aa/S-Shark_Portrait.png";
+      }
+      if (lowerKw === "s-flamingo") {
+        return "https://static.wikia.nocookie.net/onepiece/images/3/35/S-Flamingo_Portrait.png";
+      }
+      if (lowerKw === "s-bat") {
+        return "https://static.wikia.nocookie.net/onepiece/images/4/41/S-Bat_Portrait.png";
+      }
+      if (lowerKw === "s-crocodile") {
+        return "https://static.wikia.nocookie.net/onepiece/images/1/10/S-Crocodile_Portrait.png";
+      }
+      if (lowerKw === "seraphim") {
+        return "https://static.wikia.nocookie.net/onepiece/images/d/de/Seraphim_Anime_Infobox.png";
       }
 
       const mappedName = CHARACTER_NAME_MAP[kw.toLowerCase()];
@@ -316,7 +328,7 @@ export default function FourImagesOneWord({ characters, onUpdateBounty, playerBo
                 onError={() => {
                   const kw = currentLevel.charKeywords[i];
                   const lowerKw = kw ? kw.toLowerCase() : "";
-                  if (lowerKw && ["s-snake", "s-hawk", "s-bear", "s-shark"].includes(lowerKw)) {
+                  if (lowerKw && ["s-snake", "s-hawk", "s-bear", "s-shark", "s-flamingo", "s-bat", "s-crocodile"].includes(lowerKw)) {
                     const mappedName = CHARACTER_NAME_MAP[lowerKw];
                     const match = characters.find((c) => c.name === mappedName);
                     if (match && match.image && failedImages[img] !== match.image) {
