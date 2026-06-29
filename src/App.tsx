@@ -514,6 +514,8 @@ export default function App() {
     }
   });
 
+  const [latestWejArticles, setLatestWejArticles] = useState<any[]>([]);
+
   const [playerAvatar, setPlayerAvatar] = useState<string>(() => {
     return localStorage.getItem("playerAvatarImage") || "";
   });
@@ -851,6 +853,57 @@ export default function App() {
       console.warn("Échec du suivi d'onglet sur Vercel Analytics:", err);
     }
   }, [activeTab]);
+
+  // Support de routage propre (AdSense compliance, SEO, direct URLs pour les pages légales & WEJ)
+  useEffect(() => {
+    const handleLocationChange = () => {
+      const path = window.location.pathname;
+      const searchParams = new URLSearchParams(window.location.search);
+      
+      if (path === "/privacy") {
+        setInfoModal("privacy");
+      } else if (path === "/legal") {
+        setInfoModal("legal");
+      } else if (path === "/terms" || path === "/cgu") {
+        setInfoModal("terms");
+      } else if (path === "/about") {
+        setInfoModal("about");
+      } else if (path === "/contact") {
+        setInfoModal("contact");
+      } else if (path === "/wej" || path.startsWith("/wej")) {
+        setActiveTab("wej");
+        const articleId = searchParams.get("id") || path.split("/")[2];
+        if (articleId) {
+          localStorage.setItem("selectedWejArticleId", articleId);
+          window.dispatchEvent(new Event("storage"));
+        }
+      } else if (path === "/blog") {
+        setActiveTab("blog");
+      } else if (path === "/") {
+        setInfoModal(null);
+      }
+    };
+
+    handleLocationChange();
+    window.addEventListener("popstate", handleLocationChange);
+    return () => window.removeEventListener("popstate", handleLocationChange);
+  }, []);
+
+  // Alimentation du flux d'articles d'actualité du WEJ pour affichage en page d'accueil (Indexation SEO)
+  useEffect(() => {
+    const fetchLatestWej = async () => {
+      try {
+        const resp = await fetch("/api/wej/articles");
+        const data = await resp.json();
+        if (data.success && data.articles) {
+          setLatestWejArticles(data.articles.slice(0, 3));
+        }
+      } catch (err) {
+        console.warn("Échec du préchargement des articles WEJ pour l'accueil :", err);
+      }
+    };
+    fetchLatestWej();
+  }, []);
 
   // Titre du badge couleur
   const rankColorClass = (rank: BountyRank) => {
@@ -1879,6 +1932,74 @@ export default function App() {
                 })}
               </div>
 
+              {/* SECTION À LA UNE DU JOURNAL DE L'ÉCONOMIE MONDIALE (WEJ) - SEO & ADSENSE COMPLIANCE */}
+              {latestWejArticles.length > 0 && (
+                <div className="mt-12 space-y-6">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-xl bg-rose-600/15 text-rose-500 flex items-center justify-center border border-rose-500/20">
+                        <Newspaper className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h3 className="font-heading font-black text-lg text-white uppercase tracking-tight">À LA UNE DU JOURNAL WEJ</h3>
+                        <p className="text-[10px] text-slate-400 font-mono uppercase tracking-wider">Les révélations géopolitiques de l'oiseau Morgans 🗞️</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => { setActiveTab("wej"); window.history.pushState(null, "", "/wej"); }}
+                      className="text-xs font-mono font-bold uppercase text-rose-450 hover:underline cursor-pointer"
+                    >
+                      Voir toutes les éditions →
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    {latestWejArticles.map((art) => (
+                      <div 
+                        key={art.id}
+                        className="bg-[#11142F] border border-violet-500/15 rounded-2xl p-5 flex flex-col justify-between hover:border-rose-500/30 hover:bg-[#161a3c] transition-all duration-300 shadow-md group relative overflow-hidden"
+                      >
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[9px] font-mono uppercase bg-rose-950/40 text-rose-400 border border-rose-500/15 px-2 py-0.5 rounded-md font-bold">
+                              {art.tags?.[0] || "Actualité"}
+                            </span>
+                            <span className="text-[9px] font-mono text-slate-400">
+                              📅 {art.publishDate}
+                            </span>
+                          </div>
+
+                          <h4 className="font-heading font-black text-[#F8FAFC] text-sm uppercase tracking-tight group-hover:text-rose-400 transition-colors line-clamp-2 leading-snug">
+                            {art.title}
+                          </h4>
+
+                          <p className="text-[11px] text-slate-350 leading-relaxed font-sans line-clamp-3">
+                            {art.summary}
+                          </p>
+                        </div>
+
+                        <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-400 uppercase tracking-widest">
+                          <span className="text-[9px] font-bold">Morgans WEJ</span>
+                          <a 
+                            href={`/wej/${art.id}`}
+                            onClick={(e) => { 
+                              e.preventDefault(); 
+                              localStorage.setItem("selectedWejArticleId", art.id); 
+                              setActiveTab("wej"); 
+                              window.history.pushState(null, "", `/wej/${art.id}`); 
+                              window.dispatchEvent(new Event("storage")); 
+                            }}
+                            className="font-bold text-rose-500 hover:text-rose-400 transition-colors cursor-pointer text-[10px]"
+                          >
+                            LIRE L'EDITION ⚔️
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* SECTION INFORMATIVE DE HAUTE VALEUR — GUIDE DE L'AVENTURIER ET WIKI DE COMBAT (AdSense Compliance & Real Utility) */}
               <div id="encyclopedia-guide" className="mt-12 bg-[#141737] border border-violet-500/20 rounded-3xl p-6 md:p-8 space-y-8 backdrop-blur-md shadow-lg shadow-black/30">
                 <div className="border-b border-white/10 pb-4">
@@ -2316,7 +2437,7 @@ export default function App() {
         <div className="fixed inset-0 bg-[#020617]/90 z-50 flex items-center justify-center p-4 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200">
           <div className="bg-[#0B0F24] border border-violet-500/25 max-w-2xl w-full rounded-3xl p-6 md:p-8 shadow-2xl relative my-8 text-left max-h-[90vh] overflow-y-auto flex flex-col justify-between">
             <button 
-              onClick={() => setInfoModal(null)}
+              onClick={() => { setInfoModal(null); window.history.pushState(null, "", "/"); }}
               className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-white flex items-center justify-center font-bold text-xs transition-colors hover:scale-110 active:scale-95"
               title="Fermer"
             >
@@ -2500,7 +2621,7 @@ export default function App() {
 
             <div className="mt-6 pt-3 border-t border-white/5 flex justify-end">
               <button 
-                onClick={() => setInfoModal(null)}
+                onClick={() => { setInfoModal(null); window.history.pushState(null, "", "/"); }}
                 className="bg-slate-800 hover:bg-slate-700 text-white font-heading font-black uppercase text-[10px] tracking-widest px-4 py-2 rounded-xl transition-colors"
               >
                 Retourner à la Mer
@@ -2517,40 +2638,45 @@ export default function App() {
           <AdSenseBanner key={`footer-${activeTab}`} slot="1658390955" format="horizontal" />
 
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-slate-300 font-medium">
-            <button 
-              onClick={() => setInfoModal("about")} 
+            <a 
+              href="/about"
+              onClick={(e) => { e.preventDefault(); setInfoModal("about"); window.history.pushState(null, "", "/about"); }} 
               className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
             >
               Qui sommes-nous
-            </button>
+            </a>
             <span className="text-slate-700 hidden sm:inline">|</span>
-            <button 
-              onClick={() => setInfoModal("legal")} 
+            <a 
+              href="/legal"
+              onClick={(e) => { e.preventDefault(); setInfoModal("legal"); window.history.pushState(null, "", "/legal"); }} 
               className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
             >
               Mentions Légales
-            </button>
+            </a>
             <span className="text-slate-700 hidden sm:inline">|</span>
-            <button 
-              onClick={() => setInfoModal("terms")} 
+            <a 
+              href="/terms"
+              onClick={(e) => { e.preventDefault(); setInfoModal("terms"); window.history.pushState(null, "", "/terms"); }} 
               className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
             >
               Conditions d'Utilisation (CGU)
-            </button>
+            </a>
             <span className="text-slate-700 hidden sm:inline">|</span>
-            <button 
-              onClick={() => setInfoModal("privacy")} 
+            <a 
+              href="/privacy"
+              onClick={(e) => { e.preventDefault(); setInfoModal("privacy"); window.history.pushState(null, "", "/privacy"); }} 
               className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
             >
               Confidentialité & RGPD
-            </button>
+            </a>
             <span className="text-slate-700 hidden sm:inline">|</span>
-            <button 
-              onClick={() => setInfoModal("contact")} 
+            <a 
+              href="/contact"
+              onClick={(e) => { e.preventDefault(); setInfoModal("contact"); window.history.pushState(null, "", "/contact"); }} 
               className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
             >
               Contact / Support
-            </button>
+            </a>
           </div>
 
           <div className="h-px bg-slate-900 w-24 mx-auto" />

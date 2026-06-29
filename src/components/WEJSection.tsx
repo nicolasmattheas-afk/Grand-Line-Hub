@@ -51,7 +51,16 @@ export default function WEJSection({ playerEmail }: WEJSectionProps) {
       const data = await resp.json();
       if (data.success) {
         setArticles(data.articles);
-        if (selectLatest && data.articles.length > 0) {
+        const targetId = localStorage.getItem("selectedWejArticleId");
+        if (targetId) {
+          const found = data.articles.find((a: WEJArticle) => a.id === targetId);
+          if (found) {
+            setSelectedArticle(found);
+            localStorage.removeItem("selectedWejArticleId");
+          } else if (selectLatest && data.articles.length > 0) {
+            setSelectedArticle(data.articles[0]);
+          }
+        } else if (selectLatest && data.articles.length > 0) {
           setSelectedArticle(data.articles[0]);
         }
       } else {
@@ -133,6 +142,16 @@ export default function WEJSection({ playerEmail }: WEJSectionProps) {
     loadArticles(true);
     // Étape 2 : Lancer le bot automatique en sourdine pour s'assurer que l'édition du jour existe !
     triggerBotDaily();
+
+    // Écouteur pour la navigation asynchrone d'articles à la Une depuis l'accueil
+    const handleStorageChange = () => {
+      const targetId = localStorage.getItem("selectedWejArticleId");
+      if (targetId) {
+        loadArticles(false);
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   const handleSelectArticle = (art: WEJArticle) => {

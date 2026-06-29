@@ -842,6 +842,29 @@ div.goog-te-balloon-frame {
   display: none !important;
 }
 
+/* Style par défaut d'AdSense pour la détection et la mesure optimale de l'emplacement (evite availableWidth=0) */
+ins.adsbygoogle {
+  display: block !important;
+  width: 100% !important;
+  height: 90px !important;
+  background: transparent !important;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Cache l'élément publicitaire proprement UNIQUEMENT s'il est explicitement non rempli ("unfilled") */
+ins.adsbygoogle[data-ad-status="unfilled"] {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Force les iframes AdSense à être transparents et s'adapter au thème sombre */
+ins.adsbygoogle iframe {
+  background: transparent !important;
+  color-scheme: dark !important;
+}
+
+
 
 
 
