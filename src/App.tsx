@@ -22,6 +22,8 @@ import BlogSection from "./components/BlogSection";
 import UndercoverGame from "./components/UndercoverGame";
 import MotsCroises from "./components/MotsCroises";
 import AdSenseBanner from "./components/AdSenseBanner";
+import CharacterFusion from "./components/CharacterFusion";
+import FourImagesOneWord from "./components/FourImagesOneWord";
 import { LanguageSelector } from "./components/LanguageSelector";
 import { collection, getDocs, doc, updateDoc, getDoc, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
 import { db } from "./lib/firebase";
@@ -467,8 +469,8 @@ export default function App() {
     }
   }, []);
   
-  // Onglets : "home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword"
-  const [activeTab, setActiveTab] = useState<"home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword">("home");
+  // Onglets : "home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword" | "fusion" | "fourImages"
+  const [activeTab, setActiveTab] = useState<"home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword" | "fusion" | "fourImages">("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showAuthForm, setShowAuthForm] = useState(false);
   const [infoModal, setInfoModal] = useState<"about" | "privacy" | "terms" | "legal" | "contact" | null>(null);
@@ -816,6 +818,8 @@ export default function App() {
     if (tab === "duel") return "Bounty Duel";
     if (tab === "pyramid") return "Pyramide";
     if (tab === "pirateShadow") return "L'ombre du pirate";
+    if (tab === "fusion") return "Fusion Mystère ✨ NEW";
+    if (tab === "fourImages") return "4 Pirates 1 Mot ✨ NEW";
     if (tab === "timeline") return "Chronologie Pirate";
     if (tab === "bountyTarget") return "Cible de Primes";
     if (tab === "alliances") return "Alliances Secrètes";
@@ -1001,6 +1005,20 @@ export default function App() {
       description: "Observez la silhouette noire d'un pirate mystique. Saurez-vous deviner son identité avant qu'il ne disparaisse ?",
       icon: Sparkles,
       badge: "Silhouette Quiz",
+    },
+    {
+      id: "fusion",
+      title: "Personnage Mystère Fusionné",
+      description: "Trois visages d'One Piece ont été fusionnés. Observez attentivement leurs traits entremêlés, et démasquez-les !",
+      icon: Sparkles,
+      badge: "NEW",
+    },
+    {
+      id: "fourImages",
+      title: "4 Pirates, 1 Mot",
+      description: "Trouve le point commun ou le titre qui unit quatre figures légendaires d'One Piece grâce au clavier virtuel !",
+      icon: Brain,
+      badge: "NEW",
     },
     {
       id: "timeline",
@@ -1298,6 +1316,36 @@ export default function App() {
             </button>
 
             <button
+              onClick={() => { setActiveTab("fusion"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "fusion" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Sparkles className="w-5 h-5 text-pink-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase flex items-center gap-1 justify-center">
+                <span>Fusion</span>
+                <span className="text-[8px] bg-pink-500 text-white px-1 rounded animate-pulse">NEW</span>
+              </span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("fourImages"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "fourImages" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Brain className="w-5 h-5 text-amber-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase flex items-center gap-1 justify-center">
+                <span>4 Images</span>
+                <span className="text-[8px] bg-amber-500 text-slate-950 px-1 rounded animate-pulse">NEW</span>
+              </span>
+            </button>
+
+            <button
               onClick={() => { setActiveTab("timeline"); setIsMobileMenuOpen(false); }}
               className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
                 activeTab === "timeline" 
@@ -1472,7 +1520,6 @@ export default function App() {
               >
                 <ShieldAlert className="w-3.5 h-3.5 shrink-0 text-rose-500" />
                 <span className="whitespace-nowrap">MISSION UNDERCOVER</span>
-                <span className="bg-rose-600 text-[8px] font-mono tracking-normal text-white px-1.5 py-0.5 rounded-full font-black animate-pulse ml-auto shrink-0 shadow-md">NEW</span>
               </button>
 
               <button
@@ -1522,6 +1569,36 @@ export default function App() {
               >
                 <Sparkles className="w-3.5 h-3.5 shrink-0 text-violet-400" />
                 <span>L'OMBRE DU PIRATE</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab("fusion")}
+                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
+                  activeTab === "fusion" 
+                    ? "bg-violet-900 text-[#F8FAFC] border border-violet-500" 
+                    : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
+                }`}
+              >
+                <Sparkles className="w-3.5 h-3.5 shrink-0 text-pink-400 animate-pulse" />
+                <span className="flex items-center gap-2">
+                  <span>FUSION MYSTÈRE</span>
+                  <span className="text-[8px] bg-pink-500 text-white px-1.5 py-0.5 rounded font-mono font-bold animate-pulse tracking-normal">NEW</span>
+                </span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab("fourImages")}
+                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
+                  activeTab === "fourImages" 
+                    ? "bg-violet-900 text-[#F8FAFC] border border-violet-500" 
+                    : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
+                }`}
+              >
+                <Brain className="w-3.5 h-3.5 shrink-0 text-amber-400 animate-pulse" />
+                <span className="flex items-center gap-2">
+                  <span>4 PIRATES, 1 MOT</span>
+                  <span className="text-[8px] bg-amber-500 text-slate-950 px-1.5 py-0.5 rounded font-mono font-bold animate-pulse tracking-normal">NEW</span>
+                </span>
               </button>
  
               <button
@@ -1684,6 +1761,21 @@ export default function App() {
               <PirateShadow 
                 characters={charactersDatabase} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "L'ombre du pirate")}
+              />
+            )}
+
+            {activeTab === "fusion" && (
+              <CharacterFusion 
+                characters={charactersDatabase} 
+                onUpdateBounty={(amt) => handleUpdateBounty(amt, "Fusion Mystère")}
+              />
+            )}
+
+            {activeTab === "fourImages" && (
+              <FourImagesOneWord 
+                characters={charactersDatabase} 
+                playerBounty={playerBounty}
+                onUpdateBounty={(amt) => handleUpdateBounty(amt, "4 Pirates, 1 Mot")}
               />
             )}
 
