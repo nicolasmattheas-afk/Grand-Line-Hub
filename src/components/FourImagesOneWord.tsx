@@ -59,13 +59,13 @@ export default function FourImagesOneWord({ characters, onUpdateBounty, playerBo
         return "https://static.wikia.nocookie.net/onepiece/images/a/aa/S-Shark_Portrait.png";
       }
       if (lowerKw === "s-flamingo") {
-        return "https://static.wikia.nocookie.net/onepiece/images/3/35/S-Flamingo_Portrait.png";
+        return "https://static.wikia.nocookie.net/onepiece/images/7/77/Seraphim_Unit_6_Portrait.png";
       }
       if (lowerKw === "s-bat") {
-        return "https://static.wikia.nocookie.net/onepiece/images/4/41/S-Bat_Portrait.png";
+        return "https://static.wikia.nocookie.net/onepiece/images/0/0a/Seraphim_Unit_5_Portrait.png";
       }
       if (lowerKw === "s-crocodile") {
-        return "https://static.wikia.nocookie.net/onepiece/images/1/10/S-Crocodile_Portrait.png";
+        return "https://static.wikia.nocookie.net/onepiece/images/0/06/Seraphim_Unit_7_Portrait.png";
       }
       if (lowerKw === "seraphim") {
         return "https://static.wikia.nocookie.net/onepiece/images/d/de/Seraphim_Anime_Infobox.png";

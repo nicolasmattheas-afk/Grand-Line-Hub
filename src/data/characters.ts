@@ -31473,7 +31473,7 @@ export const SERAPHIM_CHARACTERS = [
   },
   {
     "name": "S-Flamingo",
-    "image": "https://static.wikia.nocookie.net/onepiece/images/3/35/S-Flamingo_Portrait.png",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/7/77/Seraphim_Unit_6_Portrait.png",
     "affiliation": "Marine (Special Science Group)",
     "first_appearance_arc": "Egghead Arc",
     "race": "Lunarian Clone",
@@ -31483,7 +31483,7 @@ export const SERAPHIM_CHARACTERS = [
   },
   {
     "name": "S-Bat",
-    "image": "https://static.wikia.nocookie.net/onepiece/images/4/41/S-Bat_Portrait.png",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/0/0a/Seraphim_Unit_5_Portrait.png",
     "affiliation": "Marine (Special Science Group)",
     "first_appearance_arc": "Egghead Arc",
     "race": "Lunarian Clone",
@@ -31492,7 +31492,7 @@ export const SERAPHIM_CHARACTERS = [
   },
   {
     "name": "S-Crocodile",
-    "image": "https://static.wikia.nocookie.net/onepiece/images/1/10/S-Crocodile_Portrait.png",
+    "image": "https://static.wikia.nocookie.net/onepiece/images/0/06/Seraphim_Unit_7_Portrait.png",
     "affiliation": "Marine (Special Science Group)",
     "first_appearance_arc": "Egghead Arc",
     "race": "Lunarian Clone",
