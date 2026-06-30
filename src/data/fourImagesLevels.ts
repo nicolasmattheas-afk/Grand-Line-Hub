@@ -92,7 +92,7 @@ export const LEVELS: Level[] = [
   },
   {
     word: "GEANT",
-    charKeywords: ["Dorry", "Broggy", "Hajrudin", "Oimo"],
+    charKeywords: ["Dorry", "Brogy", "Hajrudin", "Oimo"],
     hint: "Les colosses guerriers venus d'Elbaph ou d'autres mers, célèbres pour leur force brute."
   },
   {
@@ -852,7 +852,8 @@ export const CHARACTER_NAME_MAP: Record<string, string> = {
   "inuarashi": "Inuarashi",
   "wanda": "Wanda",
   "dorry": "Dorry",
-  "broggy": "Broggy",
+  "brogy": "Brogy",
+  "broggy": "Brogy",
   "hajrudin": "Hajrudin",
   "oimo": "Oimo",
   "katakuri": "Charlotte Katakuri",
