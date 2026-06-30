@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Character } from "../types";
-import { searchCharacters } from "../data/characters";
+import { searchCharacters } from "../lib/search";
 import { getNotranslateClass } from "../lib/translate";
 import { 
   Users, Globe, Compass, RefreshCw, X, Check, AlertTriangle, 

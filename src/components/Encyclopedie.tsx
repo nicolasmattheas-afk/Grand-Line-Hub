@@ -3,6 +3,7 @@ import { Character } from "../types";
 import { Search, Filter, ShieldCheck, HelpCircle, Compass, Anchor, User, Bookmark, Swords, X, Trophy, Flame } from "lucide-react";
 import { LUFFY_BATTLES } from "../data/luffyBattles";
 import { getNotranslateClass } from "../lib/translate";
+import { handleImageError } from "../lib/images";
 
 interface EncyclopedieProps {
   characters: Character[];
@@ -297,9 +298,7 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
                     alt={char.name} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-all duration-555"
                     referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = "https://placehold.co/200x300/1a1a1a/ffffff?text=?";
-                    }}
+                    onError={(e) => handleImageError(e, char.affiliation)}
                   />
                   {/* Tag Crew */}
                   <div className="absolute bottom-2 left-2 px-2.5 py-1 bg-[#1A1A1A]/95 text-[9px] text-white rounded font-mono uppercase font-bold tracking-wider">

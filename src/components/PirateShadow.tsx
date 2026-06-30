@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Character } from "../types";
 import { Search, RotateCcw, HelpCircle, Sparkles, Smile, ShieldAlert } from "lucide-react";
-import { searchCharacters } from "../data/characters";
+import { searchCharacters } from "../lib/search";
 import { getNotranslateClass } from "../lib/translate";
 
 interface PirateShadowProps {

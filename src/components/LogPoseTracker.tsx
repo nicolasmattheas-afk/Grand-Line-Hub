@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Character } from "../types";
-import { searchCharacters } from "../data/characters";
+import { searchCharacters } from "../lib/search";
 import { HelpCircle, RefreshCw, Search, Sparkles, Compass, HelpCircle as HelpIcon, ArrowUp, ArrowDown } from "lucide-react";
 import { getNotranslateClass } from "../lib/translate";
 

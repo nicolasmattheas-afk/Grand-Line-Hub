@@ -55,6 +55,10 @@ export default function UserAuth({
   const [step, setStep] = useState<"not_logged" | "logged">(
     localStorage.getItem("firebaseUserEmail") ? "logged" : "not_logged"
   );
+  const [pendingMergeData, setPendingMergeData] = useState<{
+    email: string;
+    cloudData: any;
+  } | null>(null);
 
   // Fonction de repli SHA-256 en pur JS si window.crypto n'est pas disponible (contextes non sécurisés HTTP)
   const sha256_fallback = (ascii: string): string => {
@@ -297,29 +301,48 @@ export default function UserAuth({
           return;
         }
         
-        // Charger les statistiques existantes du cloud
-        setPlayerUsername(cloudData.username || "Pirate Mystère");
-        if (cloudData.avatar) {
-          setPlayerAvatar(cloudData.avatar);
-        }
-        setPlayerBounty(Number(cloudData.bounty || 0));
-        setStats({
-          gridWins: Number(cloudData.gridWins || 0),
-          gridLosses: Number(cloudData.gridLosses || 0),
-          trackerWins: Number(cloudData.trackerWins || 0),
-          trackerPlays: Number(cloudData.trackerPlays || 0),
-          duelHigh: Number(cloudData.duelHigh || 0),
-        });
-        
-        if (Array.isArray(cloudData.logs)) {
-          setLogs(cloudData.logs);
-        }
+        // Charger les statistiques existantes du cloud avec détection de conflit
+        const cloudBountyVal = Number(cloudData.bounty || 0);
+        const cloudGridWinsVal = Number(cloudData.gridWins || 0);
+        const cloudTrackerWinsVal = Number(cloudData.trackerWins || 0);
 
-        // Connecter
-        setCurrentUserEmail(targetEmail);
-        localStorage.setItem("firebaseUserEmail", targetEmail);
-        setStep("logged");
-        setSuccessMsg("Connexion réussie ! Vos statistiques ont été récupérées.");
+        const hasLocalProgression = playerBounty > 0 || stats.gridWins > 0 || stats.trackerWins > 0;
+        const hasCloudProgression = cloudBountyVal > 0 || cloudGridWinsVal > 0 || cloudTrackerWinsVal > 0;
+
+        if (hasLocalProgression && hasCloudProgression && (playerBounty !== cloudBountyVal || stats.gridWins !== cloudGridWinsVal)) {
+          setPendingMergeData({
+            email: targetEmail,
+            cloudData,
+          });
+          setSuccessMsg("Progression locale détectée ! Veuillez choisir comment fusionner votre butin.");
+        } else {
+          // Aucun conflit majeur ou progression vide d'un côté: charger les statistiques du cloud (ou conserver le local si le cloud est vide)
+          if (hasCloudProgression) {
+            setPlayerUsername(cloudData.username || "Pirate Mystère");
+            if (cloudData.avatar) {
+              setPlayerAvatar(cloudData.avatar);
+            }
+            setPlayerBounty(cloudBountyVal);
+            setStats({
+              gridWins: cloudGridWinsVal,
+              gridLosses: Number(cloudData.gridLosses || 0),
+              trackerWins: cloudTrackerWinsVal,
+              trackerPlays: Number(cloudData.trackerPlays || 0),
+              duelHigh: Number(cloudData.duelHigh || 0),
+            });
+            if (Array.isArray(cloudData.logs)) {
+              setLogs(cloudData.logs);
+            }
+            setSuccessMsg("Connexion réussie ! Vos statistiques ont été récupérées du cloud.");
+          } else {
+            setSuccessMsg("Connexion réussie ! Vos statistiques locales ont été synchronisées avec votre compte connecté.");
+          }
+
+          // Connecter
+          setCurrentUserEmail(targetEmail);
+          localStorage.setItem("firebaseUserEmail", targetEmail);
+          setStep("logged");
+        }
       } else {
         setErrorMsg("Aucun compte trouvé avec cette adresse e-mail. Si vous êtes nouveau, veuillez basculer sur l'onglet 'Créer un compte'.");
       }
@@ -333,6 +356,65 @@ export default function UserAuth({
     } finally {
       setLoading(false);
     }
+  };
+
+  // Gestion de la fusion explicite des statistiques locale et cloud
+  const handleMergeStats = async (method: "merge" | "overwrite" | "keep_local") => {
+    if (!pendingMergeData) return;
+    const { email: targetEmail, cloudData } = pendingMergeData;
+
+    if (method === "merge") {
+      const mergedBounty = playerBounty + (Number(cloudData.bounty) || 0);
+      const mergedStats = {
+        gridWins: stats.gridWins + (Number(cloudData.gridWins) || 0),
+        gridLosses: stats.gridLosses + (Number(cloudData.gridLosses) || 0),
+        trackerWins: stats.trackerWins + (Number(cloudData.trackerWins) || 0),
+        trackerPlays: stats.trackerPlays + (Number(cloudData.trackerPlays) || 0),
+        duelHigh: Math.max(stats.duelHigh, Number(cloudData.duelHigh) || 0),
+      };
+
+      const localLogs = [...logs];
+      const cloudLogs = Array.isArray(cloudData.logs) ? cloudData.logs : [];
+      const seenIds = new Set<string>();
+      const combinedLogs: GameLog[] = [];
+      [...localLogs, ...cloudLogs].forEach(log => {
+        if (log && log.id && !seenIds.has(String(log.id))) {
+          seenIds.add(String(log.id));
+          combinedLogs.push(log);
+        }
+      });
+      const finalLogs = combinedLogs.slice(0, 20);
+
+      setPlayerUsername(cloudData.username || playerUsername || "Pirate Mystère");
+      if (cloudData.avatar) setPlayerAvatar(cloudData.avatar);
+      setPlayerBounty(mergedBounty);
+      setStats(mergedStats);
+      setLogs(finalLogs);
+
+      setSuccessMsg(`Succès ! Vos progressions ont été fusionnées (Nouveau butin : ${mergedBounty.toLocaleString()} ฿).`);
+    } else if (method === "overwrite") {
+      setPlayerUsername(cloudData.username || "Pirate Mystère");
+      if (cloudData.avatar) setPlayerAvatar(cloudData.avatar);
+      setPlayerBounty(Number(cloudData.bounty || 0));
+      setStats({
+        gridWins: Number(cloudData.gridWins || 0),
+        gridLosses: Number(cloudData.gridLosses || 0),
+        trackerWins: Number(cloudData.trackerWins || 0),
+        trackerPlays: Number(cloudData.trackerPlays || 0),
+        duelHigh: Number(cloudData.duelHigh || 0),
+      });
+      if (Array.isArray(cloudData.logs)) {
+        setLogs(cloudData.logs);
+      }
+      setSuccessMsg("Connexion réussie ! Vos statistiques du cloud ont écrasé les données locales.");
+    } else {
+      setSuccessMsg("Connexion réussie ! Vos statistiques locales ont été conservées et sauvegardées sur votre compte cloud.");
+    }
+
+    setCurrentUserEmail(targetEmail);
+    localStorage.setItem("firebaseUserEmail", targetEmail);
+    setStep("logged");
+    setPendingMergeData(null);
   };
 
   // Traitement de la création de profil avec e-mail + mot de passe
@@ -464,34 +546,84 @@ export default function UserAuth({
       {/* Rendu dynamique basé sur l'étape de connexion */}
       {step === "not_logged" && (
         <div className="space-y-4">
-          {/* Sélection de mode Connexion ou Création */}
-          <div className="flex border-b border-gray-100 mb-4 gap-2">
-            <button
-              type="button"
-              onClick={() => { setAuthMode("login"); setErrorMsg(null); setSuccessMsg(null); }}
-              className={`flex-1 pb-3 text-center text-xs font-black uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-                authMode === "login"
-                  ? "text-violet-600 border-violet-600 font-extrabold"
-                  : "text-gray-400 border-transparent hover:text-gray-650"
-              }`}
-            >
-              🔑 Connexion
-            </button>
-            <button
-              type="button"
-              onClick={() => { setAuthMode("register"); setErrorMsg(null); setSuccessMsg(null); }}
-              className={`flex-1 pb-3 text-center text-xs font-black uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-                authMode === "register"
-                  ? "text-violet-600 border-violet-600 font-extrabold"
-                  : "text-gray-400 border-transparent hover:text-gray-650"
-              }`}
-            >
-              ⚓ Créer un compte
-            </button>
-          </div>
+          {pendingMergeData ? (
+            <div className="p-4 sm:p-5 bg-amber-50/50 border border-amber-200 rounded-2xl text-center space-y-4">
+              <div className="w-12 h-12 rounded-full bg-amber-500/10 text-amber-600 flex items-center justify-center mx-auto mb-2">
+                <Coins className="w-6 h-6 animate-bounce" />
+              </div>
+              <h3 className="text-base font-black font-heading text-slate-800 uppercase tracking-tight">
+                ⚔️ Conflit de progression
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
+                Vous avez accumulé du butin sur cet appareil en mode Visiteur, et vous avez également un compte de pirate sauvegardé sur le cloud.
+              </p>
+              
+              <div className="bg-white border border-amber-100 p-3.5 rounded-xl text-left text-[11px] font-mono space-y-2 text-slate-700 shadow-xs">
+                <div>
+                  <span className="font-bold text-violet-600">⚓ Mode Visiteur :</span> {playerBounty.toLocaleString()} ฿ • {stats.gridWins} victoires
+                </div>
+                <div>
+                  <span className="font-bold text-amber-600">☁️ Profil Distant :</span> {(pendingMergeData.cloudData.bounty || 0).toLocaleString()} ฿ • {(pendingMergeData.cloudData.gridWins || 0)} victoires
+                </div>
+              </div>
 
-          {authMode === "login" ? (
-            <form onSubmit={handleLogin} className="space-y-4">
+              <p className="text-[10px] text-gray-500 italic">
+                Que souhaitez-vous faire de vos statistiques locales ?
+              </p>
+
+              <div className="flex flex-col gap-2 pt-2">
+                <button
+                  onClick={() => handleMergeStats("merge")}
+                  className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-emerald-200 cursor-pointer"
+                >
+                  🤝 Fusionner les Primes ({(playerBounty + (pendingMergeData.cloudData.bounty || 0)).toLocaleString()} ฿)
+                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleMergeStats("overwrite")}
+                    className="flex-1 py-2 px-3 bg-slate-950 hover:bg-slate-900 text-white rounded-xl font-bold text-[10px] uppercase tracking-wide transition-all cursor-pointer"
+                  >
+                    💾 Charger le Cloud
+                  </button>
+                  <button
+                    onClick={() => handleMergeStats("keep_local")}
+                    className="flex-1 py-2 px-3 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 rounded-xl font-bold text-[10px] uppercase tracking-wide transition-all cursor-pointer"
+                  >
+                    📱 Garder le Local
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Sélection de mode Connexion ou Création */}
+              <div className="flex border-b border-gray-100 mb-4 gap-2">
+                <button
+                  type="button"
+                  onClick={() => { setAuthMode("login"); setErrorMsg(null); setSuccessMsg(null); }}
+                  className={`flex-1 pb-3 text-center text-xs font-black uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+                    authMode === "login"
+                      ? "text-violet-600 border-violet-600 font-extrabold"
+                      : "text-gray-400 border-transparent hover:text-gray-650"
+                  }`}
+                >
+                  🔑 Connexion
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setAuthMode("register"); setErrorMsg(null); setSuccessMsg(null); }}
+                  className={`flex-1 pb-3 text-center text-xs font-black uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+                    authMode === "register"
+                      ? "text-violet-600 border-violet-600 font-extrabold"
+                      : "text-gray-400 border-transparent hover:text-gray-650"
+                  }`}
+                >
+                  ⚓ Créer un compte
+                </button>
+              </div>
+
+              {authMode === "login" ? (
+                <form onSubmit={handleLogin} className="space-y-4">
               <p className="text-xs text-gray-500 leading-relaxed">
                 Connectez-vous pour récupérer votre équipage, vos primes de combat et synchroniser votre progression.
               </p>
@@ -630,6 +762,8 @@ export default function UserAuth({
                 )}
               </button>
             </form>
+          )}
+          </>
           )}
         </div>
       )}

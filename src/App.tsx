@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { getCharactersDatabase } from "./data/characters";
 import { getOfficialDevilFruitOverride } from "./data/official_fruits";
 import { FEMALE_NAMES } from "./data/femaleNames";
 import { SWORDSMEN_NAMES } from "./data/swordsmen";
@@ -78,8 +77,10 @@ export default function App() {
   const [loadingCharacters, setLoadingCharacters] = useState<boolean>(true);
 
   useEffect(() => {
-    try {
-      const rawData = getCharactersDatabase();
+    import("./data/characters")
+      .then((module) => {
+        try {
+          const rawData = module.getCharactersDatabase();
       const femaleNames = new Set(FEMALE_NAMES);
 
       // Préparation de la base de données des épéistes
@@ -461,12 +462,17 @@ export default function App() {
           luffyBattlesCount: characterLuffyBattlesCount,
         };
       });
-      setCharactersDatabase(mapped);
-      setLoadingCharacters(false);
-    } catch (e) {
-      console.error("Erreur d'importation de la base de données characters.ts :", e);
-      setLoadingCharacters(false);
-    }
+          setCharactersDatabase(mapped);
+          setLoadingCharacters(false);
+        } catch (e) {
+          console.error("Erreur de traitement des données characters :", e);
+          setLoadingCharacters(false);
+        }
+      })
+      .catch((err) => {
+        console.error("Erreur de chargement de la base de données characters.ts :", err);
+        setLoadingCharacters(false);
+      });
   }, []);
   
   // Onglets : "home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword" | "fusion" | "fourImages"
@@ -912,6 +918,82 @@ export default function App() {
     handleLocationChange();
     window.addEventListener("popstate", handleLocationChange);
     return () => window.removeEventListener("popstate", handleLocationChange);
+  }, []);
+
+  // Système de Toasts Globaux haut de gamme et Routage d'alert(...)
+  const [globalToasts, setGlobalToasts] = useState<{ id: string; message: string; type: "success" | "error" | "info" | "warning" }[]>([]);
+
+  useEffect(() => {
+    const handleShowToast = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      const { message, type } = customEvent.detail || {};
+      if (message) {
+        const id = Math.random().toString(36).substring(2, 9);
+        setGlobalToasts((prev) => [...prev, { id, message, type: type || "info" }]);
+        setTimeout(() => {
+          setGlobalToasts((prev) => prev.filter((t) => t.id !== id));
+        }, 4000);
+      }
+    };
+
+    window.addEventListener("show-toast", handleShowToast);
+
+    // Déclarer showToast sur window
+    (window as any).showToast = (message: string, type: "success" | "error" | "info" | "warning" = "info") => {
+      window.dispatchEvent(new CustomEvent("show-toast", { detail: { message, type } }));
+    };
+
+    // Override transparent de window.alert pour un rendu haut de gamme sans blocage du navigateur
+    const originalAlert = window.alert;
+    window.alert = (message: string) => {
+      const msgL = String(message).toLowerCase();
+      let type: "success" | "error" | "info" | "warning" = "info";
+      
+      if (
+        msgL.includes("erreur") || 
+        msgL.includes("échec") || 
+        msgL.includes("impossible") || 
+        msgL.includes("interdit") || 
+        msgL.includes("refusé") || 
+        msgL.includes("banni") || 
+        msgL.includes("insuffisante") ||
+        msgL.includes("inférieure") ||
+        msgL.includes("défaite")
+      ) {
+        type = "error";
+      } else if (
+        msgL.includes("attention") || 
+        msgL.includes("décliné") || 
+        msgL.includes("annulé") || 
+        msgL.includes("avertissement") ||
+        msgL.includes(" déjà ") ||
+        msgL.includes("limite")
+      ) {
+        type = "warning";
+      } else if (
+        msgL.includes("félicitations") || 
+        msgL.includes("succès") || 
+        msgL.includes("bienvenue") || 
+        msgL.includes("bravo") || 
+        msgL.includes("copié") || 
+        msgL.includes("validé") || 
+        msgL.includes("accepté") || 
+        msgL.includes("publié") ||
+        msgL.includes("gagné") ||
+        msgL.includes("réussi") ||
+        msgL.includes("envoyé")
+      ) {
+        type = "success";
+      }
+
+      window.dispatchEvent(new CustomEvent("show-toast", { detail: { message, type } }));
+    };
+
+    return () => {
+      window.removeEventListener("show-toast", handleShowToast);
+      delete (window as any).showToast;
+      window.alert = originalAlert;
+    };
   }, []);
 
   // Alimentation du flux d'articles d'actualité du WEJ pour affichage en page d'accueil (Indexation SEO)
@@ -2802,6 +2884,37 @@ export default function App() {
           </p>
         </div>
       </footer>
+
+      {/* Système de Toasts Globaux haut de gamme */}
+      <div id="global-toasts-portal" className="fixed top-20 right-4 z-[9999] flex flex-col gap-2 max-w-sm w-[calc(100%-2rem)] pointer-events-none">
+        {globalToasts.map((toast) => (
+          <div
+            key={toast.id}
+            className={`pointer-events-auto p-4 rounded-xl border backdrop-blur-md shadow-2xl transition-all duration-300 transform translate-y-0 opacity-100 flex items-start gap-3 animate-fade-in ${
+              toast.type === "success"
+                ? "bg-emerald-950/85 border-emerald-500/30 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.1)]"
+                : toast.type === "error"
+                ? "bg-rose-950/85 border-rose-500/30 text-rose-300 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
+                : toast.type === "warning"
+                ? "bg-amber-950/85 border-amber-500/30 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.1)]"
+                : "bg-slate-900/95 border-slate-700/50 text-slate-200 shadow-[0_0_15px_rgba(30,41,59,0.2)]"
+            }`}
+          >
+            <div className="text-xl shrink-0">
+              {toast.type === "success" ? "🏆" : toast.type === "error" ? "💀" : toast.type === "warning" ? "⚠️" : "⚓"}
+            </div>
+            <div className="flex-1 text-sm font-medium leading-relaxed">
+              {toast.message}
+            </div>
+            <button
+              onClick={() => setGlobalToasts((prev) => prev.filter((t) => t.id !== toast.id))}
+              className="text-slate-400 hover:text-white transition-colors text-xs p-0.5 shrink-0"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        ))}
+      </div>
 
     </div>
   );

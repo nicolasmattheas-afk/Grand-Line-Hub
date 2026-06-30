@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Character } from "../types";
 import { ShieldCheck, AlertCircle, RefreshCw, Trophy, Flame } from "lucide-react";
 import { getNotranslateClass } from "../lib/translate";
+import { handleImageError } from "../lib/images";
 
 interface BountyDuelProps {
   characters: Character[];
@@ -22,9 +23,10 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
   const [showLossModal, setShowLossModal] = useState(false);
   const [feedback, setFeedback] = useState<{ isCorrect: boolean; message: string } | null>(null);
   const [playedIds, setPlayedIds] = useState<string[]>([]);
+  const [difficulty, setDifficulty] = useState<"facile" | "moyen" | "difficile">("moyen");
 
   // Initialisation du duel (Jeu "Higher or Lower")
-  const pickNewDuel = (currentRight?: Character, resetHistory = false) => {
+  const pickNewDuel = (currentRight?: Character, resetHistory = false, selectedDiff = difficulty) => {
     // Filtrage spécifique : seulement les personnages avec primes et de vraies photos disponibles
     const pool = characters.filter((c) => {
       if (!c || !c.bounty || c.bounty <= 0) return false;
@@ -49,6 +51,19 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
 
     if (pool.length < 2) return;
 
+    // Filtrer par difficulté (Notoriété basé sur le montant de la prime)
+    const filteredByDifficulty = pool.filter(c => {
+      if (selectedDiff === "facile") {
+        return c.bounty && c.bounty >= 150000000; // Légendes de grand chemin
+      }
+      if (selectedDiff === "moyen") {
+        return c.bounty && c.bounty >= 30000000; // Pirates reconnus
+      }
+      return true; // Tous les flibustiers (experts)
+    });
+
+    const finalPool = filteredByDifficulty.length >= 2 ? filteredByDifficulty : pool;
+
     // Réinitialiser l'historique de session si demandé
     let currentPlayed = resetHistory ? [] : [...playedIds];
 
@@ -57,8 +72,8 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
       left = currentRight;
     } else {
       // Choisir un personnage aléatoire qui n'a pas encore été joué dans cette partie
-      const unplayed = pool.filter(c => !currentPlayed.includes(c.id));
-      const chosenPool = unplayed.length > 0 ? unplayed : pool;
+      const unplayed = finalPool.filter(c => !currentPlayed.includes(c.id));
+      const chosenPool = unplayed.length > 0 ? unplayed : finalPool;
       left = chosenPool[Math.floor(Math.random() * chosenPool.length)];
     }
 
@@ -68,10 +83,10 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
     }
 
     // Choisir un personnage de droite qui n'a pas été joué, différent de gauche, et avec une prime différente
-    let unplayedRight = pool.filter(c => !currentPlayed.includes(c.id) && c.id !== left.id && c.bounty !== left.bounty);
+    let unplayedRight = finalPool.filter(c => !currentPlayed.includes(c.id) && c.id !== left.id && c.bounty !== left.bounty);
     if (unplayedRight.length === 0) {
       // Si tout le monde a déjà été joué, on réinitialise l'historique avec seulement "left" pour la continuité
-      unplayedRight = pool.filter(c => c.id !== left.id && c.bounty !== left.bounty);
+      unplayedRight = finalPool.filter(c => c.id !== left.id && c.bounty !== left.bounty);
       currentPlayed = [left.id];
     }
 
@@ -88,7 +103,7 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
 
   useEffect(() => {
     pickNewDuel(undefined, true);
-  }, [characters]);
+  }, [characters, difficulty]);
 
   const handleCardClick = (side: "left" | "right") => {
     if (!leftChar || !rightChar || revealed) return;
@@ -158,20 +173,65 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
         </p>
 
         {/* Tableau d'affichage du score */}
-        <div className="flex items-center justify-center gap-6 mt-6">
-          <div className="bg-slate-900 border-2 border-slate-700 px-5 py-3 rounded-2xl flex items-center gap-2 shadow-xs text-white">
-            <Flame className="w-5 h-5 text-orange-500" />
-            <div className="text-left">
-              <span className="text-[9px] text-gray-400 block font-heading font-extrabold uppercase tracking-widest">Série Actuelle</span>
-              <span className="font-mono text-xl font-black text-white">{streak}</span>
+        <div className="flex flex-col items-center justify-center gap-4 mt-6">
+          <div className="flex items-center justify-center gap-6">
+            <div className="bg-slate-900 border-2 border-slate-700 px-5 py-3 rounded-2xl flex items-center gap-2 shadow-xs text-white">
+              <Flame className="w-5 h-5 text-orange-500" />
+              <div className="text-left">
+                <span className="text-[9px] text-gray-400 block font-heading font-extrabold uppercase tracking-widest">Série Actuelle</span>
+                <span className="font-mono text-xl font-black text-white">{streak}</span>
+              </div>
+            </div>
+            <div className="bg-slate-900 border-2 border-slate-700 px-5 py-3 rounded-2xl flex items-center gap-2 shadow-xs text-white">
+              <Trophy className="w-5 h-5 text-amber-500" />
+              <div className="text-left">
+                <span className="text-[9px] text-gray-400 block font-heading font-extrabold uppercase tracking-widest">Record</span>
+                <span className="font-mono text-xl font-black text-white">{bestStreak}</span>
+              </div>
             </div>
           </div>
-          <div className="bg-slate-900 border-2 border-slate-700 px-5 py-3 rounded-2xl flex items-center gap-2 shadow-xs text-white">
-            <Trophy className="w-5 h-5 text-amber-500" />
-            <div className="text-left">
-              <span className="text-[9px] text-gray-400 block font-heading font-extrabold uppercase tracking-widest">Record</span>
-              <span className="font-mono text-xl font-black text-white">{bestStreak}</span>
-            </div>
+
+          {/* Sélecteur de Notoriété / Difficulté */}
+          <div className="bg-slate-900/80 border border-slate-800 p-1.5 rounded-2xl flex items-center gap-1.5 max-w-sm w-full shadow-lg">
+            <button
+              onClick={() => {
+                setDifficulty("facile");
+                pickNewDuel(undefined, true, "facile");
+              }}
+              className={`flex-1 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-heading font-black uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                difficulty === "facile"
+                  ? "bg-emerald-600 text-white shadow-[0_0_12px_rgba(16,185,129,0.35)]"
+                  : "text-slate-400 hover:text-white hover:bg-slate-800"
+              }`}
+            >
+              ⭐ Facile
+            </button>
+            <button
+              onClick={() => {
+                setDifficulty("moyen");
+                pickNewDuel(undefined, true, "moyen");
+              }}
+              className={`flex-1 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-heading font-black uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                difficulty === "moyen"
+                  ? "bg-amber-600 text-white shadow-[0_0_12px_rgba(245,158,11,0.35)]"
+                  : "text-slate-400 hover:text-white hover:bg-slate-800"
+              }`}
+            >
+              🔥 Moyen
+            </button>
+            <button
+              onClick={() => {
+                setDifficulty("difficile");
+                pickNewDuel(undefined, true, "difficile");
+              }}
+              className={`flex-1 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-heading font-black uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+                difficulty === "difficile"
+                  ? "bg-rose-600 text-white shadow-[0_0_12px_rgba(239,68,68,0.35)]"
+                  : "text-slate-400 hover:text-white hover:bg-slate-800"
+              }`}
+            >
+              💀 Expert
+            </button>
           </div>
         </div>
       </div>
@@ -211,9 +271,7 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
                 alt={leftChar.name} 
                 className="w-full h-full object-cover opacity-90 brightness-95 group-hover:grayscale-0 transition-all duration-555"
                 referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "https://placehold.co/200x300/1a1a1a/ffffff?text=?";
-                }}
+                onError={(e) => handleImageError(e, leftChar.affiliation)}
               />
               <div className="absolute top-2 right-2 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-[#1A1A1A] text-[8px] sm:text-[9px] text-white rounded font-mono uppercase font-bold tracking-wider max-w-[120px] truncate">
                 {leftChar.crew}
@@ -273,9 +331,7 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
                 alt={rightChar.name} 
                 className="w-full h-full object-cover opacity-90 brightness-95"
                 referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "https://placehold.co/200x300/1a1a1a/ffffff?text=?";
-                }}
+                onError={(e) => handleImageError(e, rightChar.affiliation)}
               />
               <div className="absolute top-2 right-2 px-2 py-0.5 sm:px-2.5 sm:py-1 bg-[#1A1A1A] text-[8px] sm:text-[9px] text-white rounded font-mono uppercase font-bold tracking-wider max-w-[120px] truncate">
                 {rightChar.crew}

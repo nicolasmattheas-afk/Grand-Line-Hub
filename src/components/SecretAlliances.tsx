@@ -6,6 +6,7 @@ import {
   Trash2, Play, Info, AlertOctagon, HelpCircle, Trophy
 } from "lucide-react";
 import { getNotranslateClass } from "../lib/translate";
+import { handleImageError } from "../lib/images";
 
 interface SecretAlliancesProps {
   characters: Character[];
@@ -899,7 +900,7 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
 
         {/* 4x4 Interactive Grid list and status */}
         {getUnsolvedRemainingCount() > 0 && !isGameOver() ? (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
             {gridCharacters.map((char) => {
               if (isCategorySolved(char.id)) return null;
 
@@ -910,11 +911,11 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
                 <button
                   key={char.id}
                   onClick={() => handleCardClick(char.id)}
-                  className={`relative aspect-square rounded-2xl overflow-hidden border-3 bg-slate-50 text-left transition-all duration-200 shadow-sm ${
+                  className={`relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden border-2 sm:border-3 bg-slate-50 text-left transition-all duration-200 shadow-sm ${
                     isSelected 
-                      ? "border-amber-500 scale-102 ring-4 ring-amber-100 shadow-md shadow-amber-200" 
+                      ? "border-amber-500 scale-102 ring-2 sm:ring-4 ring-amber-100 shadow-md shadow-amber-200" 
                       : "border-slate-300 hover:border-slate-800 focus:outline-none"
-                  } ${shouldShake ? "anim-alliance-shake border-rose-500 ring-4 ring-rose-100 bg-rose-50" : ""}`}
+                  } ${shouldShake ? "anim-alliance-shake border-rose-500 ring-2 sm:ring-4 ring-rose-100 bg-rose-50" : ""}`}
                 >
                   {/* Character Illustration */}
                   <div className="w-full h-full relative">
@@ -923,21 +924,19 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
                       alt={char.name}
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover select-none pointer-events-none"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(char.name)}`;
-                      }}
+                      onError={(e) => handleImageError(e, char.affiliation)}
                     />
 
                     {/* Shading overlay */}
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-1.5 pt-5 pb-1.5 text-center flex flex-col justify-end">
-                      <span className={`text-white font-heading font-black text-[9px] min-[380px]:text-[10px] sm:text-xs md:text-sm uppercase tracking-wide leading-tight drop-shadow-md select-none break-words text-wrap line-clamp-2 force-text-white alliance-grid-char-name ${getNotranslateClass()}`}>
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-1 sm:p-1.5 pt-4 pb-1 sm:pb-1.5 text-center flex flex-col justify-end">
+                      <span className={`text-white font-heading font-black text-[9px] min-[320px]:text-[10px] sm:text-xs md:text-sm uppercase tracking-wide leading-tight drop-shadow-md select-none break-words text-wrap line-clamp-2 force-text-white alliance-grid-char-name ${getNotranslateClass()}`}>
                         {char.name}
                       </span>
                     </div>
 
                     {/* Selected Index Bubble marker */}
                     {isSelected && (
-                      <div className="absolute top-2 right-2 w-6 h-6 bg-violet-600 text-white border-2 border-white rounded-full flex items-center justify-center font-heading font-black text-[11px] shadow-sm">
+                      <div className="absolute top-1 right-1 sm:top-2 sm:right-2 w-5 h-5 sm:w-6 sm:h-6 bg-violet-600 text-white border-1.5 sm:border-2 border-white rounded-full flex items-center justify-center font-heading font-black text-[9px] sm:text-[11px] shadow-sm">
                         {selectedIds.indexOf(char.id) + 1}
                       </div>
                     )}
