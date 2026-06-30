@@ -682,7 +682,7 @@ export const LEVELS: Level[] = [
   },
   {
     word: "FLEUR",
-    charKeywords: ["Nico Robin", "Kikunojo", "Hyogoro", "Vista"],
+    charKeywords: ["Nico Robin", "Kouzuki Hiyori", "Hyogoro", "Vista"],
     hint: "Les combattants associés aux motifs floraux, à l'esthétique ou aux pouvoirs liés aux fleurs."
   },
   {

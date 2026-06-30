@@ -487,7 +487,7 @@ export default function SecretAlliances({ characters, onUpdateBounty }: SecretAl
       "garp", "sengoku", "koby", "smoker", "tashigi", "kuzan", "aokiji", "sakazuki", "akainu", "borsalino", "kizaru", "ishsho", "fujitora", "aramaki", "ryokugyu",
       "mihawk", "hancock", "crocodile", "doflamingo", "moria", "kuma", "law", "kid", "weevil",
       "dragon", "sabo", "koala", "karasu", "morley", "lindbergh", "belo betty", "ivankov",
-      "vivi", "rebecca", "shirahoshi", "yamato", "oden", "momonosuke", "kin'emon", "kiku", "raizo", "nekomamushi", "inuarashi", "carrot", "perona", "pudding", "reiju", "ichiji", "niji", "yonji", "judge", "katakuri", "lucci", "kaku", "bon kurei", "mr.2", "ace", "marco", "vista", "jozu", "enel", "enell", "wyper", "gan fall", "bellamy", "wapol", "arlong", "don krieg", "kuro", "morgan", "alvida"
+      "vivi", "rebecca", "shirahoshi", "yamato", "oden", "momonosuke", "kin'emon", "hiyori", "raizo", "nekomamushi", "inuarashi", "carrot", "perona", "pudding", "reiju", "ichiji", "niji", "yonji", "judge", "katakuri", "lucci", "kaku", "bon kurei", "mr.2", "ace", "marco", "vista", "jozu", "enel", "enell", "wyper", "gan fall", "bellamy", "wapol", "arlong", "don krieg", "kuro", "morgan", "alvida"
     ];
     const nameLower = c.name.toLowerCase();
     if (majorNames.some(m => nameLower.includes(m))) {

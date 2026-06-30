@@ -2702,11 +2702,11 @@ export default function GrandLineGrid({
 
             {/* La Grille de Tic-Tac-Toe */}
             {columnKeys.length > 0 && rowKeys.length > 0 && (
-              <div className="w-full max-w-[780px] bg-slate-50 p-2 sm:p-4 md:p-8 rounded-2xl md:rounded-3xl border-2 border-slate-900">
+              <div className="w-full max-w-[780px] bg-slate-50 p-1 sm:p-4 md:p-8 rounded-xl sm:rounded-2xl md:rounded-3xl border-1.5 sm:border-2 border-slate-900">
                 
                 {/* Ligne d'entête (Colonnes à croiser) */}
-                <div className="grid grid-cols-4 gap-1.5 sm:gap-4 mb-2.5 sm:mb-4 text-center items-center">
-                  <div className="font-heading font-black text-slate-400 text-[8px] sm:text-[10px] uppercase tracking-widest flex items-center justify-center p-1">
+                <div className="grid grid-cols-4 gap-1 sm:gap-4 mb-1.5 sm:mb-4 text-center items-center">
+                  <div className="font-heading font-black text-slate-400 text-[6.5px] min-[340px]:text-[8px] sm:text-[10px] uppercase tracking-widest flex items-center justify-center p-0.5">
                     RECOUPEMENT
                   </div>
                   
@@ -2715,7 +2715,7 @@ export default function GrandLineGrid({
                     return (
                       <div 
                         key={key} 
-                        className="bg-white py-1.5 px-1 rounded-xl text-[8px] sm:text-[10px] md:text-xs font-heading font-black uppercase text-[#1A1A1A] border border-[#E5E7EB] flex items-center justify-center h-16 sm:h-24 md:h-28 shadow-3xs"
+                        className="bg-white py-1 px-0.5 rounded-lg text-[6.5px] min-[340px]:text-[8px] sm:text-[10px] md:text-xs font-heading font-black uppercase text-[#1A1A1A] border border-[#E5E7EB] flex items-center justify-center h-20 sm:h-24 md:h-28 shadow-3xs text-center leading-none sm:leading-tight break-words text-wrap overflow-hidden"
                       >
                         {cat.label}
                       </div>
@@ -2727,9 +2727,9 @@ export default function GrandLineGrid({
                 {rowKeys.map((rowKey, rowIndex) => {
                   const catRow = CATEGORIES[rowKey];
                   return (
-                    <div key={rowKey} className="grid grid-cols-4 gap-1.5 sm:gap-4 mb-1.5 sm:mb-4 items-center">
+                    <div key={rowKey} className="grid grid-cols-4 gap-1 sm:gap-4 mb-1 sm:mb-4 items-center">
                       {/* Entête de ligne */}
-                      <div className="bg-white py-1.5 px-1 rounded-xl text-[8px] sm:text-[10px] md:text-xs font-heading font-black uppercase text-[#1A1A1A] border border-[#E5E7EB] flex items-center justify-center h-20 sm:h-28 md:h-34 shadow-3xs text-center">
+                      <div className="bg-white py-1 px-0.5 rounded-lg text-[6.5px] min-[340px]:text-[8px] sm:text-[10px] md:text-xs font-heading font-black uppercase text-[#1A1A1A] border border-[#E5E7EB] flex items-center justify-center h-20 sm:h-28 md:h-34 shadow-3xs text-center leading-none sm:leading-tight break-words text-wrap overflow-hidden">
                         {catRow.label}
                       </div>
 
@@ -2751,7 +2751,7 @@ export default function GrandLineGrid({
                             key={colIndex}
                             disabled={isCellDisabled}
                             onClick={() => handleCellClick(cellIndex)}
-                            className={`h-20 sm:h-28 md:h-34 rounded-xl md:rounded-2xl border-2 transition-all flex flex-col items-center justify-center p-1 sm:p-2 focus:scale-95 cursor-pointer relative group overflow-hidden ${
+                            className={`h-20 sm:h-28 md:h-34 rounded-lg sm:rounded-xl md:rounded-2xl border-2 transition-all flex flex-col items-center justify-center p-0.5 sm:p-2 focus:scale-95 cursor-pointer relative group overflow-hidden ${
                               cell.owner === 1
                                 ? "bg-[#f0f4ff] border-[#2563eb] text-slate-900 font-black hover:bg-[#e0ebff]"
                                 : cell.owner === 2
@@ -2770,7 +2770,7 @@ export default function GrandLineGrid({
                                 <img 
                                   src={cell.character?.image} 
                                   alt={cell.character?.name} 
-                                  className={`w-7 h-7 sm:w-11 sm:h-11 md:w-14 md:h-14 rounded-full object-cover border-2 shadow-xs shrink-0 ${
+                                  className={`w-6 h-6 min-[340px]:w-7 min-[340px]:h-7 sm:w-11 sm:h-11 md:w-14 md:h-14 rounded-full object-cover border-2 shadow-xs shrink-0 ${
                                     cell.owner === 1 ? "border-blue-500" : "border-red-500"
                                   }`}
                                   referrerPolicy="no-referrer"
@@ -2778,13 +2778,13 @@ export default function GrandLineGrid({
                                     (e.target as HTMLImageElement).src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(cell.character?.name || "")}&backgroundColor=b59a7c`;
                                   }}
                                 />
-                                <div className="text-center w-full min-w-0 mt-1 flex flex-col items-center justify-center">
-                                  <p className={`font-heading font-black text-[8.5px] sm:text-xs md:text-sm uppercase truncate leading-tight max-w-full ${
+                                <div className="text-center w-full min-w-0 mt-0.5 min-[340px]:mt-1 flex flex-col items-center justify-center">
+                                  <p className={`font-heading font-black text-[7px] min-[340px]:text-[8.5px] sm:text-xs md:text-sm uppercase truncate leading-tight max-w-full ${
                                     cell.owner === 1 ? "text-blue-600" : "text-red-600"
                                   } ${getNotranslateClass()}`}>
                                     {cell.character?.name}
                                   </p>
-                                  <p className={`font-mono text-[6.5px] sm:text-[8.5px] md:text-[9.5px] font-medium opacity-80 truncate leading-tight max-w-full mt-0.5 ${
+                                  <p className={`font-mono text-[5.5px] min-[340px]:text-[6.5px] sm:text-[8.5px] md:text-[9.5px] font-medium opacity-80 truncate leading-tight max-w-full mt-0.5 ${
                                     cell.owner === 1 ? "text-blue-500" : "text-red-500"
                                   }`}>
                                     {cell.character?.crew}

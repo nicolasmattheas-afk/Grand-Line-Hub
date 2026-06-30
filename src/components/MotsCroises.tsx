@@ -115,7 +115,7 @@ const DICTIONARY: WordItem[] = [
   { word: "INUARASHI", clue: "Le roi canin du jour, maniant l'épée avec l'élégance d'un chevalier fidèle au clan Kozuki." },
   { word: "RAIZO", clue: "Un ninja de la brume au grand cœur capable de sceller les flammes d'un incendie dans ses parchemins." },
   { word: "KAWAMATSU", clue: "Un poisson-combattant sumo qui a survécu dans l'ombre en se nourrissant de poissons pourris." },
-  { word: "OKIKU", clue: "Une lame délicate cachée derrière un masque de démon, luttant pour l'honneur de sa famille." },
+  { word: "HIYORI", clue: "Une princesse courageuse devenue courtisane de renom sous le pseudonyme de Komurasaki, protégeant son secret." },
   { word: "IZO", clue: "Un commandant au fusil élégant qui a quitté la scène du théâtre pour suivre les pirates blancs." },
   { word: "TOKI", clue: "Une voyageuse du temps née au Siècle Oublié qui s'est arrêtée là où les cerisiers s'épanouissent." },
   { word: "SUKIYAKI", clue: "L'ancien Shogun calligraphe qui préservait le secret de l'écriture des stèles de pierre." },

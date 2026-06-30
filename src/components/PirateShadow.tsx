@@ -94,7 +94,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
         "garp", "sengoku", "sakazuki", "akainu", "borsalino", "kizaru", "kuzan", "aokiji", "issho", "fujitora",
         "ryokugyu", "coby", "koby", "smoker", "tashigi", "dragon", "ivankov", "koala",
         "katakuri", "king", "queen", "jack", "perospero", "yasopp", "beckman", "marco",
-        "oden", "momonosuke", "kin'emon", "kiku", "raizo", "nekomamushi", "inuarashi", "vivi",
+        "oden", "momonosuke", "kin'emon", "hiyori", "raizo", "nekomamushi", "inuarashi", "vivi",
         "rebecca", "shirahoshi", "hina", "bartolomeo", "cavendish", "carrot", "pudding",
         "kuma", "moria", "arlong", "don krieg", "kuro", "alvida", "helmeppo", "vinsmoke"
       ];

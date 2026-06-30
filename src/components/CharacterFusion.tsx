@@ -66,7 +66,7 @@ export default function CharacterFusion({ characters, onUpdateBounty }: Characte
         "garp", "sengoku", "sakazuki", "akainu", "borsalino", "kizaru", "kuzan", "aokiji", "issho", "fujitora",
         "ryokugyu", "coby", "koby", "smoker", "tashigi", "dragon", "ivankov", "koala",
         "katakuri", "king", "queen", "jack", "perospero", "yasopp", "beckman", "marco",
-        "oden", "momonosuke", "kin'emon", "kiku", "raizo", "nekomamushi", "inuarashi", "vivi"
+        "oden", "momonosuke", "kin'emon", "hiyori", "raizo", "nekomamushi", "inuarashi", "vivi"
       ];
 
       for (const name of superFamous) {
