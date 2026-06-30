@@ -614,16 +614,23 @@ export default function App() {
   const charactersDatabaseFiltered = useMemo(() => {
     return charactersDatabase.filter(c => {
       const nameL = c.name.toLowerCase();
-      return nameL !== "roche tomson" && nameL !== "raccoon" && nameL !== "george black";
+      return nameL !== "roche tomson" && nameL !== "raccoon" && nameL !== "george black" && nameL !== "draw";
     });
   }, [charactersDatabase]);
 
   const top500CharactersFiltered = useMemo(() => {
     return top500Characters.filter(c => {
       const nameL = c.name.toLowerCase();
-      return nameL !== "roche tomson" && nameL !== "raccoon" && nameL !== "george black";
+      return nameL !== "roche tomson" && nameL !== "raccoon" && nameL !== "george black" && nameL !== "draw";
     });
   }, [top500Characters]);
+
+  const charactersDatabaseAllGamesFiltered = useMemo(() => {
+    return charactersDatabase.filter(c => {
+      const nameL = c.name.toLowerCase();
+      return nameL !== "draw";
+    });
+  }, [charactersDatabase]);
 
   // States pour le classement des primes en ligne
   const [onlineUsers, setOnlineUsers] = useState<any[]>([]);
@@ -1737,7 +1744,7 @@ export default function App() {
 
             {activeTab === "grid" && (
               <GrandLineGrid 
-                characters={charactersDatabase} 
+                characters={charactersDatabaseAllGamesFiltered} 
                 globalBounty={playerBounty} 
                 playerUsername={playerUsername}
                 playerAvatar={playerAvatar}
@@ -1802,7 +1809,7 @@ export default function App() {
 
             {activeTab === "bountyTarget" && (
               <BountyTargetGame 
-                characters={charactersDatabase} 
+                characters={charactersDatabaseAllGamesFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Cible de Primes")}
               />
             )}
