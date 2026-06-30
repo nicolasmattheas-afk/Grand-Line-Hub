@@ -604,6 +604,156 @@ export const LEVELS: Level[] = [
     word: "OR",
     charKeywords: ["Enel", "Gild Tesoro", "Nami", "Crocodile (Crochet)"],
     hint: "Les amateurs du métal jaune précieux, qu'il s'agisse de richesse ou d'armes en or."
+  },
+  {
+    word: "NOBLE",
+    charKeywords: ["Saint Charlos", "Don Quijote Doflamingo", "Sabo", "Donquixote Mjosgard"],
+    hint: "Ceux nés ou intégrés dans la haute aristocratie mondiale, du Gouvernement Mondial aux familles royales."
+  },
+  {
+    word: "NAIN",
+    charKeywords: ["Leo", "Mansherry", "Wicca", "Kabu"],
+    hint: "Les minuscules et hyperactifs guerriers du Royaume de Tontatta dotés d'une force phénoménale."
+  },
+  {
+    word: "POING",
+    charKeywords: ["Monkey D. Garp", "Portgas D. Ace", "Ideo", "Elizabello II"],
+    hint: "Ceux dont le style de combat, le surnom ou l'attaque signature repose sur un coup de poing dévastateur."
+  },
+  {
+    word: "OISEAU",
+    charKeywords: ["Marco", "Pell", "Morgans", "Karoo"],
+    hint: "Ceux capables de voler, d'utiliser les pouvoirs d'un oiseau ou intimement liés à ces créatures volantes."
+  },
+  {
+    word: "CHIEN",
+    charKeywords: ["Inuarashi", "Chouchou", "Dalmatian", "Yamato"],
+    hint: "Les personnages liés aux canidés, qu'il s'agisse de leur apparence, de leur fruit ou de leur fidélité."
+  },
+  {
+    word: "CHAT",
+    charKeywords: ["Nekomamushi", "Kuro", "Rob Lucci", "Who's Who"],
+    hint: "Ceux liés aux félins, que ce soit par leur race de Minks, leur Fruit du Démon ou leur style rusé."
+  },
+  {
+    word: "DEMON",
+    charKeywords: ["Nico Robin", "Roronoa Zoro", "Kaido", "Magellan"],
+    hint: "Ceux désignés par cette appellation effrayante en raison de leur réputation, de leur force ou de leur visage terrifiant."
+  },
+  {
+    word: "VIEILLARD",
+    charKeywords: ["Silvers Rayleigh", "Monkey D. Garp", "Sengoku", "Edward Newgate"],
+    hint: "Les légendes d'un autre temps, toujours redoutables malgré le poids des années."
+  },
+  {
+    word: "BANDAGE",
+    charKeywords: ["Roronoa Zoro", "Usopp", "Spandam", "Mummy"],
+    hint: "Les personnages souvent vus couverts de pansements et de bandages à la suite de combats acharnés."
+  },
+  {
+    word: "COSTUME",
+    charKeywords: ["Vinsmoke Sanji", "Rob Lucci", "Capone Bege", "Senor Pink"],
+    hint: "Les gentlemen ou personnages qui se distinguent par leur élégance et leur tenue formelle soignée."
+  },
+  {
+    word: "INVENTEUR",
+    charKeywords: ["Dr. Vegapunk", "Caesar Clown", "Franky", "Usopp"],
+    hint: "Les esprits brillants capables de créer de nouvelles technologies, des armes ou des gadgets uniques."
+  },
+  {
+    word: "CROCS",
+    charKeywords: ["Arlong", "Hody Jones", "Bartolomeo", "Kuro"],
+    hint: "Ceux dotés d'une dentition acérée ou proéminente, symbole de leur férocité au combat."
+  },
+  {
+    word: "LIVRE",
+    charKeywords: ["Nico Robin", "Charlotte Mont-d'Or", "Bartholomew Kuma", "Professeur Clover"],
+    hint: "Les érudits, intellectuels ou possesseurs de pouvoirs liés à la littérature et à la conservation du savoir."
+  },
+  {
+    word: "CHANTEUR",
+    charKeywords: ["Brook", "Uta", "Queen", "Scratchmen Apoo"],
+    hint: "Les artistes et musiciens qui enchantent ou terrifient leur public avec leur voix et leurs mélodies."
+  },
+  {
+    word: "TRAIN",
+    charKeywords: ["Tom", "Iceburg", "Franky", "Kokoro"],
+    hint: "Ceux impliqués dans la création, le fonctionnement ou l'histoire légendaire de l'Umi Ressha (le train des mers)."
+  },
+  {
+    word: "FLEUR",
+    charKeywords: ["Nico Robin", "Kikunojo", "Hyogoro", "Vista"],
+    hint: "Les combattants associés aux motifs floraux, à l'esthétique ou aux pouvoirs liés aux fleurs."
+  },
+  {
+    word: "DOUCEUR",
+    charKeywords: ["Big Mom", "Tony Tony Chopper", "Charlotte Perospero", "Charlotte Pudding"],
+    hint: "Ceux qui aiment, manipulent ou sont faits de friandises, bonbons et autres douceurs sucrées."
+  },
+  {
+    word: "CASINO",
+    charKeywords: ["Gild Tesoro", "Issho (Fujitora)", "Crocodile", "Baccarat"],
+    hint: "Les amateurs de jeux de hasard, de fortune ou de lieux de divertissement flamboyants."
+  },
+  {
+    word: "OMBRE",
+    charKeywords: ["Gecko Moria", "Odz", "Ryuma", "Perona"],
+    hint: "Ceux associés aux ténèbres, à la manipulation des ombres ou aux spectres de l'île de Thriller Bark."
+  },
+  {
+    word: "HYPNOSE",
+    charKeywords: ["Jango", "Miss Goldenweek", "Bobbin", "Lafitte"],
+    hint: "Les personnages capables d'influencer l'esprit, d'endormir ou de manipuler les actions d'autrui à leur insu."
+  },
+  {
+    word: "CANON",
+    charKeywords: ["Franky", "Baggy le Clown", "Capone Bege", "Baby 5"],
+    hint: "Ceux qui utilisent la puissance explosive de l'artillerie ou possèdent des armes de tir massives."
+  },
+  {
+    word: "DANSE",
+    charKeywords: ["Bentham (Bon Clay)", "Viola", "Jango", "Queen"],
+    hint: "Les artistes du mouvement qui expriment leur style de combat ou leur personnalité à travers la danse."
+  },
+  {
+    word: "LUNE",
+    charKeywords: ["Enel", "Carrot", "Nekomamushi", "Inuarashi"],
+    hint: "Ceux liés à l'astre de la nuit, à la forme Sulong, au peuple céleste ou aux légendes de la lune."
+  },
+  {
+    word: "MALADIE",
+    charKeywords: ["Trafalgar D. Water Law", "Gol D. Roger", "Doc Q", "Tony Tony Chopper"],
+    hint: "Ceux qui soignent, propagent ou souffrent de graves pathologies et virus mortels."
+  },
+  {
+    word: "ALLIANCE",
+    charKeywords: ["Monkey D. Luffy", "Trafalgar D. Water Law", "Eustass Kid", "Capone Bege"],
+    hint: "Les chefs d'équipages ayant formé des pactes stratégiques temporaires pour faire face à un ennemi commun."
+  },
+  {
+    word: "NEIGE",
+    charKeywords: ["Monet", "Tony Tony Chopper", "Wapol", "Yeti Cool Brothers"],
+    hint: "Ceux associés au froid hivernal, au blizzard ou dotés de pouvoirs liés à la neige."
+  },
+  {
+    word: "POIDS",
+    charKeywords: ["Machvise", "Miss Valentine", "Issho (Fujitora)", "Mikita"],
+    hint: "Les personnages capables de modifier leur propre masse corporelle ou d'exercer une pression gravitationnelle."
+  },
+  {
+    word: "CORDE",
+    charKeywords: ["Paulie", "Iceburg", "Don Quijote Doflamingo", "Spandam"],
+    hint: "Ceux qui manipulent les fils, les cordages ou s'en servent comme arme et outil de contention."
+  },
+  {
+    word: "BORGNE",
+    charKeywords: ["Roronoa Zoro", "X Drake", "Tamago", "Pedro"],
+    hint: "Les combattants marqués par les épreuves qui n'ont plus qu'un seul œil valide."
+  },
+  {
+    word: "RIRE",
+    charKeywords: ["Jaguar D. Saul", "Marshall D. Teach", "Brook", "Gecko Moria"],
+    hint: "Les personnages célèbres pour leur rire unique, mémorable ou particulièrement expressif."
   }
 ];
 
@@ -849,5 +999,23 @@ export const CHARACTER_NAME_MAP: Record<string, string> = {
   "dellinger": "Dellinger",
   "imu": "Imu",
   "perona": "Perona",
-  "gild tesoro": "Gild Tesoro"
+  "gild tesoro": "Gild Tesoro",
+  "saint charlos": "Rosward Charlos",
+  "donquixote mjosgard": "Donquixote Mjosgard",
+  "charlos": "Rosward Charlos",
+  "wicca": "Wicca",
+  "kabu": "Kabu",
+  "ideo": "Ideo",
+  "chouchou": "Chouchou",
+  "dalmatian": "Dalmatian",
+  "mummy": "Mummy",
+  "charlotte mont-d'or": "Charlotte Mont-dOr",
+  "hyogoro": "Hyougoro",
+  "baccarat": "Baccarat",
+  "miss goldenweek": "Miss Goldenweek [Marianne]",
+  "bobbin": "Bobbin",
+  "baby 5": "Baby 5",
+  "doc q": "Doc Q",
+  "yeti cool brothers": "Yeti Cool Brothers",
+  "mikita": "Miss Valentine [Mikita]"
 };

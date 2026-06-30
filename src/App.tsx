@@ -611,6 +611,20 @@ export default function App() {
     return top500CharactersList.slice(0, 500);
   }, [top500CharactersList]);
 
+  const charactersDatabaseFiltered = useMemo(() => {
+    return charactersDatabase.filter(c => {
+      const nameL = c.name.toLowerCase();
+      return nameL !== "roche tomson" && nameL !== "raccoon" && nameL !== "george black";
+    });
+  }, [charactersDatabase]);
+
+  const top500CharactersFiltered = useMemo(() => {
+    return top500Characters.filter(c => {
+      const nameL = c.name.toLowerCase();
+      return nameL !== "roche tomson" && nameL !== "raccoon" && nameL !== "george black";
+    });
+  }, [top500Characters]);
+
   // States pour le classement des primes en ligne
   const [onlineUsers, setOnlineUsers] = useState<any[]>([]);
   const [loadingOnlineUsers, setLoadingOnlineUsers] = useState(false);
@@ -1733,14 +1747,14 @@ export default function App() {
 
             {activeTab === "tracker" && (
               <LogPoseTracker 
-                characters={charactersDatabase} 
+                characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Log Pose Tracker")} 
               />
             )}
 
             {activeTab === "duel" && (
               <BountyDuel 
-                characters={charactersDatabase} 
+                characters={charactersDatabaseFiltered} 
                 globalBounty={playerBounty} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Bounty Duel", "Aptitude")} 
               />
@@ -1752,28 +1766,28 @@ export default function App() {
 
             {activeTab === "pyramid" && (
               <PiratePyramid 
-                characters={charactersDatabase} 
+                characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Pyramide")}
               />
             )}
 
             {activeTab === "pirateShadow" && (
               <PirateShadow 
-                characters={charactersDatabase} 
+                characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "L'ombre du pirate")}
               />
             )}
 
             {activeTab === "fusion" && (
               <CharacterFusion 
-                characters={charactersDatabase} 
+                characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Fusion Mystère")}
               />
             )}
 
             {activeTab === "fourImages" && (
               <FourImagesOneWord 
-                characters={charactersDatabase} 
+                characters={charactersDatabaseFiltered} 
                 playerBounty={playerBounty}
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "4 Pirates, 1 Mot")}
               />
@@ -1781,7 +1795,7 @@ export default function App() {
 
             {activeTab === "timeline" && (
               <PirateTimeline 
-                characters={top500Characters} 
+                characters={top500CharactersFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Chronologie Pirate")}
               />
             )}
@@ -1795,14 +1809,14 @@ export default function App() {
 
             {activeTab === "alliances" && (
               <SecretAlliances 
-                characters={charactersDatabase} 
+                characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Alliances Secrètes")}
               />
             )}
 
             {activeTab === "undercover" && (
               <UndercoverGame 
-                characters={charactersDatabase} 
+                characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Mission Undercover")}
               />
             )}

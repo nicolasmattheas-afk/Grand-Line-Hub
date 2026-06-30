@@ -70,6 +70,15 @@ export default function FourImagesOneWord({ characters, onUpdateBounty, playerBo
       if (lowerKw === "seraphim") {
         return "https://static.wikia.nocookie.net/onepiece/images/d/de/Seraphim_Anime_Infobox.png";
       }
+      if (lowerKw === "gild tesoro") {
+        return "https://static.wikia.nocookie.net/onepiece/images/d/d8/Gild_Tesoro_Portrait.png";
+      }
+      if (lowerKw === "baccarat") {
+        return "https://static.wikia.nocookie.net/onepiece/images/0/01/Baccarat_Portrait.png";
+      }
+      if (lowerKw === "yeti cool brothers") {
+        return "https://static.wikia.nocookie.net/onepiece/images/9/97/Yeti_Cool_Brothers_Anime_Infobox.png";
+      }
 
       const mappedName = CHARACTER_NAME_MAP[kw.toLowerCase()];
       let match: Character | undefined;
