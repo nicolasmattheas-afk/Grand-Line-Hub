@@ -461,6 +461,63 @@ export default function App() {
           isLuffyOpponent: characterIsLuffyOpponent,
           luffyBattlesCount: characterLuffyBattlesCount,
         };
+      }).filter((char) => {
+        const nameL = char.name.toLowerCase().trim();
+        const isForbidden = (
+          nameL === "ayesemar" ||
+          nameL === "billy" ||
+          nameL === "davy d. jones" ||
+          nameL === "davy d jones" ||
+          nameL === "ddt" ||
+          nameL === "douzan" ||
+          nameL === "eirei" ||
+          nameL === "elbow" ||
+          nameL === "fugetsu kisaburo" ||
+          nameL === "hinokizu" ||
+          nameL === "jew wall" ||
+          nameL === "kotetsu" ||
+          nameL === "louis arnote" ||
+          nameL === "miss saturday" ||
+          nameL === "miss mother's day" ||
+          nameL === "miss mother’s day" ||
+          nameL === "mosa" ||
+          nameL === "mr.10" ||
+          nameL === "mr.12" ||
+          nameL === "mr.6" ||
+          nameL === "oliva" ||
+          nameL === "ossamondo" ||
+          nameL === "raccoon" ||
+          nameL === "rhodes" ||
+          nameL === "roronoa pinzoro" ||
+          nameL === "roronoa arashi" ||
+          nameL === "roxanne" ||
+          nameL === "shimotsuki furiko" ||
+          nameL === "shion" ||
+          nameL === "sleepy" ||
+          nameL === "teru" ||
+          nameL === "victoria shirut" ||
+          nameL === "vegapants" ||
+          nameL === "wallace" ||
+          nameL === "willie gallon" ||
+          nameL === "yamenahare" ||
+          nameL === "zaza [dieu de la pluie]" ||
+          nameL === "zaza" ||
+          // Substring checks
+          nameL.includes("ayesemar") ||
+          nameL.includes("davy d. jones") ||
+          nameL.includes("fugetsu kisaburo") ||
+          nameL.includes("louis arnote") ||
+          nameL.includes("miss saturday") ||
+          nameL.includes("mother's day") ||
+          nameL.includes("mother’s day") ||
+          nameL.includes("pinzoro") ||
+          (nameL.includes("arashi") && nameL.includes("roronoa")) ||
+          nameL.includes("furiko") ||
+          nameL.includes("victoria shirut") ||
+          nameL.includes("willie gallon") ||
+          nameL.includes("zaza [dieu de la pluie]")
+        );
+        return !isForbidden;
       });
           setCharactersDatabase(mapped);
           setLoadingCharacters(false);
