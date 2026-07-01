@@ -1,10 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDocFromServer } from "firebase/firestore";
+import { initializeFirestore, doc, getDocFromServer } from "firebase/firestore";
 import firebaseConfig from "../firebase-config-static";
 
 // Initialisation de Firebase
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+export const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true
+}, firebaseConfig.firestoreDatabaseId);
 
 // Validation de la connexion à Firestore lors de l'initialisation
 async function testConnection() {

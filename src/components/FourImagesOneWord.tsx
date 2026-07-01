@@ -26,6 +26,7 @@ export default function FourImagesOneWord({ characters, onUpdateBounty, playerBo
   const [keyboardLetters, setKeyboardLetters] = useState<{ letter: string; used: boolean; id: string }[]>([]);
   const [shaking, setShaking] = useState<boolean>(false);
   const [solved, setSolved] = useState<boolean>(false);
+  const [solvedWord, setSolvedWord] = useState<string>("");
   const [bountyReward, setBountyReward] = useState<number>(0);
   const [hintRevealed, setHintRevealed] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -260,6 +261,7 @@ export default function FourImagesOneWord({ characters, onUpdateBounty, playerBo
 
   const handleSuccess = () => {
     setSolved(true);
+    setSolvedWord(currentLevel.word);
     const reward = 5000; // Reward per successfully solved level
     setBountyReward(reward);
     if (onUpdateBounty) onUpdateBounty(reward);
@@ -488,7 +490,7 @@ export default function FourImagesOneWord({ characters, onUpdateBounty, playerBo
                 Victoire Éclatante !
               </h3>
               <p className="text-[11px] text-slate-300">
-                Tu as débloqué le point commun : <strong className="text-emerald-400 font-mono tracking-widest">{currentLevel.word}</strong>
+                Tu as débloqué le point commun : <strong className="text-emerald-400 font-mono tracking-widest">{solvedWord}</strong>
               </p>
             </div>
 

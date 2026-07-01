@@ -77,7 +77,7 @@ export const LEVELS: Level[] = [
   },
   {
     word: "PARAMECIA",
-    charKeywords: ["Luffy", "Law", "Robin", "Doflamingo"],
+    charKeywords: ["Eustass Kid", "Law", "Robin", "Doflamingo"],
     hint: "Ceux dont les Fruits du Démon modifient le corps ou accordent des pouvoirs physiques uniques."
   },
   {
@@ -237,7 +237,7 @@ export const LEVELS: Level[] = [
   },
   {
     word: "SMILE",
-    charKeywords: ["Kozuki Momonosuke", "Killer (Kamazo)", "Tama", "Holdem"],
+    charKeywords: ["Kozuki Momonosuke", "Killer (Kamazo)", "Tama", "Speed"],
     hint: "Ceux dont la vie a été bouleversée ou qui contrôlent les fruits artificiels de Caesar Clown."
   },
   {
@@ -937,7 +937,11 @@ export const CHARACTER_NAME_MAP: Record<string, string> = {
   "holdem": "Holdem",
   "vinsmoke ichiji": "Vinsmoke Ichiji",
   "vinsmoke niji": "Vinsmoke Niji",
-  "odz": "Odz",
+  "odz": "Oars",
+  "jack (forme mammouth)": "Jack",
+  "franky (cola)": "Franky [Cutty Flam]",
+  "senor pink": "Señor Pink",
+  "dr. vegapunk": "Vegapunk",
   "absalom": "Absalom",
   "victoria cindry": "Victoria Cindry",
   "raizo": "Raizo",
@@ -949,7 +953,7 @@ export const CHARACTER_NAME_MAP: Record<string, string> = {
   "jesus burgess": "Jesus Burgess",
   "neptune": "Neptune",
   "roi neptune": "Neptune",
-  "riku dold iii": "Riku Dold III",
+  "riku dold iii": "Riku Doldo III",
   "elizabello ii": "Elizabello II",
   "shirahoshi": "Shirahoshi",
   "mansherry": "Mansherry",
