@@ -24,7 +24,7 @@ import AdSenseBanner from "./components/AdSenseBanner";
 import CharacterFusion from "./components/CharacterFusion";
 import FourImagesOneWord from "./components/FourImagesOneWord";
 import { LanguageSelector } from "./components/LanguageSelector";
-import { collection, getDocs, doc, updateDoc, getDoc, query, orderBy, limit, getCountFromServer } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, getDoc, query, orderBy, limit, getCountFromServer, serverTimestamp } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { track } from "@vercel/analytics";
 import { 
@@ -556,6 +556,10 @@ export default function App() {
   const [playerBounty, setPlayerBounty] = useState<number>(() => {
     return Number(localStorage.getItem("playerBountyValue") || "0");
   });
+
+  const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(() => {
+    return localStorage.getItem("firebaseUserEmail");
+  });
   
   const [playerUsername, setPlayerUsername] = useState<string>(() => {
     return localStorage.getItem("playerPirateName") || "Visiteur de Loguetown";
@@ -837,6 +841,180 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("playerGameLogs", JSON.stringify(logs));
   }, [logs]);
+
+  // Synchronisation au démarrage / changement de compte (conserver la prime la plus haute)
+  useEffect(() => {
+    if (currentUserEmail) {
+      const fetchUserDataOnStartup = async () => {
+        try {
+          const userDocRef = doc(db, "users", currentUserEmail);
+          const userSnap = await getDoc(userDocRef);
+          if (userSnap.exists()) {
+            const cloudData = userSnap.data();
+            const cloudBounty = Number(cloudData.bounty || 0);
+            const localBounty = Number(localStorage.getItem("playerBountyValue") || "0");
+
+            // Garder uniquement la prime la plus haute
+            const highestBounty = Math.max(cloudBounty, localBounty);
+            
+            setPlayerBounty(highestBounty);
+            localStorage.setItem("playerBountyValue", String(highestBounty));
+            
+            if (cloudData.username) {
+              setPlayerUsername(cloudData.username);
+              localStorage.setItem("playerPirateName", cloudData.username);
+            }
+            if (cloudData.avatar) {
+              setPlayerAvatar(cloudData.avatar);
+              localStorage.setItem("playerAvatarImage", cloudData.avatar);
+            }
+            
+            const localGridWins = Number(localStorage.getItem("statsGridWins") || "0");
+            const localGridLosses = Number(localStorage.getItem("statsGridLosses") || "0");
+            const localTrackerWins = Number(localStorage.getItem("statsTrackerWins") || "0");
+            const localTrackerPlays = Number(localStorage.getItem("statsTrackerPlays") || "0");
+
+            const finalStats = {
+              gridWins: Math.max(localGridWins, Number(cloudData.gridWins || 0)),
+              gridLosses: Math.max(localGridLosses, Number(cloudData.gridLosses || 0)),
+              trackerWins: Math.max(localTrackerWins, Number(cloudData.trackerWins || 0)),
+              trackerPlays: Math.max(localTrackerPlays, Number(cloudData.trackerPlays || 0)),
+              duelHigh: Math.max(Number(stats.duelHigh || 0), Number(cloudData.duelHigh || 0))
+            };
+
+            setStats(finalStats);
+            localStorage.setItem("statsGridWins", String(finalStats.gridWins));
+            localStorage.setItem("statsGridLosses", String(finalStats.gridLosses));
+            localStorage.setItem("statsTrackerWins", String(finalStats.trackerWins));
+            localStorage.setItem("statsTrackerPlays", String(finalStats.trackerPlays));
+            
+            if (Array.isArray(cloudData.logs)) {
+              setLogs(cloudData.logs);
+              localStorage.setItem("playerGameLogs", JSON.stringify(cloudData.logs));
+            }
+
+            // Si la prime locale ou les stats locales étaient plus élevées, on met à jour le cloud immédiatement
+            if (localBounty > cloudBounty || localGridWins > Number(cloudData.gridWins || 0)) {
+              console.log(`[Sync Startup] Prime locale plus élevée ou stats plus élevées. Mise à jour du cloud (${highestBounty} ฿).`);
+              const cleanLogs = logs.slice(0, 20).map(log => ({
+                id: String(log.id || ""),
+                gameType: String(log.gameType || "Bounty Duel"),
+                result: String(log.result || "Victoire"),
+                detail: String(log.detail || ""),
+                adjustment: String(log.adjustment || "0 ฿"),
+                timestamp: String(log.timestamp || ""),
+              }));
+
+              await updateDoc(userDocRef, {
+                bounty: highestBounty,
+                username: cloudData.username || playerUsername,
+                avatar: cloudData.avatar || playerAvatar || "",
+                gridWins: finalStats.gridWins,
+                gridLosses: finalStats.gridLosses,
+                trackerWins: finalStats.trackerWins,
+                trackerPlays: finalStats.trackerPlays,
+                duelHigh: finalStats.duelHigh,
+                logs: cleanLogs,
+                updatedAt: serverTimestamp(),
+              });
+            }
+          }
+        } catch (err) {
+          console.error("Échec de la récupération des données utilisateur au démarrage:", err);
+        }
+      };
+
+      fetchUserDataOnStartup();
+    }
+  }, [currentUserEmail]);
+
+  // Sauvegarde automatique en tâche de fond debouncée vers Firestore dès que la prime ou les stats changent
+  useEffect(() => {
+    if (currentUserEmail) {
+      const saveUserDataToCloud = async () => {
+        try {
+          const userDocRef = doc(db, "users", currentUserEmail);
+          
+          const cleanLogs = logs.slice(0, 20).map(log => ({
+            id: String(log.id || ""),
+            gameType: String(log.gameType || "Bounty Duel"),
+            result: String(log.result || "Victoire"),
+            detail: String(log.detail || ""),
+            adjustment: String(log.adjustment || "0 ฿"),
+            timestamp: String(log.timestamp || ""),
+          }));
+
+          await updateDoc(userDocRef, {
+            username: playerUsername,
+            avatar: playerAvatar || "",
+            bounty: Number(playerBounty || 0),
+            gridWins: Number(stats.gridWins || 0),
+            gridLosses: Number(stats.gridLosses || 0),
+            trackerWins: Number(stats.trackerWins || 0),
+            trackerPlays: Number(stats.trackerPlays || 0),
+            duelHigh: Number(stats.duelHigh || 0),
+            logs: cleanLogs,
+            updatedAt: serverTimestamp(),
+          });
+
+          // Propagation en cascade vers les membres de l'équipage
+          try {
+            const userSnap = await getDoc(userDocRef);
+            if (userSnap.exists()) {
+              const userData = userSnap.data();
+              const crewId = userData.crewId;
+              if (crewId) {
+                const crewDocRef = doc(db, "crews", crewId);
+                const crewSnap = await getDoc(crewDocRef);
+                if (crewSnap.exists()) {
+                  const crewData = crewSnap.data();
+                  const members = crewData.members || [];
+                  let hasChanged = false;
+
+                  const updatedMembers = members.map((member: any) => {
+                    if (member.email === currentUserEmail) {
+                      if (
+                        member.name !== playerUsername ||
+                        member.avatar !== (playerAvatar || "") ||
+                        member.bounty !== Number(playerBounty || 0)
+                      ) {
+                        hasChanged = true;
+                        return {
+                          ...member,
+                          name: playerUsername,
+                          avatar: playerAvatar || "",
+                          bounty: Number(playerBounty || 0)
+                        };
+                      }
+                    }
+                    return member;
+                  });
+
+                  if (hasChanged) {
+                    const newTotalBounty = updatedMembers.reduce((sum: number, m: any) => sum + Number(m.bounty || 0), 0);
+                    await updateDoc(crewDocRef, {
+                      members: updatedMembers,
+                      totalBounty: newTotalBounty
+                    });
+                  }
+                }
+              }
+            }
+          } catch (crewErr) {
+            console.warn("Échec mineur de la mise à jour cascade de l'équipage:", crewErr);
+          }
+        } catch (error) {
+          console.error("Échec de la sauvegarde automatique en arrière-plan:", error);
+        }
+      };
+
+      const delayDebounce = setTimeout(() => {
+        saveUserDataToCloud();
+      }, 2000);
+
+      return () => clearTimeout(delayDebounce);
+    }
+  }, [currentUserEmail, playerBounty, playerUsername, playerAvatar, stats, logs]);
 
   // Ajustement de la prime globale
   const handleUpdateBounty = (amount: number, gameName?: string, resultString?: string) => {
@@ -2065,6 +2243,7 @@ export default function App() {
                   <button
                     onClick={() => {
                       localStorage.removeItem("firebaseUserEmail");
+                      setCurrentUserEmail(null);
                       // Clear state or reload to home
                       setActiveTab("home");
                     }}
@@ -2114,6 +2293,8 @@ export default function App() {
                       setStats={setStats}
                       logs={logs}
                       setLogs={setLogs}
+                      currentUserEmail={currentUserEmail}
+                      setCurrentUserEmail={setCurrentUserEmail}
                     />
                   </div>
                 )}
@@ -2360,6 +2541,8 @@ export default function App() {
               setStats={setStats}
               logs={logs}
               setLogs={setLogs}
+              currentUserEmail={currentUserEmail}
+              setCurrentUserEmail={setCurrentUserEmail}
             />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

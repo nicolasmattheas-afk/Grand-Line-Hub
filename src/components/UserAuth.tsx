@@ -27,6 +27,8 @@ interface UserAuthProps {
   }>>;
   logs: GameLog[];
   setLogs: React.Dispatch<React.SetStateAction<GameLog[]>>;
+  currentUserEmail: string | null;
+  setCurrentUserEmail: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function UserAuth({
@@ -40,25 +42,29 @@ export default function UserAuth({
   setStats,
   logs,
   setLogs,
+  currentUserEmail,
+  setCurrentUserEmail,
 }: UserAuthProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
   const [inputUsername, setInputUsername] = useState("");
-  const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(() => {
-    return localStorage.getItem("firebaseUserEmail");
-  });
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [step, setStep] = useState<"not_logged" | "logged">(
-    localStorage.getItem("firebaseUserEmail") ? "logged" : "not_logged"
+    currentUserEmail ? "logged" : "not_logged"
   );
   const [pendingMergeData, setPendingMergeData] = useState<{
     email: string;
     cloudData: any;
   } | null>(null);
+
+  // Synchronise step local quand l'email change
+  useEffect(() => {
+    setStep(currentUserEmail ? "logged" : "not_logged");
+  }, [currentUserEmail]);
 
   // Fonction de repli SHA-256 en pur JS si window.crypto n'est pas disponible (contextes non sécurisés HTTP)
   const sha256_fallback = (ascii: string): string => {
@@ -163,98 +169,6 @@ export default function UserAuth({
     return sha256_fallback(pwd);
   };
   
-  // Synchronisation automatique vers Firestore dès que local state change et qu'on est connecté !
-  useEffect(() => {
-    if (currentUserEmail && step === "logged") {
-      const saveUserDataToCloud = async () => {
-        try {
-          const userDocRef = doc(db, "users", currentUserEmail);
-          
-          // Nettoyer les logs pour respecter la taille maximum permise dans l'entity schema (20 logs max)
-          const cleanLogs = logs.slice(0, 20).map(log => ({
-            id: String(log.id || ""),
-            gameType: String(log.gameType || "Bounty Duel"),
-            result: String(log.result || "Victoire"),
-            detail: String(log.detail || ""),
-            adjustment: String(log.adjustment || "0 ฿"),
-            timestamp: String(log.timestamp || ""),
-          }));
-
-          await updateDoc(userDocRef, {
-            username: playerUsername,
-            avatar: playerAvatar || "",
-            bounty: Number(playerBounty || 0),
-            gridWins: Number(stats.gridWins || 0),
-            gridLosses: Number(stats.gridLosses || 0),
-            trackerWins: Number(stats.trackerWins || 0),
-            trackerPlays: Number(stats.trackerPlays || 0),
-            duelHigh: Number(stats.duelHigh || 0),
-            logs: cleanLogs,
-            updatedAt: serverTimestamp(),
-          });
-
-          // SYNCHRONISATION EN CASCADE : Mettre à jour les infos du joueur au sein de son équipage en tâche de fond (nom, avatar, prime)
-          try {
-            const userSnap = await getDoc(userDocRef);
-            if (userSnap.exists()) {
-              const userData = userSnap.data();
-              const crewId = userData.crewId;
-              if (crewId) {
-                const crewDocRef = doc(db, "crews", crewId);
-                const crewSnap = await getDoc(crewDocRef);
-                if (crewSnap.exists()) {
-                  const crewData = crewSnap.data();
-                  const members = crewData.members || [];
-                  let hasChanged = false;
-
-                  const updatedMembers = members.map((member: any) => {
-                    if (member.email === currentUserEmail) {
-                      if (
-                        member.name !== playerUsername ||
-                        member.avatar !== (playerAvatar || "") ||
-                        member.bounty !== Number(playerBounty || 0)
-                      ) {
-                        hasChanged = true;
-                        return {
-                          ...member,
-                          name: playerUsername,
-                          avatar: playerAvatar || "",
-                          bounty: Number(playerBounty || 0)
-                        };
-                      }
-                    }
-                    return member;
-                  });
-
-                  if (hasChanged) {
-                    const newTotalBounty = updatedMembers.reduce((sum: number, m: any) => sum + Number(m.bounty || 0), 0);
-                    await updateDoc(crewDocRef, {
-                      members: updatedMembers,
-                      totalBounty: newTotalBounty
-                    });
-                    console.log(`[Sync Crew] Infos synchronisées pour ${currentUserEmail} dans l'équipage ${crewId}. Nouvelle prime totale : ${newTotalBounty}`);
-                  }
-                }
-              }
-            }
-          } catch (syncErr) {
-            console.warn("Échec mineur de la synchronisation en cascade de l'équipage:", syncErr);
-          }
-        } catch (error) {
-          // Gérer gracieusement les erreurs selon les directives
-          console.error("Échec de la synchronisation automatique en tâche de fond:", error);
-        }
-      };
-
-      // Debounce la sauvegarde pour éviter d'inonder Firestore à chaque frappe d'édition de pseudo par exemple
-      const delayDebounce = setTimeout(() => {
-        saveUserDataToCloud();
-      }, 2000);
-
-      return () => clearTimeout(delayDebounce);
-    }
-  }, [currentUserEmail, playerBounty, playerUsername, playerAvatar, stats, logs, step]);
-
   // Validation email basique
   const isValidEmail = (val: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
@@ -301,48 +215,78 @@ export default function UserAuth({
           return;
         }
         
-        // Charger les statistiques existantes du cloud avec détection de conflit
+        // Charger les statistiques existantes du cloud
         const cloudBountyVal = Number(cloudData.bounty || 0);
         const cloudGridWinsVal = Number(cloudData.gridWins || 0);
         const cloudTrackerWinsVal = Number(cloudData.trackerWins || 0);
 
-        const hasLocalProgression = playerBounty > 0 || stats.gridWins > 0 || stats.trackerWins > 0;
-        const hasCloudProgression = cloudBountyVal > 0 || cloudGridWinsVal > 0 || cloudTrackerWinsVal > 0;
+        // Garder uniquement la prime la plus haute pour l'utilisateur
+        const finalBounty = Math.max(playerBounty, cloudBountyVal);
+        const finalStats = {
+          gridWins: Math.max(stats.gridWins, cloudGridWinsVal),
+          gridLosses: Math.max(stats.gridLosses, Number(cloudData.gridLosses || 0)),
+          trackerWins: Math.max(stats.trackerWins, cloudTrackerWinsVal),
+          trackerPlays: Math.max(stats.trackerPlays, Number(cloudData.trackerPlays || 0)),
+          duelHigh: Math.max(stats.duelHigh, Number(cloudData.duelHigh || 0)),
+        };
 
-        if (hasLocalProgression && hasCloudProgression && (playerBounty !== cloudBountyVal || stats.gridWins !== cloudGridWinsVal)) {
-          setPendingMergeData({
-            email: targetEmail,
-            cloudData,
-          });
-          setSuccessMsg("Progression locale détectée ! Veuillez choisir comment fusionner votre butin.");
-        } else {
-          // Aucun conflit majeur ou progression vide d'un côté: charger les statistiques du cloud (ou conserver le local si le cloud est vide)
-          if (hasCloudProgression) {
-            setPlayerUsername(cloudData.username || "Pirate Mystère");
-            if (cloudData.avatar) {
-              setPlayerAvatar(cloudData.avatar);
-            }
-            setPlayerBounty(cloudBountyVal);
-            setStats({
-              gridWins: cloudGridWinsVal,
-              gridLosses: Number(cloudData.gridLosses || 0),
-              trackerWins: cloudTrackerWinsVal,
-              trackerPlays: Number(cloudData.trackerPlays || 0),
-              duelHigh: Number(cloudData.duelHigh || 0),
-            });
-            if (Array.isArray(cloudData.logs)) {
-              setLogs(cloudData.logs);
-            }
-            setSuccessMsg("Connexion réussie ! Vos statistiques ont été récupérées du cloud.");
-          } else {
-            setSuccessMsg("Connexion réussie ! Vos statistiques locales ont été synchronisées avec votre compte connecté.");
+        const localLogs = [...logs];
+        const cloudLogs = Array.isArray(cloudData.logs) ? cloudData.logs : [];
+        const seenIds = new Set<string>();
+        const combinedLogs: GameLog[] = [];
+        [...localLogs, ...cloudLogs].forEach(log => {
+          if (log && log.id && !seenIds.has(String(log.id))) {
+            seenIds.add(String(log.id));
+            combinedLogs.push(log);
           }
+        });
+        const finalLogs = combinedLogs.slice(0, 20);
 
-          // Connecter
-          setCurrentUserEmail(targetEmail);
-          localStorage.setItem("firebaseUserEmail", targetEmail);
-          setStep("logged");
+        setPlayerUsername(cloudData.username || playerUsername || "Pirate Mystère");
+        if (cloudData.avatar) setPlayerAvatar(cloudData.avatar);
+        setPlayerBounty(finalBounty);
+        setStats(finalStats);
+        setLogs(finalLogs);
+
+        localStorage.setItem("playerBountyValue", String(finalBounty));
+        localStorage.setItem("playerPirateName", cloudData.username || playerUsername || "Pirate Mystère");
+        if (cloudData.avatar) {
+          localStorage.setItem("playerAvatarImage", cloudData.avatar);
         }
+        localStorage.setItem("statsGridWins", String(finalStats.gridWins));
+        localStorage.setItem("statsGridLosses", String(finalStats.gridLosses));
+        localStorage.setItem("statsTrackerWins", String(finalStats.trackerWins));
+        localStorage.setItem("statsTrackerPlays", String(finalStats.trackerPlays));
+        localStorage.setItem("playerGameLogs", JSON.stringify(finalLogs));
+
+        const cleanLogs = finalLogs.map(log => ({
+          id: String(log.id || ""),
+          gameType: String(log.gameType || "Bounty Duel"),
+          result: String(log.result || "Victoire"),
+          detail: String(log.detail || ""),
+          adjustment: String(log.adjustment || "0 ฿"),
+          timestamp: String(log.timestamp || ""),
+        }));
+
+        await updateDoc(userDocRef, {
+          username: cloudData.username || playerUsername || "Pirate Mystère",
+          avatar: cloudData.avatar || playerAvatar || "",
+          bounty: finalBounty,
+          gridWins: finalStats.gridWins,
+          gridLosses: finalStats.gridLosses,
+          trackerWins: finalStats.trackerWins,
+          trackerPlays: finalStats.trackerPlays,
+          duelHigh: finalStats.duelHigh,
+          logs: cleanLogs,
+          updatedAt: serverTimestamp(),
+        });
+
+        setSuccessMsg(`Connexion réussie ! Vos statistiques et votre prime ont été synchronisées (Prime conservée : ${finalBounty.toLocaleString()} ฿).`);
+
+        // Connecter
+        setCurrentUserEmail(targetEmail);
+        localStorage.setItem("firebaseUserEmail", targetEmail);
+        setStep("logged");
       } else {
         setErrorMsg("Aucun compte trouvé avec cette adresse e-mail. Si vous êtes nouveau, veuillez basculer sur l'onglet 'Créer un compte'.");
       }
@@ -358,61 +302,9 @@ export default function UserAuth({
     }
   };
 
-  // Gestion de la fusion explicite des statistiques locale et cloud
+  // Gestion de la fusion explicite des statistiques locale et cloud (conservé au cas où, simplifié)
   const handleMergeStats = async (method: "merge" | "overwrite" | "keep_local") => {
-    if (!pendingMergeData) return;
-    const { email: targetEmail, cloudData } = pendingMergeData;
-
-    if (method === "merge") {
-      const mergedBounty = playerBounty + (Number(cloudData.bounty) || 0);
-      const mergedStats = {
-        gridWins: stats.gridWins + (Number(cloudData.gridWins) || 0),
-        gridLosses: stats.gridLosses + (Number(cloudData.gridLosses) || 0),
-        trackerWins: stats.trackerWins + (Number(cloudData.trackerWins) || 0),
-        trackerPlays: stats.trackerPlays + (Number(cloudData.trackerPlays) || 0),
-        duelHigh: Math.max(stats.duelHigh, Number(cloudData.duelHigh) || 0),
-      };
-
-      const localLogs = [...logs];
-      const cloudLogs = Array.isArray(cloudData.logs) ? cloudData.logs : [];
-      const seenIds = new Set<string>();
-      const combinedLogs: GameLog[] = [];
-      [...localLogs, ...cloudLogs].forEach(log => {
-        if (log && log.id && !seenIds.has(String(log.id))) {
-          seenIds.add(String(log.id));
-          combinedLogs.push(log);
-        }
-      });
-      const finalLogs = combinedLogs.slice(0, 20);
-
-      setPlayerUsername(cloudData.username || playerUsername || "Pirate Mystère");
-      if (cloudData.avatar) setPlayerAvatar(cloudData.avatar);
-      setPlayerBounty(mergedBounty);
-      setStats(mergedStats);
-      setLogs(finalLogs);
-
-      setSuccessMsg(`Succès ! Vos progressions ont été fusionnées (Nouveau butin : ${mergedBounty.toLocaleString()} ฿).`);
-    } else if (method === "overwrite") {
-      setPlayerUsername(cloudData.username || "Pirate Mystère");
-      if (cloudData.avatar) setPlayerAvatar(cloudData.avatar);
-      setPlayerBounty(Number(cloudData.bounty || 0));
-      setStats({
-        gridWins: Number(cloudData.gridWins || 0),
-        gridLosses: Number(cloudData.gridLosses || 0),
-        trackerWins: Number(cloudData.trackerWins || 0),
-        trackerPlays: Number(cloudData.trackerPlays || 0),
-        duelHigh: Number(cloudData.duelHigh || 0),
-      });
-      if (Array.isArray(cloudData.logs)) {
-        setLogs(cloudData.logs);
-      }
-      setSuccessMsg("Connexion réussie ! Vos statistiques du cloud ont écrasé les données locales.");
-    } else {
-      setSuccessMsg("Connexion réussie ! Vos statistiques locales ont été conservées et sauvegardées sur votre compte cloud.");
-    }
-
-    setCurrentUserEmail(targetEmail);
-    localStorage.setItem("firebaseUserEmail", targetEmail);
+    setSuccessMsg("Synchronisation complétée avec succès !");
     setStep("logged");
     setPendingMergeData(null);
   };
