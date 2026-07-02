@@ -923,9 +923,16 @@ export default function App() {
           // 1. L'administrateur a réinitialisé la prime à 0 sur Firestore (cloudBounty === 0)
           // 2. Ou la prime locale est supérieure mais aucune nouvelle victoire locale ne justifie cette augmentation
           // 3. Ou l'augmentation dépasse les gains possibles par rapport au nombre de victoires (max 150 000 B par différence)
+          // 4. Ou la prime locale dépasse le plafond théorique absolu calculé par rapport aux victoires
           let isLocalLegit = true;
 
-          if (localBounty > cloudBounty) {
+          const maxBountyByStats = (localGridWins * 200000) + (localTrackerWins * 150000) + (Number(cloudData.duelHigh || 0) * 50000) + 15000000;
+          if (localBounty > maxBountyByStats && localBounty > 20000000) {
+            console.warn(`⚠️ [Anti-Cheat] Prime locale (${localBounty} ฿) disproportionnée par rapport aux victoires de jeu (Max autorisé : ${maxBountyByStats} ฿). Reset local.`);
+            isLocalLegit = false;
+          }
+
+          if (isLocalLegit && localBounty > cloudBounty) {
             if (cloudBounty === 0 && localBounty > 200000) {
               // Reset administratif du Cloud à 0, l'état local doit s'y conformer et ne doit pas essayer d'écraser
               console.warn("⚠️ [Anti-Cheat] La prime sur le Cloud a été réinitialisée à 0 par un administrateur. Alignement de la session.");
@@ -1074,13 +1081,62 @@ export default function App() {
             const signature = localStorage.getItem("playerStateSignature");
             const expectedSig = generateStateSignature(playerBounty, playerUsername, stats.gridWins, stats.trackerWins);
             
-            // Validation consistante : signé ou migration saine
-            const isLocalLegit = 
-              (signature === expectedSig) || 
-              (!signature && (playerBounty <= cloudBounty || playerBounty <= 65000000 || stats.gridWins > 0 || stats.trackerWins > 0));
+            let isLocalLegit = true;
+
+            // Plafond absolu théorique de la prime basé sur les statistiques réelles
+            const maxBountyByStats = (stats.gridWins * 200000) + (stats.trackerWins * 150000) + (stats.duelHigh * 50000) + 15000000;
+            
+            if (playerBounty > maxBountyByStats && playerBounty > 20000000) {
+              console.warn(`⚠️ [Anti-Cheat] Prime locale (${playerBounty} ฿) disproportionnée par rapport aux victoires de jeu (Max autorisé : ${maxBountyByStats} ฿). Reset local.`);
+              isLocalLegit = false;
+            }
+
+            if (isLocalLegit && playerBounty > cloudBounty) {
+              if (cloudBounty === 0 && playerBounty > 200000) {
+                // Reset administratif détecté sur le Cloud
+                console.warn("⚠️ [Anti-Cheat] Reset administratif à 0 détecté sur le Cloud. Sauvegarde locale annulée.");
+                isLocalLegit = false;
+              } else {
+                const bountyDiff = playerBounty - cloudBounty;
+                const hasNewWins = (stats.gridWins > Number(cloudData.gridWins || 0)) || (stats.trackerWins > Number(cloudData.trackerWins || 0));
+                
+                // Si la prime augmente considérablement sans qu'aucune victoire n'ait été enregistrée localement par rapport au Cloud
+                if (!hasNewWins && bountyDiff > 150000) {
+                  console.warn(`⚠️ [Anti-Cheat] Augmentation de prime locale suspecte (+${bountyDiff} ฿) sans nouvelles victoires.`);
+                  isLocalLegit = false;
+                }
+              }
+            }
+
+            if (isLocalLegit) {
+              const hasCorrectSig = (signature === expectedSig);
+              const isHealthyMigration = !signature && (playerBounty <= cloudBounty || playerBounty <= 65000000 || stats.gridWins > 0 || stats.trackerWins > 0);
+              
+              if (!hasCorrectSig && !isHealthyMigration) {
+                isLocalLegit = false;
+              }
+            }
 
             if (!isLocalLegit) {
-              console.warn("⚠️ [Anti-Cheat] Progression locale corrompue détectée pendant l'auto-save. Sauvegarde cloud annulée.");
+              console.warn("⚠️ [Anti-Cheat] Progression locale corrompue détectée pendant l'auto-save. Rétablissement forcé des valeurs saines du Cloud.");
+              
+              // Aligner immédiatement l'état local sur le Cloud pour arrêter de boucler sur une sauvegarde corrompue
+              setPlayerBounty(cloudBounty);
+              localStorage.setItem("playerBountyValue", String(cloudBounty));
+              
+              const rawName = cloudData.username || playerUsername;
+              const cloudGridWins = Number(cloudData.gridWins || 0);
+              const cloudTrackerWins = Number(cloudData.trackerWins || 0);
+              
+              setStats({
+                gridWins: cloudGridWins,
+                gridLosses: Number(cloudData.gridLosses || 0),
+                trackerWins: cloudTrackerWins,
+                trackerPlays: Number(cloudData.trackerPlays || 0),
+                duelHigh: Number(cloudData.duelHigh || 0)
+              });
+              
+              localStorage.setItem("playerStateSignature", generateStateSignature(cloudBounty, rawName, cloudGridWins, cloudTrackerWins));
               return;
             }
 
