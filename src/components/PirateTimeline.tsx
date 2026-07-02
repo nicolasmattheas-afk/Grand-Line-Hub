@@ -244,29 +244,45 @@ export default function PirateTimeline({ characters, onUpdateBounty }: PirateTim
       perfectWins: s.perfectWins + (correctCount === gameSize ? 1 : 0)
     }));
 
-    let perfectReward = 10000;
-    let partialRate = 1500;
-    if (gameSize === 10) {
-      perfectReward = 15000;
-      partialRate = 1000;
+    let reward = 0;
+    let message = "";
+
+    if (gameSize === 5) {
+      if (correctCount === 5) {
+        reward = 5000;
+        message = `Parfait ! Sans-faute historique ! 🏴‍☠️✨ (+5 000 ฿ !)`;
+      } else {
+        message = `Vous avez ${correctCount} personnage(s) bien positionné(s) sur 5. Pour gagner la prime, il faut un sans-faute (5/5) ! (0 ฿)`;
+      }
+    } else if (gameSize === 10) {
+      if (correctCount === 10) {
+        reward = 15000;
+        message = `Incroyable ! Sans-faute historique ! 🏴‍☠️✨ (+15 000 ฿ !)`;
+      } else if (correctCount === 9) {
+        reward = 10000;
+        message = `Excellent ! Presque parfait, 9 personnages sur 10 bien placés ! 🎉 (+10 000 ฿ !)`;
+      } else {
+        message = `${correctCount} personnage(s) bien positionné(s) sur 10. Pour gagner la prime, il faut au moins 9/10 corrects ! (0 ฿)`;
+      }
     } else if (gameSize === 15) {
-      perfectReward = 20000;
-      partialRate = 800;
+      if (correctCount === 15) {
+        reward = 20000;
+        message = `Légendaire ! 15/15, ordre parfait ! 🏴‍☠️👑 (+20 000 ฿ !)`;
+      } else if (correctCount === 14) {
+        reward = 15000;
+        message = `Formidable ! 14 personnages sur 15 bien placés ! 🔥 (+15 000 ฿ !)`;
+      } else if (correctCount === 13) {
+        reward = 10000;
+        message = `Très bien ! 13 personnages sur 15 bien placés ! 👍 (+10 000 ฿ !)`;
+      } else {
+        message = `${correctCount} personnage(s) bien positionné(s) sur 15. Pour gagner la prime, il faut au moins 13/15 corrects ! (0 ฿)`;
+      }
     }
 
-    const reward = correctCount === gameSize ? perfectReward : correctCount * partialRate;
+    setScoreMessage(message);
+
     if (reward > 0 && onUpdateBounty) {
       onUpdateBounty(reward);
-    }
-
-    if (correctCount === gameSize) {
-      setScoreMessage(`Parfait ! Tout l'équipage est ordonné de manière historique ! 🏴‍☠️✨ (+${perfectReward.toLocaleString("fr-FR").replace(/\u202f/g, " ")} ฿ !)`);
-    } else if (correctCount >= Math.ceil(gameSize * 0.6)) {
-      setScoreMessage(`Pas mal ! ${correctCount} sur ${gameSize} sont bien positionnés. (+${reward.toLocaleString("fr-FR").replace(/\u202f/g, " ")} ฿ !)`);
-    } else if (correctCount > 0) {
-      setScoreMessage(`Seulement ${correctCount} bien positionné(s) sur ${gameSize}. (+${reward.toLocaleString("fr-FR").replace(/\u202f/g, " ")} ฿) Échangez encore !`);
-    } else {
-      setScoreMessage("Dommage, aucun personnage n'est bien positionné. Entraînez-vous ! (0 ฿)");
     }
   };
 

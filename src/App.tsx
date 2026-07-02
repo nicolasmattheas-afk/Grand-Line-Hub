@@ -914,12 +914,43 @@ export default function App() {
             Number(localStorage.getItem("statsTrackerWins") || "0")
           );
 
-          // Validation anti-triche : l'état local est légitime s'il est signé correctement OU s'il s'agit d'une migration saine.
-          // Pour la migration (pas de signature) : l'état est légitime s'il est inférieur ou égal à sa valeur Cloud,
-          // ou s'il a des statistiques de jeu cohérentes (victoires), ou s'il est inférieur à 65M Berries.
-          const isLocalLegit = 
-            (signature === expectedSig) || 
-            (!signature && (localBounty <= cloudBounty || localBounty <= 65000000 || Number(cloudData.gridWins || 0) > 0 || Number(cloudData.trackerWins || 0) > 0));
+          const localGridWins = Number(localStorage.getItem("statsGridWins") || "0");
+          const localTrackerWins = Number(localStorage.getItem("statsTrackerWins") || "0");
+          const cloudGridWins = Number(cloudData.gridWins || 0);
+          const cloudTrackerWins = Number(cloudData.trackerWins || 0);
+
+          // Validation anti-triche renforcée : l'état local ne peut pas écraser la vérité du Cloud si :
+          // 1. L'administrateur a réinitialisé la prime à 0 sur Firestore (cloudBounty === 0)
+          // 2. Ou la prime locale est supérieure mais aucune nouvelle victoire locale ne justifie cette augmentation
+          // 3. Ou l'augmentation dépasse les gains possibles par rapport au nombre de victoires (max 150 000 B par différence)
+          let isLocalLegit = true;
+
+          if (localBounty > cloudBounty) {
+            if (cloudBounty === 0 && localBounty > 200000) {
+              // Reset administratif du Cloud à 0, l'état local doit s'y conformer et ne doit pas essayer d'écraser
+              console.warn("⚠️ [Anti-Cheat] La prime sur le Cloud a été réinitialisée à 0 par un administrateur. Alignement de la session.");
+              isLocalLegit = false;
+            } else {
+              const bountyDiff = localBounty - cloudBounty;
+              const hasNewWins = (localGridWins > cloudGridWins) || (localTrackerWins > cloudTrackerWins);
+              
+              if (!hasNewWins && bountyDiff > 150000) {
+                console.warn(`⚠️ [Anti-Cheat] Différence de prime locale suspecte (+${bountyDiff} ฿) sans victoires supplémentaires pour la justifier.`);
+                isLocalLegit = false;
+              }
+            }
+          }
+
+          // En plus, on valide la signature d'intégrité ou la conformité d'une migration saine
+          if (isLocalLegit) {
+            const hasCorrectSig = (signature === expectedSig);
+            const isHealthyMigration = !signature && (localBounty <= cloudBounty || localBounty <= 65000000 || cloudGridWins > 0 || cloudTrackerWins > 0);
+            
+            if (!hasCorrectSig && !isHealthyMigration) {
+              console.warn("⚠️ [Anti-Cheat] Signature locale d'intégrité invalide ou absente.");
+              isLocalLegit = false;
+            }
+          }
 
           if (!isLocalLegit) {
             console.warn("⚠️ [Anti-Cheat] Progression locale frauduleuse détectée lors de la synchronisation. Rétablissement des valeurs du Cloud.");
@@ -961,9 +992,7 @@ export default function App() {
             localStorage.setItem("playerAvatarImage", cloudData.avatar);
           }
           
-          const localGridWins = Number(localStorage.getItem("statsGridWins") || "0");
           const localGridLosses = Number(localStorage.getItem("statsGridLosses") || "0");
-          const localTrackerWins = Number(localStorage.getItem("statsTrackerWins") || "0");
           const localTrackerPlays = Number(localStorage.getItem("statsTrackerPlays") || "0");
           
           const finalStats = {
