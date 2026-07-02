@@ -24,7 +24,7 @@ import AdSenseBanner from "./components/AdSenseBanner";
 import CharacterFusion from "./components/CharacterFusion";
 import FourImagesOneWord from "./components/FourImagesOneWord";
 import { LanguageSelector } from "./components/LanguageSelector";
-import { collection, getDocs, doc, updateDoc, getDoc, query, orderBy, limit, getCountFromServer, serverTimestamp } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, getDoc, query, orderBy, limit, getCountFromServer, serverTimestamp, onSnapshot } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { track } from "@vercel/analytics";
 import { 
@@ -842,89 +842,100 @@ export default function App() {
     localStorage.setItem("playerGameLogs", JSON.stringify(logs));
   }, [logs]);
 
-  // Synchronisation au démarrage / changement de compte (conserver la prime la plus haute)
+  // Synchronisation en temps réel avec Firestore (conserver la prime et stats les plus hautes)
   useEffect(() => {
     if (currentUserEmail) {
-      const fetchUserDataOnStartup = async () => {
-        try {
-          const userDocRef = doc(db, "users", currentUserEmail);
-          const userSnap = await getDoc(userDocRef);
-          if (userSnap.exists()) {
-            const cloudData = userSnap.data();
-            const cloudBounty = Number(cloudData.bounty || 0);
-            const localBounty = Number(localStorage.getItem("playerBountyValue") || "0");
-
-            // Garder uniquement la prime la plus haute
-            const highestBounty = Math.max(cloudBounty, localBounty);
-            
+      const userDocRef = doc(db, "users", currentUserEmail);
+      
+      const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const cloudData = docSnap.data();
+          const cloudBounty = Number(cloudData.bounty || 0);
+          const localBounty = Number(localStorage.getItem("playerBountyValue") || "0");
+          
+          // Garder uniquement la prime la plus haute
+          const highestBounty = Math.max(cloudBounty, localBounty);
+          
+          // Mettre à jour l'état local si le cloud a des données plus récentes / plus élevées
+          if (highestBounty !== localBounty || localStorage.getItem("playerBountyValue") === null) {
             setPlayerBounty(highestBounty);
             localStorage.setItem("playerBountyValue", String(highestBounty));
+          }
+          
+          if (cloudData.username && localStorage.getItem("playerPirateName") !== cloudData.username) {
+            setPlayerUsername(cloudData.username);
+            localStorage.setItem("playerPirateName", cloudData.username);
+          }
+          
+          if (cloudData.avatar && localStorage.getItem("playerAvatarImage") !== cloudData.avatar) {
+            setPlayerAvatar(cloudData.avatar);
+            localStorage.setItem("playerAvatarImage", cloudData.avatar);
+          }
+          
+          const localGridWins = Number(localStorage.getItem("statsGridWins") || "0");
+          const localGridLosses = Number(localStorage.getItem("statsGridLosses") || "0");
+          const localTrackerWins = Number(localStorage.getItem("statsTrackerWins") || "0");
+          const localTrackerPlays = Number(localStorage.getItem("statsTrackerPlays") || "0");
+          
+          const finalStats = {
+            gridWins: Math.max(localGridWins, Number(cloudData.gridWins || 0)),
+            gridLosses: Math.max(localGridLosses, Number(cloudData.gridLosses || 0)),
+            trackerWins: Math.max(localTrackerWins, Number(cloudData.trackerWins || 0)),
+            trackerPlays: Math.max(localTrackerPlays, Number(cloudData.trackerPlays || 0)),
+            duelHigh: Math.max(Number(stats.duelHigh || 0), Number(cloudData.duelHigh || 0))
+          };
+          
+          const statsChanged = 
+            finalStats.gridWins !== localGridWins ||
+            finalStats.gridLosses !== localGridLosses ||
+            finalStats.trackerWins !== localTrackerWins ||
+            finalStats.trackerPlays !== localTrackerPlays ||
+            finalStats.duelHigh !== Number(stats.duelHigh || 0);
             
-            if (cloudData.username) {
-              setPlayerUsername(cloudData.username);
-              localStorage.setItem("playerPirateName", cloudData.username);
-            }
-            if (cloudData.avatar) {
-              setPlayerAvatar(cloudData.avatar);
-              localStorage.setItem("playerAvatarImage", cloudData.avatar);
-            }
-            
-            const localGridWins = Number(localStorage.getItem("statsGridWins") || "0");
-            const localGridLosses = Number(localStorage.getItem("statsGridLosses") || "0");
-            const localTrackerWins = Number(localStorage.getItem("statsTrackerWins") || "0");
-            const localTrackerPlays = Number(localStorage.getItem("statsTrackerPlays") || "0");
-
-            const finalStats = {
-              gridWins: Math.max(localGridWins, Number(cloudData.gridWins || 0)),
-              gridLosses: Math.max(localGridLosses, Number(cloudData.gridLosses || 0)),
-              trackerWins: Math.max(localTrackerWins, Number(cloudData.trackerWins || 0)),
-              trackerPlays: Math.max(localTrackerPlays, Number(cloudData.trackerPlays || 0)),
-              duelHigh: Math.max(Number(stats.duelHigh || 0), Number(cloudData.duelHigh || 0))
-            };
-
+          if (statsChanged) {
             setStats(finalStats);
             localStorage.setItem("statsGridWins", String(finalStats.gridWins));
             localStorage.setItem("statsGridLosses", String(finalStats.gridLosses));
             localStorage.setItem("statsTrackerWins", String(finalStats.trackerWins));
             localStorage.setItem("statsTrackerPlays", String(finalStats.trackerPlays));
-            
-            if (Array.isArray(cloudData.logs)) {
-              setLogs(cloudData.logs);
-              localStorage.setItem("playerGameLogs", JSON.stringify(cloudData.logs));
-            }
-
-            // Si la prime locale ou les stats locales étaient plus élevées, on met à jour le cloud immédiatement
-            if (localBounty > cloudBounty || localGridWins > Number(cloudData.gridWins || 0)) {
-              console.log(`[Sync Startup] Prime locale plus élevée ou stats plus élevées. Mise à jour du cloud (${highestBounty} ฿).`);
-              const cleanLogs = logs.slice(0, 20).map(log => ({
-                id: String(log.id || ""),
-                gameType: String(log.gameType || "Bounty Duel"),
-                result: String(log.result || "Victoire"),
-                detail: String(log.detail || ""),
-                adjustment: String(log.adjustment || "0 ฿"),
-                timestamp: String(log.timestamp || ""),
-              }));
-
-              await updateDoc(userDocRef, {
-                bounty: highestBounty,
-                username: cloudData.username || playerUsername,
-                avatar: cloudData.avatar || playerAvatar || "",
-                gridWins: finalStats.gridWins,
-                gridLosses: finalStats.gridLosses,
-                trackerWins: finalStats.trackerWins,
-                trackerPlays: finalStats.trackerPlays,
-                duelHigh: finalStats.duelHigh,
-                logs: cleanLogs,
-                updatedAt: serverTimestamp(),
-              });
-            }
           }
-        } catch (err) {
-          console.error("Échec de la récupération des données utilisateur au démarrage:", err);
-        }
-      };
+          
+          if (Array.isArray(cloudData.logs) && JSON.stringify(cloudData.logs) !== localStorage.getItem("playerGameLogs")) {
+            setLogs(cloudData.logs);
+            localStorage.setItem("playerGameLogs", JSON.stringify(cloudData.logs));
+          }
 
-      fetchUserDataOnStartup();
+          // Si la prime locale ou les stats locales étaient plus élevées, on met à jour le cloud immédiatement
+          if (localBounty > cloudBounty || localGridWins > Number(cloudData.gridWins || 0)) {
+            console.log(`[Sync Realtime Check] Prime locale ou stats supérieures. Mise à jour du cloud (${highestBounty} ฿).`);
+            const cleanLogs = logs.slice(0, 20).map(log => ({
+              id: String(log.id || ""),
+              gameType: String(log.gameType || "Bounty Duel"),
+              result: String(log.result || "Victoire"),
+              detail: String(log.detail || ""),
+              adjustment: String(log.adjustment || "0 ฿"),
+              timestamp: String(log.timestamp || ""),
+            }));
+
+            updateDoc(userDocRef, {
+              bounty: highestBounty,
+              username: cloudData.username || playerUsername,
+              avatar: cloudData.avatar || playerAvatar || "",
+              gridWins: finalStats.gridWins,
+              gridLosses: finalStats.gridLosses,
+              trackerWins: finalStats.trackerWins,
+              trackerPlays: finalStats.trackerPlays,
+              duelHigh: finalStats.duelHigh,
+              logs: cleanLogs,
+              updatedAt: serverTimestamp(),
+            }).catch(e => console.error("Erreur mise à jour cloud pendant l'écoute:", e));
+          }
+        }
+      }, (error) => {
+        console.error("Échec de l'écoute en temps réel des données utilisateur:", error);
+      });
+      
+      return () => unsubscribe();
     }
   }, [currentUserEmail]);
 
@@ -934,6 +945,34 @@ export default function App() {
       const saveUserDataToCloud = async () => {
         try {
           const userDocRef = doc(db, "users", currentUserEmail);
+          
+          // Vérification anti-écrasement et boucle d'écriture
+          const userSnap = await getDoc(userDocRef);
+          if (userSnap.exists()) {
+            const cloudData = userSnap.data();
+            const cloudBounty = Number(cloudData.bounty || 0);
+            
+            // Si le cloud a déjà une prime strictement supérieure, on ne l'écrase pas avec la nôtre
+            if (cloudBounty > Number(playerBounty || 0)) {
+              console.log("[Auto-Save] Le cloud a une prime supérieure, annulation de l'écriture pour préserver les gains.");
+              return;
+            }
+            
+            // Vérifier si toutes les valeurs correspondent déjà parfaitement
+            const isIdentical = 
+              cloudBounty === Number(playerBounty || 0) &&
+              (cloudData.username || "") === playerUsername &&
+              (cloudData.avatar || "") === (playerAvatar || "") &&
+              Number(cloudData.gridWins || 0) === Number(stats.gridWins || 0) &&
+              Number(cloudData.gridLosses || 0) === Number(stats.gridLosses || 0) &&
+              Number(cloudData.trackerWins || 0) === Number(stats.trackerWins || 0) &&
+              Number(cloudData.trackerPlays || 0) === Number(stats.trackerPlays || 0) &&
+              Number(cloudData.duelHigh || 0) === Number(stats.duelHigh || 0);
+              
+            if (isIdentical) {
+              return;
+            }
+          }
           
           const cleanLogs = logs.slice(0, 20).map(log => ({
             id: String(log.id || ""),
