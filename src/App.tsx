@@ -71,7 +71,20 @@ function getArcFromChapter(chapterStr: string): string {
   return "Grand Line";
 }
 
+// Fonction de hachage et signature de sécurité anti-triche de la progression
+export const generateStateSignature = (bounty: number, username: string, gridWins: number, trackerWins: number) => {
+  const payload = `${bounty}-${username}-${gridWins}-${trackerWins}-grandlinehub-ultra-secret-2026`;
+  let hash = 0;
+  for (let i = 0; i < payload.length; i++) {
+    hash = (hash << 5) - hash + payload.charCodeAt(i);
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash.toString(36);
+};
+
 export default function App() {
+  const lastUpdateRef = React.useRef<number>(0);
+
   // État de la base de données globale d'One Piece
   const [charactersDatabase, setCharactersDatabase] = useState<Character[]>([]);
   const [loadingCharacters, setLoadingCharacters] = useState<boolean>(true);
@@ -552,6 +565,53 @@ export default function App() {
     }
   }, [theme]);
 
+  // Vérification de l'intégrité de la progression locale au démarrage de l'application (anti-triche)
+  useEffect(() => {
+    const rawBounty = Number(localStorage.getItem("playerBountyValue") || "0");
+    const rawName = localStorage.getItem("playerPirateName") || "Visiteur de Loguetown";
+    const rawGridWins = Number(localStorage.getItem("statsGridWins") || "0");
+    const rawTrackerWins = Number(localStorage.getItem("statsTrackerWins") || "0");
+    const signature = localStorage.getItem("playerStateSignature");
+
+    const expectedSig = generateStateSignature(rawBounty, rawName, rawGridWins, rawTrackerWins);
+
+    if (rawBounty > 200000 && signature !== expectedSig) {
+      // Si la signature n'existe pas du tout (migration d'un ancien compte),
+      // on l'autorise s'il a des statistiques de jeu crédibles ou s'il s'agit d'une prime légitime/raisonnable (< 65M).
+      const isLegacyLegit = !signature && (rawBounty <= 65000000 || rawGridWins > 0 || rawTrackerWins > 0);
+      
+      if (isLegacyLegit) {
+        console.log("[Anti-Cheat] Migration saine et génération de la première signature d'intégrité pour cet ancien compte.");
+        localStorage.setItem("playerStateSignature", expectedSig);
+      } else {
+        // S'il s'agit d'un joueur connecté à un compte, on ne fait rien pour l'instant :
+        // la synchronisation Firestore en temps réel va se lancer, comparer avec le Cloud et rétablir la valeur saine.
+        // Sinon, s'il s'agit d'un joueur hors-ligne sans aucune statistique mais avec une prime immense (> 65M), on réinitialise.
+        const isUserConnected = !!localStorage.getItem("currentUserEmail");
+        
+        if (!isUserConnected) {
+          console.warn("⚠️ [Anti-Cheat] Prime suspecte détectée hors-ligne. Reset local de sécurité.");
+          
+          setPlayerBounty(0);
+          localStorage.setItem("playerBountyValue", "0");
+          setStats({
+            gridWins: 0,
+            gridLosses: 0,
+            trackerWins: 0,
+            trackerPlays: 0,
+            duelHigh: 0
+          });
+          setLogs([]);
+          
+          const cleanSig = generateStateSignature(0, rawName, 0, 0);
+          localStorage.setItem("playerStateSignature", cleanSig);
+          
+          alert("⚠️ [Sécurité Grand Line] Anomalie de progression détectée. Votre prime locale suspecte a été réinitialisée pour préserver l'équité du classement. Connectez-vous à un compte pour restaurer vos sauvegardes saines du Cloud.");
+        }
+      }
+    }
+  }, []);
+
   // Charge et persiste la prime du joueur (Bounty) et ses statistiques
   const [playerBounty, setPlayerBounty] = useState<number>(() => {
     return Number(localStorage.getItem("playerBountyValue") || "0");
@@ -820,27 +880,20 @@ export default function App() {
     localStorage.setItem("playerAvatarImage", playerAvatar);
   }, [playerAvatar]);
 
-  // Sauvegarder dans le localStorage
+  // Sauvegarder de manière sécurisée et unifiée dans le localStorage avec signature d'intégrité
   useEffect(() => {
     localStorage.setItem("playerBountyValue", String(playerBounty));
-  }, [playerBounty]);
-
-
-
-  useEffect(() => {
     localStorage.setItem("playerPirateName", playerUsername);
-  }, [playerUsername]);
-
-  useEffect(() => {
     localStorage.setItem("statsGridWins", String(stats.gridWins));
     localStorage.setItem("statsGridLosses", String(stats.gridLosses));
     localStorage.setItem("statsTrackerWins", String(stats.trackerWins));
     localStorage.setItem("statsTrackerPlays", String(stats.trackerPlays));
-  }, [stats]);
-
-  useEffect(() => {
     localStorage.setItem("playerGameLogs", JSON.stringify(logs));
-  }, [logs]);
+
+    // Signer les données locales pour interdire la modification directe via DevTools
+    const sig = generateStateSignature(playerBounty, playerUsername, stats.gridWins, stats.trackerWins);
+    localStorage.setItem("playerStateSignature", sig);
+  }, [playerBounty, playerUsername, stats, logs]);
 
   // Synchronisation en temps réel avec Firestore (conserver la prime et stats les plus hautes)
   useEffect(() => {
@@ -853,6 +906,42 @@ export default function App() {
           const cloudBounty = Number(cloudData.bounty || 0);
           const localBounty = Number(localStorage.getItem("playerBountyValue") || "0");
           
+          const signature = localStorage.getItem("playerStateSignature");
+          const expectedSig = generateStateSignature(
+            localBounty,
+            localStorage.getItem("playerPirateName") || "Visiteur de Loguetown",
+            Number(localStorage.getItem("statsGridWins") || "0"),
+            Number(localStorage.getItem("statsTrackerWins") || "0")
+          );
+
+          // Validation anti-triche : l'état local est légitime s'il est signé correctement OU s'il s'agit d'une migration saine.
+          // Pour la migration (pas de signature) : l'état est légitime s'il est inférieur ou égal à sa valeur Cloud,
+          // ou s'il a des statistiques de jeu cohérentes (victoires), ou s'il est inférieur à 65M Berries.
+          const isLocalLegit = 
+            (signature === expectedSig) || 
+            (!signature && (localBounty <= cloudBounty || localBounty <= 65000000 || Number(cloudData.gridWins || 0) > 0 || Number(cloudData.trackerWins || 0) > 0));
+
+          if (!isLocalLegit) {
+            console.warn("⚠️ [Anti-Cheat] Progression locale frauduleuse détectée lors de la synchronisation. Rétablissement des valeurs du Cloud.");
+            setPlayerBounty(cloudBounty);
+            localStorage.setItem("playerBountyValue", String(cloudBounty));
+            
+            const rawName = cloudData.username || playerUsername;
+            const cloudGridWins = Number(cloudData.gridWins || 0);
+            const cloudTrackerWins = Number(cloudData.trackerWins || 0);
+            
+            setStats({
+              gridWins: cloudGridWins,
+              gridLosses: Number(cloudData.gridLosses || 0),
+              trackerWins: cloudTrackerWins,
+              trackerPlays: Number(cloudData.trackerPlays || 0),
+              duelHigh: Number(cloudData.duelHigh || 0)
+            });
+            
+            localStorage.setItem("playerStateSignature", generateStateSignature(cloudBounty, rawName, cloudGridWins, cloudTrackerWins));
+            return;
+          }
+
           // Garder uniquement la prime la plus haute
           const highestBounty = Math.max(cloudBounty, localBounty);
           
@@ -952,6 +1041,20 @@ export default function App() {
             const cloudData = userSnap.data();
             const cloudBounty = Number(cloudData.bounty || 0);
             
+            // Signature verification before any auto-save to cloud
+            const signature = localStorage.getItem("playerStateSignature");
+            const expectedSig = generateStateSignature(playerBounty, playerUsername, stats.gridWins, stats.trackerWins);
+            
+            // Validation consistante : signé ou migration saine
+            const isLocalLegit = 
+              (signature === expectedSig) || 
+              (!signature && (playerBounty <= cloudBounty || playerBounty <= 65000000 || stats.gridWins > 0 || stats.trackerWins > 0));
+
+            if (!isLocalLegit) {
+              console.warn("⚠️ [Anti-Cheat] Progression locale corrompue détectée pendant l'auto-save. Sauvegarde cloud annulée.");
+              return;
+            }
+
             // Si le cloud a déjà une prime strictement supérieure, on ne l'écrase pas avec la nôtre
             if (cloudBounty > Number(playerBounty || 0)) {
               console.log("[Auto-Save] Le cloud a une prime supérieure, annulation de l'écriture pour préserver les gains.");
@@ -1055,10 +1158,30 @@ export default function App() {
     }
   }, [currentUserEmail, playerBounty, playerUsername, playerAvatar, stats, logs]);
 
-  // Ajustement de la prime globale
+  // Ajustement de la prime globale avec contrôles de sécurité anti-triche
   const handleUpdateBounty = (amount: number, gameName?: string, resultString?: string) => {
     const gameTypeStr = gameName || activeTabName(activeTab);
     const outcomeStr = resultString || (amount >= 0 ? "Victoire" : "Défaite");
+
+    // --- CONTRÔLE ANTI-TRICHE 1: VALEUR MAX DE GAIN PAR TRANSACTION ---
+    const isSecretDuelBonus = amount === 20000000;
+    const maxNormalReward = 110000; // UndercoverGame donne 100 000 Berries max
+
+    if (amount > maxNormalReward && !isSecretDuelBonus) {
+      console.error(`⚠️ [Anti-Cheat] Transaction de prime illégale rejetée : +${amount} ฿ pour ${gameTypeStr}.`);
+      return;
+    }
+
+    // --- CONTRÔLE ANTI-TRICHE 2: TEMPO / MACRO / CLIC RAPIDE ---
+    if (amount > 1000) {
+      const now = Date.now();
+      const timeDiff = now - lastUpdateRef.current;
+      if (timeDiff < 1200) {
+        console.warn("⚠️ [Anti-Cheat] Clic ou exécution suspecte trop rapide. Transaction ignorée.");
+        return;
+      }
+      lastUpdateRef.current = now;
+    }
 
     // Envoi de l'événement de jeu vers Google Analytics et Vercel Analytics
     if (typeof window !== "undefined" && (window as any).gtag) {

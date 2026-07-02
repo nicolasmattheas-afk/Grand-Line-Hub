@@ -21,15 +21,19 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
   const [revealed, setRevealed] = useState(false);
   const [selectedSide, setSelectedSide] = useState<"left" | "right" | null>(null);
   const [showLossModal, setShowLossModal] = useState(false);
+  const [showWinModal, setShowWinModal] = useState(false);
   const [feedback, setFeedback] = useState<{ isCorrect: boolean; message: string } | null>(null);
   const [playedIds, setPlayedIds] = useState<string[]>([]);
-  const [difficulty, setDifficulty] = useState<"facile" | "moyen" | "difficile">("moyen");
 
   // Initialisation du duel (Jeu "Higher or Lower")
-  const pickNewDuel = (currentRight?: Character, resetHistory = false, selectedDiff = difficulty) => {
-    // Filtrage spécifique : seulement les personnages avec primes et de vraies photos disponibles
+  const pickNewDuel = (currentRight?: Character, resetHistory = false) => {
+    // Filtrage spécifique : seulement les personnages avec primes et de vraies photos disponibles, en excluant ceux exclus de tous les modes
     const pool = characters.filter((c) => {
       if (!c || !c.bounty || c.bounty <= 0) return false;
+      const nameL = c.name.toLowerCase();
+      // Exclure les personnages exclus de tous les modes de jeux
+      if (nameL === "roche tomson" || nameL === "raccoon" || nameL === "george black" || nameL === "draw") return false;
+
       const hasRealPhoto = c.image && 
                            c.image.trim() !== "" && 
                            !c.image.toLowerCase().includes("placehold.co") && 
@@ -51,19 +55,6 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
 
     if (pool.length < 2) return;
 
-    // Filtrer par difficulté (Notoriété basé sur le montant de la prime)
-    const filteredByDifficulty = pool.filter(c => {
-      if (selectedDiff === "facile") {
-        return c.bounty && c.bounty >= 150000000; // Légendes de grand chemin
-      }
-      if (selectedDiff === "moyen") {
-        return c.bounty && c.bounty >= 30000000; // Pirates reconnus
-      }
-      return true; // Tous les flibustiers (experts)
-    });
-
-    const finalPool = filteredByDifficulty.length >= 2 ? filteredByDifficulty : pool;
-
     // Réinitialiser l'historique de session si demandé
     let currentPlayed = resetHistory ? [] : [...playedIds];
 
@@ -71,9 +62,9 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
     if (currentRight && !resetHistory) {
       left = currentRight;
     } else {
-      // Choisir un personnage aléatoire qui n'a pas encore été joué dans cette partie
-      const unplayed = finalPool.filter(c => !currentPlayed.includes(c.id));
-      const chosenPool = unplayed.length > 0 ? unplayed : finalPool;
+      // Choisir un personnage aléatoire de départ parmi le pool qui n'a pas été joué
+      const unplayed = pool.filter(c => !currentPlayed.includes(c.id));
+      const chosenPool = unplayed.length > 0 ? unplayed : pool;
       left = chosenPool[Math.floor(Math.random() * chosenPool.length)];
     }
 
@@ -83,10 +74,10 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
     }
 
     // Choisir un personnage de droite qui n'a pas été joué, différent de gauche, et avec une prime différente
-    let unplayedRight = finalPool.filter(c => !currentPlayed.includes(c.id) && c.id !== left.id && c.bounty !== left.bounty);
+    let unplayedRight = pool.filter(c => !currentPlayed.includes(c.id) && c.id !== left.id && c.bounty !== left.bounty);
     if (unplayedRight.length === 0) {
       // Si tout le monde a déjà été joué, on réinitialise l'historique avec seulement "left" pour la continuité
-      unplayedRight = finalPool.filter(c => c.id !== left.id && c.bounty !== left.bounty);
+      unplayedRight = pool.filter(c => c.id !== left.id && c.bounty !== left.bounty);
       currentPlayed = [left.id];
     }
 
@@ -103,7 +94,7 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
 
   useEffect(() => {
     pickNewDuel(undefined, true);
-  }, [characters, difficulty]);
+  }, [characters]);
 
   const handleCardClick = (side: "left" | "right") => {
     if (!leftChar || !rightChar || revealed) return;
@@ -113,6 +104,29 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
 
     const leftIsHigher = leftChar.bounty > rightChar.bounty;
     const correct = (side === "left" && leftIsHigher) || (side === "right" && !leftIsHigher);
+
+    const pool = characters.filter((c) => {
+      if (!c || !c.bounty || c.bounty <= 0) return false;
+      const nameL = c.name.toLowerCase();
+      if (nameL === "roche tomson" || nameL === "raccoon" || nameL === "george black" || nameL === "draw") return false;
+      const hasRealPhoto = c.image && 
+                           c.image.trim() !== "" && 
+                           !c.image.toLowerCase().includes("placehold.co") && 
+                           !c.image.toLowerCase().includes("dicebear") && 
+                           !c.image.toLowerCase().includes("pixel-art") && 
+                           !c.image.toLowerCase().includes("no_picture") && 
+                           !c.image.toLowerCase().includes("no-picture") && 
+                           !c.image.toLowerCase().includes("no picture") && 
+                           !c.image.toLowerCase().includes("nopicture") && 
+                           !c.image.toLowerCase().includes("no_image") && 
+                           !c.image.toLowerCase().includes("no-image") && 
+                           !c.image.toLowerCase().includes("noimage") && 
+                           !c.image.toLowerCase().includes("nopic") && 
+                           !c.image.toLowerCase().includes("placeholder") && 
+                           !c.image.toLowerCase().includes("none") && 
+                           !c.image.includes("?");
+      return hasRealPhoto;
+    });
 
     if (correct) {
       const newStreak = streak + 1;
@@ -127,10 +141,22 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
         message: ""
       });
 
-      // On continue d'enchaîner après un bref délai pour laisser voir la magnifique animation violette !
-      setTimeout(() => {
-        pickNewDuel(rightChar);
-      }, 700);
+      // Si l'utilisateur a réussi à faire tout le pool sans la moindre erreur !
+      if (newStreak >= pool.length - 1 && pool.length > 2) {
+        setTimeout(() => {
+          setShowWinModal(true);
+          const hasReceivedBonus = localStorage.getItem("hasCompletedBountyDuelSecretBonus") === "true";
+          if (!hasReceivedBonus) {
+            onUpdateBounty(20000000); // Bonus secret de 20M Berries
+            localStorage.setItem("hasCompletedBountyDuelSecretBonus", "true");
+          }
+        }, 1200);
+      } else {
+        // On continue d'enchaîner après un bref délai pour laisser voir la magnifique animation violette !
+        setTimeout(() => {
+          pickNewDuel(rightChar);
+        }, 700);
+      }
     } else {
       // La prime grimpe à la fin du duel en fonction du résultat (sans plafond, 500 Berries / réponse)
       const totalGains = streak * 500;
@@ -189,49 +215,6 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
                 <span className="font-mono text-xl font-black text-white">{bestStreak}</span>
               </div>
             </div>
-          </div>
-
-          {/* Sélecteur de Notoriété / Difficulté */}
-          <div className="bg-slate-900/80 border border-slate-800 p-1.5 rounded-2xl flex items-center gap-1.5 max-w-sm w-full shadow-lg">
-            <button
-              onClick={() => {
-                setDifficulty("facile");
-                pickNewDuel(undefined, true, "facile");
-              }}
-              className={`flex-1 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-heading font-black uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                difficulty === "facile"
-                  ? "bg-emerald-600 text-white shadow-[0_0_12px_rgba(16,185,129,0.35)]"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800"
-              }`}
-            >
-              ⭐ Facile
-            </button>
-            <button
-              onClick={() => {
-                setDifficulty("moyen");
-                pickNewDuel(undefined, true, "moyen");
-              }}
-              className={`flex-1 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-heading font-black uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                difficulty === "moyen"
-                  ? "bg-amber-600 text-white shadow-[0_0_12px_rgba(245,158,11,0.35)]"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800"
-              }`}
-            >
-              🔥 Moyen
-            </button>
-            <button
-              onClick={() => {
-                setDifficulty("difficile");
-                pickNewDuel(undefined, true, "difficile");
-              }}
-              className={`flex-1 px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-heading font-black uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                difficulty === "difficile"
-                  ? "bg-rose-600 text-white shadow-[0_0_12px_rgba(239,68,68,0.35)]"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800"
-              }`}
-            >
-              💀 Expert
-            </button>
           </div>
         </div>
       </div>
@@ -479,6 +462,68 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
                     className="flex-1 py-3 px-4 bg-white border-2 border-black text-[#1A1A1A] hover:bg-gray-50 font-heading font-black tracking-widest text-[10px] uppercase rounded-xl active:scale-95 transition-all text-center cursor-pointer"
                   >
                     FERMER
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Secret Win Modal / Fenêtre secrète de Victoire Absolue */}
+      <AnimatePresence>
+        {showWinModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+            <motion.div 
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              className="bg-slate-950 border-4 border-violet-500 rounded-3xl max-w-md w-full p-8 shadow-[0_0_50px_rgba(139,92,246,0.5)] relative overflow-hidden text-center text-white"
+            >
+              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 animate-pulse" />
+              
+              <div className="mt-4">
+                <span className="inline-block p-5 bg-violet-950/50 border border-violet-500 rounded-full text-violet-400 mb-6 relative shadow-[0_0_20px_rgba(139,92,246,0.3)]">
+                  <Trophy className="w-14 h-14" />
+                  <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-4 w-4 bg-pink-500"></span>
+                  </span>
+                </span>
+                
+                <h3 className="font-heading text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-pink-400 uppercase tracking-tighter mb-3">
+                  ROI DES PIRATES !
+                </h3>
+                
+                <p className="text-violet-300 font-heading font-black tracking-widest text-xs uppercase mb-6">
+                  🏆 EXPLOIT LÉGENDAIRE ACCOMPLI 🏆
+                </p>
+                
+                <p className="text-gray-300 text-xs sm:text-sm font-medium leading-relaxed mb-6">
+                  Vous avez déchiffré l'intégralité du <strong className="text-white">Bounty Duel</strong> ! Votre connaissance absolue des primes de Grand Line sans faire la moindre erreur force le respect de tous les Empereurs des mers !
+                </p>
+
+                <div className="mb-8 p-4 bg-violet-950/40 border border-violet-800 rounded-2xl text-center shadow-inner">
+                  <span className="text-[10px] text-pink-400 font-heading font-black uppercase block tracking-widest mb-1">🎁 PRIME SECRÈTE DE L'EXPLOIT 🎁</span>
+                  <span className="text-2xl font-mono font-black text-emerald-400 tracking-wider">
+                    + ฿ 20 000 000
+                  </span>
+                </div>
+
+                <p className="text-[10px] text-gray-400 mb-6 font-mono uppercase tracking-widest">
+                  Vous avez atteint le sommet de Grand Line !
+                </p>
+
+                <div className="flex justify-center">
+                  <button
+                    onClick={() => {
+                      setStreak(0);
+                      setShowWinModal(false);
+                      pickNewDuel(undefined, true);
+                    }}
+                    className="w-full py-3.5 px-6 bg-gradient-to-r from-violet-600 to-pink-600 text-white font-heading font-black tracking-widest text-[11px] uppercase rounded-xl hover:opacity-90 active:scale-95 transition-all text-center cursor-pointer shadow-lg"
+                  >
+                    REPRENDRE LA MER
                   </button>
                 </div>
               </div>
