@@ -33,6 +33,8 @@ const PRODUCTS: Product[] = [
   { id: "m_15", name: "One Piece Blue : Grand Data File", category: "mangas", link: "https://amzn.to/4eR5mck", image: "https://m.media-amazon.com/images/P/2723495639.01._SCLZZZZZZZ_.jpg" },
   { id: "m_16", name: "One Piece Green : Secret Pieces", category: "mangas", link: "https://amzn.to/4fhaSq1", image: "https://m.media-amazon.com/images/P/272348730X.01._SCLZZZZZZZ_.jpg" },
   { id: "m_17", name: "One Piece Yellow : Grand Elements", category: "mangas", link: "https://amzn.to/3ReaWxG", image: "https://m.media-amazon.com/images/P/2723450252.01._SCLZZZZZZZ_.jpg" },
+  { id: "m_new_y1", name: "One Piece - Yellow", category: "mangas", link: "https://amzn.to/4vlc00U", image: "https://m.media-amazon.com/images/I/81WuOeKZppL._SL1500_.jpg" },
+  { id: "m_new_y2", name: "Wanted", category: "mangas", link: "https://amzn.to/4fie2d2", image: "https://m.media-amazon.com/images/I/61Un+8AweaL.jpg" },
   { id: "m_18", name: "One Piece Red : Grand Characters", category: "mangas", link: "https://amzn.to/4vfpc7t", image: "https://m.media-amazon.com/images/P/2344027602.01._SCLZZZZZZZ_.jpg" },
   { id: "m_19", name: "One Piece Blue Deep : Characters World", category: "mangas", link: "https://amzn.to/44IhNm5", image: "https://m.media-amazon.com/images/P/2344027610.01._SCLZZZZZZZ_.jpg" },
   { id: "m_20", name: "One Piece Party - Tome 1", category: "mangas", link: "https://amzn.to/4f1UEA1", image: "https://m.media-amazon.com/images/P/2344028269.01._SCLZZZZZZZ_.jpg" },
@@ -61,6 +63,7 @@ const PRODUCTS: Product[] = [
   { id: "m_43", name: "One Piece Vivre Card - Booster Pack 10", category: "mangas", link: "https://amzn.to/44a2FxK", image: "https://m.media-amazon.com/images/P/2344071261.01._SCLZZZZZZZ_.jpg" },
   
   // Produit dérivés & Goodies
+  { id: "f_new_1", name: "SAKAMI Pendentif Porte-clés", category: "produits dérivés", link: "https://amzn.to/4axHSHU", image: "https://m.media-amazon.com/images/I/51baGK6jn-L._AC_SL1000_.jpg" },
   { id: "f_1", name: "Peluche One Piece Tony Chopper", category: "produits dérivés", link: "https://amzn.to/3QQGDgq", image: "https://m.media-amazon.com/images/P/B07QC85Y41.01._SCLZZZZZZZ_.jpg" },
   { id: "f_2", name: "Peluche One Piece Tony Chopper", category: "produits dérivés", link: "https://amzn.to/4wpdXtX", image: "https://m.media-amazon.com/images/P/B0842CBRWZ.01._SCLZZZZZZZ_.jpg" },
   { id: "f_3", name: "Figurine One Piece Sanji", category: "produits dérivés", link: "https://amzn.to/4bi6AMD", image: "https://m.media-amazon.com/images/P/B07QB8DKQT.01._SCLZZZZZZZ_.jpg" },
@@ -96,6 +99,12 @@ const PRODUCTS: Product[] = [
   { id: "f_34", name: "Funko Pop Portgas D. Ace", category: "produits dérivés", link: "https://amzn.to/3QVcexh", image: "https://m.media-amazon.com/images/P/B0198KU8PY.01._SCLZZZZZZZ_.jpg" },
   { id: "f_35", name: "Funko Pop Katakuri", category: "produits dérivés", link: "https://amzn.to/4vEiUPy", image: "https://m.media-amazon.com/images/P/B0CDJDCSDH.01._SCLZZZZZZZ_.jpg" },
   { id: "f_36", name: "Funko Pop", category: "produits dérivés", link: "https://amzn.to/4eR4Jzu", image: "https://m.media-amazon.com/images/P/B0G36FKGH6.01._SCLZZZZZZZ_.jpg" },
+   { id: "f_new_2", name: "Funko Pop Jumbo St. Jaygarcia Saturn", category: "produits dérivés", link: "https://amzn.to/4y17QxF", image: "https://m.media-amazon.com/images/I/71xfe0z2i7L._AC_SL1300_.jpg" },
+  { id: "f_new_3", name: "Funko Pop Animation Exclusivité", category: "produits dérivés", link: "https://amzn.to/3QDZtax", image: "https://m.media-amazon.com/images/I/71l2M26r2rL._AC_SL1300_.jpg" },
+  { id: "f_new_4", name: "Funko Pop Jewelry Bonney", category: "produits dérivés", link: "https://amzn.to/4fcYPKp", image: "https://m.media-amazon.com/images/I/71r67VsKLSL._AC_SL1300_.jpg" },
+  { id: "f_new_5", name: "Funko Pop Animation authentification", category: "produits dérivés", link: "https://amzn.to/4gTXTvG", image: "https://m.media-amazon.com/images/I/71aJod8yuiL._AC_SL1300_.jpg" },
+  { id: "f_new_6", name: "Lampe de bureau Chapeau de Paille", category: "produits dérivés", link: "https://amzn.to/4gTHes4", image: "https://m.media-amazon.com/images/I/81EkZSqki+L._AC_SL1500_.jpg" },
+  { id: "f_new_7", name: "Funko Pop Animation Metallic Exclusivité", category: "produits dérivés", link: "https://amzn.to/4pbGBML", image: "https://m.media-amazon.com/images/I/81Lyh6TZK9L._AC_SL1500_.jpg" },
 ];
 
 export default function Boutique() {
