@@ -386,7 +386,7 @@ export const LEVELS: Level[] = [
     hint: "Ceux qui traquent les hors-la-loi pour empocher leurs primes à travers les mers."
   },
   {
-    word: "OKAMA",
+    word: "TRAVESTI",
     charKeywords: ["Bentham (Bon Clay)", "Emporio Ivankov", "Inazuma", "Morley"],
     hint: "Les flamboyants membres de la communauté Okama et du Royaume de Kamabakka."
   },

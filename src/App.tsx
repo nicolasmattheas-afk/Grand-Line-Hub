@@ -18,6 +18,7 @@ import SocialAndCrew from "./components/SocialAndCrew";
 import BountyLeaderboard, { LeaderboardEntry } from "./components/BountyLeaderboard";
 import WEJSection from "./components/WEJSection";
 import BlogSection from "./components/BlogSection";
+import Boutique from "./components/Boutique";
 import UndercoverGame from "./components/UndercoverGame";
 import MotsCroises from "./components/MotsCroises";
 import AdSenseBanner from "./components/AdSenseBanner";
@@ -29,7 +30,7 @@ import { db } from "./lib/firebase";
 import { track } from "@vercel/analytics";
 import { 
   Trophy, Award, Compass, Swords, ArrowRightLeft, BookOpen, 
-  Sparkles, History, User, Heart, Settings, LayoutDashboard, Coins, Clock, Users, Brain, Crown, Newspaper, MessageSquare, Menu, X, ShieldAlert, Home, Sun, Moon
+  Sparkles, History, User, Heart, Settings, LayoutDashboard, Coins, Clock, Users, Brain, Crown, Newspaper, MessageSquare, Menu, X, ShieldAlert, Home, Sun, Moon, ShoppingBag
 } from "lucide-react";
 
 function getArcFromChapter(chapterStr: string): string {
@@ -545,8 +546,8 @@ export default function App() {
       });
   }, []);
   
-  // Onglets : "home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword" | "fusion" | "fourImages"
-  const [activeTab, setActiveTab] = useState<"home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword" | "fusion" | "fourImages">("home");
+  // Onglets : "home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword" | "fusion" | "fourImages" | "boutique"
+  const [activeTab, setActiveTab] = useState<"home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword" | "fusion" | "fourImages" | "boutique">("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showAuthForm, setShowAuthForm] = useState(false);
   const [infoModal, setInfoModal] = useState<"about" | "privacy" | "terms" | "legal" | "contact" | null>(null);
@@ -1700,6 +1701,16 @@ export default function App() {
             {/* Language Selector */}
             <LanguageSelector />
 
+            {/* Boutique Button */}
+            <button
+              id="boutique-toggle"
+              onClick={() => setActiveTab("boutique")}
+              className={`p-2 md:p-3 rounded-xl border transition-all cursor-pointer shrink-0 flex items-center justify-center h-10 w-10 md:h-[50px] md:w-[50px] shadow-lg active:scale-95 ${activeTab === "boutique" ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-400" : "border-white/10 bg-[#11142A]/85 hover:bg-[#1C2042]/85 text-slate-300 hover:text-white hover:border-emerald-500/40"}`}
+              title="Visiter la Boutique"
+            >
+              <ShoppingBag className={`w-4 h-4 md:w-5 md:h-5 transition-colors ${activeTab === "boutique" ? "text-emerald-400" : "text-emerald-500"}`} />
+            </button>
+
             {/* Theme Toggle Button */}
             <button
               id="theme-toggle"
@@ -2003,6 +2014,18 @@ export default function App() {
             </button>
 
             <button
+              onClick={() => { setActiveTab("boutique"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "boutique" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <ShoppingBag className="w-5 h-5 text-emerald-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Boutique</span>
+            </button>
+
+            <button
               onClick={() => { setActiveTab("dashboard"); setIsMobileMenuOpen(false); }}
               className={`p-3.5 col-span-2 rounded-xl border flex items-center justify-center gap-3 transition-all ${
                 activeTab === "dashboard" 
@@ -2259,6 +2282,18 @@ export default function App() {
               </button>
 
               <button
+                onClick={() => setActiveTab("boutique")}
+                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
+                  activeTab === "boutique" 
+                    ? "bg-violet-900 text-[#F8FAFC] border border-violet-500" 
+                    : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
+                }`}
+              >
+                <ShoppingBag className="w-3.5 h-3.5 shrink-0 text-emerald-400" />
+                <span>BOUTIQUE</span>
+              </button>
+
+              <button
                 onClick={() => setActiveTab("dashboard")}
                 className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
                   activeTab === "dashboard" 
@@ -2435,6 +2470,10 @@ export default function App() {
                 playerAvatar={playerAvatar}
               />
             )}
+
+            {activeTab === "boutique" && (
+              <Boutique />
+            )}
           </>
         )}
 
@@ -2468,6 +2507,30 @@ export default function App() {
                   </span>
                 </div>
               </div>
+            </div>
+
+            {/* Banner Boutique / Soutien */}
+            <div className="bg-amber-950/20 border border-amber-500/30 p-5 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 backdrop-blur-md">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-heading text-xl shadow-inner border border-amber-500/10 shrink-0">
+                  🛒
+                </div>
+                <div>
+                  <h3 className="font-heading font-black text-amber-100 text-sm md:text-base uppercase tracking-wider mb-1">
+                    Découvrez les Tomes et Produits dérivés One Piece
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed font-sans max-w-2xl">
+                    Envie de compléter votre collection ? Découvrez les derniers <strong>coffrets manga et produits dérivés</strong> de l'équipage en visitant notre nouvelle <button onClick={() => setActiveTab('boutique')} className="text-amber-400 font-bold hover:underline cursor-pointer">Boutique</button>. 
+                    <br/><span className="text-gray-400 italic text-[10px] mt-1 inline-block">Ces liens d'affiliation permettent de soutenir le site sans frais supplémentaires pour vous.</span>
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setActiveTab('boutique')}
+                className="bg-amber-500 hover:bg-amber-400 text-amber-950 font-heading font-black uppercase text-xs px-5 py-3 rounded-xl transition-all cursor-pointer shadow-lg hover:-translate-y-0.5 shrink-0 whitespace-nowrap text-center"
+              >
+                Explorer la Boutique
+              </button>
             </div>
 
             {/* Dynamic Banner: Connection Status / Login & Register opportunity */}
