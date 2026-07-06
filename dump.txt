@@ -1,0 +1,5 @@
+          let isLocalLegit = true;
+
+          const maxBountyByStats = (localGridWins * 200000) + (localTrackerWins * 150000) + (Number(cloudData.duelHigh || 0) * 50000) + 15000000;
+          if (localBounty > maxBountyByStats && localBounty > 20000000) {
+            console.warn(`⚠️ [Anti-Cheat] Prime locale (${localBounty} ฿) disproportionnée par rapport aux victoires de jeu (Max autorisé : ${maxBountyByStats} ฿). Reset local.`);

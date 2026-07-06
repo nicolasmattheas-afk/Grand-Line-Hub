@@ -579,7 +579,7 @@ export default function App() {
     if (rawBounty > 200000 && signature !== expectedSig) {
       // Si la signature n'existe pas du tout (migration d'un ancien compte),
       // on l'autorise s'il a des statistiques de jeu crédibles ou s'il s'agit d'une prime légitime/raisonnable (< 65M).
-      const isLegacyLegit = !signature && (rawBounty <= 65000000 || rawGridWins > 0 || rawTrackerWins > 0);
+      const isLegacyLegit = !signature && (rawBounty <= 500000000 || rawGridWins > 0 || rawTrackerWins > 0);
       
       if (isLegacyLegit) {
         console.log("[Anti-Cheat] Migration saine et génération de la première signature d'intégrité pour cet ancien compte.");
@@ -692,7 +692,7 @@ export default function App() {
         score += 700000000;
       }
       if (crewL.includes("beasts") || crewL.includes("hundred beasts") || nameL.includes("kaido")) {
-        score += 650000000;
+        score += 5000000000;
       }
       if (crewL.includes("big mom") || nameL.includes("linlin") || nameL.includes("katakuri")) {
         score += 600000000;
@@ -927,8 +927,8 @@ export default function App() {
           // 4. Ou la prime locale dépasse le plafond théorique absolu calculé par rapport aux victoires
           let isLocalLegit = true;
 
-          const maxBountyByStats = (localGridWins * 200000) + (localTrackerWins * 150000) + (Number(cloudData.duelHigh || 0) * 50000) + 15000000;
-          if (localBounty > maxBountyByStats && localBounty > 20000000) {
+          const maxBountyByStats = (localGridWins * 200000) + (localTrackerWins * 150000) + (Number(cloudData.duelHigh || 0) * 50000) + 500000000;
+          if (localBounty > maxBountyByStats && localBounty > 500000000) {
             console.warn(`⚠️ [Anti-Cheat] Prime locale (${localBounty} ฿) disproportionnée par rapport aux victoires de jeu (Max autorisé : ${maxBountyByStats} ฿). Reset local.`);
             isLocalLegit = false;
           }
@@ -942,7 +942,7 @@ export default function App() {
               const bountyDiff = localBounty - cloudBounty;
               const hasNewWins = (localGridWins > cloudGridWins) || (localTrackerWins > cloudTrackerWins);
               
-              if (!hasNewWins && bountyDiff > 150000) {
+              if (!hasNewWins && bountyDiff > 15000000) {
                 console.warn(`⚠️ [Anti-Cheat] Différence de prime locale suspecte (+${bountyDiff} ฿) sans victoires supplémentaires pour la justifier.`);
                 isLocalLegit = false;
               }
@@ -952,7 +952,7 @@ export default function App() {
           // En plus, on valide la signature d'intégrité ou la conformité d'une migration saine
           if (isLocalLegit) {
             const hasCorrectSig = (signature === expectedSig);
-            const isHealthyMigration = !signature && (localBounty <= cloudBounty || localBounty <= 65000000 || cloudGridWins > 0 || cloudTrackerWins > 0);
+            const isHealthyMigration = !signature && (localBounty <= cloudBounty || localBounty <= 500000000 || cloudGridWins > 0 || cloudTrackerWins > 0);
             
             if (!hasCorrectSig && !isHealthyMigration) {
               console.warn("⚠️ [Anti-Cheat] Signature locale d'intégrité invalide ou absente.");
@@ -1085,9 +1085,9 @@ export default function App() {
             let isLocalLegit = true;
 
             // Plafond absolu théorique de la prime basé sur les statistiques réelles
-            const maxBountyByStats = (stats.gridWins * 200000) + (stats.trackerWins * 150000) + (stats.duelHigh * 50000) + 15000000;
+            const maxBountyByStats = (stats.gridWins * 200000) + (stats.trackerWins * 150000) + (stats.duelHigh * 50000) + 500000000;
             
-            if (playerBounty > maxBountyByStats && playerBounty > 20000000) {
+            if (playerBounty > maxBountyByStats && playerBounty > 500000000) {
               console.warn(`⚠️ [Anti-Cheat] Prime locale (${playerBounty} ฿) disproportionnée par rapport aux victoires de jeu (Max autorisé : ${maxBountyByStats} ฿). Reset local.`);
               isLocalLegit = false;
             }
@@ -1102,7 +1102,7 @@ export default function App() {
                 const hasNewWins = (stats.gridWins > Number(cloudData.gridWins || 0)) || (stats.trackerWins > Number(cloudData.trackerWins || 0));
                 
                 // Si la prime augmente considérablement sans qu'aucune victoire n'ait été enregistrée localement par rapport au Cloud
-                if (!hasNewWins && bountyDiff > 150000) {
+                if (!hasNewWins && bountyDiff > 15000000) {
                   console.warn(`⚠️ [Anti-Cheat] Augmentation de prime locale suspecte (+${bountyDiff} ฿) sans nouvelles victoires.`);
                   isLocalLegit = false;
                 }
@@ -1111,7 +1111,7 @@ export default function App() {
 
             if (isLocalLegit) {
               const hasCorrectSig = (signature === expectedSig);
-              const isHealthyMigration = !signature && (playerBounty <= cloudBounty || playerBounty <= 65000000 || stats.gridWins > 0 || stats.trackerWins > 0);
+              const isHealthyMigration = !signature && (playerBounty <= cloudBounty || playerBounty <= 500000000 || stats.gridWins > 0 || stats.trackerWins > 0);
               
               if (!hasCorrectSig && !isHealthyMigration) {
                 isLocalLegit = false;

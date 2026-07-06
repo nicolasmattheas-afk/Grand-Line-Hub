@@ -279,22 +279,22 @@ export function getOfficialDevilFruitOverride(dbName: string): "Logia" | "Parame
   const simplifiedDb = dbName.split(/[([]/)[0].trim();
   const normSimplified = normalizeFruitName(simplifiedDb);
 
+  const bracketMatch = dbName.match(/\[(.*?)\]/);
+  const aliasDb = bracketMatch ? normalizeFruitName(bracketMatch[1]) : "";
+
   for (const item of OFFICIAL_FRUITS_LIST) {
     const normOfficial = normalizeFruitName(item.name);
-    if (normOfficial === normDb || normOfficial === normSimplified) {
-      if (item.fruitType === "Zoan") {
-        return item.zoanSubtype === "Zoan Mythique" ? "Zoan Mythique" : "Zoan";
-      }
-      return item.fruitType as "Logia" | "Paramecia" | "Zoan" | "Zoan Mythique";
-    }
-    // Substring contains check for safety (e.g., "Edward Newgate" in "Edward Newgate [Whitebeard]")
-    if (normDb.includes(normOfficial) && normOfficial.length >= 4) {
-      if (item.fruitType === "Zoan") {
-        return item.zoanSubtype === "Zoan Mythique" ? "Zoan Mythique" : "Zoan";
-      }
-      return item.fruitType as "Logia" | "Paramecia" | "Zoan" | "Zoan Mythique";
-    }
-    if (normOfficial.includes(normSimplified) && normSimplified.length >= 4) {
+    
+    const isMatch = 
+      normOfficial === normDb || 
+      normOfficial === normSimplified || 
+      (aliasDb && normOfficial === aliasDb) ||
+      normOfficial === "saint" + normSimplified ||
+      normSimplified === "saint" + normOfficial ||
+      normOfficial === normSimplified + "ix" ||
+      normSimplified === normOfficial + "ix";
+
+    if (isMatch) {
       if (item.fruitType === "Zoan") {
         return item.zoanSubtype === "Zoan Mythique" ? "Zoan Mythique" : "Zoan";
       }
