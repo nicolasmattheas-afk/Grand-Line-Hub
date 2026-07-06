@@ -1,0 +1,51 @@
+              }`}
+            >
+              <Home className="w-5 h-5 text-amber-400" />
+              <span className="text-xs font-heading font-extrabold tracking-wider uppercase">ACCUEIL DE L'ÉQUIPAGE & HUB</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("grid"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "grid" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Swords className="w-5 h-5 text-violet-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Grand Line Grid</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("tracker"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "tracker" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Compass className="w-5 h-5 text-emerald-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Log Pose Tracker</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("alliances"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
+                activeTab === "alliances" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <Users className="w-5 h-5 text-violet-400" />
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Alliances</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab("undercover"); setIsMobileMenuOpen(false); }}
+              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all relative ${
+                activeTab === "undercover" 
+                  ? "bg-violet-900 border-violet-500 text-white" 
+                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
+              }`}
+            >
+              <span className="absolute top-1 right-1 bg-rose-600 text-[7px] font-mono tracking-normal text-white px-1.5 py-0.5 rounded-full font-black animate-pulse shadow-md">NEW</span>

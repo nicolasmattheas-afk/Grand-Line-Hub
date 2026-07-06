@@ -920,32 +920,15 @@ export default function App() {
           const cloudGridWins = Number(cloudData.gridWins || 0);
           const cloudTrackerWins = Number(cloudData.trackerWins || 0);
 
-          // Validation anti-triche renforcée : l'état local ne peut pas écraser la vérité du Cloud si :
-          // 1. L'administrateur a réinitialisé la prime à 0 sur Firestore (cloudBounty === 0)
-          // 2. Ou la prime locale est supérieure mais aucune nouvelle victoire locale ne justifie cette augmentation
-          // 3. Ou l'augmentation dépasse les gains possibles par rapport au nombre de victoires (max 150 000 B par différence)
-          // 4. Ou la prime locale dépasse le plafond théorique absolu calculé par rapport aux victoires
+          // Validation anti-triche : on garde seulement la vérif admin (tous les modes sont égaux, pas de plafond par mode principal)
+          
           let isLocalLegit = true;
-
-          const maxBountyByStats = (localGridWins * 200000) + (localTrackerWins * 150000) + (Number(cloudData.duelHigh || 0) * 50000) + 500000000;
-          if (localBounty > maxBountyByStats && localBounty > 500000000) {
-            console.warn(`⚠️ [Anti-Cheat] Prime locale (${localBounty} ฿) disproportionnée par rapport aux victoires de jeu (Max autorisé : ${maxBountyByStats} ฿). Reset local.`);
-            isLocalLegit = false;
-          }
 
           if (isLocalLegit && localBounty > cloudBounty) {
             if (cloudBounty === 0 && localBounty > 200000) {
               // Reset administratif du Cloud à 0, l'état local doit s'y conformer et ne doit pas essayer d'écraser
               console.warn("⚠️ [Anti-Cheat] La prime sur le Cloud a été réinitialisée à 0 par un administrateur. Alignement de la session.");
               isLocalLegit = false;
-            } else {
-              const bountyDiff = localBounty - cloudBounty;
-              const hasNewWins = (localGridWins > cloudGridWins) || (localTrackerWins > cloudTrackerWins);
-              
-              if (!hasNewWins && bountyDiff > 15000000) {
-                console.warn(`⚠️ [Anti-Cheat] Différence de prime locale suspecte (+${bountyDiff} ฿) sans victoires supplémentaires pour la justifier.`);
-                isLocalLegit = false;
-              }
             }
           }
 
@@ -1082,30 +1065,16 @@ export default function App() {
             const signature = localStorage.getItem("playerStateSignature");
             const expectedSig = generateStateSignature(playerBounty, playerUsername, stats.gridWins, stats.trackerWins);
             
-            let isLocalLegit = true;
-
-            // Plafond absolu théorique de la prime basé sur les statistiques réelles
-            const maxBountyByStats = (stats.gridWins * 200000) + (stats.trackerWins * 150000) + (stats.duelHigh * 50000) + 500000000;
             
-            if (playerBounty > maxBountyByStats && playerBounty > 500000000) {
-              console.warn(`⚠️ [Anti-Cheat] Prime locale (${playerBounty} ฿) disproportionnée par rapport aux victoires de jeu (Max autorisé : ${maxBountyByStats} ฿). Reset local.`);
-              isLocalLegit = false;
-            }
+
+            let isLocalLegit = true;
+            
 
             if (isLocalLegit && playerBounty > cloudBounty) {
               if (cloudBounty === 0 && playerBounty > 200000) {
                 // Reset administratif détecté sur le Cloud
                 console.warn("⚠️ [Anti-Cheat] Reset administratif à 0 détecté sur le Cloud. Sauvegarde locale annulée.");
                 isLocalLegit = false;
-              } else {
-                const bountyDiff = playerBounty - cloudBounty;
-                const hasNewWins = (stats.gridWins > Number(cloudData.gridWins || 0)) || (stats.trackerWins > Number(cloudData.trackerWins || 0));
-                
-                // Si la prime augmente considérablement sans qu'aucune victoire n'ait été enregistrée localement par rapport au Cloud
-                if (!hasNewWins && bountyDiff > 15000000) {
-                  console.warn(`⚠️ [Anti-Cheat] Augmentation de prime locale suspecte (+${bountyDiff} ฿) sans nouvelles victoires.`);
-                  isLocalLegit = false;
-                }
               }
             }
 
@@ -1238,7 +1207,7 @@ export default function App() {
 
       const delayDebounce = setTimeout(() => {
         saveUserDataToCloud();
-      }, 2000);
+      }, 3000);
 
       return () => clearTimeout(delayDebounce);
     }
@@ -1252,7 +1221,6 @@ export default function App() {
     // --- CONTRÔLE ANTI-TRICHE 1: VALEUR MAX DE GAIN PAR TRANSACTION ---
     const isSecretDuelBonus = amount === 20000000;
     const maxNormalReward = 110000; // UndercoverGame donne 100 000 Berries max
-
     if (amount > maxNormalReward && !isSecretDuelBonus) {
       console.error(`⚠️ [Anti-Cheat] Transaction de prime illégale rejetée : +${amount} ฿ pour ${gameTypeStr}.`);
       return;
