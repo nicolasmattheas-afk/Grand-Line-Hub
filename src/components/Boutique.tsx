@@ -14,6 +14,11 @@ interface Product {
 }
 
 const PRODUCTS: Product[] = [
+  // Nouveautés
+  { id: "m_new_1", name: "One Piece Édition Originale - Tome 114", category: "mangas", link: "https://amzn.to/4vjdmcv", image: "https://m.media-amazon.com/images/P/234407113X.01._SCLZZZZZZZ_.jpg", price: "NOUVEAU" },
+  { id: "m_new_2", name: "One Piece Édition Originale - Tome 113", category: "mangas", link: "https://amzn.to/3SIrZs9", image: "https://m.media-amazon.com/images/P/2344071121.01._SCLZZZZZZZ_.jpg", price: "NOUVEAU" },
+  { id: "m_new_3", name: "One Piece Édition Originale - Tome 109", category: "mangas", link: "https://amzn.to/4viYgDM", image: "https://m.media-amazon.com/images/P/2344068929.01._SCLZZZZZZZ_.jpg", price: "NOUVEAU" },
+
   // Mangas (Coffrets)
   { id: "c1", name: "Coffret 1 : East Blue (Tomes 1 à 12)", category: "mangas", link: "https://amzn.to/3RfOF2v", image: "https://m.media-amazon.com/images/P/2344050124.01._SCLZZZZZZZ_.jpg" },
   { id: "c2", name: "Coffret 2 : Alabasta (Tomes 13 à 23)", category: "mangas", link: "https://amzn.to/4bmQamd", image: "https://m.media-amazon.com/images/P/2344052003.01._SCLZZZZZZZ_.jpg" },

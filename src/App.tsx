@@ -2017,7 +2017,7 @@ export default function App() {
               }`}
             >
               <ShoppingBag className="w-5 h-5 text-emerald-400" />
-              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase">Boutique</span>
+              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase flex items-center justify-center gap-1.5 w-full"><span>Boutique</span><span className="text-[8px] bg-pink-500 text-white px-1.5 py-0.5 rounded font-mono font-bold animate-pulse tracking-normal">NEW</span></span>
             </button>
 
             <button
@@ -2291,7 +2291,7 @@ export default function App() {
                 }`}
               >
                 <ShoppingBag className="w-3.5 h-3.5 shrink-0 text-emerald-400" />
-                <span>BOUTIQUE</span>
+                <span className="flex items-center gap-2"><span>BOUTIQUE</span><span className="text-[8px] bg-pink-500 text-white px-1.5 py-0.5 rounded font-mono font-bold animate-pulse tracking-normal">NEW</span></span>
               </button>
 
               <button
@@ -2307,6 +2307,17 @@ export default function App() {
               </button>
             </nav>
  
+            <div className="hidden md:block pt-4 border-t border-white/10 mt-4 px-3">
+              <a href="https://amzn.to/4vjdmcv" target="_blank" rel="noopener noreferrer" className="block relative group overflow-hidden rounded-xl border border-amber-500/30 hover:border-amber-400 transition-all hover:shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
+                <img src="https://m.media-amazon.com/images/P/234407113X.01._SCLZZZZZZZ_.jpg" alt="One Piece Tome 114" className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500 aspect-[2/3]" />
+                <div className="absolute bottom-0 left-0 w-full p-2.5 z-20">
+                  <span className="text-[9px] bg-amber-500 text-amber-950 font-black px-1.5 py-0.5 rounded uppercase tracking-wider mb-1 block w-fit">Précommande</span>
+                  <p className="text-white text-xs font-bold leading-tight font-heading group-hover:text-amber-400 transition-colors">One Piece - Tome 114</p>
+                </div>
+              </a>
+            </div>
+
             <div className="hidden md:block pt-6 border-t border-white/10 mt-6 space-y-4">
               <span className="text-[10px] uppercase font-mono tracking-widest text-violet-400 font-extrabold px-3 block">
                 Rang & Progression
