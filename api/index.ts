@@ -21,6 +21,32 @@ import {
   limit
 } from "firebase/firestore";
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || "smtp.gmail.com",
+  port: Number(process.env.SMTP_PORT) || 587,
+  secure: false,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
+
+
+
+function notifyAdmin(subject, text) {
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    console.warn("SMTP credentials not set, email will not be sent:", subject);
+    return;
+  }
+  transporter.sendMail({
+    from: process.env.SMTP_USER,
+    to: ADMIN_EMAIL,
+    subject: subject,
+    text: text
+  }).catch(e => console.error("Email send failed:", e));
+}
 
 // Charge les variables d'environnement
 dotenv.config();
@@ -940,6 +966,10 @@ app.post("/api/blog/create", async (req, res) => {
     };
 
     await setDoc(newPostRef, newPost);
+    notifyAdmin(
+      `Nouveau ${newPost.type === 'bug' ? 'Bug' : 'Message'} sur le Blog Grand Line`, 
+      `${newPost.authorName} (${newPost.authorEmail}) a publié :\n\nTitre: ${newPost.title}\n\nMessage: ${newPost.content}`
+    );
     res.json({ success: true, postId: newPostRef.id, post: newPost });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -976,7 +1006,10 @@ app.post("/api/blog/reply", async (req, res) => {
       secretPasskey: "wej-blog-backend-secret-authorized-2026",
       updatedAt: serverTimestamp(),
     });
-
+    notifyAdmin(
+      `Nouvelle réponse sur le Blog Grand Line`,
+      `${newReply.authorName} (${newReply.authorEmail}) a répondu à un message.\n\nRéponse : ${newReply.content}`
+    );
     res.json({ success: true, reply: newReply });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
