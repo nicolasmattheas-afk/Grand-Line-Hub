@@ -2009,18 +2009,6 @@ export default function App() {
             </button>
 
             <button
-              onClick={() => { setActiveTab("boutique"); setIsMobileMenuOpen(false); }}
-              className={`p-3.5 rounded-xl border flex flex-col items-center justify-center text-center gap-2 transition-all ${
-                activeTab === "boutique" 
-                  ? "bg-violet-900 border-violet-500 text-white" 
-                  : "bg-white/5 border-white/5 text-slate-300 hover:bg-white/10"
-              }`}
-            >
-              <ShoppingBag className="w-5 h-5 text-emerald-400" />
-              <span className="text-[10px] font-heading font-extrabold tracking-wider uppercase flex items-center justify-center gap-1.5 w-full"><span>Boutique</span><span className="text-[8px] bg-pink-500 text-white px-1.5 py-0.5 rounded font-mono font-bold animate-pulse tracking-normal">NEW</span></span>
-            </button>
-
-            <button
               onClick={() => { setActiveTab("dashboard"); setIsMobileMenuOpen(false); }}
               className={`p-3.5 col-span-2 rounded-xl border flex items-center justify-center gap-3 transition-all ${
                 activeTab === "dashboard" 
@@ -2075,6 +2063,18 @@ export default function App() {
               >
                 <Home className="w-3.5 h-3.5 shrink-0 text-amber-400" />
                 <span>ACCUEIL & HUB</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab("boutique")}
+                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
+                  activeTab === "boutique" 
+                    ? "bg-violet-900 text-[#F8FAFC] border border-violet-500" 
+                    : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
+                }`}
+              >
+                <ShoppingBag className="w-3.5 h-3.5 shrink-0 text-emerald-400" />
+                <span className="flex items-center gap-2"><span>BOUTIQUE</span><span className="text-[8px] bg-emerald-500 text-white px-1.5 py-0.5 rounded font-mono font-bold animate-pulse tracking-normal">NEW</span></span>
               </button>
 
               <button
@@ -2280,18 +2280,6 @@ export default function App() {
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
                   </span>
                 )}
-              </button>
-
-              <button
-                onClick={() => setActiveTab("boutique")}
-                className={`px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-[10px] md:text-[11px] font-heading font-extrabold tracking-widest uppercase transition-all flex items-center gap-2.5 shrink-0 cursor-pointer w-auto md:w-full md:justify-start ${
-                  activeTab === "boutique" 
-                    ? "bg-violet-900 text-[#F8FAFC] border border-violet-500" 
-                    : "text-slate-400 hover:text-white hover:bg-white/5 bg-transparent border border-transparent"
-                }`}
-              >
-                <ShoppingBag className="w-3.5 h-3.5 shrink-0 text-emerald-400" />
-                <span className="flex items-center gap-2"><span>BOUTIQUE</span><span className="text-[8px] bg-pink-500 text-white px-1.5 py-0.5 rounded font-mono font-bold animate-pulse tracking-normal">NEW</span></span>
               </button>
 
               <button
