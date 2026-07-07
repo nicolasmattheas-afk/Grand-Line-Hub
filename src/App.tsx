@@ -1,3 +1,5 @@
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import GameWrapper from "./components/GameWrapper";
 import React, { useState, useEffect, useMemo } from "react";
 import { getOfficialDevilFruitOverride } from "./data/official_fruits";
 import { FEMALE_NAMES } from "./data/femaleNames";
@@ -547,7 +549,16 @@ export default function App() {
   }, []);
   
   // Onglets : "home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword" | "fusion" | "fourImages" | "boutique"
-  const [activeTab, setActiveTab] = useState<"home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword" | "fusion" | "fourImages" | "boutique">("home");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const activeTabRaw = location.pathname.slice(1);
+  const validTabs = ["home", "grid", "tracker", "duel", "encyclopedia", "dashboard", "crew", "pirateShadow", "timeline", "bountyTarget", "alliances", "leaderboard", "wej", "blog", "pyramid", "undercover", "crossword", "fusion", "fourImages", "boutique"];
+  const activeTab = validTabs.includes(activeTabRaw) ? activeTabRaw : "home";
+  
+  const setActiveTab = (tab: string) => {
+    navigate(`/${tab}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const [hasNewBlogMessage, setHasNewBlogMessage] = useState(false);
 
@@ -2342,28 +2353,34 @@ export default function App() {
             <AdSenseBanner key={`upper-${activeTab}`} slot="1853909559" format="horizontal" className="mb-6" />
 
             {activeTab === "grid" && (
-              <GrandLineGrid 
+              <GameWrapper gameId="grid" title="Grand Line Grid">
+                <GrandLineGrid 
                 characters={charactersDatabaseAllGamesFiltered} 
                 globalBounty={playerBounty} 
                 playerUsername={playerUsername}
                 playerAvatar={playerAvatar}
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Grand Line Grid")} 
               />
+              </GameWrapper>
             )}
 
             {activeTab === "tracker" && (
-              <LogPoseTracker 
+              <GameWrapper gameId="tracker" title="Log Pose Tracker">
+                <LogPoseTracker 
                 characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Log Pose Tracker")} 
               />
+              </GameWrapper>
             )}
 
             {activeTab === "duel" && (
-              <BountyDuel 
+              <GameWrapper gameId="duel" title="Bounty Duel">
+                <BountyDuel 
                 characters={charactersDatabaseFiltered} 
                 globalBounty={playerBounty} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Bounty Duel", "Aptitude")} 
               />
+              </GameWrapper>
             )}
 
             {activeTab === "encyclopedia" && (
@@ -2371,67 +2388,85 @@ export default function App() {
             )}
 
             {activeTab === "pyramid" && (
-              <PiratePyramid 
+              <GameWrapper gameId="pyramid" title="Pyramide">
+                <PiratePyramid 
                 characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Pyramide")}
               />
+              </GameWrapper>
             )}
 
             {activeTab === "pirateShadow" && (
-              <PirateShadow 
+              <GameWrapper gameId="pirateShadow" title="L\'ombre du pirate">
+                <PirateShadow 
                 characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "L'ombre du pirate")}
               />
+              </GameWrapper>
             )}
 
             {activeTab === "fusion" && (
-              <CharacterFusion 
+              <GameWrapper gameId="fusion" title="Fusion Mystère">
+                <CharacterFusion 
                 characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Fusion Mystère")}
               />
+              </GameWrapper>
             )}
 
             {activeTab === "fourImages" && (
-              <FourImagesOneWord 
+              <GameWrapper gameId="fourImages" title="4 Pirates, 1 Mot">
+                <FourImagesOneWord 
                 characters={charactersDatabaseFiltered} 
                 playerBounty={playerBounty}
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "4 Pirates, 1 Mot")}
               />
+              </GameWrapper>
             )}
 
             {activeTab === "timeline" && (
-              <PirateTimeline 
+              <GameWrapper gameId="timeline" title="Chronologie Pirate">
+                <PirateTimeline 
                 characters={top500CharactersFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Chronologie Pirate")}
               />
+              </GameWrapper>
             )}
 
             {activeTab === "bountyTarget" && (
-              <BountyTargetGame 
+              <GameWrapper gameId="bountyTarget" title="Cible de Primes">
+                <BountyTargetGame 
                 characters={charactersDatabaseAllGamesFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Cible de Primes")}
               />
+              </GameWrapper>
             )}
 
             {activeTab === "alliances" && (
-              <SecretAlliances 
+              <GameWrapper gameId="alliances" title="Alliances Secrètes">
+                <SecretAlliances 
                 characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Alliances Secrètes")}
               />
+              </GameWrapper>
             )}
 
             {activeTab === "undercover" && (
-              <UndercoverGame 
+              <GameWrapper gameId="undercover" title="Mission Undercover">
+                <UndercoverGame 
                 characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "Mission Undercover")}
               />
+              </GameWrapper>
             )}
 
             {activeTab === "crossword" && (
-              <MotsCroises 
+              <GameWrapper gameId="crossword" title="Mots Croisés">
+                <MotsCroises 
                 globalBounty={playerBounty}
                 onUpdateBounty={(amt) => handleUpdateBounty(amt)}
               />
+              </GameWrapper>
             )}
 
             {activeTab === "leaderboard" && (
@@ -2634,10 +2669,10 @@ export default function App() {
                 {PROPOSED_GAMES.map((game) => {
                   const IconComponent = game.icon;
                   return (
-                    <div 
+                    <Link 
                       key={game.id}
-                      onClick={() => setActiveTab(game.id as any)}
-                      className="bg-[#151838] border border-violet-500/25 hover:border-violet-400 rounded-2xl p-5 hover:bg-[#1c2049] transition-all duration-300 cursor-pointer group flex flex-col justify-between hover:-translate-y-1 relative overflow-hidden shadow-lg shadow-black/40 hover:shadow-violet-900/30 animate-in fade-in duration-200"
+                      to={`/${game.id}`}
+                      className="bg-[#151838] border border-violet-500/25 hover:border-violet-400 rounded-2xl p-5 hover:bg-[#1c2049] transition-all duration-300 cursor-pointer group flex flex-col justify-between hover:-translate-y-1 relative overflow-hidden shadow-lg shadow-black/40 hover:shadow-violet-900/30 animate-in fade-in duration-200 block"
                     >
                       <div className="space-y-3">
                         <div className="flex items-start justify-between">
@@ -2670,7 +2705,7 @@ export default function App() {
                           LANCER L'AVENTURE ⚔️
                         </span>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
