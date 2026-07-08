@@ -22,6 +22,7 @@ export default function CharacterFusion({ characters, onUpdateBounty }: Characte
   const mixMode = "multiply";
   const useParchmentBg = true;
   const [revealed, setRevealed] = useState<boolean>(false);
+  const isProcessingRef = useRef(false);
 
   // Suggestions state for the 3 input fields
   const [activeInputIndex, setActiveInputIndex] = useState<number | null>(null);
@@ -250,7 +251,9 @@ export default function CharacterFusion({ characters, onUpdateBounty }: Characte
 
   // Verifying the player guesses
   const handleGuess = () => {
+    if (submitted || isProcessingRef.current) return;
     if (guesses.some(g => !g.trim())) return;
+    isProcessingRef.current = true;
 
     // We have 3 guesses and 3 targets. Let's find if we can form a perfect 1-to-1 match.
     const checkSingleMatch = (guess: string, target: Character) => {

@@ -18,6 +18,7 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number>(0);
   const [guesses, setGuesses] = useState<Character[]>([]);
   const [gameOver, setGameOver] = useState(false);
+  const isProcessingRef = useRef(false);
   const [hasWon, setHasWon] = useState(false);
   const [showCheatHint, setShowCheatHint] = useState(false);
   const [showClue, setShowClue] = useState(false);
@@ -116,7 +117,8 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
 
   // Soumettre une proposition
   const submitGuess = (char: Character) => {
-    if (gameOver || guesses.some(g => g.id === char.id)) return;
+    if (gameOver || isProcessingRef.current || guesses.some(g => g.id === char.id)) return;
+    isProcessingRef.current = true;
 
     const newGuesses = [char, ...guesses]; // Ordre inverse pour voir le plus récent en haut
     setGuesses(newGuesses);
@@ -136,6 +138,8 @@ export default function LogPoseTracker({ characters, onUpdateBounty }: LogPoseTr
       setHasWon(false);
       setGameOver(true);
       onUpdateBounty(penalty); // Retrait dynamique si perdu
+    } else {
+      isProcessingRef.current = false;
     }
   };
 

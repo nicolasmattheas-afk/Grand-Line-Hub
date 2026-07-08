@@ -173,6 +173,7 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
 
   // Verify
   const handleVerify = (customSelected?: (Character | null)[]) => {
+    if (hasChecked) return;
     const listToCheck = customSelected || selectedChars;
     const activeCount = listToCheck.filter(Boolean).length;
     if (activeCount < gameSize) return;

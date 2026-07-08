@@ -22,6 +22,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
   
   // State for total scores
   const [scores, setScores] = useState({ wins: 0, losses: 0 });
+  const isProcessingRef = useRef(false);
 
   // Handle click outside suggestions to close them
   useEffect(() => {
@@ -151,7 +152,8 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
   }, [guessInput]);
 
   const selectSuggestion = (chosenChar: Character) => {
-    if (!targetChar || revealed) return;
+    if (!targetChar || revealed || isProcessingRef.current) return;
+    isProcessingRef.current = true;
 
     const isCorrect = chosenChar.id === targetChar.id || normalize(chosenChar.name) === normalize(targetChar.name);
 
@@ -163,6 +165,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
       setGuessInput("");
       setShowSuggestions(false);
     } else {
+      isProcessingRef.current = false;
       const nextErrors = errors + 1;
       setErrors(nextErrors);
       setGuessInput("");
@@ -177,7 +180,8 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
   };
 
   const verifyGuess = () => {
-    if (!targetChar || revealed) return;
+    if (!targetChar || revealed || isProcessingRef.current) return;
+    isProcessingRef.current = true;
 
     const userNormalized = normalize(guessInput);
     if (!userNormalized) return;
@@ -206,6 +210,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
       setGuessInput("");
       setShowSuggestions(false);
     } else {
+      isProcessingRef.current = false;
       const nextErrors = errors + 1;
       setErrors(nextErrors);
       setGuessInput("");

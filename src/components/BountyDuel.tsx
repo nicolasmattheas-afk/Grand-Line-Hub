@@ -145,11 +145,6 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
       if (newStreak >= pool.length - 1 && pool.length > 2) {
         setTimeout(() => {
           setShowWinModal(true);
-          const hasReceivedBonus = localStorage.getItem("hasCompletedBountyDuelSecretBonus") === "true";
-          if (!hasReceivedBonus) {
-            onUpdateBounty(20000000); // Bonus secret de 20M Berries
-            localStorage.setItem("hasCompletedBountyDuelSecretBonus", "true");
-          }
         }, 1200);
       } else {
         // On continue d'enchaîner après un bref délai pour laisser voir la magnifique animation violette !
@@ -503,12 +498,7 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
                   Vous avez déchiffré l'intégralité du <strong className="text-white">Bounty Duel</strong> ! Votre connaissance absolue des primes de Grand Line sans faire la moindre erreur force le respect de tous les Empereurs des mers !
                 </p>
 
-                <div className="mb-8 p-4 bg-violet-950/40 border border-violet-800 rounded-2xl text-center shadow-inner">
-                  <span className="text-[10px] text-pink-400 font-heading font-black uppercase block tracking-widest mb-1">🎁 PRIME SECRÈTE DE L'EXPLOIT 🎁</span>
-                  <span className="text-2xl font-mono font-black text-emerald-400 tracking-wider">
-                    + ฿ 20 000 000
-                  </span>
-                </div>
+
 
                 <p className="text-[10px] text-gray-400 mb-6 font-mono uppercase tracking-widest">
                   Vous avez atteint le sommet de Grand Line !
