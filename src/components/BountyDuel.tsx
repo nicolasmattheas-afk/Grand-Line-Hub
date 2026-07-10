@@ -143,6 +143,10 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
 
       // Si l'utilisateur a réussi à faire tout le pool sans la moindre erreur !
       if (newStreak >= pool.length - 1 && pool.length > 2) {
+        const totalGains = newStreak * 500;
+        if (totalGains > 0) {
+          onUpdateBounty(totalGains);
+        }
         setTimeout(() => {
           setShowWinModal(true);
         }, 1200);
