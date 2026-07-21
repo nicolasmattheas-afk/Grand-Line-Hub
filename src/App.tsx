@@ -27,6 +27,8 @@ import AdSenseBanner from "./components/AdSenseBanner";
 import CharacterFusion from "./components/CharacterFusion";
 import FourImagesOneWord from "./components/FourImagesOneWord";
 import { LanguageSelector } from "./components/LanguageSelector";
+import CharacterPage from "./components/CharacterPage";
+import { PrivacyPage, TermsPage, AboutPage, ContactPage, LegalPage } from "./components/StaticPages";
 import { collection, getDocs, doc, updateDoc, getDoc, query, orderBy, limit, getCountFromServer, serverTimestamp, onSnapshot } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { track } from "@vercel/analytics";
@@ -548,11 +550,12 @@ export default function App() {
       });
   }, []);
   
-  // Onglets : "home" | "grid" | "tracker" | "duel" | "encyclopedia" | "dashboard" | "crew" | "pirateShadow" | "timeline" | "bountyTarget" | "alliances" | "leaderboard" | "wej" | "blog" | "pyramid" | "undercover" | "crossword" | "fusion" | "fourImages" | "boutique"
   const location = useLocation();
   const navigate = useNavigate();
-  const activeTabRaw = location.pathname.slice(1);
-  const validTabs = ["home", "grid", "tracker", "duel", "encyclopedia", "dashboard", "crew", "pirateShadow", "timeline", "bountyTarget", "alliances", "leaderboard", "wej", "blog", "pyramid", "undercover", "crossword", "fusion", "fourImages", "boutique"];
+  const pathParts = location.pathname.slice(1).split("/");
+  const activeTabRaw = pathParts[0];
+  const activeSubPath = pathParts[1] || "";
+  const validTabs = ["home", "grid", "tracker", "duel", "encyclopedia", "dashboard", "crew", "pirateShadow", "timeline", "bountyTarget", "alliances", "leaderboard", "wej", "blog", "pyramid", "undercover", "crossword", "fusion", "fourImages", "boutique", "character", "privacy", "terms", "about", "contact", "legal"];
   const activeTab = validTabs.includes(activeTabRaw) ? activeTabRaw : "home";
   
   const setActiveTab = (tab: string) => {
@@ -1374,17 +1377,7 @@ export default function App() {
       const path = window.location.pathname;
       const searchParams = new URLSearchParams(window.location.search);
       
-      if (path === "/privacy") {
-        setInfoModal("privacy");
-      } else if (path === "/legal") {
-        setInfoModal("legal");
-      } else if (path === "/terms" || path === "/cgu") {
-        setInfoModal("terms");
-      } else if (path === "/about") {
-        setInfoModal("about");
-      } else if (path === "/contact") {
-        setInfoModal("contact");
-      } else if (path === "/wej" || path.startsWith("/wej")) {
+      if (path === "/wej" || path.startsWith("/wej")) {
         setActiveTab("wej");
         const articleId = searchParams.get("id") || path.split("/")[2];
         if (articleId) {
@@ -1393,8 +1386,6 @@ export default function App() {
         }
       } else if (path === "/blog") {
         setActiveTab("blog");
-      } else if (path === "/") {
-        setInfoModal(null);
       }
     };
 
@@ -2387,6 +2378,16 @@ export default function App() {
               <Encyclopedie characters={charactersDatabase} />
             )}
 
+            {activeTab === "character" && (
+              <CharacterPage characters={charactersDatabase} characterId={activeSubPath} />
+            )}
+
+            {activeTab === "privacy" && <PrivacyPage />}
+            {activeTab === "terms" && <TermsPage />}
+            {activeTab === "about" && <AboutPage />}
+            {activeTab === "contact" && <ContactPage />}
+            {activeTab === "legal" && <LegalPage />}
+
             {activeTab === "pyramid" && (
               <GameWrapper gameId="pyramid" title="Pyramide">
                 <PiratePyramid 
@@ -2530,6 +2531,9 @@ export default function App() {
                   </h2>
                   <p className="text-xs md:text-sm text-slate-300 max-w-2xl font-medium leading-relaxed">
                     Le portail suprême de divertissement et de logique pour tous les pirates d'One Piece. Défiez les combats, résolvez les mystères du Log Pose, démasquez les infiltrés et faites grimper votre notoriété universelle !
+                  </p>
+                  <p className="text-[10px] md:text-xs text-slate-400 max-w-2xl mt-2 font-medium leading-relaxed hidden md:block">
+                    Contrairement à un Wiki classique, Grand Line Hub est une plateforme interactive avec des <strong>jeux de stratégie, d'énigmes et de logique sur l'univers de Luffy et de son équipage</strong>. Consultez notre <button onClick={() => setActiveTab('encyclopedia')} className="text-violet-400 hover:underline">encyclopédie de pirates</button> (avec plus de 1000 fiches et rapports exclusifs de la Marine) pour affuter vos connaissances avant de lancer vos duels !
                   </p>
                 </div>
                 <div className="bg-[#10142C]/90 p-5 rounded-2xl border border-violet-500/20 shadow-lg text-center shrink-0 min-w-[200px]">
@@ -3420,7 +3424,7 @@ export default function App() {
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-slate-300 font-medium">
             <a 
               href="/about"
-              onClick={(e) => { e.preventDefault(); setInfoModal("about"); window.history.pushState(null, "", "/about"); }} 
+              onClick={(e) => { e.preventDefault(); setActiveTab("about"); }} 
               className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
             >
               Qui sommes-nous
@@ -3428,7 +3432,7 @@ export default function App() {
             <span className="text-slate-700 hidden sm:inline">|</span>
             <a 
               href="/legal"
-              onClick={(e) => { e.preventDefault(); setInfoModal("legal"); window.history.pushState(null, "", "/legal"); }} 
+              onClick={(e) => { e.preventDefault(); setActiveTab("legal"); }} 
               className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
             >
               Mentions Légales
@@ -3436,7 +3440,7 @@ export default function App() {
             <span className="text-slate-700 hidden sm:inline">|</span>
             <a 
               href="/terms"
-              onClick={(e) => { e.preventDefault(); setInfoModal("terms"); window.history.pushState(null, "", "/terms"); }} 
+              onClick={(e) => { e.preventDefault(); setActiveTab("terms"); }} 
               className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
             >
               Conditions d'Utilisation (CGU)
@@ -3444,7 +3448,7 @@ export default function App() {
             <span className="text-slate-700 hidden sm:inline">|</span>
             <a 
               href="/privacy"
-              onClick={(e) => { e.preventDefault(); setInfoModal("privacy"); window.history.pushState(null, "", "/privacy"); }} 
+              onClick={(e) => { e.preventDefault(); setActiveTab("privacy"); }} 
               className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
             >
               Confidentialité & RGPD
@@ -3452,7 +3456,7 @@ export default function App() {
             <span className="text-slate-700 hidden sm:inline">|</span>
             <a 
               href="/contact"
-              onClick={(e) => { e.preventDefault(); setInfoModal("contact"); window.history.pushState(null, "", "/contact"); }} 
+              onClick={(e) => { e.preventDefault(); setActiveTab("contact"); }} 
               className="hover:text-amber-400 transition-colors uppercase tracking-wider text-[11px]"
             >
               Contact / Support

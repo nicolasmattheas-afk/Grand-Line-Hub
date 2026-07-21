@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { Character } from "../types";
 import { Search, Filter, ShieldCheck, HelpCircle, Compass, Anchor, User, Bookmark, Swords, X, Trophy, Flame } from "lucide-react";
+import { Link } from "react-router-dom";
 import { LUFFY_BATTLES } from "../data/luffyBattles";
 import { getNotranslateClass } from "../lib/translate";
 import { handleImageError } from "../lib/images";
@@ -284,9 +285,10 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
       {/* Grille de fiches Wanted */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {paginatedCharacters.map((char) => (
-          <div 
+          <Link 
+            to={`/character/${char.id}`}
             key={char.id} 
-            className="bg-white border-2 border-black hover:border-[#8b5cf6] rounded-3xl p-4 shadow-3xs hover:-translate-y-1 transition-all duration-300 relative group overflow-hidden"
+            className="bg-white border-2 border-black hover:border-[#8b5cf6] rounded-3xl p-4 shadow-3xs hover:-translate-y-1 transition-all duration-300 relative group overflow-hidden block"
           >
             {/* Antique style WANTED detail */}
             <div className="border border-[#E5E7EB] p-3 rounded-2xl bg-[#FAFAFA] flex flex-col h-full justify-between">
@@ -369,7 +371,7 @@ export default function Encyclopedie({ characters }: EncyclopedieProps) {
             <div className="absolute -top-3 -right-3 w-10 h-10 bg-slate-900/5 rotate-12 flex items-center justify-center font-heading text-xs uppercase font-black tracking-widest text-[#443525] select-none">
               OP
             </div>
-          </div>
+          </Link>
         ))}
 
         {filteredCharacters.length === 0 && (
