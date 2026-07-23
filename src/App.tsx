@@ -2398,7 +2398,7 @@ export default function App() {
             )}
 
             {activeTab === "pirateShadow" && (
-              <GameWrapper gameId="pirateShadow" title="L\'ombre du pirate">
+              <GameWrapper gameId="pirateShadow" title="L'ombre du pirate">
                 <PirateShadow 
                 characters={charactersDatabaseFiltered} 
                 onUpdateBounty={(amt) => handleUpdateBounty(amt, "L'ombre du pirate")}
