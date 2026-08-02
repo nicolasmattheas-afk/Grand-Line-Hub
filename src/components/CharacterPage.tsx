@@ -115,7 +115,7 @@ export default function CharacterPage({ characters, characterId }: CharacterPage
                   </p>
                   <p className="text-slate-800 leading-relaxed text-base font-medium whitespace-pre-wrap font-sans">
                     <strong>Sujet d'observation :</strong> {character.name}<br/>
-                    <strong>Statut d'activité :</strong> {character.status === 'Alive' ? 'En circulation - À appréhender' : character.status === 'Deceased' ? 'Décédé(e)' : 'Inconnu'}<br/>
+                    <strong>Statut d'activité :</strong> {(character.status as string) === 'Vivant' || (character.status as string) === 'Alive' ? 'En circulation - À appréhender' : (character.status as string) === 'Décédé' || (character.status as string) === 'Deceased' ? 'Décédé(e)' : 'Inconnu'}<br/>
                     <strong>Menace financière évaluée :</strong> {character.bounty ? `฿ ${character.bounty.toLocaleString("fr-FR").replace(/\u202f/g, " ")}` : 'Non applicable / Cachée'}<br/>
                     <br/>
                     <span className="text-slate-600 italic">Extrait du dossier n°{character.id.substring(0,8).toUpperCase()} :</span><br/>
@@ -149,7 +149,7 @@ export default function CharacterPage({ characters, characterId }: CharacterPage
                 </div>
                 <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
                   <span className="block text-[9px] uppercase tracking-widest text-slate-400 font-bold mb-1">Statut Actuel</span>
-                  <span className="font-bold text-sm text-slate-800">{character.status === "Alive" ? "En vie" : character.status === "Deceased" ? "Décédé(e)" : "Inconnu"}</span>
+                  <span className="font-bold text-sm text-slate-800">{(character.status as string) === "Vivant" || (character.status as string) === "Alive" ? "En vie" : (character.status as string) === "Décédé" || (character.status as string) === "Deceased" ? "Décédé(e)" : "Inconnu"}</span>
                 </div>
               </div>
             </div>
