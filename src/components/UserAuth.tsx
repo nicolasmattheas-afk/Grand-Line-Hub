@@ -215,19 +215,18 @@ export default function UserAuth({
           return;
         }
         
-        // Charger les statistiques existantes du cloud
+        // Charger les statistiques existantes du cloud (le Cloud fait foi lors de la connexion)
         const cloudBountyVal = Number(cloudData.bounty || 0);
         const cloudGridWinsVal = Number(cloudData.gridWins || 0);
         const cloudTrackerWinsVal = Number(cloudData.trackerWins || 0);
 
-        // Garder uniquement la prime la plus haute pour l'utilisateur
-        const finalBounty = Math.max(playerBounty, cloudBountyVal);
+        const finalBounty = cloudBountyVal;
         const finalStats = {
-          gridWins: Math.max(stats.gridWins, cloudGridWinsVal),
-          gridLosses: Math.max(stats.gridLosses, Number(cloudData.gridLosses || 0)),
-          trackerWins: Math.max(stats.trackerWins, cloudTrackerWinsVal),
-          trackerPlays: Math.max(stats.trackerPlays, Number(cloudData.trackerPlays || 0)),
-          duelHigh: Math.max(stats.duelHigh, Number(cloudData.duelHigh || 0)),
+          gridWins: cloudGridWinsVal,
+          gridLosses: Number(cloudData.gridLosses || 0),
+          trackerWins: cloudTrackerWinsVal,
+          trackerPlays: Number(cloudData.trackerPlays || 0),
+          duelHigh: Number(cloudData.duelHigh || 0),
         };
 
         const localLogs = [...logs];

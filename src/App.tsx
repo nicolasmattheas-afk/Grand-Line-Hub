@@ -89,6 +89,7 @@ export const generateStateSignature = (bounty: number, username: string, gridWin
 
 export default function App() {
   const lastUpdateRef = React.useRef<number>(0);
+  const isLocalActionRef = React.useRef<boolean>(false);
 
   // État de la base de données globale d'One Piece
   const [charactersDatabase, setCharactersDatabase] = useState<Character[]>([]);
@@ -650,7 +651,13 @@ export default function App() {
 
   // Charge et persiste la prime du joueur (Bounty) et ses statistiques
   const [playerBounty, setPlayerBounty] = useState<number>(() => {
-    return Number(localStorage.getItem("playerBountyValue") || "0");
+    const email = localStorage.getItem("firebaseUserEmail");
+    const stored = localStorage.getItem("playerBountyValue");
+    if (email === "nicolasmattheas@gmail.com" && (stored === "150059800" || Number(stored) > 100000000)) {
+      localStorage.setItem("playerBountyValue", "50059800");
+      return 50059800;
+    }
+    return Number(stored || "0");
   });
 
   const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(() => {
@@ -670,6 +677,49 @@ export default function App() {
       duelHigh: Number(localStorage.getItem("bestBountyDuelStreak") || "0")
     };
   });
+
+  // Ajustement direct et persistant de la prime pour le compte nicolasmattheas@gmail.com (-100 millions)
+  useEffect(() => {
+    if (currentUserEmail === "nicolasmattheas@gmail.com") {
+      if (playerBounty > 100000000) {
+        const adjustedBounty = Math.max(0, playerBounty - 100000000);
+        console.log(`[Bounty Adjustment] Réduction de 100M. Passage de ${playerBounty} à ${adjustedBounty}`);
+        setPlayerBounty(adjustedBounty);
+        localStorage.setItem("playerBountyValue", String(adjustedBounty));
+        
+        const sig = generateStateSignature(adjustedBounty, playerUsername, stats.gridWins, stats.trackerWins);
+        localStorage.setItem("playerStateSignature", sig);
+
+        const userDocRef = doc(db, "users", "nicolasmattheas@gmail.com");
+        updateDoc(userDocRef, { bounty: adjustedBounty }).catch(console.error);
+
+        // Mise à jour de l'équipage si membre
+        const crewId = localStorage.getItem("userCrewId") || "crew_f4hkselmw";
+        if (crewId) {
+          const crewRef = doc(db, "crews", crewId);
+          getDoc(crewRef).then((cSnap) => {
+            if (cSnap.exists()) {
+              const cData = cSnap.data();
+              if (Array.isArray(cData.members)) {
+                let newTotal = 0;
+                const updatedMembers = cData.members.map((m: any) => {
+                  if (m.email === "nicolasmattheas@gmail.com") {
+                    m.bounty = adjustedBounty;
+                  }
+                  newTotal += Number(m.bounty || 0);
+                  return m;
+                });
+                updateDoc(crewRef, {
+                  members: updatedMembers,
+                  totalBounty: newTotal
+                }).catch(console.error);
+              }
+            }
+          }).catch(console.error);
+        }
+      }
+    }
+  }, [currentUserEmail, playerBounty]);
 
   const [logs, setLogs] = useState<GameLog[]>(() => {
     try {
@@ -845,7 +895,7 @@ export default function App() {
       const isCurrentUser = u.email === localStorage.getItem("firebaseUserEmail");
       return {
         username: u.username || "Pirate Mystère",
-        bounty: isCurrentUser ? Math.max(Number(u.bounty ?? 0), playerBounty) : Number(u.bounty ?? 0),
+        bounty: Number(u.bounty ?? 0),
         avatar: u.avatar || "",
         email: u.email,
         isRival: false,
@@ -955,64 +1005,28 @@ export default function App() {
           const cloudGridWins = Number(cloudData.gridWins || 0);
           const cloudTrackerWins = Number(cloudData.trackerWins || 0);
 
-          // Validation anti-triche : on garde seulement la vérif admin (tous les modes sont égaux, pas de plafond par mode principal)
-          
-          let isLocalLegit = true;
+          // La valeur Cloud fait foi pour un utilisateur connecté
+          setPlayerBounty(cloudBounty);
+          localStorage.setItem("playerBountyValue", String(cloudBounty));
 
-          if (isLocalLegit && localBounty > cloudBounty) {
-            if (cloudBounty === 0 && localBounty > 200000) {
-              // Reset administratif du Cloud à 0, l'état local doit s'y conformer et ne doit pas essayer d'écraser
-              console.warn("⚠️ [Anti-Cheat] La prime sur le Cloud a été réinitialisée à 0 par un administrateur. Alignement de la session.");
-              isLocalLegit = false;
-            }
-          }
+          const rawName = cloudData.username || playerUsername || "Pirate Mystère";
 
-          // En plus, on valide la signature d'intégrité ou la conformité d'une migration saine
-          if (isLocalLegit) {
-            const hasCorrectSig = (signature === expectedSig);
-            const isHealthyMigration = !signature && (localBounty <= cloudBounty || localBounty <= 500000000 || cloudGridWins > 0 || cloudTrackerWins > 0);
-            
-            if (!hasCorrectSig && !isHealthyMigration) {
-              console.warn("⚠️ [Anti-Cheat] Signature locale d'intégrité invalide ou absente.");
-              isLocalLegit = false;
-            }
-          }
+          setStats({
+            gridWins: cloudGridWins,
+            gridLosses: Number(cloudData.gridLosses || 0),
+            trackerWins: cloudTrackerWins,
+            trackerPlays: Number(cloudData.trackerPlays || 0),
+            duelHigh: Number(cloudData.duelHigh || 0)
+          });
 
-          if (!isLocalLegit) {
-            console.warn("⚠️ [Anti-Cheat] Progression locale frauduleuse détectée lors de la synchronisation. Rétablissement des valeurs du Cloud.");
-            setPlayerBounty(cloudBounty);
-            localStorage.setItem("playerBountyValue", String(cloudBounty));
-            
-            const rawName = cloudData.username || playerUsername;
-            const cloudGridWins = Number(cloudData.gridWins || 0);
-            const cloudTrackerWins = Number(cloudData.trackerWins || 0);
-            
-            setStats({
-              gridWins: cloudGridWins,
-              gridLosses: Number(cloudData.gridLosses || 0),
-              trackerWins: cloudTrackerWins,
-              trackerPlays: Number(cloudData.trackerPlays || 0),
-              duelHigh: Number(cloudData.duelHigh || 0)
-            });
-            
-            localStorage.setItem("playerStateSignature", generateStateSignature(cloudBounty, rawName, cloudGridWins, cloudTrackerWins));
-            return;
-          }
+          const syncedSig = generateStateSignature(cloudBounty, rawName, cloudGridWins, cloudTrackerWins);
+          localStorage.setItem("playerStateSignature", syncedSig);
 
-          // Garder uniquement la prime la plus haute
-          const highestBounty = Math.max(cloudBounty, localBounty);
-          
-          // Mettre à jour l'état local si le cloud a des données plus récentes / plus élevées
-          if (highestBounty !== localBounty || localStorage.getItem("playerBountyValue") === null) {
-            setPlayerBounty(highestBounty);
-            localStorage.setItem("playerBountyValue", String(highestBounty));
-          }
-          
           if (cloudData.username && localStorage.getItem("playerPirateName") !== cloudData.username) {
             setPlayerUsername(cloudData.username);
             localStorage.setItem("playerPirateName", cloudData.username);
           }
-          
+
           if (cloudData.avatar && localStorage.getItem("playerAvatarImage") !== cloudData.avatar) {
             setPlayerAvatar(cloudData.avatar);
             localStorage.setItem("playerAvatarImage", cloudData.avatar);
@@ -1048,32 +1062,6 @@ export default function App() {
             setLogs(cloudData.logs);
             localStorage.setItem("playerGameLogs", JSON.stringify(cloudData.logs));
           }
-
-          // Si la prime locale ou les stats locales étaient plus élevées, on met à jour le cloud immédiatement
-          if (localBounty > cloudBounty || localGridWins > Number(cloudData.gridWins || 0)) {
-            console.log(`[Sync Realtime Check] Prime locale ou stats supérieures. Mise à jour du cloud (${highestBounty} ฿).`);
-            const cleanLogs = logs.slice(0, 20).map(log => ({
-              id: String(log.id || ""),
-              gameType: String(log.gameType || "Bounty Duel"),
-              result: String(log.result || "Victoire"),
-              detail: String(log.detail || ""),
-              adjustment: String(log.adjustment || "0 ฿"),
-              timestamp: String(log.timestamp || ""),
-            }));
-
-            updateDoc(userDocRef, {
-              bounty: highestBounty,
-              username: cloudData.username || playerUsername,
-              avatar: cloudData.avatar || playerAvatar || "",
-              gridWins: finalStats.gridWins,
-              gridLosses: finalStats.gridLosses,
-              trackerWins: finalStats.trackerWins,
-              trackerPlays: finalStats.trackerPlays,
-              duelHigh: finalStats.duelHigh,
-              logs: cleanLogs,
-              updatedAt: serverTimestamp(),
-            }).catch(e => console.error("Erreur mise à jour cloud pendant l'écoute:", e));
-          }
         }
       }, (error) => {
         console.error("Échec de l'écoute en temps réel des données utilisateur:", error);
@@ -1087,6 +1075,11 @@ export default function App() {
   useEffect(() => {
     if (currentUserEmail) {
       const saveUserDataToCloud = async () => {
+        // Seules les actions locales explicites (ex: fin de partie) autorisent la sauvegarde vers Firestore
+        if (!isLocalActionRef.current) {
+          return;
+        }
+
         try {
           const userDocRef = doc(db, "users", currentUserEmail);
           
@@ -1095,19 +1088,24 @@ export default function App() {
           if (userSnap.exists()) {
             const cloudData = userSnap.data();
             const cloudBounty = Number(cloudData.bounty || 0);
+
+            // Vérifier si la prime locale dans localStorage a été modifiée pendant l'appel async
+            const currentLocalBounty = Number(localStorage.getItem("playerBountyValue") || "0");
+            if (currentLocalBounty !== Number(playerBounty || 0)) {
+              console.log("[Auto-Save] Annulation : la prime locale a été mise à jour entre-temps.");
+              return;
+            }
+
+            isLocalActionRef.current = false;
             
             // Signature verification before any auto-save to cloud
             const signature = localStorage.getItem("playerStateSignature");
             const expectedSig = generateStateSignature(playerBounty, playerUsername, stats.gridWins, stats.trackerWins);
-            
-            
 
             let isLocalLegit = true;
-            
 
             if (isLocalLegit && playerBounty > cloudBounty) {
               if (cloudBounty === 0 && playerBounty > 200000) {
-                // Reset administratif détecté sur le Cloud
                 console.warn("⚠️ [Anti-Cheat] Reset administratif à 0 détecté sur le Cloud. Sauvegarde locale annulée.");
                 isLocalLegit = false;
               }
@@ -1125,7 +1123,6 @@ export default function App() {
             if (!isLocalLegit) {
               console.warn("⚠️ [Anti-Cheat] Progression locale corrompue détectée pendant l'auto-save. Rétablissement forcé des valeurs saines du Cloud.");
               
-              // Aligner immédiatement l'état local sur le Cloud pour arrêter de boucler sur une sauvegarde corrompue
               setPlayerBounty(cloudBounty);
               localStorage.setItem("playerBountyValue", String(cloudBounty));
               
@@ -1145,12 +1142,6 @@ export default function App() {
               return;
             }
 
-            // Si le cloud a déjà une prime strictement supérieure, on ne l'écrase pas avec la nôtre
-            if (cloudBounty > Number(playerBounty || 0)) {
-              console.log("[Auto-Save] Le cloud a une prime supérieure, annulation de l'écriture pour préserver les gains.");
-              return;
-            }
-            
             // Vérifier si toutes les valeurs correspondent déjà parfaitement
             const isIdentical = 
               cloudBounty === Number(playerBounty || 0) &&
@@ -1289,6 +1280,8 @@ export default function App() {
     } catch (err) {
       console.warn("Échec du suivi analytique track:", err);
     }
+
+    isLocalActionRef.current = true;
 
     setPlayerBounty((prev) => {
       const nextValue = Math.max(0, prev + amount); // Ne pas descendre sous 0
