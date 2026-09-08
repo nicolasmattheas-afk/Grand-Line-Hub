@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Character } from "../types";
-import { Search, RotateCcw, HelpCircle, Sparkles, Smile, ShieldAlert } from "lucide-react";
+import { Search, RotateCcw, HelpCircle, Sparkles, Smile, ShieldAlert, ArrowRight } from "lucide-react";
 import { searchCharacters } from "../lib/search";
 import { getNotranslateClass } from "../lib/translate";
 
@@ -19,6 +19,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number>(-1);
   const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   
   // State for total scores
   const [scores, setScores] = useState({ wins: 0, losses: 0 });
@@ -119,12 +120,21 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
   const drawNewCharacter = () => {
     if (cleanCandidates.length === 0) return;
 
-    const randomChar = cleanCandidates[Math.floor(Math.random() * cleanCandidates.length)];
+    // Reset any processing locks
+    isProcessingRef.current = false;
+
+    // Pick a new pirate different from current one if possible
+    const available = cleanCandidates.filter((c) => !targetChar || c.id !== targetChar.id);
+    const pool = available.length > 0 ? available : cleanCandidates;
+    const randomChar = pool[Math.floor(Math.random() * pool.length)];
+
     setTargetChar(randomChar);
     setGuessInput("");
     setErrors(0);
     setGuessedCorrectly(false);
     setRevealed(false);
+    setShowSuggestions(false);
+    setActiveSuggestionIndex(-1);
   };
 
   useEffect(() => {
@@ -132,6 +142,29 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
       drawNewCharacter();
     }
   }, [cleanCandidates]);
+
+  // Auto-focus input when a new round starts
+  useEffect(() => {
+    if (!revealed) {
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [revealed, targetChar]);
+
+  // Press Enter to go to next pirate once revealed
+  useEffect(() => {
+    if (!revealed) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        drawNewCharacter();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [revealed, targetChar, cleanCandidates]);
 
   // Normalizer to make guesses forgiving
   const normalize = (val: string) => {
@@ -164,6 +197,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
       if (onUpdateBounty) onUpdateBounty(10000); // +10k
       setGuessInput("");
       setShowSuggestions(false);
+      isProcessingRef.current = false;
     } else {
       isProcessingRef.current = false;
       const nextErrors = errors + 1;
@@ -181,10 +215,11 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
 
   const verifyGuess = () => {
     if (!targetChar || revealed || isProcessingRef.current) return;
-    isProcessingRef.current = true;
 
     const userNormalized = normalize(guessInput);
     if (!userNormalized) return;
+
+    isProcessingRef.current = true;
 
     const officialName = targetChar.name;
     const normOfficial = normalize(officialName);
@@ -209,6 +244,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
       if (onUpdateBounty) onUpdateBounty(10000); // +10k
       setGuessInput("");
       setShowSuggestions(false);
+      isProcessingRef.current = false;
     } else {
       isProcessingRef.current = false;
       const nextErrors = errors + 1;
@@ -374,6 +410,7 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
               <div className="flex gap-2.5">
                 <div className="relative flex-1">
                   <input
+                    ref={inputRef}
                     type="text"
                     value={guessInput}
                     onChange={(e) => {
@@ -476,6 +513,19 @@ export default function PirateShadow({ characters, onUpdateBounty }: PirateShado
               <p className="text-xs italic text-gray-500 max-w-sm mx-auto leading-relaxed">
                 "{targetChar.description}"
               </p>
+
+              {/* Bouton direct pour continuer immédiatement sans changer de jeu */}
+              <div className="pt-2">
+                <button
+                  id="pirate-shadow-next-round-btn"
+                  onClick={drawNewCharacter}
+                  className="w-full py-3 px-6 bg-[#1A1A1A] hover:bg-violet-600 text-white font-sans font-black text-sm rounded-2xl cursor-pointer transition-all flex items-center justify-center gap-2 shadow-md uppercase tracking-wider active:scale-[0.98] border border-black"
+                >
+                  <span>Pirate Suivant</span>
+                  <ArrowRight className="w-4 h-4" />
+                  <span className="text-[10px] text-gray-300 font-mono font-normal lowercase hidden sm:inline">(Entrée ↵)</span>
+                </button>
+              </div>
             </div>
           )}
 

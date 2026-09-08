@@ -457,6 +457,7 @@ export default function BountyDuel({ characters, globalBounty, onUpdateBounty }:
                     onClick={() => {
                       setStreak(0);
                       setShowLossModal(false);
+                      pickNewDuel(undefined, true);
                     }}
                     className="flex-1 py-3 px-4 bg-white border-2 border-black text-[#1A1A1A] hover:bg-gray-50 font-heading font-black tracking-widest text-[10px] uppercase rounded-xl active:scale-95 transition-all text-center cursor-pointer"
                   >

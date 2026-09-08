@@ -5538,6 +5538,7 @@ export const RAW_CHARACTERS: any[] = [
   },
   {
     "name": "Charlotte Nutmeg",
+    "gender": "Femme",
     "image": "/images/characters/Charlotte_Nutmeg.webp",
     "affiliation": "Big Mom Pirates",
     "age": 18,
@@ -24654,6 +24655,7 @@ export const RAW_CHARACTERS: any[] = [
     "image": "/images/characters/Sabo.webp",
     "epithet": "Flame Emperor",
     "affiliation": "Revolutionary Army",
+    "bounty": 602000000,
     "devil_fruit": "Mera Mera no Mi",
     "haki": ["Observation","Armament"],
     "origin": "East Blue (Goa Kingdom)",

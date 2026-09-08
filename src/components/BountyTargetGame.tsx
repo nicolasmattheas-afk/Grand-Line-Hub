@@ -215,10 +215,24 @@ export default function BountyTargetGame({ characters, onUpdateBounty }: BountyT
 
   // Auto-complete suggestion source
   const searchResults = searchQuery.trim() !== "" 
-    ? bountyPool.filter((c) => 
-        c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.crew.toLowerCase().includes(searchQuery.toLowerCase())
-      ).slice(0, 10)
+    ? bountyPool
+        .filter((c) => 
+          c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          c.crew.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+        .sort((a, b) => {
+          const q = searchQuery.toLowerCase().trim();
+          const aName = a.name.toLowerCase();
+          const bName = b.name.toLowerCase();
+          if (aName === q && bName !== q) return -1;
+          if (bName === q && aName !== q) return 1;
+          const aStarts = aName.startsWith(q);
+          const bStarts = bName.startsWith(q);
+          if (aStarts && !bStarts) return -1;
+          if (!aStarts && bStarts) return 1;
+          return (b.bounty || 0) - (a.bounty || 0);
+        })
+        .slice(0, 10)
     : [];
 
   const handleSearchKeyDown = (e: React.KeyboardEvent) => {

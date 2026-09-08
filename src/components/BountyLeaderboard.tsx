@@ -2,10 +2,11 @@ import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Trophy, Search, Award, Crown, RefreshCw, Sparkles, UserCheck, 
-  Coins, HelpCircle, Flame, ArrowUpRight, ShieldCheck, Zap, Compass, X, Check
+  Coins, HelpCircle, Flame, ArrowUpRight, ShieldCheck, Zap, Compass, X, Check,
+  AlertTriangle, LogOut
 } from "lucide-react";
 import { BountyRank } from "../types";
-import { collection, getDocs, query, onSnapshot, doc, updateDoc, getDoc, orderBy, limit } from "firebase/firestore";
+import { collection, getDocs, query, onSnapshot, doc, updateDoc, deleteDoc, getDoc, orderBy, limit } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useEffect } from "react";
 
@@ -31,6 +32,7 @@ interface BountyLeaderboardProps {
   playerUsername?: string;
   playerAvatar?: string;
   playerBounty?: number;
+  playerEmail?: string;
   totalUsers?: number;
 }
 
@@ -43,6 +45,7 @@ export default function BountyLeaderboard({
   playerUsername,
   playerAvatar,
   playerBounty,
+  playerEmail: propPlayerEmail,
   totalUsers = 0
 }: BountyLeaderboardProps) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -53,7 +56,14 @@ export default function BountyLeaderboard({
   const [selectedCrew, setSelectedCrew] = useState<any | null>(null);
   const [userProfile, setUserProfile] = useState<any>(null);
 
-  const playerEmail = localStorage.getItem("firebaseUserEmail");
+  // Modals de dissolution et de départ dans le classement
+  const [showDisbandLeaderboardModal, setShowDisbandLeaderboardModal] = useState(false);
+  const [isDisbandingCrew, setIsDisbandingCrew] = useState(false);
+  const [showLeaveLeaderboardModal, setShowLeaveLeaderboardModal] = useState(false);
+  const [isLeavingCrew, setIsLeavingCrew] = useState(false);
+
+  const playerEmail = (propPlayerEmail || localStorage.getItem("firebaseUserEmail") || "").trim();
+  const effectiveEmailLower = playerEmail.toLowerCase();
 
   // Écouter le profil utilisateur pour savoir s'il a déjà un équipage ou non
   useEffect(() => {
@@ -72,32 +82,76 @@ export default function BountyLeaderboard({
     return () => unsubscribe();
   }, [playerEmail]);
 
-  // S'il y a un selectedCrew de chargé, on peut aussi l'écouter en temps réel !
+  // S'il y a un selectedCrew de chargé, on l'écoute en temps réel et on le ferme s'il est dissous
   useEffect(() => {
-    if (!selectedCrew) return;
+    if (!selectedCrew?.id) return;
 
     const crewDocRef = doc(db, "crews", selectedCrew.id);
     const unsubscribe = onSnapshot(crewDocRef, (snap) => {
       if (snap.exists()) {
         const d = snap.data();
-        setSelectedCrew({
-          id: snap.id,
-          name: d.name,
-          description: d.description,
-          creatorEmail: d.creatorEmail,
-          emblem: d.emblem,
-          accessType: d.accessType,
-          minBounty: d.minBounty || 0,
-          members: d.members || [],
-          totalBounty: d.totalBounty || 0,
-          applications: d.applications || []
-        });
+        if (d.isDisbanded === true || !Array.isArray(d.members) || d.members.length === 0) {
+          setSelectedCrew(null);
+        } else {
+          setSelectedCrew({
+            id: snap.id,
+            name: d.name,
+            description: d.description,
+            creatorEmail: d.creatorEmail,
+            emblem: d.emblem,
+            accessType: d.accessType,
+            minBounty: d.minBounty || 0,
+            members: d.members || [],
+            totalBounty: Number(d.totalBounty) || 0,
+            applications: d.applications || []
+          });
+        }
+      } else {
+        setSelectedCrew(null);
       }
     }, (error) => {
       console.warn("[Firebase Quota] Erreur du listener d'équipage sélectionné dans Leaderboard :", error.message || error);
     });
     return () => unsubscribe();
   }, [selectedCrew?.id]);
+
+  // Écoute en temps réel de tous les équipages avec filtrage strict des équipages dissous/vides
+  useEffect(() => {
+    if (leaderboardTab !== "crews") return;
+
+    setCrewsLoading(true);
+    const q = query(collection(db, "crews"), orderBy("totalBounty", "desc"), limit(100));
+    const unsubscribe = onSnapshot(q, (snap) => {
+      const list: any[] = [];
+      snap.forEach((docSnap) => {
+        const d = docSnap.data();
+        if (d.isDisbanded === true) return;
+        if (!d.name || typeof d.name !== "string" || d.name.trim() === "") return;
+        if (!Array.isArray(d.members) || d.members.length === 0) return;
+
+        list.push({
+          id: docSnap.id,
+          name: d.name,
+          description: d.description || "",
+          creatorEmail: d.creatorEmail,
+          emblem: d.emblem,
+          accessType: d.accessType,
+          minBounty: d.minBounty || 0,
+          members: d.members || [],
+          totalBounty: Number(d.totalBounty) || 0,
+          applications: d.applications || []
+        });
+      });
+      list.sort((a, b) => b.totalBounty - a.totalBounty);
+      setCrews(list);
+      setCrewsLoading(false);
+    }, (err) => {
+      console.warn("[Firebase] Erreur chargement équipages classement:", err);
+      setCrewsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [leaderboardTab]);
 
   const loadLeaderboardCrews = async () => {
     setCrewsLoading(true);
@@ -107,23 +161,27 @@ export default function BountyLeaderboard({
       const list: any[] = [];
       snap.forEach((docSnap) => {
         const d = docSnap.data();
+        if (d.isDisbanded === true) return;
+        if (!d.name || typeof d.name !== "string" || d.name.trim() === "") return;
+        if (!Array.isArray(d.members) || d.members.length === 0) return;
+
         list.push({
           id: docSnap.id,
           name: d.name,
-          description: d.description,
+          description: d.description || "",
           creatorEmail: d.creatorEmail,
           emblem: d.emblem,
           accessType: d.accessType,
           minBounty: d.minBounty || 0,
           members: d.members || [],
-          totalBounty: d.totalBounty || 0,
+          totalBounty: Number(d.totalBounty) || 0,
           applications: d.applications || []
         });
       });
       list.sort((a, b) => b.totalBounty - a.totalBounty);
       setCrews(list);
     } catch (err) {
-      console.error(err);
+      console.warn("Erreur actualisation équipages:", err);
     } finally {
       setCrewsLoading(false);
     }
@@ -230,51 +288,125 @@ export default function BountyLeaderboard({
   const handleLeaveCurrentCrew = async () => {
     if (!playerEmail || !userProfile?.crewId) return;
 
-    if (confirm(`Voulez-vous vraiment quitter votre équipage actuel "${userProfile.crewName || "Équipage"}" ?`)) {
-      try {
-        const crewDocRef = doc(db, "crews", userProfile.crewId);
-        const crewSnap = await getDoc(crewDocRef);
+    setIsLeavingCrew(true);
+    try {
+      const crewDocRef = doc(db, "crews", userProfile.crewId);
+      const crewSnap = await getDoc(crewDocRef);
+      
+      if (crewSnap.exists()) {
+        const crewData = crewSnap.data();
         
-        if (crewSnap.exists()) {
-          const crewData = crewSnap.data();
-          
-          if (crewData.creatorEmail === playerEmail) {
-            alert("En tant que capitaine, vous ne pouvez pas simplement abandonner votre navire ! Dissolvez votre équipage depuis l'onglet ÉQUIPAGE ou transférez d'abord la couronne.");
-            return;
-          }
+        const isCaptain = (
+          (crewData.creatorEmail && crewData.creatorEmail.toLowerCase() === effectiveEmailLower) ||
+          (Array.isArray(crewData.members) && crewData.members.some((m: any) => m.email?.toLowerCase() === effectiveEmailLower && m.role === "Capitaine"))
+        );
 
-          const updatedMembers = (crewData.members || []).filter((m: any) => m.email !== playerEmail);
-          const newTotal = (crewData.totalBounty || 0) - (playerBounty || 0);
-
-          await updateDoc(crewDocRef, {
-            members: updatedMembers,
-            totalBounty: newTotal >= 0 ? newTotal : 0
-          });
+        if (isCaptain) {
+          setShowLeaveLeaderboardModal(false);
+          setShowDisbandLeaderboardModal(true);
+          setIsLeavingCrew(false);
+          return;
         }
 
+        const updatedMembers = (crewData.members || []).filter((m: any) => m.email && m.email.toLowerCase() !== effectiveEmailLower);
+        const newTotal = Math.max(0, (crewData.totalBounty || 0) - (playerBounty || 0));
+
+        if (updatedMembers.length === 0) {
+          await deleteDoc(crewDocRef);
+        } else {
+          await updateDoc(crewDocRef, {
+            members: updatedMembers,
+            totalBounty: newTotal
+          });
+        }
+      }
+
+      try {
         await updateDoc(doc(db, "users", playerEmail), {
           crewId: null,
           crewName: null
         });
-
-        alert("Vous avez bien quitté votre équipage.");
-        loadLeaderboardCrews();
-        if (selectedCrew && selectedCrew.id === userProfile.crewId) {
-          // Update selectedCrew representation if it was opened
-          setSelectedCrew(null);
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Erreur lors de la sortie de l'équipage.");
+      } catch (e) {
+        try {
+          await updateDoc(doc(db, "users", effectiveEmailLower), {
+            crewId: null,
+            crewName: null
+          });
+        } catch (e2) {}
       }
+
+      localStorage.removeItem("userCrewId");
+      setUserProfile((prev: any) => prev ? { ...prev, crewId: null, crewName: null } : null);
+      setShowLeaveLeaderboardModal(false);
+      if (selectedCrew && selectedCrew.id === userProfile.crewId) {
+        setSelectedCrew(null);
+      }
+    } catch (err) {
+      console.error("Erreur lors de la sortie de l'équipage:", err);
+    } finally {
+      setIsLeavingCrew(false);
     }
   };
 
-  useEffect(() => {
-    if (leaderboardTab === "crews") {
-      loadLeaderboardCrews();
+  // Capitaine : Dissoudre son équipage directement depuis le classement/modal
+  const handleDisbandFromLeaderboard = async () => {
+    const targetCrewId = selectedCrew?.id || userProfile?.crewId;
+    if (!targetCrewId || !playerEmail) return;
+
+    setIsDisbandingCrew(true);
+    try {
+      const crewRef = doc(db, "crews", targetCrewId);
+      const snap = await getDoc(crewRef);
+      const crewData = snap.exists() ? snap.data() : (selectedCrew || {});
+
+      // 1. Soft update : isDisbanded: true
+      try {
+        await updateDoc(crewRef, {
+          isDisbanded: true,
+          totalBounty: 0,
+          members: []
+        });
+      } catch (e) {
+        console.warn("Soft disband failed:", e);
+      }
+
+      // 2. Délier tous les membres
+      const membersToUnlink = Array.isArray(crewData.members) ? crewData.members : [];
+      for (const m of membersToUnlink) {
+        if (!m.email) continue;
+        try {
+          await updateDoc(doc(db, "users", m.email), { crewId: null, crewName: null });
+        } catch (e) {
+          try {
+            await updateDoc(doc(db, "users", m.email.toLowerCase()), { crewId: null, crewName: null });
+          } catch (e2) {}
+        }
+      }
+
+      // Délier le joueur courant
+      try {
+        await updateDoc(doc(db, "users", playerEmail), { crewId: null, crewName: null });
+      } catch (e) {
+        try {
+          await updateDoc(doc(db, "users", effectiveEmailLower), { crewId: null, crewName: null });
+        } catch (e2) {}
+      }
+
+      // 3. Supprimer le document
+      await deleteDoc(crewRef);
+      localStorage.removeItem("userCrewId");
+
+      // 4. Mettre à jour l'état local
+      setSelectedCrew(null);
+      setShowDisbandLeaderboardModal(false);
+      setUserProfile((prev: any) => prev ? { ...prev, crewId: null, crewName: null } : null);
+      setCrews((prev) => prev.filter((c) => c.id !== targetCrewId));
+    } catch (err) {
+      console.error("Erreur lors de la dissolution de l'équipage depuis le leaderboard:", err);
+    } finally {
+      setIsDisbandingCrew(false);
     }
-  }, [leaderboardTab]);
+  };
 
   const filteredCrews = useMemo(() => {
     return crews.filter(c => 
@@ -931,12 +1063,36 @@ export default function BountyLeaderboard({
                 }
 
                 // Si déjà membre de cet équipage
-                const isMemberOfThisCrew = selectedCrew.members.some((m: any) => m.email === playerEmail);
+                const isMemberOfThisCrew = selectedCrew.members.some((m: any) => m.email && m.email.toLowerCase() === effectiveEmailLower);
                 if (isMemberOfThisCrew) {
+                  const isCaptainOfSelected = (
+                    (selectedCrew.creatorEmail && selectedCrew.creatorEmail.toLowerCase() === effectiveEmailLower) ||
+                    selectedCrew.members.some((m: any) => m.email && m.email.toLowerCase() === effectiveEmailLower && m.role === "Capitaine")
+                  );
+
                   return (
-                    <span className="flex-1 py-3 bg-emerald-500/10 border border-emerald-300 text-emerald-400 rounded-xl text-xs font-black uppercase tracking-widest text-center flex items-center justify-center">
-                      ✓ Déjà à Bord !
-                    </span>
+                    <div className="flex-1 flex gap-2">
+                      <span className="flex-1 py-3 bg-emerald-500/10 border border-emerald-300 text-emerald-400 rounded-xl text-xs font-black uppercase tracking-widest text-center flex items-center justify-center">
+                        {isCaptainOfSelected ? "👑 Capitaine à bord" : "✓ Déjà à Bord !"}
+                      </span>
+                      {isCaptainOfSelected ? (
+                        <button
+                          type="button"
+                          onClick={() => setShowDisbandLeaderboardModal(true)}
+                          className="py-3 px-4 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition cursor-pointer text-center border border-red-500/50 shadow-md shadow-red-600/30"
+                        >
+                          💥 Dissoudre l'équipage
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setShowLeaveLeaderboardModal(true)}
+                          className="py-3 px-4 bg-slate-800 hover:bg-red-600 text-white rounded-xl text-xs font-black uppercase tracking-wider transition cursor-pointer text-center border border-slate-700"
+                        >
+                          Quitter ⚓
+                        </button>
+                      )}
+                    </div>
                   );
                 }
 
@@ -945,7 +1101,7 @@ export default function BountyLeaderboard({
                   return (
                     <button
                       type="button"
-                      onClick={handleLeaveCurrentCrew}
+                      onClick={() => setShowLeaveLeaderboardModal(true)}
                       className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition cursor-pointer text-center border border-red-500/50"
                     >
                       Quitter mon équipage actuel ⚓
@@ -1012,6 +1168,95 @@ export default function BountyLeaderboard({
                   }
                 }
               })()}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Confirmation Dissolution depuis le Classement */}
+      {showDisbandLeaderboardModal && (selectedCrew || userProfile?.crewName) && (
+        <div className="fixed inset-0 modal-overlay-backdrop backdrop-blur-xs flex items-center justify-center z-[120] p-4 animate-in fade-in duration-200">
+          <div className="bg-slate-900 border border-red-500/50 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl text-left">
+            <div className="flex items-start gap-3">
+              <div className="p-3 bg-red-500/20 text-red-500 rounded-2xl shrink-0">
+                <AlertTriangle className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="font-heading font-black text-white text-base uppercase tracking-tight">
+                  Dissoudre l'équipage ?
+                </h4>
+                <p className="text-xs text-red-400 font-mono mt-0.5">Disparition immédiate du classement</p>
+              </div>
+            </div>
+
+            <div className="bg-red-950/40 border border-red-900/50 rounded-2xl p-4 space-y-2 text-xs text-slate-300">
+              <p>
+                Êtes-vous sûr de vouloir dissoudre définitivement <strong className="text-white font-black">{selectedCrew?.name || userProfile?.crewName}</strong> ?
+              </p>
+              <p className="text-[11px] text-slate-400">
+                Tous les membres seront libérés et redeviendront des pirates solitaires.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 pt-1">
+              <button
+                type="button"
+                disabled={isDisbandingCrew}
+                onClick={() => setShowDisbandLeaderboardModal(false)}
+                className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-heading font-bold text-xs uppercase rounded-xl transition cursor-pointer"
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                disabled={isDisbandingCrew}
+                onClick={handleDisbandFromLeaderboard}
+                className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-heading font-black text-xs uppercase rounded-xl transition cursor-pointer flex items-center justify-center gap-2 shadow-lg shadow-red-600/30"
+              >
+                {isDisbandingCrew ? "Dissolution..." : "💥 Confirmer la dissolution"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Confirmation Quitter équipage depuis le Classement */}
+      {showLeaveLeaderboardModal && (
+        <div className="fixed inset-0 modal-overlay-backdrop backdrop-blur-xs flex items-center justify-center z-[120] p-4 animate-in fade-in duration-200">
+          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl text-left">
+            <div className="flex items-start gap-3">
+              <div className="p-3 bg-amber-500/20 text-amber-500 rounded-2xl shrink-0">
+                <LogOut className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="font-heading font-black text-white text-base uppercase tracking-tight">
+                  Quitter votre équipage ?
+                </h4>
+                <p className="text-xs text-amber-400 font-mono mt-0.5">{userProfile?.crewName || "Équipage actuel"}</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-300">
+              Voulez-vous quitter votre équipage actuel ? Votre prime sera retirée du classement de l'équipage.
+            </p>
+
+            <div className="flex items-center gap-3 pt-1">
+              <button
+                type="button"
+                disabled={isLeavingCrew}
+                onClick={() => setShowLeaveLeaderboardModal(false)}
+                className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-heading font-bold text-xs uppercase rounded-xl transition cursor-pointer"
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                disabled={isLeavingCrew}
+                onClick={handleLeaveCurrentCrew}
+                className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-heading font-black text-xs uppercase rounded-xl transition cursor-pointer flex items-center justify-center gap-2"
+              >
+                {isLeavingCrew ? "En cours..." : "Quitter l'équipage ⚓"}
+              </button>
             </div>
           </div>
         </div>

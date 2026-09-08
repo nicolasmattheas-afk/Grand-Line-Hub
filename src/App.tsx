@@ -26,6 +26,7 @@ import MotsCroises from "./components/MotsCroises";
 import AdSenseBanner from "./components/AdSenseBanner";
 import CharacterFusion from "./components/CharacterFusion";
 import FourImagesOneWord from "./components/FourImagesOneWord";
+import RewardedAdModal from "./components/RewardedAdModal";
 import { LanguageSelector } from "./components/LanguageSelector";
 import CharacterPage from "./components/CharacterPage";
 import { PrivacyPage, TermsPage, AboutPage, ContactPage, LegalPage } from "./components/StaticPages";
@@ -34,7 +35,7 @@ import { db } from "./lib/firebase";
 import { track } from "@vercel/analytics";
 import { 
   Trophy, Award, Compass, Swords, ArrowRightLeft, BookOpen, 
-  Sparkles, History, User, Heart, Settings, LayoutDashboard, Coins, Clock, Users, Brain, Crown, Newspaper, MessageSquare, Menu, X, ShieldAlert, Home, Sun, Moon, ShoppingBag
+  Sparkles, History, User, Heart, Settings, LayoutDashboard, Coins, Clock, Users, Brain, Crown, Newspaper, MessageSquare, Menu, X, ShieldAlert, Home, Sun, Moon, ShoppingBag, Tv, Gift
 } from "lucide-react";
 
 function getArcFromChapter(chapterStr: string): string {
@@ -156,6 +157,9 @@ export default function App() {
             const cleaned = String(item.bounty).replace(/[^0-9]/g, "");
             if (cleaned) parsedBounty = parseInt(cleaned, 10);
           }
+        }
+        if (item.name && item.name.toLowerCase().trim() === "sabo" && (!parsedBounty || parsedBounty === 0)) {
+          parsedBounty = 602000000;
         }
 
         // Déduire l'affiliation compatible avec l'énumérateur de types.ts
@@ -288,22 +292,49 @@ export default function App() {
         }
 
         // Genre
+        const itemNameLower = (item.name || "").toLowerCase().trim();
         let isFemale = 
           femaleNames.has(item.name) || 
           String(item.gender || "").toLowerCase().includes("femme") || 
+          String(item.gender || "").toLowerCase().includes("female") || 
+          itemNameLower.includes("nutmeg") ||
+          itemNameLower.includes("akimeg") ||
+          itemNameLower.includes("allmeg") ||
+          itemNameLower.includes("harumeg") ||
+          itemNameLower.includes("fuyumeg") ||
           descLower.includes("fille") || 
+          descLower.includes("daughter") || 
+          descLower.includes("daugher") || 
           descLower.includes("sœur") || 
+          descLower.includes("sister") || 
           descLower.includes("reine") || 
+          descLower.includes("queen") || 
           descLower.includes("princesse") || 
+          descLower.includes("princess") || 
+          descLower.includes("empress") || 
           descLower.includes("kunoichi") || 
+          descLower.includes("mermaid") || 
+          descLower.includes("sirène") || 
           descLower.includes("maternity") || 
           descLower.includes("épouse") || 
-          descLower.includes("mère");
+          descLower.includes("wife") || 
+          descLower.includes("mère") || 
+          descLower.includes("mother") || 
+          descLower.includes("waitress") || 
+          descLower.includes("actress") || 
+          descLower.includes("female pirate") || 
+          descLower.includes("female dancer") || 
+          descLower.includes("only female");
 
-        if (item.name && item.name.toLowerCase().includes("vivi")) {
+        if (itemNameLower.includes("vivi") || itemNameLower.includes("yamato") || itemNameLower.includes("bonney")) {
           isFemale = true;
         }
-        if (item.name && (item.name.toLowerCase().includes("aramaki") || item.name.toLowerCase().includes("ryokugyu"))) {
+        if (
+          itemNameLower.includes("aramaki") || 
+          itemNameLower.includes("ryokugyu") || 
+          itemNameLower.includes("reuven") || 
+          itemNameLower.includes("yamenahare")
+        ) {
           isFemale = false;
         }
 
@@ -694,7 +725,7 @@ export default function App() {
         updateDoc(userDocRef, { bounty: adjustedBounty }).catch(console.error);
 
         // Mise à jour de l'équipage si membre
-        const crewId = localStorage.getItem("userCrewId") || "crew_f4hkselmw";
+        const crewId = localStorage.getItem("userCrewId");
         if (crewId) {
           const crewRef = doc(db, "crews", crewId);
           getDoc(crewRef).then((cSnap) => {
@@ -742,6 +773,7 @@ export default function App() {
   const [tempName, setTempName] = useState(playerUsername);
 
   const [dashboardSubTab, setDashboardSubTab] = useState<"profile" | "crew">("profile");
+  const [showRewardedAdModal, setShowRewardedAdModal] = useState<boolean>(false);
 
   const top500CharactersList = useMemo(() => {
     if (!charactersDatabase || charactersDatabase.length === 0) return [];
@@ -1246,14 +1278,15 @@ export default function App() {
 
     // --- CONTRÔLE ANTI-TRICHE 1: VALEUR MAX DE GAIN PAR TRANSACTION ---
     const isSecretDuelBonus = amount === 20000000;
-    const maxNormalReward = 110000; // UndercoverGame donne 100 000 Berries max
+    // Bounty Duel peut légitimement rapporter 500 ฿ par personnage (pool de plus de 400 pirates = jusqu'à 250 000 ฿)
+    const maxNormalReward = gameTypeStr === "Bounty Duel" ? 500000 : 110000;
     if (amount > maxNormalReward && !isSecretDuelBonus) {
       console.error(`⚠️ [Anti-Cheat] Transaction de prime illégale rejetée : +${amount} ฿ pour ${gameTypeStr}.`);
       return;
     }
 
     // --- CONTRÔLE ANTI-TRICHE 2: TEMPO / MACRO / CLIC RAPIDE ---
-    if (amount > 1000) {
+    if (amount > 1000 && gameTypeStr !== "Bounty Duel") {
       const now = Date.now();
       const timeDiff = now - lastUpdateRef.current;
       if (timeDiff < 1200) {
@@ -1310,6 +1343,12 @@ export default function App() {
           ...s,
           trackerPlays: s.trackerPlays + 1,
           trackerWins: amount > 0 ? s.trackerWins + 1 : s.trackerWins
+        }));
+      } else if (activeTab === "duel" || gameTypeStr === "Bounty Duel") {
+        const currentHigh = Number(localStorage.getItem("bestBountyDuelStreak") || "0");
+        setStats(s => ({
+          ...s,
+          duelHigh: Math.max(s.duelHigh, currentHigh)
         }));
       }
 
@@ -1734,11 +1773,24 @@ export default function App() {
                     {playerRank}
                   </span>
                 </div>
-                <div className="flex items-center gap-1 mt-0.5 md:mt-1">
-                  <Coins className="w-3 h-3 md:w-4 md:h-4 text-violet-400" />
-                  <span className="font-mono text-xs sm:text-sm md:text-base font-black tracking-tight text-violet-400">
-                    ฿ {playerBounty.toLocaleString()}
-                  </span>
+                <div className="flex items-center gap-2 mt-0.5 md:mt-1">
+                  <div className="flex items-center gap-1">
+                    <Coins className="w-3 h-3 md:w-4 md:h-4 text-violet-400" />
+                    <span className="font-mono text-xs sm:text-sm md:text-base font-black tracking-tight text-violet-400">
+                      ฿ {playerBounty.toLocaleString()}
+                    </span>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowRewardedAdModal(true);
+                    }}
+                    className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 hover:text-amber-200 text-[10px] sm:text-xs font-bold transition-all hover:scale-105 active:scale-95 shadow-sm shrink-0"
+                    title="Regarder une vidéo publicitaire pour gagner +5 000 ฿"
+                  >
+                    <Tv className="w-3 h-3 text-amber-400 animate-pulse" />
+                    <span className="hidden sm:inline">Pub</span> +5k ฿
+                  </button>
                 </div>
               </div>
             </div>
@@ -2473,13 +2525,14 @@ export default function App() {
                 playerUsername={playerUsername}
                 playerAvatar={playerAvatar}
                 playerBounty={playerBounty}
+                playerEmail={currentUserEmail || undefined}
                 totalUsers={totalUsers}
               />
             )}
 
             {activeTab === "crew" && (
               <SocialAndCrew 
-                playerEmail={localStorage.getItem("firebaseUserEmail")}
+                playerEmail={currentUserEmail}
                 playerUsername={playerUsername}
                 playerAvatar={playerAvatar}
                 playerBounty={playerBounty}
@@ -2488,13 +2541,13 @@ export default function App() {
 
             {activeTab === "wej" && (
               <WEJSection 
-                playerEmail={localStorage.getItem("firebaseUserEmail")}
+                playerEmail={currentUserEmail}
               />
             )}
 
             {activeTab === "blog" && (
               <BlogSection 
-                playerEmail={localStorage.getItem("firebaseUserEmail")}
+                playerEmail={currentUserEmail}
                 playerUsername={playerUsername}
                 playerAvatar={playerAvatar}
               />
@@ -3497,6 +3550,16 @@ export default function App() {
           </div>
         ))}
       </div>
+
+      {/* Modal Pub Récompensée (+5 000 ฿) */}
+      <RewardedAdModal
+        isOpen={showRewardedAdModal}
+        onClose={() => setShowRewardedAdModal(false)}
+        onRewardGranted={(amount) => {
+          handleUpdateBounty(amount, "Cadeau Publicitaire", "Victoire");
+        }}
+        currentBounty={playerBounty}
+      />
 
     </div>
   );

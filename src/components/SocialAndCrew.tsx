@@ -7,7 +7,7 @@ import { db } from "../lib/firebase";
 import { 
   Users, UserPlus, Trash2, Swords, Crown, Trophy, Award, 
   Plus, Compass, Search, LogOut, Check, X, ShieldAlert, 
-  Settings, Info, Mail, Star, Anchor, ShieldCheck, Flag
+  Settings, Info, Mail, Star, Anchor, ShieldCheck, Flag, AlertTriangle
 } from "lucide-react";
 import { jollyRogersList } from "../data/jollyRogers";
 import CrewChat from "./CrewChat";
@@ -120,15 +120,29 @@ export default function SocialAndCrew({
   const [editNameInput, setEditNameInput] = useState("");
   const [nameSaving, setNameSaving] = useState(false);
 
+  // Modals de dissolution et départ d'équipage
+  const [showDisbandModal, setShowDisbandModal] = useState(false);
+  const [isDisbanding, setIsDisbanding] = useState(false);
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const [isLeaving, setIsLeaving] = useState(false);
+
+  const effectiveEmail = (playerEmail || localStorage.getItem("firebaseUserEmail") || "").trim();
+  const effectiveEmailLower = effectiveEmail.toLowerCase();
+
+  const isCaptain = !!(myCrew && effectiveEmailLower && (
+    (myCrew.creatorEmail && myCrew.creatorEmail.toLowerCase() === effectiveEmailLower) ||
+    (Array.isArray(myCrew.members) && myCrew.members.some(m => m.email && m.email.toLowerCase() === effectiveEmailLower && m.role === "Capitaine"))
+  ));
+
   // 1. Écouter le profil utilisateur Firestore de manière réactive
   useEffect(() => {
-    if (!playerEmail) {
+    if (!effectiveEmail) {
       setUserProfile(null);
       setFriends([]);
       return;
     }
 
-    const userDocRef = doc(db, "users", playerEmail);
+    const userDocRef = doc(db, "users", effectiveEmail);
     const unsubscribe = onSnapshot(userDocRef, async (userSnap) => {
       if (userSnap.exists()) {
         const uData = userSnap.data();
@@ -247,20 +261,23 @@ export default function SocialAndCrew({
       const list: Crew[] = [];
       querySnap.forEach((docSnap) => {
         const d = docSnap.data();
+        if (d.isDisbanded === true) return;
+        if (!d.name || typeof d.name !== "string" || d.name.trim() === "") return;
+        if (!Array.isArray(d.members) || d.members.length === 0) return;
+
         list.push({
           id: docSnap.id,
           name: d.name,
-          description: d.description,
+          description: d.description || "Pas de description renseignée.",
           creatorEmail: d.creatorEmail,
           emblem: d.emblem,
           accessType: d.accessType,
           minBounty: d.minBounty || 0,
           members: d.members || [],
-          totalBounty: d.totalBounty || 0,
+          totalBounty: Number(d.totalBounty) || 0,
           applications: d.applications || []
         });
       });
-      // Trier par prime totale cumulée décroissante
       list.sort((a, b) => b.totalBounty - a.totalBounty);
       setAllCrews(list);
     } catch (err) {
@@ -270,10 +287,42 @@ export default function SocialAndCrew({
     }
   };
 
+  // Écoute en temps réel des équipages dès que l'onglet équipages est actif
   useEffect(() => {
-    if (subTab === "crews") {
-      loadAllCrews();
-    }
+    if (subTab !== "crews") return;
+    setCrewsLoading(true);
+
+    const q = query(collection(db, "crews"), orderBy("totalBounty", "desc"), limit(100));
+    const unsubscribe = onSnapshot(q, (querySnap) => {
+      const list: Crew[] = [];
+      querySnap.forEach((docSnap) => {
+        const d = docSnap.data();
+        if (d.isDisbanded === true) return;
+        if (!d.name || typeof d.name !== "string" || d.name.trim() === "") return;
+        if (!Array.isArray(d.members) || d.members.length === 0) return;
+
+        list.push({
+          id: docSnap.id,
+          name: d.name,
+          description: d.description || "Pas de description renseignée.",
+          creatorEmail: d.creatorEmail,
+          emblem: d.emblem,
+          accessType: d.accessType,
+          minBounty: d.minBounty || 0,
+          members: d.members || [],
+          totalBounty: Number(d.totalBounty) || 0,
+          applications: d.applications || []
+        });
+      });
+      list.sort((a, b) => b.totalBounty - a.totalBounty);
+      setAllCrews(list);
+      setCrewsLoading(false);
+    }, (err) => {
+      console.warn("Erreur listener allCrews:", err);
+      setCrewsLoading(false);
+    });
+
+    return () => unsubscribe();
   }, [subTab]);
 
   // 4. Ajouter un ami via son email
@@ -502,32 +551,57 @@ export default function SocialAndCrew({
 
   // 9. Quitter un équipage
   const handleLeaveCrew = async () => {
-    if (!playerEmail || !myCrew) return;
+    if (!myCrew || !effectiveEmail) return;
 
-    if (myCrew.creatorEmail === playerEmail) {
-      alert("En tant que capitaine, vous ne pouvez pas simplement abandonner votre navire ! Dissolvez l'équipage (bouton rouge en bas) ou transférez la couronne.");
+    if (isCaptain) {
+      alert("En tant que capitaine, vous ne pouvez pas simplement abandonner votre navire ! Dissolvez l'équipage ou transférez d'abord la couronne.");
       return;
     }
 
-    if (confirm(`Voulez-vous vraiment quitter l'équipage "${myCrew.name}" ?`)) {
-      try {
-        const updatedMembers = myCrew.members.filter(m => m.email !== playerEmail);
-        const newTotal = myCrew.totalBounty - playerBounty;
+    setIsLeaving(true);
+    try {
+      const updatedMembers = (myCrew.members || []).filter(
+        m => m.email && m.email.toLowerCase() !== effectiveEmailLower
+      );
+      const newTotal = Math.max(0, (myCrew.totalBounty || 0) - (playerBounty || 0));
+      const crewDocRef = doc(db, "crews", myCrew.id);
 
-        await updateDoc(doc(db, "crews", myCrew.id), {
+      if (updatedMembers.length === 0) {
+        // Plus aucun membre : suppression de l'équipage
+        await deleteDoc(crewDocRef);
+      } else {
+        await updateDoc(crewDocRef, {
           members: updatedMembers,
           totalBounty: newTotal
         });
+      }
 
-        await updateDoc(doc(db, "users", playerEmail), {
+      // Délier le profil utilisateur
+      try {
+        await updateDoc(doc(db, "users", effectiveEmail), {
           crewId: null,
           crewName: null
         });
-
-        alert("Vous avez quitté votre ancien équipage.");
-      } catch (err) {
-        console.error(err);
+      } catch (e) {
+        try {
+          await updateDoc(doc(db, "users", effectiveEmailLower), {
+            crewId: null,
+            crewName: null
+          });
+        } catch (e2) {}
       }
+
+      localStorage.removeItem("userCrewId");
+      setMyCrew(null);
+      setUserProfile((prev: any) => prev ? { ...prev, crewId: null, crewName: null } : null);
+      setShowLeaveModal(false);
+      setCrewSuccess("Vous avez quitté l'équipage avec succès.");
+      loadAllCrews();
+    } catch (err: any) {
+      console.error("Erreur lors de la sortie de l'équipage:", err);
+      setCrewError("Erreur lors de la sortie de l'équipage: " + (err?.message || "Erreur"));
+    } finally {
+      setIsLeaving(false);
     }
   };
 
@@ -718,30 +792,84 @@ export default function SocialAndCrew({
 
   // 13. Capitaine : Dissoudre l'équipage
   const handleDisbandCrew = async () => {
-    if (!myCrew || !playerEmail) return;
+    if (!myCrew) return;
 
-    if (confirm(`⚠️ ATTENTION CAPITAINE ! Voulez-vous vraiment DISSOUDRE l'équipage "${myCrew.name}" ? Tous les membres redeviennent des pirates sans attache et l'historique sera supprimé à jamais.`)) {
+    setIsDisbanding(true);
+    const crewIdToDelete = myCrew.id;
+    const crewName = myCrew.name;
+    const membersToUnlink = Array.isArray(myCrew.members) ? [...myCrew.members] : [];
+
+    try {
+      const crewDocRef = doc(db, "crews", crewIdToDelete);
+
+      // 1. Soft update : isDisbanded: true et members: []
+      // Permet d'évincer instantanément l'équipage de toutes les interfaces et requêtes actives
       try {
-        // Enlever les liaisons
-        for (const m of myCrew.members) {
+        await updateDoc(crewDocRef, {
+          isDisbanded: true,
+          totalBounty: 0,
+          members: []
+        });
+      } catch (e) {
+        console.warn("Échec soft-disband avant suppression:", e);
+      }
+
+      // 2. Délier tous les membres de cet équipage
+      for (const m of membersToUnlink) {
+        if (!m.email) continue;
+        try {
+          await updateDoc(doc(db, "users", m.email), {
+            crewId: null,
+            crewName: null
+          });
+        } catch (e) {
           try {
-            await updateDoc(doc(db, "users", m.email), {
+            await updateDoc(doc(db, "users", m.email.toLowerCase()), {
               crewId: null,
               crewName: null
             });
-          } catch (e) {
-            console.error(e);
+          } catch (e2) {
+            console.error("Erreur déliaison membre:", m.email, e2);
           }
         }
-
-        // Supprimer crews doc
-        await deleteDoc(doc(db, "crews", myCrew.id));
-        alert("Votre équipage a sombré dans les profondeurs de l'océan. Vous revoilà pirate solitaire.");
-        setMyCrew(null);
-        loadAllCrews();
-      } catch (err) {
-        console.error(err);
       }
+
+      // Délier explicitement le joueur actuel
+      if (effectiveEmail) {
+        try {
+          await updateDoc(doc(db, "users", effectiveEmail), {
+            crewId: null,
+            crewName: null
+          });
+        } catch (e) {
+          try {
+            await updateDoc(doc(db, "users", effectiveEmailLower), {
+              crewId: null,
+              crewName: null
+            });
+          } catch (e2) {}
+        }
+      }
+
+      // 3. Supprimer définitivement le document de l'équipage dans Firestore
+      await deleteDoc(crewDocRef);
+
+      // 4. Nettoyer le localStorage
+      localStorage.removeItem("userCrewId");
+
+      // 5. Mettre à jour immédiatement l'état local
+      setMyCrew(null);
+      setUserProfile((prev: any) => prev ? { ...prev, crewId: null, crewName: null } : null);
+      setAllCrews((prev) => prev.filter((c) => c.id !== crewIdToDelete));
+
+      setShowDisbandModal(false);
+      setCrewSuccess(`L'équipage "${crewName}" a sombré dans les profondeurs de l'océan. Vous revoilà pirate solitaire.`);
+      loadAllCrews();
+    } catch (err: any) {
+      console.error("Erreur lors de la dissolution de l'équipage:", err);
+      setCrewError("Erreur lors de la dissolution de l'équipage: " + (err?.message || "Erreur Firestore"));
+    } finally {
+      setIsDisbanding(false);
     }
   };
 
@@ -1180,16 +1308,18 @@ export default function SocialAndCrew({
                   <span className="font-mono font-black text-gray-800 tracking-tight">฿ {computedTotalBounty.toLocaleString()}</span>
                 </div>
 
-                {myCrew.creatorEmail === playerEmail ? (
+                {isCaptain ? (
                   <button
-                    onClick={handleDisbandCrew}
+                    type="button"
+                    onClick={() => setShowDisbandModal(true)}
                     className="w-full py-2.5 bg-red-600 text-white font-heading font-bold text-xs uppercase rounded-xl hover:bg-red-700 cursor-pointer tracking-wide flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
                   >
                     💥 DISSOUDRE L'ÉQUIPAGE
                   </button>
                 ) : (
                   <button
-                    onClick={handleLeaveCrew}
+                    type="button"
+                    onClick={() => setShowLeaveModal(true)}
                     className="w-full py-2.5 bg-gray-900 text-white font-heading font-bold text-xs uppercase rounded-xl hover:bg-red-600 cursor-pointer tracking-wide flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
                   >
                     <LogOut className="w-4 h-4" />
@@ -1740,6 +1870,110 @@ export default function SocialAndCrew({
                 className="px-4 py-2 bg-gray-250 text-gray-700 font-heading font-black text-xs uppercase rounded-xl hover:bg-gray-300 cursor-pointer transition-colors"
               >
                 Fermer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Confirmation : DISSOUDRE L'ÉQUIPAGE */}
+      {showDisbandModal && myCrew && (
+        <div className="fixed inset-0 modal-overlay-backdrop backdrop-blur-xs flex items-center justify-center z-[110] p-4 animate-in fade-in duration-200">
+          <div className="bg-slate-900 border border-red-500/50 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl text-left">
+            <div className="flex items-start gap-3">
+              <div className="p-3 bg-red-500/20 text-red-500 rounded-2xl shrink-0">
+                <AlertTriangle className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="font-heading font-black text-white text-base uppercase tracking-tight">
+                  Dissoudre l'équipage ?
+                </h4>
+                <p className="text-xs text-red-400 font-mono mt-0.5">Cette action est irréversible</p>
+              </div>
+            </div>
+
+            <div className="bg-red-950/40 border border-red-900/50 rounded-2xl p-4 space-y-2.5 text-xs text-slate-300">
+              <p>
+                Êtes-vous certain de vouloir dissoudre l'équipage <strong className="text-white font-black">{myCrew.name}</strong> ?
+              </p>
+              <ul className="space-y-1.5 text-[11px] text-slate-300">
+                <li className="flex items-center gap-2">
+                  <span className="text-red-400 font-black">✕</span>
+                  <span>L'équipage sera <strong>immédiatement supprimé du classement</strong>.</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-red-400 font-black">✕</span>
+                  <span>Tous les membres ({myCrew.members?.length || 0}) redeviendront des pirates solitaires.</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-red-400 font-black">✕</span>
+                  <span>L'historique et les messages de bord seront définitivement effacés.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex items-center gap-3 pt-1">
+              <button
+                type="button"
+                disabled={isDisbanding}
+                onClick={() => setShowDisbandModal(false)}
+                className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-heading font-bold text-xs uppercase rounded-xl transition cursor-pointer"
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                disabled={isDisbanding}
+                onClick={handleDisbandCrew}
+                className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-heading font-black text-xs uppercase rounded-xl transition cursor-pointer flex items-center justify-center gap-2 shadow-lg shadow-red-600/30"
+              >
+                {isDisbanding ? (
+                  <span>Dissolution en cours...</span>
+                ) : (
+                  <span>💥 Dissoudre l'équipage</span>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Confirmation : QUITTER L'ÉQUIPAGE */}
+      {showLeaveModal && myCrew && (
+        <div className="fixed inset-0 modal-overlay-backdrop backdrop-blur-xs flex items-center justify-center z-[110] p-4 animate-in fade-in duration-200">
+          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl text-left">
+            <div className="flex items-start gap-3">
+              <div className="p-3 bg-amber-500/20 text-amber-500 rounded-2xl shrink-0">
+                <LogOut className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="font-heading font-black text-white text-base uppercase tracking-tight">
+                  Quitter l'équipage ?
+                </h4>
+                <p className="text-xs text-amber-400 font-mono mt-0.5">Navire : {myCrew.name}</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-300">
+              Voulez-vous vraiment quitter <strong className="text-white font-bold">{myCrew.name}</strong> ? Votre prime sera retirée du total de l'équipage et vous redeviendrez pirate solitaire.
+            </p>
+
+            <div className="flex items-center gap-3 pt-1">
+              <button
+                type="button"
+                disabled={isLeaving}
+                onClick={() => setShowLeaveModal(false)}
+                className="flex-1 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-heading font-bold text-xs uppercase rounded-xl transition cursor-pointer"
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                disabled={isLeaving}
+                onClick={handleLeaveCrew}
+                className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-heading font-black text-xs uppercase rounded-xl transition cursor-pointer flex items-center justify-center gap-2"
+              >
+                {isLeaving ? "En cours..." : "Quitter l'équipage ⚓"}
               </button>
             </div>
           </div>
